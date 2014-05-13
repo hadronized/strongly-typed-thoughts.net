@@ -1,0 +1,131 @@
+﻿body {
+  background-color: white;
+  width: 100%;
+  position: static;
+  margin: 0;
+  padding: 0;
+  font-family: 'Ubuntu', sans-serif;
+  font-size : 16px;
+}
+
+h1 {
+  margin : 0 0 1pc 0;
+  padding : 0;
+  font-size : 28px;
+}
+
+h2 {
+  margin : 0 0 1pc 0;
+  padding : 0;
+  font-size : 24px;
+}
+
+h3 {
+  margin : 0 0 1pc 0;
+  padding : 0;
+  font-size : 20px;
+}
+
+h4 {
+  margin : 0;
+  padding : 0;
+  font-size : 16px;
+}
+
+a {
+  margin : 0;
+  padding : 0;
+  color : #77A965;
+  text-decoration : none;
+}
+
+p {
+  margin : 1pc 0 1pc 0;
+  padding : 0;
+  text-align : justify;
+}
+
+blockquote {
+  margin : 0;
+  padding : 0 0 0 2pc;
+  border-left : 5px #77A965 solid;
+  background-color : #DDDDDD;
+  width : 50%;
+}
+
+menu {
+  position : fixed;
+  width : 100%;
+  top : 0;
+  left : 0;
+  background-color: white;
+  margin: 0;
+  padding: 1pc 0 1pc 0;
+  border-bottom: 1px #AAA solid;
+}
+
+menu ul {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+menu ul li {
+  display: inline;
+  margin: 0 1pc 0 1pc;
+  padding: 0;
+}
+
+#wrapper-content {
+  margin : 5pc 0 0 0;
+  padding : 0pc 10pc 0pc 10pc;
+}
+
+#home-content-welcome {
+  background-color : orange;
+}
+
+#upload-content-form {
+  text-align: center;
+  margin : 8pc 0 0 0;
+  padding : 0;
+}
+
+#upload-content-viewer {
+  margin : 8pc 0 0 0;
+  padding : 0;
+  text-align: center;
+}
+
+#browse-content ul {
+  margin : 0;
+  padding : 0;
+  list-style-type: none;
+}
+
+#browse-content ul li {
+  margin : 0 0 0 0;
+  padding : 0 0 0 1pc;
+}
+
+#browse-content ul li a {
+  color : #666666;
+}
+
+#browse-content ul li:hover {
+  background-color: #77A965;
+  padding-left : 0.5pc;
+  font-size: 150%;
+}
+
+#browse-content ul li:hover a {
+  color : white;
+}
+
+#browse-content .browse-content-item-even {
+  background-color : #EEEEEE;
+}
+
+#browse-content .browse-content-item-odd {
+  background-color : #DDDDDD;
+}
