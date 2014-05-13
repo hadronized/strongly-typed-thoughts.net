@@ -23,10 +23,13 @@ wrapper t cont = do
 
 menuPart:: Html
 menuPart =
-    ul . sequence_ $ map li [homeLink,uploadLink,browseLink,contactLink,aboutLink]
+    ul . sequence_ $ map li [homeLink,portfolioLink,uploadLink,browseLink,contactLink,aboutLink]
 
 homeLink :: Html
 homeLink = navLink "/" "home"
+
+portfolioLink :: Html
+portfolioLink = navLink "/portfolio" "portfolio"
 
 uploadLink :: Html
 uploadLink = navLink "/upload" "upload"

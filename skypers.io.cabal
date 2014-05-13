@@ -1,4 +1,4 @@
-name:                skyoralis-io
+name:                skypers-io
 version:             0.1.0.0
 -- synopsis:            
 -- description:         
@@ -12,15 +12,15 @@ build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
-executable skyoralis-io
-  ghc-options:         -threaded -O2 -W -Wall
+executable skypers-io
+  ghc-options:         -threaded -W -Wall
   main-is:             Main.hs     
   default-extensions:    OverloadedStrings
-  build-depends:         base >=4.6 && <4.7
+  build-depends:         base >= 4.6 && <4.7
                        , mtl == 2.1.*
-                       , happstack-server >=7.1 && <7.2
-                       , blaze-html >=0.6 && <0.7
-                       , text == 0.11.*
+                       , happstack-server == 7.3.*
+                       , blaze-html == 0.7.*
+                       , text == 1.1.*
                        , pandoc == 1.12.*
                        , data-default == 0.5.*
                        , filepath == 1.3.*

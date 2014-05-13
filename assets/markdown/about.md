@@ -8,11 +8,14 @@ servers. The font comes from
 [this place](http://www.google.com/fonts#UsePlace:use/Collection:Ubuntu) and
 belongs to the *Ubuntu font collection*.
 
+You can find the source code of this website
+[here](https://github.com/skypers/skypers.io)..
+
 ## Host
 
-[OVH](www.ovh.com) hosts this website.
+[online.net](http://www.online.net) is hosting us! 
 
-![](https://www.ovh.com/fr/themes/10/main/logo.png)
+<a href="http://www.online.net">![](http://www.online.net/img/logo/logo_onlinev2.png)</a>
 
 # Hosted content
 

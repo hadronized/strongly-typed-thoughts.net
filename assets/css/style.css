@@ -27,7 +27,7 @@ h3 {
 }
 
 h4 {
-  margin : 0;
+  margin : 0 0 1pc 0;
   padding : 0;
   font-size : 16px;
 }
@@ -37,6 +37,10 @@ a {
   padding : 0;
   color : #77A965;
   text-decoration : none;
+}
+
+a:hover {
+  color : #A96577;
 }
 
 p {
@@ -61,7 +65,7 @@ menu {
   background-color: white;
   margin: 0;
   padding: 1pc 0 1pc 0;
-  border-bottom: 1px #AAA solid;
+  border-bottom: 1px #AAAAAA solid;
 }
 
 menu ul {
@@ -73,7 +77,11 @@ menu ul {
 menu ul li {
   display: inline;
   margin: 0 1pc 0 1pc;
-  padding: 0;
+  padding: 0 0 5px 0;
+}
+
+menu ul li:hover {
+  border-bottom : 2px #77A965 solid;
 }
 
 #wrapper-content {

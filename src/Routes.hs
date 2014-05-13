@@ -4,9 +4,10 @@ import Control.Monad
 import Happstack.Server
 
 import Route.About
-import Route.Contact
 import Route.Browse
+import Route.Contact
 import Route.Home
+import Route.Portfolio
 import Route.Upload
 
 routes :: ServerPart Response
@@ -14,6 +15,7 @@ routes = msum
     [
       dir "assets" $ serveDirectory DisableBrowsing [] "assets"
     , dir "upload" upload
+    , dir "portfolio" portfolio
     , dir "postFile" postFile
     , dir "browse" browse
     , dir "contact" contact

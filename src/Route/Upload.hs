@@ -30,7 +30,7 @@ upload =
 
 postFile :: ServerPart Response
 postFile = do
-    decodeBody (defaultBodyPolicy "tmp" 10000000 10000000 10000000)
+    decodeBody (defaultBodyPolicy "/tmp" 10000000 10000000 10000000)
     (tmp,n,_) <- lookFile "uploaded"
     let filePath = uploadDir </> n
     liftIO $ do
