@@ -1,6 +1,6 @@
 # Welcome !
 
-Welcome on skypers’ official website. This place is dedicated to what I do on
+Welcome on my official website. This place is dedicated to what I do on
 my spare time and has nothing to do with any company nor professional
 purpose. You’ll find only personal-related projects and materials.
 
@@ -11,9 +11,9 @@ However, if you are a recruiter, you might be interested in
 
 I’m **Dimitri Sabadie**, I’m 22 years old. I was born in the South-West of
 France, in the neighborhood of Bordeaux. You can find me on the net as
-**skypers**. For now, I train in a company three days a week, then go to an
-engineer school (EFREI) twice a week. Before that, I got a
-« DUT informatique », in the university Bordeaux 1.
+**phaazon** or **skypers** (old nickname). For now, I train in a company
+three days a week, then go to an engineer school (EFREI) twice a week.
+Before that, I got a « DUT informatique », in the university Bordeaux 1.
 
 I’ve been writting programs for a very long time. I discovered the C language
 when I was 12, and started a long trek in the IT jungle. I quickly started

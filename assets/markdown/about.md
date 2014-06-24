@@ -2,20 +2,20 @@
 
 ## Credits
 
-This website was written in **Haskell** by Dimitri 'skypers' Sabadie using
+This website was written in **Haskell** by Dimitri Sabadie using
 [Happstack](http://happstack.com/), a solution to build next-generation web
 servers. The font comes from
 [this place](http://www.google.com/fonts#UsePlace:use/Collection:Ubuntu) and
 belongs to the *Ubuntu font collection*.
 
 You can find the source code of this website
-[here](https://github.com/skypers/skypers.io)..
+[here](https://github.com/phaazon/phaazon.net).
 
 ## Host
 
-[online.net](http://www.online.net) is hosting us! 
+I’m hosting myself!
 
-<a href="http://www.online.net">![](http://www.online.net/img/logo/logo_onlinev2.png)</a>
+<a href="http://www.raspberrypi.org">![](/assets/uploaded/raspi.jpg)</a>
 
 # Hosted content
 

@@ -2,15 +2,15 @@
 
 ## EMail
 
-You can contact me at **dimitri.sabadie@gmail.com** or **contact@skypers.io**.
+You can contact me at **dimitri.sabadie@gmail.com**.
 
 ## Twitter
 
-Perhaps give it a shot at [skypers_](https://twitter.com/skypers_).
+Perhaps give it a shot at [phaazon_](https://twitter.com/phaazon_).
 
 ## Github
 
-An important place to me. [Find me on Github](https://github.com/skypers)!
+An important place to me. [Find me on Github](https://github.com/phaazon)!
 
 ## IRC
 
@@ -20,6 +20,7 @@ I’m always connected on **IRC**, so you might be able to join me.
 
 - \#haskell
 - \#haskell-game
+- \#haskell-lens
 - \#OpenGL
 - \#codefr
 
