@@ -14,6 +14,7 @@ routes :: ServerPart Response
 routes = msum
     [
       dir "assets" $ serveDirectory DisableBrowsing [] "assets"
+    , dir "static" $ serveDirectory DisableBrowsing [] "static"
     , dir "upload" upload
     , dir "portfolio" portfolio
     , dir "postFile" postFile

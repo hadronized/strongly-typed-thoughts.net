@@ -12,7 +12,8 @@ wrapper t cont = do
       H.head $ do
         H.title (toHtml $ t)
         meta ! charset "utf-8"
-        link ! rel "stylesheet" ! type_ "text/css" ! href "assets/css/style.css"
+        link ! rel "stylesheet" ! type_ "text/css" ! href "assets/css/style.css"
+        link ! rel "icon" ! href "static/img/tus.png"
         link
           ! rel "stylesheet" 
           ! type_ "text/css"
