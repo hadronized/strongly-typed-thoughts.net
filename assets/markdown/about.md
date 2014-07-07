@@ -64,4 +64,4 @@ file, and never expires.
 After that, you will have full access to the file hosting service.
 
 Please take note that **you don’t need to be authenticated to [browse](/browse)
-the uploaded files!
+the uploaded files!**
