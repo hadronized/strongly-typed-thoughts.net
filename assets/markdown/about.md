@@ -1,5 +1,4 @@
-﻿
-# About this website…
+﻿# About this website
 
 ## Credits
 
