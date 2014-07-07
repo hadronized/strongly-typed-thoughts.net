@@ -1,4 +1,5 @@
-﻿# About this website…
+﻿
+# About this website…
 
 ## Credits
 
@@ -24,7 +25,7 @@ what is hosted in [here](/browse). That is due to the fact that I am not the
 only one who puts images, documents, executables or music tracks here, and I am
 not a cop.
 
-However, if I spot someone is putting any kind of file that **could be
+However, if I spot someone putting any kind of file that **could be
 considered as an issue**, I’ll delete it and revoke that person
 any access to file hosting. Any file that satisfies the following list will be
 deleted:
