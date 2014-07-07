@@ -1,6 +1,13 @@
-﻿import Happstack.Server ( nullConf, simpleHTTP )
+﻿import Happstack.Server ( Conf(port), nullConf, simpleHTTP )
+import System.IO ( hPutStrLn, stderr )
 
 import Routes
 
 main :: IO ()
-main = simpleHTTP nullConf routes
+main = do
+  portStr <- fmap reads getLine
+  let [(p,φ)] = portStr
+  if null portStr || not (null φ) then
+    hPutStrLn stderr "unable to parse port"
+    else
+      simpleHTTP (nullConf { port = p }) routes
