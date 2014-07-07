@@ -13,9 +13,7 @@ You can find the source code of this website
 
 ## Host
 
-I’m hosting myself!
-
-<a href="http://www.raspberrypi.org">![](/assets/uploaded/raspi.jpg)</a>
+[OVH](http://www.ovh.com) is hosting us!
 
 # Hosted content
 
