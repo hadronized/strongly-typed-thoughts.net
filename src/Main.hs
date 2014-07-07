@@ -9,5 +9,6 @@ main = do
   let [(p,φ)] = portStr
   if null portStr || not (null φ) then
     hPutStrLn stderr "unable to parse port"
-    else
+    else do
+      putStrLn $ "listening on " ++ show p
       simpleHTTP (nullConf { port = p }) routes
