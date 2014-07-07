@@ -21,6 +21,7 @@ wrapper t cont = do
       H.body $ do
         H.menu menuPart
         section ! A.id "wrapper-content" $ cont
+        footer ! A.id "wrapper-footer" $ footerContent
 
 menuPart:: Html
 menuPart =
@@ -46,3 +47,8 @@ aboutLink = navLink "/about" "about"
 
 navLink :: AttributeValue -> Text -> Html
 navLink url t = a ! href url $ toHtml t
+
+{- TODO
+footerContent :: Html
+footerContent 
+-}
