@@ -12,7 +12,7 @@ build-type:          Simple
 -- extra-source-files:  
 cabal-version:       >=1.10
 
-executable skypers-io
+executable phaazon.net
   ghc-options:         -threaded -W -Wall -O2
   main-is:             Main.hs     
   default-extensions:    OverloadedStrings
