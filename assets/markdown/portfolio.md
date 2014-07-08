@@ -46,9 +46,9 @@ It ranked 4th/4, behind **farbrausch**, **Inque** and **Stroboholics**.
 
 [youtube](http://www.youtube.com/watch?v=aU30N9YSpBY)
 
-[github](https://github.com/skypers/heatstation)
+[github](https://github.com/phaazon/heatstation)
 
-[download](https://github.com/skypers/heatstation/archive/master.zip)
+[download](https://github.com/phaazon/heatstation/archive/master.zip)
 
 #### Lightning Road To Liquid Radiator
 
@@ -67,9 +67,9 @@ the README file if you issue any trouble.
 
 [youtube](http://www.youtube.com/watch?v=oUa2BvlDWYQ)
 
-[github](https://github.com/skypers/lr2lr)
+[github](https://github.com/phaazon/lr2lr)
 
-[download](https://github.com/skypers/lr2lr/archive/master.zip)
+[download](https://github.com/phaazon/lr2lr/archive/master.zip)
 
 #### skyoralis
 
@@ -92,12 +92,12 @@ time to get enjoyed and/or to solve friends problems.
 
 ### 2014
 
-#### skypers.io
+#### phaazon.net
 
 This website is a great example of fun I have on my spare time. Written in
 pure *Haskell*, nothing else – yeah, a bit of *CSS*.
 
-[github](https://github.com/skypers/skypers.io)
+[github](https://github.com/phaazon/phaazon.net)
 
 #### IRC tellbot
 
@@ -105,7 +105,7 @@ A tellbot over IRC. It’s used to leave a message to someone who’s off.
 
 The latest version also integrates a remote control over IRC using a password.
 
-[github](https://github.com/skypers/tellbot)
+[github](https://github.com/phaazon/tellbot)
 
 #### Reactant
 
@@ -128,7 +128,7 @@ You can contribute by forking the
 can follow the syntax I use for the first functions in that file), then push
 pull requests! I’ll accept them for sure!
 
-[github](https://github.com/skypers/hsFModEx)
+[github](https://github.com/phaazon/hsFModEx)
 
 [hackagedb](http://hackage.haskell.org/package/FModExRaw)
 
@@ -142,9 +142,9 @@ get started on *Github*.
 For those who’d like to contribute, you can push pull requests on the github
 page.
 
-[github](https://github.com/skypers/leaf/)
+[github](https://github.com/phaazon/leaf/)
 
-[download](https://github.com/skypers/leaf/tags)
+[download](https://github.com/phaazon/leaf/tags)
 
 #### Phraskell
 
@@ -178,9 +178,9 @@ Furthermore, I haven’t updated nor even read any D lines from **sdb** for a
 while. Finally, I don’t plan to do so in the future. You can consider *sdb*
 *v0.9.5* the latest version. Forever (woah that’s so sad :( ).
 
-[github](https://github.com/skypers/sdb)
+[github](https://github.com/phaazon/sdb)
 
-[download](https://github.com/skypers/sdb/tags)
+[download](https://github.com/phaazon/sdb/tags)
 
 ## Contributions
 
@@ -219,7 +219,7 @@ project!
 The archive contains the java code you can execute, some labyrinths to test
 (as .txt files), and two papers I have to write to explain all my choices.
 
-[download](http://dimitri.sabadie.free.fr/Download/skypers-battlerobot_labyrinthe.tar.gz)
+[download](http://dimitri.sabadie.free.fr/Download/phaazon-battlerobot_labyrinthe.tar.gz)
 
 #### Rewrite of “Game Of Life“
 
@@ -238,9 +238,9 @@ version of **SFML** breaks retrocompatibility, then it’s not sure you are able
 to compile it as well. Sorry then. If you really want to use it, it’s open
 source, so write a patch on github, and I’ll accept the pull request! :)
 
-[github](https://github.com/skypers/iutbx1-ds/tree/master/gol)
+[github](https://github.com/phaazon/iutbx1-ds/tree/master/gol)
 
-[download](https://github.com/skypers/iutbx1-ds/tags)
+[download](https://github.com/phaazon/iutbx1-ds/tags)
 
 #### Rewrite of “Bejeweled”
 
@@ -250,9 +250,9 @@ source, so write a patch on github, and I’ll accept the pull request! :)
 randomly set. Written in *imperative C++*, with a **Top10** ranking system,
 multiplayer, and so on…
 
-[github](https://github.com/skypers/iutbx1-ds/tree/master/bejeweled)
+[github](https://github.com/phaazon/iutbx1-ds/tree/master/bejeweled)
 
-[download](https://github.com/skypers/iutbx1-ds/tags)
+[download](https://github.com/phaazon/iutbx1-ds/tags)
 
 #### Rewrite of “Pong”
 
@@ -261,6 +261,6 @@ multiplayer, and so on…
 We don’t introduce this game anymore. Written in *imperative C++*. With fancy
 effects. No just kidding. Written in one hour :D.
 
-[github](https://github.com/skypers/iutbx1-ds/tree/master/pong)
+[github](https://github.com/phaazon/iutbx1-ds/tree/master/pong)
 
-[download](https://github.com/skypers/iutbx1-ds/tags)
+[download](https://github.com/phaazon/iutbx1-ds/tags)
