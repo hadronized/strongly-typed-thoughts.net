@@ -8,26 +8,31 @@
   font-size : 16px;
 }
 
+section {
+  margin: 0;
+  padding: 0;
+}
+
 h1 {
-  margin : 0 0 1pc 0;
+  margin : 1pc 0 0.5pc 0;
   padding : 0;
   font-size : 28px;
 }
 
 h2 {
-  margin : 0 0 1pc 0;
+  margin : 1pc 0 0.5pc 0;
   padding : 0;
   font-size : 24px;
 }
 
 h3 {
-  margin : 0 0 1pc 0;
+  margin : 1pc 0 0.5pc 0;
   padding : 0;
   font-size : 20px;
 }
 
 h4 {
-  margin : 0 0 1pc 0;
+  margin : 1pc 0 0.5pc 0;
   padding : 0;
   font-size : 16px;
 }
@@ -44,7 +49,7 @@ a:hover {
 }
 
 p {
-  margin : 1pc 0 1pc 0;
+  margin : 1pc 0 0 0;
   padding : 0;
   text-align : justify;
 }
@@ -85,13 +90,12 @@ menu ul li:hover {
 
 #wrapper-content {
   margin : 0pc 8pc 0 8pc;
-  padding : 4pc 2pc 0pc 2pc;
+  padding : 4pc 2pc 2pc 2pc;
   background-color: #333;
   border-left: 5px #2C4870 outset;
 }
 
 footer {
-  bottom: 0;
   width: 100%;
   margin: 0;
   padding: 1pc 0 1pc 0;
@@ -116,14 +120,14 @@ footer {
 }
 
 #browse-content ul {
-  margin : 0;
-  padding : 0;
+  margin: 0;
+  padding: 0;
   list-style-type: none;
 }
 
 #browse-content ul li {
   margin : 0 0 0 0;
-  padding : 0 0 0 1pc;
+  padding : 0.1pc 0 0.1pc 1pc;
 }
 
 #browse-content ul li a {
@@ -132,7 +136,7 @@ footer {
 
 #browse-content ul li:hover {
   background-color: #77A965;
-  padding-left : 0.5pc;
+  padding-left: 0.5pc;
   font-size: 150%;
 }
 
@@ -141,9 +145,9 @@ footer {
 }
 
 #browse-content .browse-content-item-even {
-  background-color : #AAA;
+  background-color : #DDD;
 }
 
 #browse-content .browse-content-item-odd {
-  background-color : #555;
+  background-color : #EEE;
 }

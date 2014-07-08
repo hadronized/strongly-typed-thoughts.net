@@ -39,9 +39,9 @@ deleted:
 - any kind of pornography
 - any kind of violence
 
-If you have created something that is not pornography nor violence, you can be
-sure you can host it here. However, if you want to host someone’s content,
-you’ll have to ask permission for, and forward me the permission. If a I find
+If you have created something that is not pornography nor violence, you are
+warranted you can host it here. However, if you want to host someone’s content,
+you’ll have to ask permission for, and forward me the permission. If I find
 a file has popped out of nowhere and satisfies the above list, if I haven’t
 gotten no permission, I’ll delete it.
 
