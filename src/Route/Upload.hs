@@ -41,8 +41,7 @@ postFile = do
 seeFile :: String -> ServerPart Response
 seeFile filePath = do
     ok . toResponse . wrapper "Your uploaded file" $
-      section ! A.id "upload-content-viewer" $
-        p $ do
-          toHtml ("Your file is " :: Text)
-          a ! A.id "upload-content-viewer-link" ! href (toValue filePath) $
-            toHtml ("here!" :: Text)
+      section ! A.id "upload-content-viewer" $ do
+        "Your file is "
+        a ! A.id "upload-content-viewer-link" ! href (toValue filePath) $
+          "here!"

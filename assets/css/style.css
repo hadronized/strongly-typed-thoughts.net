@@ -106,14 +106,14 @@ footer {
 
 #upload-content-form {
   text-align: center;
-  margin : 8pc 0 0 0;
-  padding : 0;
+  margin : 0;
+  padding : 10pc 0 10pc 0;
 }
 
 #upload-content-viewer {
-  margin : 8pc 0 0 0;
-  padding : 0;
   text-align: center;
+  margin : 0;
+  padding : 10pc 0 10pc 0;
 }
 
 #browse-content ul {
