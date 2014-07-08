@@ -2,6 +2,7 @@
     wrapper
   ) where
 
+import Control.Monad ( void )
 import Data.Text ( Text )
 import Text.Blaze.Html5 as H hiding ( map )
 import Text.Blaze.Html5.Attributes as A
@@ -21,7 +22,7 @@ wrapper t cont = do
       H.body $ do
         H.menu menuPart
         section ! A.id "wrapper-content" $ cont
-        footer ! A.id "wrapper-footer" $ footerContent
+        footer footerContent
 
 menuPart:: Html
 menuPart =
@@ -48,7 +49,8 @@ aboutLink = navLink "/about" "about"
 navLink :: AttributeValue -> Text -> Html
 navLink url t = a ! href url $ toHtml t
 
-{- TODO
 footerContent :: Html
-footerContent 
--}
+footerContent = do
+    void "Powered by "
+    a ! href "http://happstack.com" $ "Happstack server"
+    void ", Copyright 2014, Dimitri Sabadie"

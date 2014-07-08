@@ -1,7 +1,7 @@
 ﻿body {
-  background-color: white;
+  background-color: #131313;
+  color: #AAA;
   width: 100%;
-  position: static;
   margin: 0;
   padding: 0;
   font-family: 'Ubuntu', sans-serif;
@@ -62,10 +62,9 @@ menu {
   width : 100%;
   top : 0;
   left : 0;
-  background-color: white;
+  background-color: #222;
   margin: 0;
   padding: 1pc 0 1pc 0;
-  border-bottom: 1px #AAAAAA solid;
 }
 
 menu ul {
@@ -85,8 +84,20 @@ menu ul li:hover {
 }
 
 #wrapper-content {
-  margin : 5pc 0 0 0;
-  padding : 0pc 10pc 0pc 10pc;
+  margin : 0pc 8pc 0 8pc;
+  padding : 4pc 2pc 0pc 2pc;
+  background-color: #333;
+  border-left: 5px #2C4870 outset;
+}
+
+footer {
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  padding: 1pc 0 1pc 0;
+  text-align: center;
+  background-color: #222;
+  color: white;
 }
 
 #home-content-welcome {
