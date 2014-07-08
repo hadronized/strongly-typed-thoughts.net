@@ -141,9 +141,9 @@ footer {
 }
 
 #browse-content .browse-content-item-even {
-  background-color : #EEEEEE;
+  background-color : #AAA;
 }
 
 #browse-content .browse-content-item-odd {
-  background-color : #DDDDDD;
+  background-color : #555;
 }
