@@ -70,10 +70,10 @@ img {
 
 blockquote {
   margin: 0 auto 20px auto;
-  padding: 5px 5px 5px 2pc;
+  padding: 5px 0 5px 0;
   border-left: 5px #702C48 solid;
   border-right: 5px #702C48 solid;
-  width: 500px;
+  max-width: 500px;
   background-color: #444;
   border-radius: 15px;
 }
