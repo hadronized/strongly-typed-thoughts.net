@@ -1,9 +1,15 @@
 ﻿body {
+  position: absolute;
   background-color: #131313;
-  color: #AAA;
-  width: 100%;
+  top: 52px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: 0;
   padding: 0;
+  color: #AAA;
+  width: 100%;
+  min-height: 100%;
   font-family: 'Ubuntu', sans-serif;
   font-size : 16px;
 }
@@ -14,27 +20,27 @@ section {
 }
 
 h1 {
-  margin : 1pc 0 0.5pc 0;
+  margin: 0;
   padding : 0;
   font-size : 28px;
 }
 
 h2 {
-  margin : 1pc 0 0.5pc 0;
+  margin: 0 0 18px 0;
   padding : 0;
   font-size : 24px;
 }
 
 h3 {
-  margin : 1pc 0 0.5pc 0;
+  margin: 0 0 18px 0;
   padding : 0;
   font-size : 20px;
 }
 
 h4 {
-  margin : 1pc 0 0.5pc 0;
-  padding : 0;
-  font-size : 16px;
+  margin: 0 0 18px 0;
+  padding: 0;
+  font-size: 16px;
 }
 
 a {
@@ -49,7 +55,7 @@ a:hover {
 }
 
 p {
-  margin : 1pc 0 0 0;
+  margin : 5px 0 20px 0;
   padding : 0;
   text-align : justify;
 }
@@ -65,12 +71,14 @@ blockquote {
 menu {
   position : fixed;
   width : 100%;
-  top : 0;
+  top: 0;
+  height: 22px;
   left : 0;
   background-color: #222;
   margin: 0;
-  padding: 1pc 0 1pc 0;
+  padding: 15px 0 15px 0;
   font-size: 18px;
+  z-index: 10;
 }
 
 menu ul {
@@ -90,13 +98,18 @@ menu ul li:hover {
 }
 
 #wrapper-content {
-  margin : 0pc 8pc 0 8pc;
-  padding : 4pc 2pc 2pc 2pc;
+  position: static;
+  margin : 0 auto 0 auto;
+  padding : 20px;
+  width: 1000px;
+  top: 0;
+  min-height: 100%;
   background-color: #333;
-  border-left: 5px #2C4870 outset;
+  border-left: 5px #2C4870 solid;
 }
 
 footer {
+  position: static;
   width: 100%;
   margin: 0;
   padding: 1pc 0 1pc 0;
