@@ -15,7 +15,8 @@ cabal-version:       >=1.10
 executable phaazon.net
   ghc-options:         -threaded -W -Wall -O2
   main-is:             Main.hs     
-  default-extensions:    OverloadedStrings
+  default-extensions:    DeriveDataTypeable
+                       , OverloadedStrings
                        , TemplateHaskell
   build-depends:         base                    >= 4.5 && <4.7
                        , mtl                     == 2.1.*
