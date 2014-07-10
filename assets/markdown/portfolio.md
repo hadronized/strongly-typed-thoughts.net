@@ -54,7 +54,7 @@ It ranked 4th/4, behind **farbrausch**, **Inque** and **Stroboholics**.
 
 ![](/assets/uploaded/lr2lr.png)
 
-**Lighting Road To Liquid Radiator** is my **very first release as a
+**Lightning Road To Liquid Radiator** is my **very first release as a
 demoscener**. It’s a *GNU/Linux 64k intro* I released at **Outline 2013** in the
 *PC combined demo/intro compo (demo, 4k, 64k)*; **May 9th-12th**. It ranked
 4th/9. I’m pretty proud of it. The binary file weighs **42k** and has no data at
