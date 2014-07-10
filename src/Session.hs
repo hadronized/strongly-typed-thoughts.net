@@ -1,17 +1,33 @@
 module Session (
+    Cred(Cred)
+  , credLogin
+  , credPasswd
+  , Session(Session)
+  , sessionCred
+  , session
   ) where
 
 import Control.Lens
-import Data.ByteString ( ByteString )
-import Data.String ( fromString )
 import Crypto.Hash.SHA3 ( hash )
+import Data.ByteString ( ByteString )
+import Data.SafeCopy ( base, deriveSafeCopy )
+import Data.String ( fromString )
+import Happstack.Server.ClientSession ( ClientSession(..) )
 
-data Session = Session {
-    _sessionLogin  :: String
-  , _sessionPasswd :: ByteString -- SHA3 hashed password 
+data Cred = Cred {
+    _credLogin  :: String
+  , _credPasswd :: ByteString -- SHA3 hashed password 
   } deriving (Eq,Show)
 
-makeLenses ''Session
+newtype Session = Session { _sessionCred :: Maybe Cred } deriving (Eq,Show)
 
-createSession :: String -> String -> Session
-createSession name passwd = Session name (hash 512 $ fromString passwd)
+instance ClientSession Session where
+  emptySession = Session Nothing
+ 
+makeLenses ''Cred
+makeLenses ''Session
+deriveSafeCopy 0 'base ''Cred
+deriveSafeCopy 0 'base ''Session
+
+session :: String -> String -> Session
+session name passwd = Session . Just $ Cred name (hash 512 $ fromString passwd)

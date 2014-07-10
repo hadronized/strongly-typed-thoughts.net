@@ -5,28 +5,41 @@
   ) where
 
 import Control.Applicative
+import Control.Lens
 import Control.Monad
 import Control.Monad.Trans ( liftIO )
 import Data.Text
-import Happstack.Server as HS
+import Happstack.Server
+import Happstack.Server.ClientSession
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import System.FilePath ( (</>) )
 import System.Directory ( copyFile )
 
+import Session
 import Wrapper ( wrapper )
 
 uploadDir :: String
 uploadDir = "assets/uploaded"
 
--- upload is used to upload a file, and make it available for downloads
+-- Upload is used to upload a file, and make it available for downloads.
+--
+-- It uses a session to handle login / password.
 upload :: ServerPart Response
-upload =
-    ok . toResponse . wrapper "Upload" $
-      section ! A.id "upload-content-form" $
-        H.form ! action "/postFile" ! enctype "multipart/form-data" ! A.method "POST" $ do
-            input ! type_ "file" ! name "uploaded"
-            input ! type_ "submit" ! value "Upload"
+upload = do
+    -- get the session config
+    sessionConf <- liftIO (fmap mkSessionConf getDefaultKey)
+    withClientSessionT sessionConf $ do
+      session <- getSession
+      case session^.sessionCred of
+        Nothing   -> forbidden . toResponse $
+          wrapper "You don’t have credentials to do that, sorry." (return ())
+        Just cred -> do
+          ok . toResponse . wrapper ("Upload – " ++ show (cred^.credLogin)) $
+            section ! A.id "upload-content-form" $
+              H.form ! action "/postFile" ! enctype "multipart/form-data" ! A.method "POST" $ do
+                  input ! type_ "file" ! name "uploaded"
+                  input ! type_ "submit" ! value "Upload"
 
 postFile :: ServerPart Response
 postFile = do
