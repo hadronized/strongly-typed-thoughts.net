@@ -32,14 +32,14 @@ upload = do
     withClientSessionT sessionConf $ do
       session <- getSession
       case session^.sessionCred of
-        Nothing   -> forbidden . toResponse $
-          wrapper "You don’t have credentials to do that, sorry." (return ())
+        Nothing   -> uploadLogin
         Just cred -> do
+          -- TODO: do a db test to check credentials
           ok . toResponse . wrapper ("Upload – " ++ show (cred^.credLogin)) $
             section ! A.id "upload-content-form" $
               H.form ! action "/postFile" ! enctype "multipart/form-data" ! A.method "POST" $ do
-                  input ! type_ "file" ! name "uploaded"
-                  input ! type_ "submit" ! value "Upload"
+               input ! type_ "file" ! name "uploaded"
+               input ! type_ "submit" ! value "Upload"
 
 postFile :: ServerPart Response
 postFile = do
@@ -58,3 +58,21 @@ seeFile filePath = do
         "Your file is "
         a ! A.id "upload-content-viewer-link" ! href (toValue filePath) $
           "here!"
+
+uploadLogin :: ClientSessionT Session (ServerPartT IO) Response
+uploadLogin =
+    ok . toResponse . wrapper "Login" $
+      section ! A.id "upload-login-form" $
+        H.form ! action "/login" ! enctype "multipart/form-data" ! A.method "POST" $ do
+          input ! type_ "label" ! name "login"
+          input ! type_ "password" ! name "password"
+          input ! type_ "submit" ! value "Login"
+
+-- This function is used to login. If it fails, it returns to the uploadLogin
+-- function with an error ; otherwise it returns to the upload function after
+-- having stored the session.
+login :: ClientSessionT Session (ServerPartT IO) Response
+login = do
+    [loginInfo,pwdInfo] <- mapM look ["login","password"]
+    -- DB connexion
+    ok . toResponse . wrapper "Login" $ ""
