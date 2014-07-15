@@ -14,8 +14,9 @@ However, if you are a recruiter, you might be interested in
 I’m **Dimitri Sabadie**, I’m 22 years old. I was born in the South-West of
 France, in the neighborhood of Bordeaux. You can find me on the net as
 **phaazon** or **skypers** (old nickname). For now, I train in a company
-three days a week, then go to an engineer school (EFREI) twice a week.
-Before that, I got a « DUT informatique », in the university Bordeaux 1.
+(Essilor International) three days a week, then go to an engineer school
+(EFREI) twice a week. Before that, I got a « DUT informatique », in the
+university Bordeaux 1.
 
 I’ve been writting programs for a very long time. I discovered the C language
 when I was 12, and started a long trek in the IT jungle. I quickly started
