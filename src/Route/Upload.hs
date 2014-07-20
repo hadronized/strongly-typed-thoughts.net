@@ -2,21 +2,25 @@
     upload
   , uploadDir
   , postFile
+  , saveSession
   ) where
 
 import Control.Applicative
 import Control.Lens
 import Control.Monad
 import Control.Monad.Trans ( liftIO )
-import Data.Text
+import qualified Data.Text as T
+import Database.HDBC
+import Database.HDBC.Sqlite3
 import Happstack.Server
 import Happstack.Server.ClientSession
-import Text.Blaze.Html5 as H
+import Text.Blaze.Html5 as H hiding ( head, map )
 import Text.Blaze.Html5.Attributes as A
 import System.FilePath ( (</>) )
 import System.Directory ( copyFile )
 
 import Session
+import Password
 import Wrapper ( wrapper )
 
 uploadDir :: String
@@ -30,16 +34,10 @@ upload = do
     -- get the session config
     sessionConf <- liftIO (fmap mkSessionConf getDefaultKey)
     withClientSessionT sessionConf $ do
-      session <- getSession
-      case session^.sessionCred of
-        Nothing   -> uploadLogin
-        Just cred -> do
-          -- TODO: do a db test to check credentials
-          ok . toResponse . wrapper ("Upload – " ++ show (cred^.credLogin)) $
-            section ! A.id "upload-content-form" $
-              H.form ! action "/postFile" ! enctype "multipart/form-data" ! A.method "POST" $ do
-               input ! type_ "file" ! name "uploaded"
-               input ! type_ "submit" ! value "Upload"
+      sess <- getSession
+      case sess^.sessionCred of
+        Nothing   -> loginForm
+        Just cred -> login cred
 
 postFile :: ServerPart Response
 postFile = do
@@ -59,20 +57,39 @@ seeFile filePath = do
         a ! A.id "upload-content-viewer-link" ! href (toValue filePath) $
           "here!"
 
-uploadLogin :: ClientSessionT Session (ServerPartT IO) Response
-uploadLogin =
+loginForm :: ClientSessionT Session (ServerPartT IO) Response
+loginForm =
     ok . toResponse . wrapper "Login" $
       section ! A.id "upload-login-form" $
-        H.form ! action "/login" ! enctype "multipart/form-data" ! A.method "POST" $ do
+        H.form ! action "/saveSession" ! enctype "multipart/form-data" ! A.method "POST" $ do
           input ! type_ "label" ! name "login"
           input ! type_ "password" ! name "password"
           input ! type_ "submit" ! value "Login"
 
--- This function is used to login. If it fails, it returns to the uploadLogin
--- function with an error ; otherwise it returns to the upload function after
--- having stored the session.
-login :: ClientSessionT Session (ServerPartT IO) Response
-login = do
+saveSession :: ClientSessionT Session (ServerPartT IO) Response
+saveSession = do
+    decodeBody (defaultBodyPolicy "/tmp" 10000000 10000000 10000000)
     [loginInfo,pwdInfo] <- mapM look ["login","password"]
-    -- DB connexion
-    ok . toResponse . wrapper "Login" $ ""
+    let sess = session loginInfo pwdInfo
+    putSession sess
+    login $ Cred loginInfo (hashPwd pwdInfo)
+
+login :: Cred -> ClientSessionT Session (ServerPartT IO) Response
+login (Cred loginInfo pwdInfo) = do
+    rows <- liftIO $ do
+      conn <- connectSqlite3 "db/local.db"
+      rows <- quickQuery conn "select credPwd from Credentials where credName = '?'" [toSql loginInfo]
+      disconnect conn
+      return rows
+    if length rows == 1 then do
+      let [dbPwd] = map fromSql (head rows)
+      if pwdInfo == dbPwd then do
+        ok . toResponse . wrapper ("Upload – " ++ loginInfo) $
+          section ! A.id "upload-content-form" $
+            H.form ! action "/postFile" ! enctype "multipart/form-data" ! A.method "POST" $ do
+             input ! type_ "file" ! name "uploaded"
+             input ! type_ "submit" ! value "Upload"
+        else
+          loginForm
+    else do
+      badRequest . toResponse . wrapper "Login" $ "fail!"

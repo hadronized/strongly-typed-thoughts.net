@@ -8,11 +8,11 @@ module Session (
   ) where
 
 import Control.Lens
-import Crypto.Hash.SHA3 ( hash )
 import Data.ByteString ( ByteString )
 import Data.SafeCopy ( base, deriveSafeCopy )
-import Data.String ( fromString )
 import Happstack.Server.ClientSession ( ClientSession(..) )
+
+import Password
 
 data Cred = Cred {
     _credLogin  :: String
@@ -30,4 +30,4 @@ deriveSafeCopy 0 'base ''Cred
 deriveSafeCopy 0 'base ''Session
 
 session :: String -> String -> Session
-session name passwd = Session . Just $ Cred name (hash 512 $ fromString passwd)
+session name passwd = Session . Just $ Cred name (hashPwd passwd)
