@@ -1,4 +1,4 @@
-﻿import Happstack.Server ( Conf(port), nullConf, simpleHTTP )
+﻿import Happstack.Server ( Conf(port,validator), Response, nullConf, simpleHTTP )
 import System.IO ( hPutStrLn, stderr )
 import System.Directory
 
@@ -14,7 +14,10 @@ main = do
     else do
       putStrLn $ "listening on " ++ show p
       initiateDB
-      simpleHTTP (nullConf { port = p }) routes
+      simpleHTTP (nullConf { port = p, validator = Just rspValidator }) routes
+
+rspValidator :: Response -> IO Response
+rspValidator rsp = print rsp >> return rsp
 
 -- If the database is not present yet, that function creates it. Otherwise,
 -- it does nothing.
