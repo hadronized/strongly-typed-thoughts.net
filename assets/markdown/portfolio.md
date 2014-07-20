@@ -119,8 +119,8 @@ Up to now, I’m still working on it.
 
 #### hsFModEx
 
-The official *Haskell* *FModEx* binding. Up to know I maintain the raw binding.
-It’s intended to be wraped up again (like *OpenGLRaw*). Up to know, the binding
+The official *Haskell* *FModEx* binding. Up to now I maintain the raw binding.
+It’s intended to be wraped up again (like *OpenGLRaw*). Up to now, the binding
 works but not all functions are exported.
 
 You can contribute by forking the
