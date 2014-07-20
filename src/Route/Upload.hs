@@ -36,7 +36,7 @@ upload = do
     withClientSessionT sessionConf $ do
       sess <- getSession
       case sess^.sessionCred of
-        Nothing   -> loginForm
+        Nothing   -> loginForm "Please enter your credentials"
         Just cred -> login cred
 
 postFile :: ServerPart Response
@@ -57,10 +57,11 @@ seeFile filePath = do
         a ! A.id "upload-content-viewer-link" ! href (toValue filePath) $
           "here!"
 
-loginForm :: ClientSessionT Session (ServerPartT IO) Response
-loginForm =
+loginForm :: T.Text -> ClientSessionT Session (ServerPartT IO) Response
+loginForm msg =
     ok . toResponse . wrapper "Login" $
-      section ! A.id "upload-login-form" $
+      section ! A.id "upload-login-form" $ do
+        p (toHtml msg)
         H.form ! action "/saveSession" ! enctype "multipart/form-data" ! A.method "POST" $ do
           input ! type_ "label" ! name "login"
           input ! type_ "password" ! name "password"
@@ -78,7 +79,8 @@ login :: Cred -> ClientSessionT Session (ServerPartT IO) Response
 login (Cred loginInfo pwdInfo) = do
     rows <- liftIO $ do
       conn <- connectSqlite3 "db/local.db"
-      rows <- quickQuery conn "select credPwd from Credentials where credName = '?'" [toSql loginInfo]
+      --  FIXME: weird issue with parameters here
+      rows <- quickQuery' conn ("select credPwd from Credentials where credName = '" ++ loginInfo ++ "'") []
       disconnect conn
       return rows
     if length rows == 1 then do
@@ -90,6 +92,6 @@ login (Cred loginInfo pwdInfo) = do
              input ! type_ "file" ! name "uploaded"
              input ! type_ "submit" ! value "Upload"
         else
-          loginForm
+          loginForm "Wrong login and/or password :("
     else do
-      badRequest . toResponse . wrapper "Login" $ "fail!"
+      loginForm "Wrong login and/or password!"
