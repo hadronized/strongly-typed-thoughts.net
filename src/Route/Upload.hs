@@ -24,7 +24,7 @@ import Password
 import Wrapper ( wrapper )
 
 uploadDir :: String
-uploadDir = "assets/uploaded"
+uploadDir = "pub"
 
 -- Upload is used to upload a file, and make it available for downloads.
 --

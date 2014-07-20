@@ -18,7 +18,7 @@ routes = do
     msum
       [
         dir "assets" $ serveDirectory DisableBrowsing [] "assets"
-      , dir "static" $ serveDirectory DisableBrowsing [] "static"
+      , dir "pub" $ serveDirectory DisableBrowsing [] "pub"
       , dir "upload" upload
       , dir "saveSession" . withClientSessionT sessionConf $ saveSession
       , dir "portfolio" portfolio
