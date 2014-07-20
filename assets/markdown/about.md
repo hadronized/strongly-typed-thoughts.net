@@ -1,4 +1,4 @@
-﻿# About this website…
+# About this website…
 
 ## Credits
 
@@ -55,7 +55,7 @@ access to the file hosting for you. It’s quite simple. I would need:
 - your nickname
 - your wished password
 
-When you want to upload a file, go the [upload page](/upload). If it’s your
+When you want to upload a file, go to the [upload page](/upload). If it’s your
 first upload, you’ll find two inputs. Type down your nickname and password,
 then login. A cookie will be created on your machine, with your nickname and a
 hash of your password. That cookie will be read each time you want to upload a
