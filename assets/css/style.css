@@ -21,27 +21,37 @@ section {
 }
 
 h1 {
-  margin: 0;
-  padding : 0;
+  margin: 0 0 18px 0;
+  padding : 0 0 0 10px;
   font-size : 28px;
+  color: #2C4870;
+  font-weight: bold;
+  border-left: 50px #2C4870 solid;
 }
 
 h2 {
   margin: 0 0 18px 0;
-  padding : 0;
+  padding : 0 0 0 10px;
   font-size : 24px;
+  color: #70482C;
+  border-left: 25px #70482C solid;
 }
 
 h3 {
   margin: 0 0 18px 0;
-  padding : 0;
+  padding : 0 0 0 10px;
   font-size : 20px;
+  color: #702C48;
+  border-left: 12px #702C48 solid;
 }
 
 h4 {
   margin: 0 0 18px 0;
-  padding: 0;
-  font-size: 16px;
+  padding : 0 0 0 10px;
+  font-size: 18px;
+  font-style: italic;
+  color: #AAA;
+  border-left: 6px #AAA solid;
 }
 
 a {
