@@ -184,6 +184,30 @@ while. Finally, I don’t plan to do so in the future. You can consider *sdb*
 
 ## Contributions
 
+### Haskell
+
+#### OpenGLRawgen
+
+OpenGLRawgen is a nice C OpenGL Specification to Haskell generator. It reads from XML and outputs regular and convenient Haskell modules.
+
+I submitted some patches, but nothing important though. I just help to fix issues.
+
+[github](https://github.com/phaazon/OpenGLRaw)
+
+### D
+
+#### Derelict3 (aldacron)
+
+Derelict3 is a collection of D binders over C dynamic librairies. I especially contributed to port some librairies for Mac OSX and Windows to make things more portable.
+
+You can find aldacron’s Derelict3 [here](https://github.com/aldacron/Derelict3).
+
+#### DerelictBASS (p0nce)
+
+DerelictBASS is not part of the Derelict3 library, though it depends on its link system. It’s a nice D binder written by p0nce over the C sound library called *BASS.
+
+You can find DerelictBASS here, and C BASS [here](https://github.com/p0nce/DerelictBASS).
+
 ## School
 
 ### 2011
