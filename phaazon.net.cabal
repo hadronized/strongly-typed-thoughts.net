@@ -34,6 +34,7 @@ executable phaazon.net
                        , safecopy                == 0.8.*
                        , HDBC                    == 2.4.*
                        , HDBC-sqlite3            == 2.3.*
+                       , magic                   == 1.0.*
   hs-source-dirs:      src, db
   default-language:    Haskell2010
 

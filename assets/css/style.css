@@ -12,7 +12,7 @@
   width: 100%;
   min-height: 100%;
   font-family: 'Ubuntu', sans-serif;
-  font-size : 16px;
+  font-size: 16px;
 }
 
 section {
@@ -22,8 +22,8 @@ section {
 
 h1 {
   margin: 0 0 18px 0;
-  padding : 0 0 0 10px;
-  font-size : 28px;
+  padding: 0 0 0 10px;
+  font-size: 28px;
   color: #2C4870;
   font-weight: bold;
   border-left: 50px #2C4870 solid;
@@ -31,23 +31,23 @@ h1 {
 
 h2 {
   margin: 0 0 18px 0;
-  padding : 0 0 0 10px;
-  font-size : 24px;
+  padding: 0 0 0 10px;
+  font-size: 24px;
   color: #70482C;
   border-left: 25px #70482C solid;
 }
 
 h3 {
   margin: 0 0 18px 0;
-  padding : 0 0 0 10px;
-  font-size : 20px;
+  padding: 0 0 0 10px;
+  font-size: 20px;
   color: #702C48;
   border-left: 12px #702C48 solid;
 }
 
 h4 {
   margin: 0 0 18px 0;
-  padding : 0 0 0 10px;
+  padding: 0 0 0 10px;
   font-size: 18px;
   font-style: italic;
   color: #AAA;
@@ -55,20 +55,20 @@ h4 {
 }
 
 a {
-  margin : 0;
-  padding : 0;
-  color : #77A965;
-  text-decoration : none;
+  margin: 0;
+  padding: 0;
+  color: #77A965;
+  text-decoration: none;
 }
 
 a:hover {
-  color : #A96577;
+  color: #A96577;
 }
 
 p {
-  margin : 5px 0 20px 0;
-  padding : 0;
-  text-align : justify;
+  margin: 5px 0 20px 0;
+  padding: 0;
+  text-align: justify;
 }
 
 img {
@@ -93,8 +93,8 @@ blockquote p {
 }
 
 menu {
-  position : fixed;
-  width : 100%;
+  position: fixed;
+  width: 100%;
   top: 0;
   height: 22px;
   left: 0;
@@ -119,13 +119,13 @@ menu ul li {
 }
 
 menu ul li:hover {
-  border-bottom : 2px #77A965 solid;
+  border-bottom: 2px #77A965 solid;
 }
 
 #wrapper-content {
   position: static;
-  margin : 0 auto 0 auto;
-  padding : 20px;
+  margin: 0 auto 0 auto;
+  padding: 20px;
   width: 1000px;
   top: 0;
   min-height: 100%;
@@ -144,50 +144,168 @@ footer {
 }
 
 #home-content-welcome {
-  background-color : orange;
+  background-color: orange;
 }
 
 #upload-content-form {
   text-align: center;
-  margin : 0;
-  padding : 10pc 0 10pc 0;
+  margin: 0;
+  padding: 10pc 0 10pc 0;
 }
 
 #upload-content-viewer {
   text-align: center;
-  margin : 0;
-  padding : 10pc 0 10pc 0;
+  margin: 0;
+  padding: 10pc 0 10pc 0;
 }
 
-#browse-content ul {
-  margin: 0;
+.browse-content ul {
+  margin: 0 0 40px 0;
   padding: 0;
   list-style-type: none;
 }
 
-#browse-content ul li {
-  margin : 0 0 0 0;
-  padding : 0.1pc 0 0.1pc 1pc;
+.browse-content ul li {
+  margin: 0 0 0 0;
+  padding: 5px 0 5px 20px;
 }
 
-#browse-content ul li a {
-  color : #666666;
+#browse-images h3 {
+  color: #DB6123;
 }
 
-#browse-content ul li:hover {
-  background-color: #77A965;
-  padding-left: 0.5pc;
-  font-size: 150%;
+#browse-images .browse-content-item-even {
+  background-color: #E97355;
 }
 
-#browse-content ul li:hover a {
-  color : white;
+#browse-images .browse-content-item-odd {
+  background-color: #E9937C;
 }
 
-#browse-content .browse-content-item-even {
-  background-color : #DDD;
+#browse-images ul li:hover {
+  background-color: #D24520;
 }
 
-#browse-content .browse-content-item-odd {
-  background-color : #EEE;
+#browse-executables h3 {
+  color: #DB2323;
+}
+
+#browse-executables .browse-content-item-even {
+  background-color: #E6545E;
+}
+
+#browse-executables .browse-content-item-odd {
+  background-color: #E67B82;
+}
+
+#browse-executables ul li:hover {
+  background-color: #CD1F2C;
+}
+
+#browse-videos h3 {
+  color: #B1186B;
+}
+
+#browse-videos .browse-content-item-even {
+  background-color: #D24CA0;
+}
+
+#browse-videos .browse-content-item-odd {
+  background-color: #D270AD;
+}
+
+#browse-videos ul li:hover {
+  background-color: #A41970;
+}
+
+#browse-archives h3 {
+  color: #80168F;
+}
+
+#browse-archives .browse-content-item-even {
+  background-color: #9350C6;
+}
+
+#browse-archives .browse-content-item-odd {
+  background-color: #A170C6;
+}
+
+#browse-archives ul li:hover {
+  background-color: #5D1D8D;
+}
+
+#browse-audios h3 {
+  color: #1D518F;
+}
+
+#browse-audios .browse-content-item-even {
+  background-color: #4E85C3;
+}
+
+#browse-audios .browse-content-item-odd {
+  background-color: #6DA1C3;
+}
+
+#browse-audios ul li:hover {
+  background-color: #1B5C87;
+}
+
+#browse-texts h3 {
+  color: #8CCB1B;
+}
+
+#browse-texts .browse-content-item-even {
+  background-color: #AEE152;
+}
+
+#browse-texts .browse-content-item-odd {
+  background-color: #BCE178;
+}
+
+#browse-texts ul li:hover {
+  background-color: #88C31D;
+}
+
+#browse-papers h3 {
+  color: #DBDB1D;
+}
+
+#browse-papers .browse-content-item-even {
+  background-color: #DEE754;
+}
+
+#browse-papers .browse-content-item-odd {
+  background-color: #E1E77B;
+}
+
+#browse-papers ul li:hover {
+  background-color: #C5D01F;
+}
+
+#browse-unknown h3 {
+  color: #AAAAAA;
+}
+
+#browse-unknown .browse-content-item-even {
+  background-color: #DDDDDD;
+}
+
+#browse-unknown .browse-content-item-odd {
+  background-color: #EEEEEE;
+}
+
+#browse-unknown ul li:hover {
+  background-color: #888888;
+}
+
+.browse-content ul li a {
+  color: #333333;
+}
+
+.browse-content ul li:hover {
+  padding-left: 40px;
+}
+
+.browse-content ul li:hover a {
+  color: #EEEEEE;
 }

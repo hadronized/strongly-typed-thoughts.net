@@ -1,11 +1,20 @@
 module PubList (
+    PubList
+  , pubImages
+  , pubExecutables
+  , pubVideos
+  , pubArchives
+  , pubAudios
+  , pubTexts
+  , pubPapers
+  , pubUnknown
+  , pubList
   ) where
 
 import Control.Lens
 import Control.Applicative
 import Data.List ( isInfixOf )
 import Magic
-import System.FilePath ( FilePath )
 
 -- A `PubList` is a a structure that represents public files, sorted by types.
 data PubList = PubList {
@@ -38,21 +47,21 @@ mimes dir = do
 pubList :: [FilePath] -> IO PubList
 pubList dir = do
     mimed <- zip <$> pure dir <*> mimes dir
-    return $ foldl dispatch (PubList [] [] [] [] [] [] [] []) mimed
+    return $ foldr dispatch (PubList [] [] [] [] [] [] [] []) mimed
   where
-    dispatch pl (path,m)
-        | isImage m      = pl & pubImages %~ (:) path
-        | isExecutable m = pl & pubExecutables %~ (:) path
-        | isVideo m      = pl & pubVideos %~ (:) path
-        | isArchive m    = pl & pubArchives %~ (:) path
-        | isAudio m      = pl & pubAudios %~ (:) path
-        | isText m       = pl & pubTexts %~ (:) path
-        | isPaper m      = pl & pubPapers %~ (:) path
-        | otherwise      = pl & pubUnknown %~ (:) path
+    dispatch (path,m)
+        | isImage m      = pubImages %~ (:) path
+        | isExecutable m = pubExecutables %~ (:) path
+        | isVideo m      = pubVideos %~ (:) path
+        | isArchive m    = pubArchives %~ (:) path
+        | isAudio m      = pubAudios %~ (:) path
+        | isText m       = pubTexts %~ (:) path
+        | isPaper m      = pubPapers %~ (:) path
+        | otherwise      = pubUnknown %~ (:) path
     isImage      = isInfixOf "image"
     isExecutable = isInfixOf "executable"
     isVideo      = isInfixOf "video"
     isArchive    = isInfixOf "zip"
-    isAudio m    = isInfixOf "audio" m || isInfixOf "ogg" m
+    isAudio m    = isInfixOf "audio" m || isInfixOf "ogg" m || isInfixOf "octet-stream" m
     isText       = isInfixOf "text"
     isPaper      = isInfixOf "pdf"
