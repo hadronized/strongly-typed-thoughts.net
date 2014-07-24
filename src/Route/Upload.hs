@@ -9,6 +9,7 @@ import Control.Applicative
 import Control.Lens
 import Control.Monad
 import Control.Monad.Trans ( liftIO )
+import Data.Char ( isAlpha )
 import qualified Data.Text as T
 import Database.HDBC
 import Database.HDBC.Sqlite3
@@ -80,7 +81,7 @@ login (Cred loginInfo pwdInfo) = do
     rows <- liftIO $ do
       conn <- connectSqlite3 "db/local.db"
       --  FIXME: weird issue with parameters here
-      rows <- quickQuery' conn ("select credPwd from Credentials where credName = '" ++ loginInfo ++ "'") []
+      rows <- quickQuery' conn ("select credPwd from Credentials where credName = '" ++ sanitize loginInfo ++ "'") []
       disconnect conn
       return rows
     if length rows == 1 then do
@@ -95,3 +96,5 @@ login (Cred loginInfo pwdInfo) = do
           loginForm "Wrong login and/or password :("
     else do
       loginForm "Wrong login and/or password!"
+  where
+    sanitize = filter isAlpha
