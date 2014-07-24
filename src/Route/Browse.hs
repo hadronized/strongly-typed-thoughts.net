@@ -7,7 +7,7 @@ import Control.Monad
 import Control.Monad.Trans ( liftIO )
 import Data.List ( sort )
 import Happstack.Server
-import System.FilePath ( (</>) )
+import System.FilePath ( (</>), takeFileName )
 import System.Directory ( getDirectoryContents )
 import Text.Blaze.Html5 as H hiding ( map )
 import Text.Blaze.Html5.Attributes as A
@@ -41,7 +41,7 @@ browse = do
             ul . sequence_ . map toLink $ zip (sort l) [0..]
     toLink (filename,x) =
         li ! A.class_ (iclass x) $
-          a ! href (toValue $ uploadDir </> filename) $ toHtml filename
+          a ! href (toValue $ uploadDir </> filename) $ toHtml (takeFileName filename)
 
 iclass :: Integer -> AttributeValue
 iclass x
