@@ -7,8 +7,6 @@ purpose. You’ll find only personal-related projects and materials.
 However, if you are a recruiter, you might be interested in
 [my portfolio](/portfolio) and [how to contact me](/contact).
 
-> **Work in progress!**
-
 # About me
 
 I’m **Dimitri Sabadie**, I’m 22 years old. I was born in the South-West of
