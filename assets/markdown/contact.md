@@ -26,6 +26,7 @@ I’m always connected on **IRC**, so you might be able to join me.
 
 ### @IRCNet
 
+- \#scenefr
 - \#demofr
 - \#demoscene
 - \#revision
