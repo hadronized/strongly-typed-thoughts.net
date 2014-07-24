@@ -41,7 +41,7 @@ browse = do
             ul . sequence_ . map toLink $ zip (sort l) [0..]
     toLink (filename,x) =
         li ! A.class_ (iclass x) $
-          a ! href (toValue $ uploadDir </> filename) $ toHtml (takeFileName filename)
+          a ! href (toValue filename) $ toHtml (takeFileName filename)
 
 iclass :: Integer -> AttributeValue
 iclass x
