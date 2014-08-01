@@ -42,7 +42,7 @@ upload = do
 
 postFile :: ServerPart Response
 postFile = do
-    decodeBody (defaultBodyPolicy "/tmp" 10000000 10000000 10000000)
+    decodeBody (defaultBodyPolicy "/tmp" 20000000 20000000 20000000)
     (tmp,n,_) <- lookFile "uploaded"
     let filePath = uploadDir </> n
     liftIO $ do
@@ -70,7 +70,7 @@ loginForm msg =
 
 saveSession :: ClientSessionT Session (ServerPartT IO) Response
 saveSession = do
-    decodeBody (defaultBodyPolicy "/tmp" 10000000 10000000 10000000)
+    decodeBody (defaultBodyPolicy "/tmp" 20000000 20000000 20000000)
     [loginInfo,pwdInfo] <- mapM look ["login","password"]
     let sess = session loginInfo pwdInfo
     putSession sess
