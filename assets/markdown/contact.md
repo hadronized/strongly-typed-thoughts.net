@@ -39,6 +39,7 @@ I’m always connected on **IRC**, so you might be able to join me.
 ## LinkedIn
 
 Of course, feel free to visit my [LinkedIn page!](https://www.linkedin.com/profile/view?id=357572974).
+
 ## Viadeo
 
 Yes, [I’m on Viadeo as well](http://www.viadeo.com/profile/0026v58027mqd8v/).
