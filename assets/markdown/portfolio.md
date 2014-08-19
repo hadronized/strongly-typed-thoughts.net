@@ -7,7 +7,7 @@ The portfolio is organized by:
 
 - [demoscene](#demoscene)
 - [fun](#fun)
-- [contribution](#contribution)
+- [contribution](#contributions)
 - [school](#school)
 
 ## Demoscene
