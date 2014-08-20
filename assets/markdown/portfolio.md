@@ -21,6 +21,33 @@ in the **combined PC intro/demo** compo.
 
 ### 2014
 
+#### photon
+
+**photon** is one of my most ambious projects of 2014. It’s a realtime scene
+engine that aims to be simple.
+
+**photon** is divided into two parts:
+
+  - *[photon core](https://github.com/phaazon/photon-core)*
+  - *backends*
+
+The *core* part of **photon** gathers all minimal and mandatory features and
+materials. You can find vertex, mesh, material, model, light, texture, shader and
+so on. You won’t find anything technology-related (e.g. OpenGL, OpenCL, CUDA and
+so on and so forth). The idea is to keep that part minimal and effective, hence
+core.
+
+The backends provide renderers. The link between renderers from backends is done
+in the core part, through a special dedicated module. Each backend can be
+considered as a plugin that adds a new way of rendering a scene.
+So far, only [photon-opengl](https://github.com/phaazon/photon-opengl)
+exists, but I plan to write others.
+
+> Up to now, **photon** is a big Work In Progress. I plan to release it under the
+BDS3 terms on [hackagedb](https://hackage.haskell.org/).
+
+[Github](https://github.com/phaazon/photon-core)
+
 #### Ionosphere
 
 **Ionosphere** is my very first attempt at music making. Back from
