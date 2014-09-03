@@ -26,13 +26,25 @@ wrapper t cont = do
 
 menuPart:: Html
 menuPart =
-    ul . sequence_ $ map li [homeLink,portfolioLink,uploadLink,browseLink,contactLink,aboutLink]
+    ul . sequence_ $ map li
+      [
+        homeLink
+      , portfolioLink
+      , blogLink
+      , uploadLink
+      , browseLink
+      , contactLink
+      , aboutLink
+      ]
 
 homeLink :: Html
 homeLink = navLink "/" "home"
 
 portfolioLink :: Html
 portfolioLink = navLink "/portfolio" "portfolio"
+
+blogLink :: Html
+blogLink = navLink "http://phaazon.blogspot.fr" "blog"
 
 uploadLink :: Html
 uploadLink = navLink "/upload" "upload"
