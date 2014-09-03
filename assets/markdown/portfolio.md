@@ -44,7 +44,7 @@ So far, only [photon-opengl](https://github.com/phaazon/photon-opengl)
 exists, but I plan to write others.
 
 > Up to now, **photon** is a big Work In Progress. I plan to release it under the
-BDS3 terms on [hackagedb](https://hackage.haskell.org/).
+BSD3 terms on [hackagedb](https://hackage.haskell.org/).
 
 [Github](https://github.com/phaazon/photon-core)
 
