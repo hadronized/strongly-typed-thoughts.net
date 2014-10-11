@@ -23,12 +23,14 @@ in the **combined PC intro/demo** compo.
 
 #### photon
 
+![photon](/assets/uploaded/red_monky.png)
+
 **photon** is one of my most ambious projects of 2014. It’s a realtime scene
 engine that aims to be simple.
 
 **photon** is divided into two parts:
 
-  - *[photon core](https://github.com/phaazon/photon-core)*
+  - *[photon core](https://github.com/phaazon/photon)*
   - *backends*
 
 The *core* part of **photon** gathers all minimal and mandatory features and
@@ -46,7 +48,7 @@ exists, but I plan to write others.
 > Up to now, **photon** is a big Work In Progress. I plan to release it under the
 BSD3 terms on [hackagedb](https://hackage.haskell.org/).
 
-[Github](https://github.com/phaazon/photon-core)
+[Github](https://github.com/phaazon/photon)
 
 #### Ionosphere
 
