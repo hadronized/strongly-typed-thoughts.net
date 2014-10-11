@@ -23,7 +23,7 @@ in the **combined PC intro/demo** compo.
 
 #### photon
 
-![photon](/assets/uploaded/red_monky.png)
+![photon](/assets/uploaded/red_monkey.png)
 
 **photon** is one of my most ambious projects of 2014. It’s a realtime scene
 engine that aims to be simple.
