@@ -19,36 +19,21 @@ I joined the demoscene world a few times ago, but my first release was [Lightnin
 Road To Liquid Radiator](#lightning-road-to-liquid-radiator), at **Outline 2013**
 in the **combined PC intro/demo** compo.
 
-### 2014
+### 2015
 
-#### photon
+#### quaazar
 
-![](/assets/uploaded/red_monkey.png)
+![](/assets/uploaded/quaazar.png)
 
-**photon** is one of my most ambious projects of 2014. It’s a realtime scene
+**quaazar** is one of my most ambitious projects of 2015. It’s a realtime scene
 engine that aims to be simple.
-
-**photon** is divided into two parts:
-
-  - *[photon core](https://github.com/phaazon/photon)*
-  - *backends*
-
-The *core* part of **photon** gathers all minimal and mandatory features and
-materials. You can find vertex, mesh, material, model, light, texture, shader and
-so on. You won’t find anything technology-related (e.g. OpenGL, OpenCL, CUDA and
-so on and so forth). The idea is to keep that part minimal and effective, hence
-core.
-
-The backends provide renderers. The link between renderers from backends is done
-in the core part, through a special dedicated module. Each backend can be
-considered as a plugin that adds a new way of rendering a scene.
-So far, only [photon-opengl](https://github.com/phaazon/photon-opengl)
-exists, but I plan to write others.
 
 > Up to now, **photon** is a big Work In Progress. I plan to release it under the
 BSD3 terms on [hackagedb](https://hackage.haskell.org/).
 
-[Github](https://github.com/phaazon/photon)
+[Github](https://github.com/phaazon/quaazar)
+
+### 2014
 
 #### Ionosphere
 
