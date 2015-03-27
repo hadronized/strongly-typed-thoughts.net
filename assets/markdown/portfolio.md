@@ -28,7 +28,7 @@ in the **combined PC intro/demo** compo.
 **quaazar** is one of my most ambitious projects of 2015. It’s a realtime scene
 engine that aims to be simple.
 
-> Up to now, **photon** is a big Work In Progress. I plan to release it under the
+> Up to now, **quaazar** is a big Work In Progress. I plan to release it under the
 BSD3 terms on [hackagedb](https://hackage.haskell.org/).
 
 [Github](https://github.com/phaazon/quaazar)
