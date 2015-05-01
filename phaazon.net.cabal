@@ -19,7 +19,7 @@ executable phaazon.net
                        , OverloadedStrings
                        , TemplateHaskell
 
-  build-depends:         base                    >= 4.5 && < 4.8
+  build-depends:         base                    >= 4.5 && < 5
                        , mtl                     == 2.1.*
                        , happstack-server        == 7.3.*
                        , happstack-clientsession == 7.2.*
@@ -54,7 +54,7 @@ executable adduploader
                        , bytestring              >= 0.10 && < 0.11
                        , cryptohash              >= 0.11 && < 0.12
                        , HDBC                    >= 2.4 && < 2.5
-                       , HDBC-sqlite3            >= 2.3 && 2.4
+                       , HDBC-sqlite3            >= 2.3 && < 2.4
 
   hs-source-dirs:      utils/adduploader/src, src
 
