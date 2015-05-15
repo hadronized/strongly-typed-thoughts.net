@@ -19,6 +19,7 @@ routes = do
       [
         dir "assets" $ serveDirectory DisableBrowsing [] "assets"
       , dir "pub" $ serveDirectory DisableBrowsing [] "pub"
+      , dir "static" $ serveDirectory DisableBrowsing [] "static"
       , dir "upload" upload
       , dir "saveSession" . withClientSessionT sessionConf $ saveSession
       , dir "portfolio" portfolio
