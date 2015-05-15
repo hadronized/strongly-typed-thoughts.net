@@ -16,6 +16,7 @@ executable phaazon.net
   main-is:             Main.hs
 
   default-extensions:    DeriveDataTypeable
+                       , FlexibleContexts
                        , OverloadedStrings
                        , TemplateHaskell
 
