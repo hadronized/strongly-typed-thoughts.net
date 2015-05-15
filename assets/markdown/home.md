@@ -2,7 +2,7 @@
 
 Welcome on my official website. This place is dedicated to what I do on
 my spare time and has nothing to do with any company nor professional
-purpose. You’ll find only personal-related projects and materials.
+purpose. You’ll find only personal-related projects and material.
 
 However, if you are a recruiter, you might be interested in
 [my portfolio](/portfolio) and [how to contact me](/contact).
