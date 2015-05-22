@@ -31,4 +31,7 @@ language, a very nice language.
 Today, I write programs in Haskell and you can find all the things I want you
 to see – and guess you’ll like – in the portfolio part of that website.
 
+You can download a generic version of my CV
+[here](http://phaazon.net/pub/CV.pdf).
+
 Enjoy your visit, and feel free to contact me!
