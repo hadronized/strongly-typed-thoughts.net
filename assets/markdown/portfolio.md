@@ -6,7 +6,7 @@ I’m working on. Feel free to test and give me your feedback!
 The portfolio is organized by:
 
 - [demoscene](#demoscene)
-- [fun](#fun)
+- [community](#community)
 - [contribution](#contributions)
 - [school](#school)
 
@@ -99,12 +99,63 @@ releasing **skyoralis** in public.
 
 I decided to close that project because I moved it into Haskell.
 
-## Fun
+## Community
 
 In that part of my portfolio, you’ll find personal project I made on my spare
-time to get enjoyed and/or to solve friends problems.
+time to solve people’s problems or to simply have fun.
+
+You can find all the projects I made for a community on my [github](https://github.com/phaazon).
+
+### 2015
+
+#### luminance
+
+An effort to bring Haskell a type-safe, strongly-typed and stateless graphics framework.
+It’s built over [OpenGL](https://www.opengl.org).
+
+Currently, no public release is available, but it will eventually land in hackage sooner or later.
+A lot of people are interested in the effort I make with **luminance** – around 50 stargazers and
+12 watchers on github. I also often write articles about **luminance** on my blog to keep people
+informed.
+
+[github](https://github.com/phaazon/luminance)
+
+#### hid & msi-kb-backlit
+
+Those two projects originate from my actual laptop, a MSI GS60 Ghost Pro, with backlit keyboard. The
+colors are customizable and MSI has provided the users with a tool – SteelEngine – to customize
+them. However, that tool doesn’t work at all under Linux nor Mac OSX. I decided to understand how
+the protocol is used, and write my own tool. I also wrote the **hid** Haskell library to help me
+write that tool, and both the packages are available as *BSD-3* softwares.
+
+[hid github](https://github.com/phaazon/hid)
+
+[hid hackagedb](http://hackage.haskell.org/package/hid)
+
+[msi-kb-backlit](https://github.com/phaazon/msi-kb-backlit)
+
+[msi-kb-backlit hackagedb](http://hackage.haskell.org/package/msi-kb-backlit)
+
+#### smoothie
+
+A Haskell package to make it easy to build splines. The project has received an interest from
+Haskellers.
+
+The name comes from the verb *“to smooth”*, which we can assimilate to smoothed curves.
+
+[github](https://github.com/phaazon/smoothie)
+
+[hackagedb](http://hackage.haskell.org/package/smoothie)
 
 ### 2014
+
+#### al
+
+I maintain an [OpenAL](http://www.openal.org) Haskell binding.
+
+[github](https://github.com/phaazon/al)
+
+[hackagedb](http://hackage.haskell.org/package/al)
 
 #### phaazon.net
 
@@ -130,6 +181,17 @@ library to be simple and not limited to `IO`. I learned *FRP* with
 Up to now, I’m still working on it.
 
 ### 2013
+
+#### monad-journal
+
+A logger solution in Haskell. It exports a typeclass and a monad transformer for ease.
+
+Because [ghc-mod](https://github.com/kazu-yamamoto/ghc-mod) uses it, **monad-journal** gets a lot
+of downloads, and I’m pretty proud of it then!
+
+[github](https://github.com/phaazon/monad-journal)
+
+[hackage](http://hackage.haskell.org/package/monad-journal)
 
 #### hsFModEx
 
