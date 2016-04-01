@@ -9,7 +9,7 @@ However, if you are a recruiter, you might be interested in
 
 # About me
 
-I’m **Dimitri Sabadie**, I’m 23 years old. I was born in the South-West of
+I’m **Dimitri Sabadie**, I’m 24 years old. I was born in the South-West of
 France, in the neighborhood of Bordeaux. You can find me on the net as
 **phaazon** or **skypers** (old nickname). For now, I train in a company
 (Essilor International) three days a week, then go to an engineer school
