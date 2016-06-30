@@ -38,7 +38,7 @@ After those two years, I decided to get back to writing demo productions and dec
 community. I learned the basic language in two days and the more complex concepts in a single week
 (lifetime ellision, borrowing, mpsc, complex macros, uniqueness typing, etc.). My **Haskell**
 experience helped a lot to get my feet wet with **Rust**. Today, I consider **Rust** as *“an
-imperative Haskell*. Less powerful in terms of abstraction, it’s better to handle memory and design
+imperative Haskell”*. Less powerful in terms of abstraction, it’s better to handle memory and design
 the control-flow of my programs.
 
 I’m currently sticking around **Rust** as it fits my needs in terms of abstraction, readability,
