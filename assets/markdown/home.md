@@ -29,7 +29,7 @@ respectively.
 
 I then have a two years time learning and writing programs in **Haskell**. That period was a very
 important one to me as I learned a lot about *functional programming*. I’ve been introducing myself
-as a *functional programmer* since then. My **Haskell** experienc taught me a lot and helped me
+as a *functional programmer* since then. My **Haskell** experience taught me a lot and helped me
 sharpening my mind and rigorous thoughts about software engineering, language designs and software
 architectures.
 
