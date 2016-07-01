@@ -65,4 +65,4 @@ footerContent :: Html
 footerContent = do
     void "Powered by "
     a ! href "http://happstack.com" $ "Happstack server"
-    void ", Copyright 2014, Dimitri Sabadie"
+    void ", Copyright 2014—2016, Dimitri Sabadie"
