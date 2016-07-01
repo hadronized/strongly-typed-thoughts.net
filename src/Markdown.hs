@@ -7,4 +7,6 @@ import Text.Blaze.Html5 as H
 import Text.Pandoc ( readMarkdown, writeHtml )
 
 markdownToHtml :: String -> Html
-markdownToHtml = writeHtml def . readMarkdown def
+markdownToHtml mkd = case readMarkdown def mkd of
+  Left _ -> ""
+  Right a -> writeHtml def a
