@@ -1,7 +1,8 @@
 # Portfolio
 
 Here’s a non-comprehensive list of all personal or school projects I worked or
-I’m working on. Feel free to test and give me your feedback!
+I’m working on. I chose to show you those projects because I believe they’re the most representative
+part of my work on my spare time. Feel free to test and give me your feedback!
 
 The portfolio is organized by:
 
@@ -9,6 +10,9 @@ The portfolio is organized by:
 - [community](#community)
 - [contribution](#contributions)
 - [school](#school)
+
+If you want a more comprehensive list of what I do, feel free to visit my
+[github page](https://github.com/phaazon).
 
 ## Demoscene
 
@@ -19,17 +23,60 @@ I joined the demoscene world a few times ago, but my first release was [Lightnin
 Road To Liquid Radiator](#lightning-road-to-liquid-radiator), at **Outline 2013**
 in the **combined PC intro/demo** compo.
 
+### 2016
+
+#### luminance (Rust)
+
+I learned [Rust](https://www.rust-lang.org) by March, 2016. Fallen in love with that language, which
+is very similar to Haskell with the control over the memory and predictive performance as an extra
+argument, I decided to jump in and migrate as fast as the very next day my Haskell luminance
+framework. The migration took me some time, because Rust doesn’t directly match to Haskell. For
+instance, Haskell has more powerful abstraction tools, forcing me to adapt the abstractions and
+hack around for several hours with Rust’s constructs. As an example, Haskell’s *existential
+quantification*, which doesn’t exist in Rust – I mapped it by trait object, btw.
+
+The project starts to be mature, thanks to all the code I wrote in Haskell (36 releases), and that
+I’m writing a demoscene production with it. So I’m testing luminance in real conditions, changing
+the interface on the fly to make it more comfortable and benchmarking.
+
+By the time of writing, it’s been 10 releases. I don’t blog a lot about it because I’m intensively
+writing my demoscene release. But be sure, I will blog about it and write several articles on how to
+dig in and how to use luminance.
+
+| Project           | Github page                                  |
+| -------           | -----------                                  |
+| luminance         | https://github.com/phaazon/luminance-rs      |
+| luminance-gl      | https://github.com/phaazon/luminance-gl-rs   |
+
 ### 2015
+
+#### luminance (Haskell)
+
+**luminance** is born from the ashes of **quaazar**. The aims of luminance are simple: it’s a
+wrapper over graphics technologies (OpenGL) designed to be **stateless**, **type-safe** and
+**simple**.
+
+I think that project was the most *followed* of mine. I got feedback from people, a lot of talks
+on *reddit* and *IRC*, I was asked help by people wanting to hear from the experience of *“making
+something unsafe and stateful safe and stateless”*, because that’s exactly what luminance is all
+about.
+
+After more than 36 releases, I decided to migrate the framework into its
+[Rust](https://www.rust-lang.org) version.
+
+| Project           | Github page                                  |
+| -------           | -----------                                  |
+| luminance         | https://github.com/phaazon/luminance         |
+| luminance-gl      | https://github.com/phaazon/luminance-gl      |
+| luminance-samples | https://github.com/phaazon/luminance-samples |
 
 #### quaazar
 
 ![](/assets/uploaded/quaazar.png)
 
-**quaazar** is one of my most ambitious projects of 2015. It’s a realtime scene
-engine that aims to be simple.
-
-> Up to now, **quaazar** is a big Work In Progress. I plan to release it under the
-BSD3 terms on [hackagedb](https://hackage.haskell.org/).
+**quaazar** was my first attempt at graphics programming serious stuff in Haskell for demoscene
+purposes. After coming to the realization that I was building something way too much generic, I
+decided to discontinue the project and extract a sub part of it (luminance).
 
 [Github](https://github.com/phaazon/quaazar)
 
