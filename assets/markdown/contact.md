@@ -16,19 +16,24 @@ An important place to me. [Find me on Github](https://github.com/phaazon)!
 
 I’m always connected on **IRC**, so you might be able to join me.
 
+### @mozilla
+
+- \#rust
+- \#rust-gamedev
+- \#rust-offtopic
+
 ### @freenode
 
+- \#archlinux
+- \#demofr
 - \#haskell
 - \#haskell-game
 - \#haskell-lens
+- \#intel-gfx
 - \#OpenGL
-- \#codefr
 
 ### @IRCNet
 
-- \#scenefr
-- \#demofr
-- \#demoscene
 - \#revision
 
 ### @codingame
@@ -42,9 +47,9 @@ Of course, feel free to visit my [LinkedIn page!](https://www.linkedin.com/profi
 
 ## Viadeo
 
-Yes, [I’m on Viadeo as well](http://www.viadeo.com/profile/0026v58027mqd8v/).
+Yes, [I’m on Viadeo as well](http://www.viadeo.com/profile/0026v58027mqd8v/). However, I’m not very
+active since, well, you know. LinkedIn.
 
 ## Facebook
 
-Or you can try out with
-[my facebook page](https://www.facebook.com/dev.skypers).
+Or you can try out with [my facebook page](https://www.facebook.com/phz.phaazon).
