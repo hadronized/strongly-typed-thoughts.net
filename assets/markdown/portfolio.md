@@ -43,10 +43,8 @@ By the time of writing, it’s been 10 releases. I don’t blog a lot about it b
 writing my demoscene release. But be sure, I will blog about it and write several articles on how to
 dig in and how to use luminance.
 
-| Project           | Github page                                  |
-| -------           | -----------                                  |
-| luminance         | https://github.com/phaazon/luminance-rs      |
-| luminance-gl      | https://github.com/phaazon/luminance-gl-rs   |
+[luminance](https://github.com/phaazon/luminance-rs)
+[luminance-gl](https://github.com/phaazon/luminance-gl-rs)
 
 ### 2015
 
@@ -64,11 +62,9 @@ about.
 After more than 36 releases, I decided to migrate the framework into its
 [Rust](https://www.rust-lang.org) version.
 
-| Project           | Github page                                  |
-| -------           | -----------                                  |
-| luminance         | https://github.com/phaazon/luminance         |
-| luminance-gl      | https://github.com/phaazon/luminance-gl      |
-| luminance-samples | https://github.com/phaazon/luminance-samples |
+[luminance](https://github.com/phaazon/luminance)
+[luminance-gl](https://github.com/phaazon/luminance-gl)
+[luminance-samples](https://github.com/phaazon/luminance-samples)
 
 #### quaazar
 
