@@ -44,6 +44,7 @@ writing my demoscene release. But be sure, I will blog about it and write severa
 dig in and how to use luminance.
 
 [luminance](https://github.com/phaazon/luminance-rs)
+
 [luminance-gl](https://github.com/phaazon/luminance-gl-rs)
 
 ### 2015
@@ -63,7 +64,9 @@ After more than 36 releases, I decided to migrate the framework into its
 [Rust](https://www.rust-lang.org) version.
 
 [luminance](https://github.com/phaazon/luminance)
+
 [luminance-gl](https://github.com/phaazon/luminance-gl)
+
 [luminance-samples](https://github.com/phaazon/luminance-samples)
 
 #### quaazar
