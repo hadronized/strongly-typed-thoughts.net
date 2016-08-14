@@ -25,6 +25,22 @@ in the **combined PC intro/demo** compo.
 
 ### 2016
 
+#### Céleri Rémoulade
+
+![](/assets/uploaded/celeri_remoulade.png)
+
+My third demoscene production – and first PC demo release. Released at Evoke 2016 (Köln, Germany),
+and ranked 14th / 18.
+
+It is a one-man production that I wrote entirely in **Rust** using my [luminance](https://github.com/phaazon/luminance-rs)
+graphics framework, OpenAL and libvorbis.
+
+[pouët](http://www.pouet.net/prod.php?which=67966)
+
+[demozoo](https://demozoo.org/productions/161887)
+
+[github](https://github.com/phaazon/celeri-remoulade)
+
 #### luminance (Rust)
 
 I learned [Rust](https://www.rust-lang.org) by March, 2016. Fallen in love with that language, which
