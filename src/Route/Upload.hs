@@ -14,7 +14,7 @@ import Data.ByteString ( ByteString )
 import Data.Char ( isAlpha )
 import Data.String ( IsString(..) )
 import Data.Text ( Text )
-import Database.SQLite.Simple ( Only(..), Query, query, withConnection )
+import Database.SQLite.Simple ( Query, query, withConnection )
 import qualified Data.Text as T
 import Happstack.Server
 import Happstack.Server.ClientSession
@@ -84,10 +84,10 @@ login (Cred loginInfo pwdInfo) = do
     pwd <- liftIO $ do
       withConnection "db/local.db" $ \conn -> do
         --  FIXME: weird issue with parameters here
-        pwd :: [Only ByteString] <- query conn selectQuery selectParams 
+        pwd :: [[ByteString]] <- query conn selectQuery selectParams
         pure pwd
     if length pwd == 1 then do
-      let [Only dbPwd] = pwd
+      let [dbPwd] = head pwd
 
       if pwdInfo == dbPwd then do
         ok . toResponse . wrapper ("Upload – " ++ loginInfo) $
@@ -101,7 +101,7 @@ login (Cred loginInfo pwdInfo) = do
       loginForm "Wrong login and/or password!"
   where
     selectQuery :: Query
-    selectQuery = "select cred_pwd from Credentials where cred_name = '?'"
-    selectParams :: Only Text
-    selectParams = Only (fromString $ sanitize loginInfo)
+    selectQuery = "select cred_pwd from Credentials where cred_name = ?"
+    selectParams :: [Text]
+    selectParams = [fromString $ sanitize loginInfo]
     sanitize = filter isAlpha

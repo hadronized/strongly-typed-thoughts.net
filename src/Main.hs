@@ -1,4 +1,5 @@
-﻿import Happstack.Server ( Conf(port,validator), Response, nullConf, simpleHTTP )
+﻿import Control.Monad ( unless )
+import Happstack.Server ( Conf(port,validator), Response, nullConf, simpleHTTP )
 import System.IO ( hPutStrLn, stderr )
 import System.Directory
 
@@ -23,10 +24,7 @@ rspValidator rsp = print rsp >> return rsp
 -- it does nothing.
 initiateDB :: IO ()
 initiateDB = do
-    already <- doesFileExist "db/local.db"
-    if not already then do
-      putStrLn "initiating database..."
-      createDB "db/local.db"
-      else
-        return ()
-
+  already <- doesFileExist "db/local.db"
+  unless already $ do
+    putStrLn "initiating database..."
+    createDB "db/local.db"
