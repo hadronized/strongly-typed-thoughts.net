@@ -1,23 +1,22 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module CreateSchema (
     createDB
   ) where
 
-import Database.HDBC
-import Database.HDBC.Sqlite3
+import Data.Text as T ( unlines )
+import Database.SQLite.Simple ( Query(..), execute_, withConnection, withTransaction )
 
 createDB :: String -> IO ()
-createDB dbName = do
-    conn <- connectSqlite3 dbName
-    run conn createCredentialsSQL []
-    commit conn
-    disconnect conn
+createDB dbName =
+  withConnection dbName $ \conn -> withTransaction conn (execute_ conn createCredentialsQuery)
 
-createCredentialsSQL :: String
-createCredentialsSQL = unlines
+createCredentialsQuery :: Query
+createCredentialsQuery = Query $ T.unlines
     [
       "create table Credentials ("
-    , "    cred_id   Integer primary key"
-    , "  , cred_name VarChar(64) not null unique"
-    , "  , cred_pwd  Bit(512) not null"
+    , "  cred_id Integer primary key,"
+    , "  cred_name VarChar(64) not null unique,"
+    , "  cred_pwd Bit(512) not null"
     , ");"
     ]

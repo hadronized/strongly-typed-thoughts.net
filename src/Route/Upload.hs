@@ -1,18 +1,21 @@
-﻿module Route.Upload (
+﻿{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+
+module Route.Upload (
     upload
   , uploadDir
   , postFile
   , saveSession
   ) where
 
-import Control.Applicative
 import Control.Lens
-import Control.Monad
 import Control.Monad.Trans ( liftIO )
+import Data.ByteString ( ByteString )
 import Data.Char ( isAlpha )
+import Data.String ( IsString(..) )
+import Data.Text ( Text )
+import Database.SQLite.Simple ( Only(..), Query, query, withConnection )
 import qualified Data.Text as T
-import Database.HDBC
-import Database.HDBC.Sqlite3
 import Happstack.Server
 import Happstack.Server.ClientSession
 import Text.Blaze.Html5 as H hiding ( head, map )
@@ -54,7 +57,7 @@ seeFile :: String -> ServerPart Response
 seeFile filePath = do
     ok . toResponse . wrapper "Your uploaded file" $
       section ! A.id "upload-content-viewer" $ do
-        "Your file is "
+        _ <- "Your file is "
         a ! A.id "upload-content-viewer-link" ! href (toValue filePath) $
           "here!"
 
@@ -78,14 +81,14 @@ saveSession = do
 
 login :: Cred -> ClientSessionT Session (ServerPartT IO) Response
 login (Cred loginInfo pwdInfo) = do
-    rows <- liftIO $ do
-      conn <- connectSqlite3 "db/local.db"
-      --  FIXME: weird issue with parameters here
-      rows <- quickQuery' conn ("select credPwd from Credentials where credName = '" ++ sanitize loginInfo ++ "'") []
-      disconnect conn
-      return rows
-    if length rows == 1 then do
-      let [dbPwd] = map fromSql (head rows)
+    pwd <- liftIO $ do
+      withConnection "db/local.db" $ \conn -> do
+        --  FIXME: weird issue with parameters here
+        pwd :: [Only ByteString] <- query conn selectQuery selectParams 
+        pure pwd
+    if length pwd == 1 then do
+      let [Only dbPwd] = pwd
+
       if pwdInfo == dbPwd then do
         ok . toResponse . wrapper ("Upload – " ++ loginInfo) $
           section ! A.id "upload-content-form" $
@@ -97,4 +100,8 @@ login (Cred loginInfo pwdInfo) = do
     else do
       loginForm "Wrong login and/or password!"
   where
+    selectQuery :: Query
+    selectQuery = "select cred_pwd from Credentials where cred_name = '?'"
+    selectParams :: Only Text
+    selectParams = Only (fromString $ sanitize loginInfo)
     sanitize = filter isAlpha
