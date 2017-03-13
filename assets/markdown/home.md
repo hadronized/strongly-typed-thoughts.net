@@ -9,7 +9,7 @@ However, if you are a recruiter, you might be interested in [my portfolio](/port
 
 # About me
 
-I’m **Dimitri Sabadie**, I’m 24 years old. I was born in the South-West of France, in the
+I’m **Dimitri Sabadie**, I’m 25 years old. I was born in the South-West of France, in the
 neighborhood of Bordeaux. You can find me on the net as **phaazon** , **phz** or **skypers**
 (old nickname).
 
