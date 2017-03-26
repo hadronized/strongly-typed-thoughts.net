@@ -1,3 +1,5 @@
+{-# LANGUAGE TemplateHaskell #-}
+
 module PubList (
     PubList
   , pubImages
@@ -12,7 +14,6 @@ module PubList (
   ) where
 
 import Control.Lens
-import Control.Applicative
 import Data.List ( isInfixOf )
 import Magic
 

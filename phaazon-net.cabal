@@ -10,52 +10,71 @@ build-type:          Simple
 
 cabal-version:       >=1.10
 
-executable phaazon.net
+executable webserver
   ghc-options:         -threaded -W -Wall -O2
-
   main-is:             Main.hs
+  hs-source-dirs:      app
+  default-extensions:  FlexibleContexts,
+                       OverloadedStrings
 
-  default-extensions:    DeriveDataTypeable
-                       , FlexibleContexts
-                       , OverloadedStrings
-                       , TemplateHaskell
-
-  build-depends:         base                    >= 4.5 && < 5
-                       , mtl                     >= 2.1 && < 2.3
-                       , happstack-server        >= 7.3 && < 7.5
-                       , happstack-clientsession >= 7.2 && < 7.4
-                       , bytestring              >= 0.10 && < 0.11
-                       , blaze-html              >= 0.7 && < 0.9
-                       , text                    >= 1.1 && < 1.3
-                       , cryptohash              >= 0.11 && < 0.12
-                       , pandoc                  >= 1.12 && < 1.20
-                       , data-default            >= 0.5 && < 0.8
-                       , filepath                >= 1.3 && < 1.5
-                       , directory               >= 1.2 && < 1.4
-                       , lens                    >= 4.2 && < 4.16
-                       , safecopy                >= 0.8 && < 0.10
-                       , magic                   >= 1.0 && < 1.2
-                       , sqlite-simple           >= 0.4 && < 0.5
-
-  hs-source-dirs:      src, db
+  build-depends:       base,
+                       blaze-html,
+                       data-default,
+                       mustache,
+                       pandoc,
+                       servant-blaze,
+                       servant-server,
+                       text,
+                       time,
+                       yaml,
+                       warp
 
   default-language:    Haskell2010
 
-executable adduploader
-  ghc-options:         -threaded -W -Wall -O2
-
-  main-is:             Main.hs
-
-  default-extensions:    DeriveDataTypeable
-                       , OverloadedStrings
-                       , TemplateHaskell
-
-  build-depends:         base                    >= 4.5 && < 5
-                       , bytestring              >= 0.10 && < 0.11
-                       , cryptohash              >= 0.11 && < 0.12
-                       , sqlite-simple           >= 0.4 && < 0.5
-                       , text                    >= 1.1 && < 1.3
-
-  hs-source-dirs:      utils/adduploader/src, src
-
-  default-language:    Haskell2010
+-- executable phaazon.net
+--   ghc-options:         -threaded -W -Wall -O2
+-- 
+--   main-is:             Main.hs
+-- 
+--   default-extensions:    FlexibleContexts
+--                        , OverloadedStrings
+-- 
+--   build-depends:         base                    >= 4.5 && < 5
+--                        , mtl                     >= 2.1 && < 2.3
+--                        , happstack-server        >= 7.3 && < 7.5
+--                        , happstack-clientsession >= 7.2 && < 7.4
+--                        , bytestring              >= 0.10 && < 0.11
+--                        , blaze-html              >= 0.7 && < 0.9
+--                        , text                    >= 1.1 && < 1.3
+--                        , cryptohash              >= 0.11 && < 0.12
+--                        , pandoc                  >= 1.12 && < 1.20
+--                        , data-default            >= 0.5 && < 0.8
+--                        , filepath                >= 1.3 && < 1.5
+--                        , directory               >= 1.2 && < 1.4
+--                        , lens                    >= 4.2 && < 4.16
+--                        , safecopy                >= 0.8 && < 0.10
+--                        , magic                   >= 1.0 && < 1.2
+--                        , sqlite-simple           >= 0.4 && < 0.5
+-- 
+--   hs-source-dirs:      src, db
+-- 
+--   default-language:    Haskell2010
+-- 
+-- executable adduploader
+--   ghc-options:         -threaded -W -Wall -O2
+-- 
+--   main-is:             Main.hs
+-- 
+--   default-extensions:    DeriveDataTypeable
+--                        , OverloadedStrings
+--                        , TemplateHaskell
+-- 
+--   build-depends:         base                    >= 4.5 && < 5
+--                        , bytestring              >= 0.10 && < 0.11
+--                        , cryptohash              >= 0.11 && < 0.12
+--                        , sqlite-simple           >= 0.4 && < 0.5
+--                        , text                    >= 1.1 && < 1.3
+-- 
+--   hs-source-dirs:      utils/adduploader/src, src
+-- 
+--   default-language:    Haskell2010
