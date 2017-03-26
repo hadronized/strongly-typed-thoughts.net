@@ -20,6 +20,7 @@ executable webserver
   build-depends:       base,
                        blaze-html,
                        data-default,
+                       directory,
                        mtl,
                        mustache,
                        pandoc,
