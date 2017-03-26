@@ -19,5 +19,5 @@ type Portfolio = Get '[HTML] Html
 
 portfolio :: Server Portfolio 
 portfolio = do
-  content <- liftIO (readFile "assets/markdown/portfolio.md") >>= markdownToHtml
+  content <- liftIO (readFile "static/content/portfolio.md") >>= markdownToHtml
   wrapper "Portfolio" (section ! A.id "portfolio-content" $ content)
