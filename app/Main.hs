@@ -6,7 +6,7 @@ import Data.Maybe  (fromMaybe)
 import Data.Yaml (decodeFile)
 import FileBrowser (defaultPubList, refreshBrowserFiles)
 import ServerConfig (ServerConfig(..))
-import Webapp (webapp)
+import WebApp (webApp)
 
 main :: IO ()
 main = do
