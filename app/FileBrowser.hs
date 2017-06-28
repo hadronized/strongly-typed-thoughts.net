@@ -18,9 +18,9 @@ import Servant (Get)
 import Servant.Server (Server)
 import Servant.HTML.Blaze (HTML)
 import System.Directory (getDirectoryContents)
-import System.FilePath ( (</>), takeFileName )
+import System.FilePath ((</>), takeFileName)
 import Text.Blaze.Html5 (AttributeValue, Html, (!), a, h3, li, section, toHtml, toValue, ul)
-import Text.Blaze.Html5.Attributes as A (class_, id, href)
+import Text.Blaze.Html5.Attributes as A (class_, href, id)
 
 type FileBrowserApi = Get '[HTML] Html
 
