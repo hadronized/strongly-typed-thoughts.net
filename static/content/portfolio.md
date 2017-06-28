@@ -27,7 +27,7 @@ in the **combined PC intro/demo** compo.
 
 #### Céleri Rémoulade
 
-![](/assets/uploaded/celeri_remoulade.png)
+![](/static/imgs/celeri_remoulade.png)
 
 My third demoscene production – and first PC demo release. Released at Evoke 2016 (Köln, Germany),
 and ranked 14th / 18.
@@ -87,7 +87,7 @@ After more than 36 releases, I decided to migrate the framework into its
 
 #### quaazar
 
-![](/assets/uploaded/quaazar.png)
+![](/static/imgs/quaazar.png)
 
 **quaazar** was my first attempt at graphics programming serious stuff in Haskell for demoscene
 purposes. After coming to the realization that I was building something way too much generic, I
@@ -109,7 +109,7 @@ and make a tiny but lovely song in 4 hours.
 
 #### Heat Station
 
-![](/assets/uploaded/heat_station.png)
+![](/static/imgs/heat_station.png)
 
 **Heat Station** is my second *64k intro*, released at **Evoke 2013**. I wrote
 it in *C++* with **skyoralis**, my demoscene 3D realtime engine. I released it
@@ -128,7 +128,7 @@ It ranked 4th/4, behind **farbrausch**, **Inque** and **Stroboholics**.
 
 #### Lightning Road To Liquid Radiator
 
-![](/assets/uploaded/lr2lr.png)
+![](/static/imgs/lr2lr.png)
 
 **Lightning Road To Liquid Radiator** is my **very first release as a
 demoscener**. It’s a *GNU/Linux 64k intro* I released at **Outline 2013** in the
@@ -149,7 +149,7 @@ the README file if you issue any trouble.
 
 #### skyoralis
 
-![](assets/uploaded/skyoralis.png)
+![](static/imgs/skyoralis.png)
 
 My very own demoscene engine. It’s designed to help me write my demoscene
 releases, especially *64k intro*. Written in *C++11*, *OpenGL* and *GLSL*.
@@ -352,7 +352,7 @@ You can find DerelictBASS here, and C BASS [here](https://github.com/p0nce/Derel
 
 #### Battlerobot
 
-![](assets/uploaded/battlerobot.png)
+![](static/imgs/battlerobot.png)
 
 This is a *Java* project I had to complete the semester before the last one at
 ”**IUT**”. Our teacher wrote a basic labyrinth and an interface for a player,
@@ -385,7 +385,7 @@ The archive contains the java code you can execute, some labyrinths to test
 
 #### Rewrite of “Game Of Life“
 
-![](assets/uploaded/game_of_life.png)
+![](static/imgs/game_of_life.png)
 
 **Game of Life** is a *cellular automaton* invented by **Jon Conway** in 1970.
 At the “IUT”, we had to write our very own version, for the second semester. We
@@ -406,7 +406,7 @@ source, so write a patch on github, and I’ll accept the pull request! :)
 
 #### Rewrite of “Bejeweled”
 
-![](assets/uploaded/bejeweled.png)
+![](static/imgs/bejeweled.png)
 
 **Bejeweled** is a game with a 8x8 wired diamonds grid of different colors,
 randomly set. Written in *imperative C++*, with a **Top10** ranking system,
@@ -418,7 +418,7 @@ multiplayer, and so on…
 
 #### Rewrite of “Pong”
 
-![](assets/uploaded/pong.png)
+![](static/imgs/pong.png)
 
 We don’t introduce this game anymore. Written in *imperative C++*. With fancy
 effects. No just kidding. Written in one hour :D.
