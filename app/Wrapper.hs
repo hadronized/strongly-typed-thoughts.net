@@ -3,13 +3,14 @@ module Wrapper (
     wrapper
   ) where
 
-import Control.Monad (void)
+import Control.Monad (sequence_, void)
 import Control.Monad.IO.Class (MonadIO(..))
+import Data.List (intersperse)
 import Data.Text (Text)
 import Data.Time (getCurrentTime, toGregorian, utctDay)
-import Text.Blaze.Html5 as Blaze ((!), AttributeValue, Html, a, body, docTypeHtml, footer, head, li,
-                                  link, menu, meta, section, title, toHtml, ul)
-import Text.Blaze.Html5.Attributes as Blaze (charset, id, href, rel, type_)
+import Text.Blaze.Html5 as H hiding (map)
+import Text.Blaze.Html5.Attributes
+import Prelude hiding (div, id, head)
 
 -- |Wrapper function.
 wrapper :: (MonadIO m) => Text -> Html -> m Html
@@ -17,19 +18,17 @@ wrapper t cont = do
     (year, _, _) <- liftIO $ fmap (toGregorian . utctDay) getCurrentTime
 
     pure . docTypeHtml $ do
-      Blaze.head $ do
-        title (toHtml $ t)
+      head $ do
+        H.title (toHtml $ t)
         meta ! charset "utf-8"
-        link ! rel "stylesheet" ! type_ "text/css" ! href "static/css/reset.css"
+        link ! rel "stylesheet" ! type_ "text/css" ! href "static/css/bulma.css"
+        link ! rel "stylesheet" ! type_ "text/css" ! href "static/css/font-awesome.min.css"
+        link ! rel "stylesheet" ! type_ "text/css" ! href "static/css/index.css"
         link ! rel "icon" ! href "static/img/tus.png"
-        link
-          ! rel "stylesheet" 
-          ! type_ "text/css"
-          ! href "http://fonts.googleapis.com/css?family=Ubuntu:400,500&subset=latin,greek,latin-ext"
       body $ do
         menu menuPart
-        section ! Blaze.id "wrapper-content" $ cont
-        footer (footerContent $ fromIntegral year)
+        section ! id "wrapper-content" $ cont
+        footer ! class_ "footer" $ footerContent (fromIntegral year)
 
 menuPart:: Html
 menuPart =
@@ -62,6 +61,27 @@ navLink url t = a ! href url $ toHtml t
 
 footerContent :: Int -> Html
 footerContent year = do
-    void "Powered by "
-    a ! href "http://happstack.com" $ "Happstack server"
-    void (toHtml $ ", Copyright 2014—" ++ show year ++ ", Dimitri Sabadie")
+  div ! class_ "container" $ do
+    div ! class_ "content has-text-centered" $ do
+      p . sequence_ $ intersperse " "
+        [
+          a ! class_ "icon" ! href "https://github.com/phaazon" $
+            i ! class_ "fa fa-github" $ pure ()
+        , a ! class_ "icon" ! href "https://twitter.com/phaazon_" $
+            i ! class_ "fa fa-twitter" $ pure ()
+        , a ! class_ "icon" ! href "https://www.linkedin.com/in/dimitri-sabadie-97a9009b/" $
+            i ! class_ "fa fa-linkedin-square" $ pure ()
+        , a ! class_ "icon" ! href "https://soundcloud.com/phaazon" $
+            i ! class_ "fa fa-soundcloud" $ pure ()
+        , a ! class_ "icon" ! href "https://stackoverflow.com/users/1784267/phaazon" $
+            i ! class_ "fa fa-stack-overflow" $ pure ()
+        , a ! class_ "icon" ! href "/media/uploads/cv.pdf" $
+            i ! class_ "fa fa-graduation-cap" $ pure ()
+        ]
+      p . sequence_ $ intersperse " · "
+        [
+          a ! href "http://haskell.org/" $ "Haskell"
+        , a ! href "http://haskell-servant.readthedocs.io" $ "servant"
+        , a ! href "http://bulma.io" $ "bulma"
+        ]
+      p $ void (toHtml $ "Copyright © 2014—" ++ show year ++ ", Dimitri Sabadie")
