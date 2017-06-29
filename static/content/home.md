@@ -1,6 +1,6 @@
 <section class="container section content">
 <h1 class="title">Welcome !</h1>
-<hr/>
+---
 
 Welcome on my official website. This place is dedicated to what I do on my spare time and has
 nothing to do with any company nor professional purpose. You’ll find only personal-related projects
@@ -10,7 +10,7 @@ However, if you are a recruiter, you might be interested in [my portfolio](/port
 [how to contact me](/contact).
 
 <h1 class="title">About me…</h1>
-<hr/>
+---
 
 I’m **Dimitri Sabadie**, I’m {{age}} years old. I was born in the South-West of France, in the
 neighborhood of Bordeaux. You can find me on the net as **phaazon** , **phz** or **skypers**
@@ -49,7 +49,7 @@ expressiveness and minimal runtime overhead (thus runtime performance in terms o
 footprint).
 
 <h1 class="title">Pro-side</h1>
-<hr/>
+---
 
 I obtained my engineer’s degree ([CTI](https://en.wikipedia.org/wiki/Commission_des_Titres_d%27Ing%C3%A9nieur))
 by fall 2015, delivered by [EFREI](https://en.wikipedia.org/wiki/EFREI). Since then, I’ve been

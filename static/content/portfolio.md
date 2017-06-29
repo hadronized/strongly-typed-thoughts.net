@@ -1,4 +1,6 @@
-# Portfolio
+<section class="container section content">
+<h1 class="title">Portfolio</h1>
+---
 
 Here’s a non-comprehensive list of all personal or school projects I worked or
 I’m working on. I chose to show you those projects because I believe they’re the most representative
@@ -13,17 +15,52 @@ The portfolio is organized by:
 
 If you want a more comprehensive list of what I do, feel free to visit my
 [github page](https://github.com/phaazon).
+</section>
 
-## Demoscene
+<section class="section hero is-info content is-right">
+<h1 class="title">Demoscene</h1>
+<h2 class="subtitle is-small">Artsy, size-limited, mathematical, underground</h2>
+</section>
 
-I’m a demomaker. Here’s my [pouët](http://www.pouet.net/user.php?who=93160)
-page.
+<section class="container section content">
+I’m a demomaker. Here’s my [pouët](http://www.pouet.net/user.php?who=93160) page.
 
 I joined the demoscene world a few times ago, but my first release was [Lightning
 Road To Liquid Radiator](#lightning-road-to-liquid-radiator), at **Outline 2013**
 in the **combined PC intro/demo** compo.
+</section>
 
-### 2016
+<div class="container card">
+<div class="card-content">
+<div class="media">
+<div class="media-left">
+<figure class="image is-128x128">
+![Image](/static/imgs/celeri_remoulade.png)
+</figure>
+</div>
+<div class="media-content">
+<div class="columns">
+<div class="column">
+<p class="title is-4">Céleri Rémoulade</p>
+<p class="subtitle is-6">Evoke 2016</p>
+</div>
+<div class="column">
+<p>PC Demo</p>
+<p>Ranked 14th/18</p>
+</div>
+<div class="column">
+<a class="icon" href="https://github.com/phaazon/celeri-remoulade"><i class="fa fa-github"></i></a>
+<p>Demozoo</p>
+<a class="icon" href="http://www.pouet.net/prod.php?which=67966"><i class="fa fa-globe"></i></a>
+</div>
+</div>
+</div>
+</div>
+<div class="content">
+Blablabla
+</div>
+</div>
+</div>
 
 #### Céleri Rémoulade
 
