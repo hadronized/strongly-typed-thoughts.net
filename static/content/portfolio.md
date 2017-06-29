@@ -30,11 +30,12 @@ Road To Liquid Radiator](#lightning-road-to-liquid-radiator), at **Outline 2013*
 in the **combined PC intro/demo** compo.
 </section>
 
-<div class="container card">
+<section class="section">
+<div class="card">
 <div class="card-content">
 <div class="media">
 <div class="media-left">
-<figure class="image is-128x128">
+<figure class="image is-256x256">
 ![Image](/static/imgs/celeri_remoulade.png)
 </figure>
 </div>
@@ -43,43 +44,44 @@ in the **combined PC intro/demo** compo.
 <div class="column">
 <p class="title is-4">Céleri Rémoulade</p>
 <p class="subtitle is-6">Evoke 2016</p>
+<a class="icon" href="https://github.com/phaazon/celeri-remoulade"><i class="fa fa-github"></i></a> <a class="icon" href="https://demozoo.org/productions/161887"><i class="fa fa-microchip"></i></a> <a class="icon" href="http://www.pouet.net/prod.php?which=67966"><i class="fa fa-globe"></i></a>
 </div>
 <div class="column">
-<p>PC Demo</p>
-<p>Ranked 14th/18</p>
-</div>
-<div class="column">
-<a class="icon" href="https://github.com/phaazon/celeri-remoulade"><i class="fa fa-github"></i></a>
-<p>Demozoo</p>
-<a class="icon" href="http://www.pouet.net/prod.php?which=67966"><i class="fa fa-globe"></i></a>
+<p class="subtitle is-6">PC Demo</p>
+<p class="subtitle is-6">Ranked 14th/18</p>
 </div>
 </div>
 </div>
 </div>
 <div class="content">
-Blablabla
-</div>
-</div>
-</div>
-
-#### Céleri Rémoulade
-
-![](/static/imgs/celeri_remoulade.png)
-
 My third demoscene production – and first PC demo release. Released at Evoke 2016 (Köln, Germany),
 and ranked 14th / 18.
 
 It is a one-man production that I wrote entirely in **Rust** using my [luminance](https://github.com/phaazon/luminance-rs)
 graphics framework, OpenAL and libvorbis.
+</div>
+</div>
+</div>
+</section>
 
-[pouët](http://www.pouet.net/prod.php?which=67966)
-
-[demozoo](https://demozoo.org/productions/161887)
-
-[github](https://github.com/phaazon/celeri-remoulade)
-
-#### luminance (Rust)
-
+<section class="section">
+<div class="card">
+<div class="card-content">
+<div class="media">
+<div class="media-content">
+<div class="columns">
+<div class="column">
+<p class="title is-4">luminance</p>
+<p class="subtitle is-6">2016</p>
+<a class="icon" href="https://github.com/phaazon/luminance-rs"><i class="fa fa-github"></i></a> <a class="icon" href="https://crates.io/crates/luminance"><i class="fa fa-gear"></i></a> <a class="icon" href="https://docs.rs/luminance"><i class="fa fa-search"></i></a>
+</div>
+<div class="column">
+<p class="subtitle is-6">Rust graphics framework</p>
+</div>
+</div>
+</div>
+</div>
+<div class="content">
 I learned [Rust](https://www.rust-lang.org) by March, 2016. Fallen in love with that language, which
 is very similar to Haskell with the control over the memory and predictive performance as an extra
 argument, I decided to jump in and migrate as fast as the very next day my Haskell luminance
@@ -95,15 +97,29 @@ the interface on the fly to make it more comfortable and benchmarking.
 By the time of writing, it’s been 10 releases. I don’t blog a lot about it because I’m intensively
 writing my demoscene release. But be sure, I will blog about it and write several articles on how to
 dig in and how to use luminance.
+</div>
+</div>
+</div>
+</section>
 
-[luminance](https://github.com/phaazon/luminance-rs)
-
-[luminance-gl](https://github.com/phaazon/luminance-gl-rs)
-
-### 2015
-
-#### luminance (Haskell)
-
+<section class="section">
+<div class="card">
+<div class="card-content">
+<div class="media">
+<div class="media-content">
+<div class="columns">
+<div class="column">
+<p class="title is-4">luminance</p>
+<p class="subtitle is-6">2015</p>
+<a class="icon" href="https://github.com/phaazon/luminance"><i class="fa fa-github"></i></a>
+</div>
+<div class="column">
+<p class="subtitle is-6">Haskell graphics framework</p>
+</div>
+</div>
+</div>
+</div>
+<div class="content">
 **luminance** is born from the ashes of **quaazar**. The aims of luminance are simple: it’s a
 wrapper over graphics technologies (OpenGL) designed to be **stateless**, **type-safe** and
 **simple**.
@@ -115,22 +131,42 @@ about.
 
 After more than 36 releases, I decided to migrate the framework into its
 [Rust](https://www.rust-lang.org) version.
+</div>
+</div>
+</div>
+</section>
 
-[luminance](https://github.com/phaazon/luminance)
-
-[luminance-gl](https://github.com/phaazon/luminance-gl)
-
-[luminance-samples](https://github.com/phaazon/luminance-samples)
-
-#### quaazar
-
-![](/static/imgs/quaazar.png)
-
+<section class="section">
+<div class="card">
+<div class="card-content">
+<div class="media">
+<div class="media-left">
+<figure class="image is-256x256">
+![Image](/static/imgs/quaazar.png)
+</figure>
+</div>
+<div class="media-content">
+<div class="columns">
+<div class="column">
+<p class="title is-4">Quaazar</p>
+<p class="subtitle is-6">2015</p>
+<a class="icon" href="https://github.com/phaazon/quaazar"><i class="fa fa-github"></i></a>
+</div>
+<div class="column">
+<p class="subtitle is-6">Haskell demoscene framework</p>
+<span class="icon"><i class="fa fa-warning"></i></span> <p class="subtitle is-6">discontinued</p>
+</div>
+</div>
+</div>
+</div>
+<div class="content">
 **quaazar** was my first attempt at graphics programming serious stuff in Haskell for demoscene
 purposes. After coming to the realization that I was building something way too much generic, I
 decided to discontinue the project and extract a sub part of it (luminance).
-
-[Github](https://github.com/phaazon/quaazar)
+</div>
+</div>
+</div>
+</section>
 
 ### 2014
 
