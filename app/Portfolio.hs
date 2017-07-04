@@ -7,8 +7,9 @@ module Portfolio (
 
 import Control.Monad (void)
 import Control.Monad.IO.Class (MonadIO(..))
-import Data.Text (Text)
+import Data.Foldable (for_)
 import Data.Monoid ((<>))
+import Data.Text (Text)
 import Prelude hiding (div)
 import Servant (Get)
 import Servant.HTML.Blaze (HTML)
@@ -27,15 +28,16 @@ category name subname color = do
     h1 ! class_ "title" $ name
     h2 ! class_ "subtitle is-small" $ subname
 
-entryThumbnail :: AttributeValue -> Html -> Html -> Html -> Html -> Html -> Html
-entryThumbnail imgSrc prodName prodQuickInfo icons prodExtraInfo content = do
+entry :: Maybe AttributeValue -> Html -> Html -> Html -> Html -> Html -> Html
+entry imgSrc prodName prodQuickInfo icons prodExtraInfo content = do
   section ! class_ "section" $ do
     div ! class_ "card" $ do
       div ! class_ "card-content" $ do
         div ! class_ "media" $ do
-          div ! class_ "media-left" $ do
-            figure ! class_ "image is-256x256" $
-              img ! alt "Image" ! src ("/static/imgs/" <> imgSrc)
+          for_ imgSrc $ \imgSrc' ->
+            div ! class_ "media-left" $ do
+              figure ! class_ "image is-256x256" $
+                img ! alt "Image" ! src ("/static/imgs/" <> imgSrc')
           div ! class_ "media-content" $ do
             div ! class_ "columns" $ do
               div ! class_ "column" $ do
@@ -66,12 +68,12 @@ portfolio = wrapper "Portfolio" $ do
 
 entryCeleriRemoulade :: Html
 entryCeleriRemoulade =
-    entryThumbnail "celeri_remoulade.png"
-                   "Céleri Rémoulade"
-                   "Evoke 2016"
-                   icons
-                   extra
-                   content
+    entry (Just "celeri_remoulade.png")
+          "Céleri Rémoulade"
+          "Evoke 2016"
+          icons
+          extra
+          content
 
   where
     icons = do
