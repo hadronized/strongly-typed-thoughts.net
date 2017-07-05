@@ -48,6 +48,7 @@ portfolio = wrapper "Portfolio" $ do
   entryIonosphere
   entryHeatStation
   entryLR2LR
+  entrySkyoralis
 
 category :: Html -> Html -> AttributeValue -> Html
 category name subname color = do
@@ -110,7 +111,7 @@ entryOutline2017Invitation =
 entrySpectra :: Html
 entrySpectra =
     entry Nothing
-          "Spectra"
+          "spectra"
           "2016–"
           icons
           extra
@@ -122,7 +123,7 @@ entrySpectra =
       icon "https://docs.rs/spectra" "fa-search"
     extra = p ! class_ "subtitle is-6" $ "Rust demoscene framework"
     content = do
-      p "Spectra is my Rust demoscene framework. It features a lot of cool features, among:"
+      p "spectra is my Rust demoscene framework. It features a lot of cool features, among:"
       ul $ do
         li "resource hot reloading"
         li "splines, for animation or anything that requires interpolation"
@@ -163,7 +164,7 @@ entryCeleriRemoulade =
 entryLuminanceRust :: Html
 entryLuminanceRust =
     entry Nothing
-          "Luminance"
+          "luminance"
           "2016"
           icons
           extra
@@ -194,7 +195,7 @@ entryLuminanceRust =
 entryLuminanceHaskell :: Html
 entryLuminanceHaskell =
     entry Nothing
-          "Luminance"
+          "luminance"
           "2015"
           icons
           extra
@@ -217,7 +218,7 @@ entryLuminanceHaskell =
 entryQuaazar :: Html
 entryQuaazar =
     entry (Just "quaazar.png")
-          "Quaazar"
+          "quaazar"
           "2015"
           icons
           extra
@@ -299,3 +300,23 @@ entryLR2LR =
       p $ do
         void "If you plan to test it on your own Linux machine, you’ll find some hints in the README"
         void " file if you issue any trouble."
+
+entrySkyoralis :: Html
+entrySkyoralis =
+    entry (Just "skyoralis.png")
+          "skyoralis"
+          "2013"
+          icons
+          extra
+          content
+  where
+    icons = pure ()
+    extra = p ! class_ "subtitle is-6" $ "C++ demoscene framework"
+    content = do
+      p $ do
+        void "My very own demoscene engine. It’s designed to help me write my demoscene releases,"
+        void " especially 64k intro. Written in C++11, OpenGL and GLSL."
+      p $ do
+        void "Up to now, no public version is available. The first intro using"
+        void " skyoralis was Heat Station, but it actually used less than 10% of its features."
+      p "I decided to close that project because I moved it into Haskell."
