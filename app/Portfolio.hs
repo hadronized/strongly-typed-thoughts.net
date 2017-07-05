@@ -50,6 +50,9 @@ portfolio = wrapper "Portfolio" $ do
   entryLR2LR
   entrySkyoralis
 
+  category "Community" "Personal projects, contributions, Open Source" "is-primary"
+  entryHID
+
 category :: Html -> Html -> AttributeValue -> Html
 category name subname color = do
   section ! class_ ("section hero content is-right " <> color) $ do
@@ -320,3 +323,27 @@ entrySkyoralis =
         void "Up to now, no public version is available. The first intro using"
         void " skyoralis was Heat Station, but it actually used less than 10% of its features."
       p "I decided to close that project because I moved it into Haskell."
+
+entryHID :: Html
+entryHID =
+    entry Nothing
+          "hid & msi-kb-backlit"
+          "2015"
+          icons
+          extra
+          content
+  where
+    icons = do
+      icon "https://github.com/phaazon/msi-kb-backlit" "fa-github"
+      icon "http://hackage.haskell.org/package/hid" "fa-database"
+    extra = p ! class_ "subtitle is-6" $ "R.E. of hardware (HID MSI laptop keyboard LEDs)"
+    content = do
+      p $ do
+        void "Those two projects originate from my actual laptop, a MSI GS60 Ghost Pro, with backlit"
+        void " keyboard. The colors are customizable and MSI has provided the users with a tool –"
+        void " SteelEngine – to customize them. However, that tool doesn’t work at all under Linux"
+        void " nor Mac OSX. I decided to understand how the protocol is used, and write my own tool."
+        void " I also wrote the "
+        a ! href "https://github.com/phaazon/hid" $ "hid"
+        void " Haskell library to help me write that tool, and both the packages are available as"
+        void " BSD-3 softwares."
