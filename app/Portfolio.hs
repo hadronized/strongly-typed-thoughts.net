@@ -14,7 +14,7 @@ import Prelude hiding (div, span)
 import Servant (Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
-import Text.Blaze.Html5
+import Text.Blaze.Html5 hiding (style)
 import Text.Blaze.Html5.Attributes hiding (icon, span)
 
 import Markdown (markdownToHtml)
@@ -46,6 +46,8 @@ portfolio = wrapper "Portfolio" $ do
   entryLuminanceHaskell
   entryQuaazar
   entryIonosphere
+  entryHeatStation
+  entryLR2LR
 
 category :: Html -> Html -> AttributeValue -> Html
 category name subname color = do
@@ -61,7 +63,7 @@ entry imgSrc prodName prodQuickInfo icons prodExtraInfo content = do
         div ! class_ "media" $ do
           for_ imgSrc $ \imgSrc' ->
             div ! class_ "media-left" $ do
-              figure ! class_ "image is-256x256" $
+              figure ! class_ "image is-256x256" ! style "max-width: 400px;" $
                 img ! alt "Image" ! src ("/static/imgs/" <> imgSrc')
           div ! class_ "media-content" $ do
             div ! class_ "columns" $ do
@@ -271,3 +273,29 @@ entryHeatStation =
         " skyoralis, my demoscene 3D realtime engine at that time. It was a test-release for my"
         " engine, and I had to rush the Windows port, so take it as-is!"
       p $ "It ranked 4th/4, behind Farbrausch, Inque and Stroboholics."
+
+entryLR2LR :: Html
+entryLR2LR =
+    entry (Just "lr2lr.png")
+          "Lightning Road To Liquid Radiator"
+          "Outline 2013"
+          icons
+          extra
+          content
+  where
+    icons = do
+      icon "http://www.youtube.com/watch?v=oUa2BvlDWYQ" "fa-youtube"
+      icon "https://github.com/phaazon/lr2lr" "fa-github"
+      icon "http://www.pouet.net/prod.php?which=61355" "fa-globe"
+    extra = do
+      p ! class_ "subtitle is-6" $ "PC Intro 64k (Linux)"
+      p ! class_ "subtitle is-6" $ "Ranked 4th/9"
+    content = do
+      p $ do
+        void "Lightning Road To Liquid Radiator is my very first release as a demoscener. It’s a"
+        void " Linux 64k intro I released at Outline 2013 in the PC combined demo/intro compo"
+        void " (demo, 4k, 64k); May 9th-12th. It ranked 4th/9. I’m pretty proud of it. The binary"
+        void " file weighs 42k and has no data at all."
+      p $ do
+        void "If you plan to test it on your own Linux machine, you’ll find some hints in the README"
+        void " file if you issue any trouble."
