@@ -31,11 +31,11 @@ portfolio = wrapper "Portfolio" $ do
     p "The portfolio is organized by:"
     ul $ do
       li $ a ! href "#demoscene" $ "demoscene"
-      li $ a ! href "#community" $ "community"
-      li $ a ! href "#contributions" $ "contributions"
-      li $ a ! href "#school" $ "school"
+      li $ a ! href "#community" $ "community"
+      li $ a ! href "#contributions" $ "contributions"
+      li $ a ! href "#school" $ "school"
     p $ do
-      void "If you want a more comprehensive list of what I do, feel free to visit my "
+      void "If you want a more comprehensive list of what I do, feel free to visit my "
       a ! href "https://github.com/phaazon" $ "github page"
 
   category "Demoscene" "Artsy, size-limited, mathematical, underground" "is-info"
@@ -50,7 +50,7 @@ portfolio = wrapper "Portfolio" $ do
   entryLR2LR
   entrySkyoralis
 
-category :: Html -> Html -> AttributeValue -> Html
+category :: Html -> Html -> AttributeValue -> Html
 category name subname color = do
   section ! class_ ("section hero content is-right " <> color) $ do
     h1 ! class_ "title" $ name
@@ -105,7 +105,7 @@ entryOutline2017Invitation =
         void " spectra demoscene framework."
       p $ do
         void "The overall demo is not impressive and doesn’t look that good, but I’m really proud of"
-        void " it, because it was made in only two weeks and I tested a lot of spectra’s features in"
+        void " it, because it was made in only two weeks and I tested a lot of spectra’s features in"
         void " the time of writing the production."
 
 entrySpectra :: Html
@@ -215,7 +215,7 @@ entryLuminanceHaskell =
         void " that’s exactly what luminance is all about."
       p "After more than 36 releases, I decided to migrate the framework into its Rust version."
 
-entryQuaazar :: Html
+entryQuaazar :: Html
 entryQuaazar =
     entry (Just "quaazar.png")
           "quaazar"
@@ -232,7 +232,7 @@ entryQuaazar =
         " purposes. After coming to the realization that I was building something way too much"
         " generic, I decided to discontinue the project and extract a sub part of it (luminance)."
 
-entryIonosphere :: Html
+entryIonosphere :: Html
 entryIonosphere =
     entry Nothing
         "Ionosphere"
