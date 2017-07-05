@@ -52,6 +52,15 @@ portfolio = wrapper "Portfolio" $ do
 
   category "Community" "Personal projects, contributions, Open Source" "is-primary"
   entryHID
+  entrySmoothie
+  entryAL
+  entryPhaazonNET
+  entryIRCBot
+  entryMonadJournal
+  entryHSFModEx
+  entryLeaf
+  entryPhraskell
+  entrySDB
 
 category :: Html -> Html -> AttributeValue -> Html
 category name subname color = do
@@ -347,3 +356,152 @@ entryHID =
         a ! href "https://github.com/phaazon/hid" $ "hid"
         void " Haskell library to help me write that tool, and both the packages are available as"
         void " BSD-3 softwares."
+
+entrySmoothie :: Html
+entrySmoothie =
+    entry Nothing
+          "smoothie"
+          "2015"
+          icons
+          extra
+          content
+  where
+    icons = do
+      icon "https://github.com/phaazon/smoothie" "fa-github"
+      icon "http://hackage.haskell.org/package/smoothie" "fa-database"
+    extra = p ! class_ "subtitle is-6" $ "N-ary spline interpolation"
+    content = do
+      p $ do
+        void "A Haskell package to make it easy to build splines. The project has received an interest"
+        void " from Haskellers. The name comes from the verb “to smooth”, which we can assimilate to"
+        void " smoothed curves."
+
+entryAL :: Html
+entryAL =
+    entry Nothing
+          "al"
+          "2014"
+          icons
+          extra
+          content
+  where
+    icons = do
+      icon "https://github.com/phaazon/al" "fa-github"
+      icon "http://hackage.haskell.org/package/al" "fa-database"
+    extra = p ! class_ "subtitle is-6" $ "OpenAL Haskell binding"
+    content = do
+      p "I maintain an OpenAL Haskell binding."
+
+entryPhaazonNET :: Html
+entryPhaazonNET =
+    entry Nothing
+          "phaazon.net"
+          "2014–"
+          icons
+          extra
+          content
+  where
+    icons = icon "https://github.com/phaazon/phaazon.net" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "This very website"
+    content =
+      p "This website is a great example of fun I have on my spare time. Written in pure Haskell."
+
+entryIRCBot :: Html
+entryIRCBot =
+    entry Nothing
+          "IRC bot"
+          "2014–"
+          icons
+          extra
+          content
+  where
+    icons = do
+      icon "https://github.com/phaazon/kwak" "fa-github"
+      icon "https://github.com/phaazon/tellbot" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "Rust & Haskell IRC bot"
+    content = do
+      p $ do
+        void "A bot over IRC. It’s used to leave message to someone who’s off, to administrate a"
+        void " channel, to parse and give the title behind URLs and it features a stupid yet funny"
+        void " Markov chain feature that learns from people talking in a given channel."
+
+entryMonadJournal :: Html
+entryMonadJournal =
+    entry Nothing
+          "monad-journal"
+          "2013"
+          icons
+          extra
+          content
+  where
+    icons  = do
+      icon "https://github.com/phaazon/monad-journal" "fa-github"
+      icon "http://hackage.haskell.org/package/monad-journal" "fa-database"
+    extra = p ! class_ "subtitle is-6" $ "A Haskell pure logger"
+    content = do
+      p "A logger solution in Haskell. It exports a typeclass and a monad transformer for ease."
+      p $ do
+        void "Because "
+        a ! href "https://github.com/kazu-yamamoto/ghc-mod" $ "ghc-mod"
+        void " uses it, monad-journal gets a lot of downloads, and I’m pretty proud of it then!"
+
+entryHSFModEx :: Html
+entryHSFModEx = entry Nothing "hsFModEx" "2013" icons extra content
+  where
+    icons = do
+      icon "https://github.com/phaazon/hsFModEx" "fa-github"
+      icon "http://hackage.haskell.org/package/FModExRaw" "fa-database"
+    extra = p ! class_ "subtitle is-6" $ "Haskell FModEx binding"
+    content = do
+      p $ do
+        void "The official Haskell FModEx binding. Up to now I maintain the raw binding. It’s intended"
+        void " to be wraped up again (like OpenGLRaw). Up to now, the binding works but not all"
+        void " functions are exported."
+      p "2017 note: abandonned project."
+
+entryLeaf :: Html
+entryLeaf = entry Nothing "Leaf" "2013" icons extra content
+  where
+    icons = icon "https://github.com/phaazon/leaf" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "A Haskell portfolio generator"
+    content = do
+      p $ do
+        void "leaf is a portfolio generator that aims to be really simple to use. My first porfolio was"
+        void " written thanks to that tool! It enables you to write your portfolio in Markdown, so"
+        void " it’s really convenient to use. You can find all directions to get started on Github."
+
+entryPhraskell :: Html
+entryPhraskell = entry (Just "phraskell.png") "phraskell" "2013" icons extra content
+  where
+    icons = icon "https://github.com/phaazon/phraskell" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "A Haskell fractal viewer!"
+    content = do
+      p $ do
+        void "phraskell is a fractal viewer. For now, it only supports Mandelbrot set, but is"
+        void " planned to support more and more fractal types. It aims to be user-friendly, and"
+        void " includes these features:"
+      ul $ do
+        li "fractal colorschemes (not yet)"
+        li "different kinds of fractal representations (standard, buddhabrot, etc.)"
+        li "(not yet)"
+        li "zoom with a zoom-frame in order to see what you zoomin"
+        li "specify the fractal progression at runtime (not yet)"
+        li "change the colors at runtime (not yet)"
+        li "screenshot (not yet)"
+        li "and others! (obviously not yet at all)"
+      p "It’s written in Haskell, and is my first real Haskell program."
+      p . b $ "01/07/13 update: I’ve saved that project for later since I’m very busy right now."
+
+entrySDB :: Html
+entrySDB = entry Nothing "sdb" "2013" icons extra content
+  where
+    icons = icon "https://github.com/phaazon/sdb" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "Home-made D builder"
+    content = do
+      p "sdb stands for Simple D Builder. It’s a D builder you can use the same way as you do with rdmd."
+      p $ do
+        void "Actually, you don’t want to use sdb. Why, would you say? Well, first, even if it’s"
+        void " quite okay for a simple builder, rdmd is likely far away better. Furthermore, I"
+        void " haven’t updated nor even read any D lines from sdb for a while. Finally, I don’t"
+        void " plan to do so in the future. You can consider sdb* v0.9.5 the latest version."
+        void " Forever (woah that’s so sad :( )."
