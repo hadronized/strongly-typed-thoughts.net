@@ -144,7 +144,7 @@ entryCeleriRemoulade =
     icons = do
       icon "https://www.youtube.com/watch?v=pYqZS1C_7PU" "fa-youtube"
       icon "https://github.com/phaazon/celeri-remoulade" "fa-github"
-      icon "https://demozoo.org/productions/161887" "fa-microchip"
+      icon "https://demozoo.org/productions/161881" "fa-microchip"
       icon "http://www.pouet.net/prod.php?which=67966" "fa-globe"
     extra = do
       p ! class_ "subtitle is-6" $ "PC Demo"
