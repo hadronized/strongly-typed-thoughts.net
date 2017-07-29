@@ -7,17 +7,17 @@ module Portfolio (
 
 import Control.Monad (void)
 import Control.Monad.IO.Class (MonadIO(..))
+import Data.Char (toLower)
 import Data.Foldable (for_)
 import Data.Monoid ((<>))
-import Data.Text (Text)
-import Prelude hiding (div, span)
+import Data.String (IsString(..))
+import Prelude hiding (div, id, span)
 import Servant (Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
 import Text.Blaze.Html5 hiding (style)
-import Text.Blaze.Html5.Attributes hiding (icon, span)
+import Text.Blaze.Html5.Attributes hiding (content, icon, name, span)
 
-import Markdown (markdownToHtml)
 import Wrapper (wrapper)
 
 type PortfolioApi = Get '[HTML] Html
@@ -32,7 +32,6 @@ portfolio = wrapper "Portfolio" $ do
     ul $ do
       li $ a ! href "#demoscene" $ "demoscene"
       li $ a ! href "#community" $ "community"
-      li $ a ! href "#contributions" $ "contributions"
       li $ a ! href "#school" $ "school"
     p $ do
       void "If you want a more comprehensive list of what I do, feel free to visit my "
@@ -62,10 +61,16 @@ portfolio = wrapper "Portfolio" $ do
   entryPhraskell
   entrySDB
 
-category :: Html -> Html -> AttributeValue -> Html
+  category "School" "University, homework, fun, pizza" "is-warning"
+  entryBattleRobot
+  entryGameOfLifeRewrite
+  entryBejeweledRewrite
+  entryPongRewrite
+
+category :: String -> Html -> AttributeValue -> Html
 category name subname color = do
   section ! class_ ("section hero content is-right " <> color) $ do
-    h1 ! class_ "title" $ name
+    h1 ! class_ "title" ! id (fromString $ fmap toLower name) $ toHtml name
     h2 ! class_ "subtitle is-small" $ subname
 
 entry :: Maybe AttributeValue -> Html -> Html -> Html -> Html -> Html -> Html
@@ -240,9 +245,9 @@ entryQuaazar =
     extra = p ! class_ "subtitle is-6" $ "Haskell demoscene framework"
     content = do
       p $ do
-        "quaazar was my first attempt at serious graphics programming in Haskell for demoscene"
-        " purposes. After coming to the realization that I was building something way too much"
-        " generic, I decided to discontinue the project and extract a sub part of it (luminance)."
+        void "quaazar was my first attempt at serious graphics programming in Haskell for demoscene"
+        void " purposes. After coming to the realization that I was building something way too much"
+        void " generic, I decided to discontinue the project and extract a sub part of it (luminance)."
 
 entryIonosphere :: Html
 entryIonosphere =
@@ -261,8 +266,8 @@ entryIonosphere =
       p ! class_ "subtitle is-6" $ "Ranked 15th/18"
     content = do
       p $ do
-        "Ionosphere is my very first attempt at music making. Back from VIP2014, I decided to go"
-        " wild, buy Renoise 3.0 and make a tiny but lovely song in 4 hours."
+        void "Ionosphere is my very first attempt at music making. Back from VIP2014, I decided to go"
+        void " wild, buy Renoise 3.0 and make a tiny but lovely song in 4 hours."
 
 entryHeatStation :: Html
 entryHeatStation =
@@ -282,10 +287,10 @@ entryHeatStation =
       p ! class_ "subtitle is-6" $ "Ranked 4th/4"
     content = do
       p $ do
-        "Heat Station is my second 64k intro, released at Evoke 2013. I wrote it in C++ with"
-        " skyoralis, my demoscene 3D realtime engine at that time. It was a test-release for my"
-        " engine, and I had to rush the Windows port, so take it as-is!"
-      p $ "It ranked 4th/4, behind Farbrausch, Inque and Stroboholics."
+        void "Heat Station is my second 64k intro, released at Evoke 2013. I wrote it in C++ with"
+        void " skyoralis, my demoscene 3D realtime engine at that time. It was a test-release for my"
+        void " engine, and I had to rush the Windows port, so take it as-is!"
+      p "It ranked 4th/4, behind Farbrausch, Inque and Stroboholics."
 
 entryLR2LR :: Html
 entryLR2LR =
@@ -505,3 +510,78 @@ entrySDB = entry Nothing "sdb" "2013" icons extra content
         void " haven’t updated nor even read any D lines from sdb for a while. Finally, I don’t"
         void " plan to do so in the future. You can consider sdb* v0.9.5 the latest version."
         void " Forever (woah that’s so sad :( )."
+
+entryBattleRobot :: Html
+entryBattleRobot = entry (Just "battlerobot.png") "Battle Robot" "2011" icons extra content
+  where
+    icons = icon "https://http://dimitri.sabadie.free.fr/Download/phaazon-battlerobot_labyrinthe.tar.gz" "fa-download"
+    extra = p ! class_ "subtitle is-6" $ "School Java AI game"
+    content = do
+      p $ do
+        void "This is a Java project I had to complete the semester before the last one at"
+        void " ”IUT”. Our teacher wrote a basic labyrinth and an interface for a player,"
+        void " and we have to present an implementation that solves the labyrinth in local view"
+        void " (the player only knows what rooms are next to him). Then all implementations"
+        void " were put against each other like in a competition, and the best algorithm was"
+        void " found regarding some traits like number of moves and so on."
+      p $ do
+        void "The first part of the project was to write a correct implementation of the"
+        void " player movements. The less moves the player does to find the exit point the more"
+        void " points he’s given."
+      p $ do
+        void "The second part of the project was to alter the implementation of our algorithm."
+        void " Indeed, since the teacher had added health points to players and traps that"
+        void " decrease life, we had to implement a brand new way to run the labyrinth. The"
+        void " less moves and more health points left at the exit point the more points he’s"
+        void " given."
+      p $ do 
+        void "I won both the two parts. It was meant to because all folks used random"
+        void " strategies like “the right handed way” or “I have no idea where I’m going to”,"
+        void " while I implemented connected and oriented graphs, with local"
+        void " pseudo-deconnections (isolation of known areas of the labyrinth to make it less"
+        void " dense) and path finding based on complexe heuristics. It was a really nice"
+        void " project!"
+      p $ do 
+        void "The archive contains the java code you can execute, some labyrinths to test"
+        void " (as .txt files), and two papers I have to write to explain all my choices."
+
+entryGameOfLifeRewrite :: Html
+entryGameOfLifeRewrite = entry (Just "game_of_life.png") "Rewrite of “Game Of Life”" "2011" icons extra content
+  where
+    icons = icon "https://github.com/phaazon/iutbx1-ds/tree/master/gol" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "C++ cellular automaton"
+    content = do
+      p $ do
+        void "Game of Life is a cellular automaton invented by Jon Conway in 1970."
+        void " At the “IUT”, we had to write our very own version, for the second semester. We"
+        void " had to implement brand new features, such as being able to change the life"
+        void " rules through a graphic interface."
+      p $ do
+        void "We also had to write that project in imperative C++, with the SFML library"
+        void " and use a MV (MVC without C) software architecture."
+      p $ do
+        void "Note: I tried – for the fun – compiling it again. Turns out that the latest"
+        void " version of SFML breaks retrocompatibility, then it’s not sure you are able"
+        void " to compile it as well. Sorry then. If you really want to use it, it’s open"
+        void " source, so write a patch on github, and I’ll accept the pull request! :)"
+
+entryBejeweledRewrite :: Html
+entryBejeweledRewrite = entry (Just "bejeweled.png") "Rewrite of “Bejeweled”" "2011" icons extra content
+  where
+    icons = icon "https://github.com/phaazon/iutbx1-ds/tree/master/bejeweled)" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "C++ game"
+    content = do
+      p $ do
+        void "Bejeweled is a game with a 8x8 wired diamonds grid of different colors,"
+        void " randomly set. Written in *imperative C++*, with a Top10 ranking system,"
+        void " multiplayer, and so on…"
+
+entryPongRewrite :: Html
+entryPongRewrite = entry (Just "pong.png") "Rewrite of “Pong”" "2011" icons extra content
+  where
+    icons = icon "https://github.com/phaazon/iutbx1-ds/tree/master/pong)" "fa-github"
+    extra = p ! class_ "subtitle is-6" $ "C++ game"
+    content = do
+      p $ do
+        void "We don’t introduce this game anymore. Written in imperative C++. With fancy"
+        void " effects. No just kidding. Written in one hour :D."
