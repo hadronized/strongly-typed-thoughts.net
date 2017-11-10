@@ -2,7 +2,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Home (
-  Home,
+  HomeApi,
   home
 ) where
 
@@ -23,9 +23,9 @@ import Wrapper (wrapper)
 
 import Data.Text
 
-type Home = Get '[HTML] Html
+type HomeApi = Get '[HTML] Html
 
-home :: Server Home
+home :: Server HomeApi
 home = do
   mustacheTemplate <- liftIO $ fmap (compileTemplate "home") (T.readFile "static/content/home.md")
 

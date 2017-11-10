@@ -2,23 +2,24 @@
 {-# LANGUAGE TypeOperators #-}
 
 module Webapp (
-  webapp
-) where
+    webapp
+  ) where
 
+import Control.Concurrent.STM.TVar (TVar)
 import Servant (Proxy(..), (:>), (:<|>)(..))
 import Servant.Server (Application, Server, serve)
 
-import FileBrowser (FileBrowser, fileBrowser)
-import Home (Home, home)
-import Portfolio (Portfolio, portfolio)
+import FileBrowser (FileBrowserApi, PubList, fileBrowser)
+import Home (HomeApi, home)
+import Portfolio (PortfolioApi, portfolio)
 
-webapp :: Application
-webapp = serve (Proxy :: Proxy API) server
+webapp :: TVar PubList -> Application
+webapp = serve (Proxy :: Proxy Api) . server
 
-type API =
-       Home
-  :<|> "portfolio" :> Portfolio
-  :<|> "browse" :> FileBrowser
+type Api =
+       HomeApi
+  :<|> "portfolio" :> PortfolioApi
+  :<|> "browse" :> FileBrowserApi
 
-server :: Server API
-server = home :<|> portfolio :<|> fileBrowser
+server :: TVar PubList -> Server Api
+server filesTVar = home :<|> portfolio :<|> fileBrowser filesTVar
