@@ -22,7 +22,7 @@ import Wrapper (wrapper)
 
 type PortfolioApi = Get '[HTML] Html
 
-portfolio :: Server Portfolio
+portfolio :: Server PortfolioApi
 portfolio = wrapper "Portfolio" $ do
   section ! class_ "container section content" $ do
     h1 ! class_ "title" $ "Portfolio"

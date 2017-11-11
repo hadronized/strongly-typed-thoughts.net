@@ -1,8 +1,8 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeOperators #-}
 
-module Webapp (
-    webapp
+module WebApp (
+    webApp
   ) where
 
 import Control.Concurrent.STM.TVar (TVar)
@@ -14,10 +14,10 @@ import FileBrowser (FileBrowserApi, PubList, fileBrowser)
 import Home (HomeApi, home)
 import Portfolio (PortfolioApi, portfolio)
 
-webapp :: TVar PubList -> Application
-webapp = serve (Proxy :: Proxy Api) . server
+webApp :: TVar PubList -> Application
+webApp = serve (Proxy :: Proxy Api) . server
 
-type API =
+type Api =
        HomeApi
   :<|> "portfolio" :> PortfolioApi
   :<|> "browse" :> FileBrowserApi

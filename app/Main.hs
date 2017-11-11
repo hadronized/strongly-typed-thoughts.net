@@ -18,4 +18,4 @@ main = do
   filesTVar <- newTVarIO defaultPubList
   refreshBrowserFiles filesTVar
 
-  run (fromIntegral port) (webapp filesTVar)
+  run (fromIntegral port) (webApp filesTVar)
