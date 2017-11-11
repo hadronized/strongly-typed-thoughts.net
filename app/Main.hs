@@ -6,12 +6,18 @@ import Data.Maybe  (fromMaybe)
 import Data.Yaml (decodeFile)
 import FileBrowser (defaultPubList, refreshBrowserFiles)
 import ServerConfig (ServerConfig(..))
+import System.Directory (createDirectoryIfMissing)
 import WebApp (webApp)
 
 main :: IO ()
 main = do
-  ServerConfig port <- fmap (fromMaybe def) (decodeFile "server.yaml")
+  conf <- fmap (fromMaybe def) (decodeFile "server.yaml")
+  let port = configPort conf
+
   putStrLn $ "starting server on port " ++ show port
+
+  -- create the directory to contain uploads if it doesn’t exist yet
+  createDirectoryIfMissing True (configUploadDir conf)
 
   -- create a TVar to hold browser’s files; those will get reloaded everytime a new file is pushed
   -- and at initialization

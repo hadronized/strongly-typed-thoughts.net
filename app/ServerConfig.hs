@@ -11,6 +11,7 @@ import Numeric.Natural (Natural)
 
 data ServerConfig = ServerConfig {
     configPort :: Natural
+  , configUploadDir :: FilePath
   } deriving (Eq, Generic, Show)
 
 instance FromJSON ServerConfig
@@ -18,5 +19,6 @@ instance ToJSON ServerConfig
 
 instance Default ServerConfig where
   def = ServerConfig {
-    configPort = 8000
-  }
+      configPort = 8000
+    , configUploadDir = "media/uploads"
+    }
