@@ -475,7 +475,7 @@ entryLeaf = entry Nothing "Leaf" "2013" icons extra content
         void " it’s really convenient to use. You can find all directions to get started on Github."
 
 entryPhraskell :: Html
-entryPhraskell = entry (Just "phraskell.png") "phraskell" "2013" icons extra content
+entryPhraskell = entry Nothing "phraskell" "2013" icons extra content
   where
     icons = icon "https://github.com/phaazon/phraskell" "fa-github"
     extra = p ! class_ "subtitle is-6" $ "A Haskell fractal viewer!"
