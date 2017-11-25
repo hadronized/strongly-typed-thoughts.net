@@ -1,8 +1,9 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE TypeOperators #-}
 
 module FileBrowser (
     FileBrowserApi
-  , fileBrowser
+  , fileBrowserHandler
   , PubList
   , defaultPubList
   , refreshBrowserFiles
@@ -14,7 +15,7 @@ import Control.Monad (unless)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.List (isInfixOf, sort)
 import Magic (MagicFlag(..), magicFile, magicLoadDefault, magicOpen)
-import Servant (Get)
+import Servant ((:<|>)(..), (:>), Get, JSON, Post, NoContent(..))
 import Servant.Server (Server)
 import Servant.HTML.Blaze (HTML)
 import System.Directory (getDirectoryContents)
@@ -22,13 +23,23 @@ import System.FilePath ((</>), takeFileName)
 import Text.Blaze.Html5 (AttributeValue, Html, (!), a, h3, li, section, toHtml, toValue, ul)
 import Text.Blaze.Html5.Attributes as A (class_, href, id)
 
-type FileBrowserApi = Get '[HTML] Html
+import Wrapper (wrapper)
+
+type FileBrowserApi =
+       BrowserApi
+  :<|> RefreshBrowserApi
+
+type BrowserApi = Get '[HTML] Html
+type RefreshBrowserApi = "refresh" :> Get '[HTML] Html
 
 uploadDir :: FilePath
 uploadDir = "media/uploads"
 
-fileBrowser :: TVar PubList -> Server FileBrowserApi
-fileBrowser filesTVar = liftIO . fmap renderPubList $ readTVarIO filesTVar
+fileBrowserHandler :: TVar PubList -> Server FileBrowserApi
+fileBrowserHandler files = fileBrowser files :<|> refreshBrowserFilesHandler files
+
+fileBrowser :: TVar PubList -> Server BrowserApi
+fileBrowser filesTVar = liftIO $ fmap renderPubList (readTVarIO filesTVar) >>= wrapper "Browse"
 
 -- A `PubList` is a a structure that represents public files, sorted by types.
 data PubList = PubList {
@@ -84,22 +95,30 @@ createPubList files = do
     isPaper = isInfixOf "pdf"
 
 -- Replace the current PubList in a TVar by freshly acquired data.
-refreshBrowserFiles :: TVar PubList -> IO ()
-refreshBrowserFiles var = do
+refreshBrowserFiles :: (MonadIO m) => TVar PubList -> m ()
+refreshBrowserFiles var = liftIO $ do
   files <- fmap (filter (not . flip elem [".", ".."])) (getDirectoryContents uploadDir)
   pl <- createPubList (map (uploadDir </>) files)
   atomically (writeTVar var pl)
 
+-- Same as refreshBrowserFiles but for endpoint purpose.
+refreshBrowserFilesHandler :: TVar PubList -> Server RefreshBrowserApi
+refreshBrowserFilesHandler files = do
+  refreshBrowserFiles files
+  wrapper "Refresh" $
+    section ! class_ "container section content" $ "Refreshed!"
+
 renderPubList :: PubList -> Html
-renderPubList pl = do
-    listView (pubImages pl) "images" "Images"
-    listView (pubExecutables pl) "executables" "Executables"
-    listView (pubVideos pl) "videos" "Videos"
-    listView (pubArchives pl) "archives" "Archives"
-    listView (pubAudios pl) "audios" "Audios"
-    listView (pubTexts pl) "texts" "Texts"
-    listView (pubPapers pl) "papers" "Papers"
-    listView (pubUnknown pl) "unknown" "Unknown"
+renderPubList pl =
+    section ! class_ "container section content" $ do
+      listView (pubImages pl) "images" "Images"
+      listView (pubExecutables pl) "executables" "Executables"
+      listView (pubVideos pl) "videos" "Videos"
+      listView (pubArchives pl) "archives" "Archives"
+      listView (pubAudios pl) "audios" "Audios"
+      listView (pubTexts pl) "texts" "Texts"
+      listView (pubPapers pl) "papers" "Papers"
+      listView (pubUnknown pl) "unknown" "Unknown"
   where
     listView :: [FilePath] -> String -> String -> Html
     listView l cl tl =

@@ -21,10 +21,10 @@ wrapper t cont = do
       head $ do
         H.title (toHtml $ t)
         meta ! charset "utf-8"
-        link ! rel "stylesheet" ! type_ "text/css" ! href "static/css/bulma.css"
-        link ! rel "stylesheet" ! type_ "text/css" ! href "static/css/font-awesome.min.css"
-        link ! rel "stylesheet" ! type_ "text/css" ! href "static/css/index.css"
-        link ! rel "icon" ! href "static/img/tus.png"
+        link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/bulma.css"
+        link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/font-awesome.min.css"
+        link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/index.css"
+        link ! rel "icon" ! href "/static/img/tus.png"
       body $ do
         menuPart t
         cont

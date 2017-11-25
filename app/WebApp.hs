@@ -10,7 +10,7 @@ import Servant (Proxy(..), Raw, (:>), (:<|>)(..))
 import Servant.Server (Application, Server, serve)
 import Servant.Utils.StaticFiles (serveDirectoryWebApp)
 
-import FileBrowser (FileBrowserApi, PubList, fileBrowser)
+import FileBrowser (FileBrowserApi, PubList, fileBrowserHandler)
 import Home (HomeApi, home)
 import Portfolio (PortfolioApi, portfolio)
 
@@ -28,6 +28,6 @@ server :: TVar PubList -> Server Api
 server filesTVar =
        home
   :<|> portfolio
-  :<|> fileBrowser filesTVar
+  :<|> fileBrowserHandler filesTVar
   :<|> serveDirectoryWebApp "media"
   :<|> serveDirectoryWebApp "static"
