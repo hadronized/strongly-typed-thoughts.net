@@ -1,11 +1,13 @@
-resolver: lts-9.13
+resolver: nightly-2017-11-24
+compiler: ghc-8.2.1
 
 packages:
 - '.'
 
 extra-deps:
-  - servant-0.11
-  - servant-server-0.11
+  - magic-1.1
+#  - servant1.11
+#  - servant-server-0.11
 
 flags: {}
 

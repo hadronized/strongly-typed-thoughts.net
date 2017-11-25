@@ -29,6 +29,7 @@ executable webserver
                        servant-blaze,
                        servant-server,
                        stm,
+                       string-conversions,
                        text,
                        time,
                        yaml,

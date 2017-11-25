@@ -6,7 +6,6 @@ module Portfolio (
 ) where
 
 import Control.Monad (void)
-import Control.Monad.IO.Class (MonadIO(..))
 import Data.Char (toLower)
 import Data.Foldable (for_)
 import Data.Monoid ((<>))

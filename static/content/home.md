@@ -1,5 +1,7 @@
 <section class="container section content">
+
 <h1 class="title">Welcome !</h1>
+
 ---
 
 Welcome on my official website. This place is dedicated to what I do on my spare time and has
@@ -10,6 +12,7 @@ However, if you are a recruiter, you might be interested in [my portfolio](/port
 [how to contact me](/contact).
 
 <h1 class="title">About me…</h1>
+
 ---
 
 I’m **Dimitri Sabadie**, I’m {{age}} years old. I was born in the South-West of France, in the
@@ -49,6 +52,7 @@ expressiveness and minimal runtime overhead (thus runtime performance in terms o
 footprint).
 
 <h1 class="title">Pro-side</h1>
+
 ---
 
 I obtained my engineer’s degree ([CTI](https://en.wikipedia.org/wiki/Commission_des_Titres_d%27Ing%C3%A9nieur))
@@ -65,4 +69,5 @@ design and implement complex systems. Oh and I use Haskell and even Elm!
 > talk to me with your own words. I’m a human being, I don’t want to talk to a template.
 
 Enjoy your visit, and feel free to contact me!
+
 </section>

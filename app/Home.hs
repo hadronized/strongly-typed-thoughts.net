@@ -8,20 +8,17 @@ module Home (
 
 import Control.Monad.Error.Class (MonadError(..))
 import Control.Monad.IO.Class (MonadIO(..))
-import qualified Data.Text as T (unpack)
-import qualified Data.Text.IO as T (readFile)
+import qualified Data.Text.IO as T
 import Data.Time (getCurrentTime, toGregorian, utctDay)
 import Data.String (IsString(..))
 import Servant (Get, ServantErr(..))
 import Servant.HTML.Blaze (HTML)
-import Servant.Server (Handler, Server, err500)
+import Servant.Server (Server, err500)
 import Text.Blaze.Html (Html)
-import Text.Mustache (Template, (~>), compileTemplate, object, substitute)
+import Text.Mustache ((~>), compileTemplate, object, substitute)
 
 import Markdown (markdownToHtml)
 import Wrapper (wrapper)
-
-import Data.Text
 
 type HomeApi = Get '[HTML] Html
 
@@ -35,7 +32,7 @@ home = do
       age <- computeAge
       let markdown = substitute template (object ["age" ~> age])
 
-      markdownToHtml (T.unpack markdown) >>= wrapper "Home"
+      markdownToHtml markdown >>= wrapper "Home"
 
 computeAge :: (MonadIO m) => m Int
 computeAge = liftIO $ fmap (age . toGregorian . utctDay) getCurrentTime
