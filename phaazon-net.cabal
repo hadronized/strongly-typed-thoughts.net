@@ -35,23 +35,12 @@ executable webserver
                        yaml,
                        warp
 
-  default-language:    Haskell2010
+  other-modules:       FileBrowser,
+                       Home,
+                       Markdown,
+                       Portfolio,
+                       ServerConfig,
+                       WebApp,
+                       Wrapper
 
--- executable adduploader
---   ghc-options:         -threaded -W -Wall -O2
--- 
---   main-is:             Main.hs
--- 
---   default-extensions:    DeriveDataTypeable
---                        , OverloadedStrings
---                        , TemplateHaskell
--- 
---   build-depends:         base                    >= 4.5 && < 5
---                        , bytestring              >= 0.10 && < 0.11
---                        , cryptohash              >= 0.11 && < 0.12
---                        , sqlite-simple           >= 0.4 && < 0.5
---                        , text                    >= 1.1 && < 1.3
--- 
---   hs-source-dirs:      utils/adduploader/src, src
--- 
---   default-language:    Haskell2010
+  default-language:    Haskell2010
