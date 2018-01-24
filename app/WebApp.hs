@@ -23,6 +23,7 @@ type Api =
   :<|> "browse" :> FileBrowserApi
   :<|> "media" :> Raw
   :<|> "static" :> Raw
+  :<|> "pub" :> Raw -- legacy links
 
 server :: TVar PubList -> Server Api
 server filesTVar =
@@ -31,3 +32,4 @@ server filesTVar =
   :<|> fileBrowserHandler filesTVar
   :<|> serveDirectoryWebApp "media"
   :<|> serveDirectoryWebApp "static"
+  :<|> serveDirectoryWebApp "media/uploads"
