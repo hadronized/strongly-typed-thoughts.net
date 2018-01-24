@@ -14,8 +14,8 @@ import FileBrowser (FileBrowserApi, PubList, fileBrowserHandler)
 import Home (HomeApi, home)
 import Portfolio (PortfolioApi, portfolio)
 
-webApp :: TVar PubList -> Application
-webApp = serve (Proxy :: Proxy Api) . server
+webApp :: TVar PubList -> FilePath -> Application
+webApp filesTVar uploadDir = serve (Proxy :: Proxy Api) (server filesTVar uploadDir)
 
 type Api =
        HomeApi
@@ -25,11 +25,11 @@ type Api =
   :<|> "static" :> Raw
   :<|> "pub" :> Raw -- legacy links
 
-server :: TVar PubList -> Server Api
-server filesTVar =
+server :: TVar PubList -> FilePath -> Server Api
+server filesTVar uploadDir =
        home
   :<|> portfolio
   :<|> fileBrowserHandler filesTVar
   :<|> serveDirectoryWebApp "media"
   :<|> serveDirectoryWebApp "static"
-  :<|> serveDirectoryWebApp "media/uploads"
+  :<|> serveDirectoryWebApp uploadDir

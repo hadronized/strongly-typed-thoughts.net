@@ -13,15 +13,16 @@ main :: IO ()
 main = do
   conf <- fmap (fromMaybe def) (decodeFile "server.yaml")
   let port = configPort conf
+  let uploadDir = configUploadDir conf
 
   putStrLn $ "starting server on port " ++ show port
 
   -- create the directory to contain uploads if it doesn’t exist yet
-  createDirectoryIfMissing True (configUploadDir conf)
+  createDirectoryIfMissing True uploadDir
 
   -- create a TVar to hold browser’s files; those will get reloaded everytime a new file is pushed
   -- and at initialization
   filesTVar <- newTVarIO defaultPubList
   refreshBrowserFiles filesTVar
 
-  run (fromIntegral port) (webApp filesTVar)
+  run (fromIntegral port) (webApp filesTVar uploadDir)

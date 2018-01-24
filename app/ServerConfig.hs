@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE StrictData #-}
 
 module ServerConfig (
   ServerConfig(..)
