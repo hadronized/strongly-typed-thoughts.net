@@ -28,7 +28,7 @@ import Data.Traversable (for)
 import Data.Yaml (ParseException, decodeFileEither)
 import GHC.Generics (Generic)
 import Prelude hiding (div, span)
-import Servant ((:>), (:<|>)(..), Capture, Get)
+import Servant ((:>), (:<|>)(..), Capture, Get, Post)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
 import Text.Blaze.Html5 hiding (style)
@@ -40,6 +40,7 @@ import Wrapper (wrapper)
 type BlogApi =
        Get '[HTML] Html
   :<|> Capture "slug" Text :> Get '[HTML] Html
+  :<|> "refresh" :> Post '[HTML] Html
 
 -- The blog entries configuration.
 newtype BlogEntryManifest = BlogEntryManifest {
@@ -98,8 +99,16 @@ refreshBlog manifestPath blogEntryMapping = do
         pure (blogEntrySlug entry, (entry, content))
       liftIO . atomically $ writeTVar blogEntryMapping entryMap
 
-blog :: TVar BlogEntryMapping -> Server BlogApi
-blog blogEntryMapping = blogMainView blogEntryMapping :<|> blogEntry blogEntryMapping
+blogRefresh :: FilePath -> TVar BlogEntryMapping -> Server (Post '[HTML] Html)
+blogRefresh manifestPath blogEntryMapping = do
+  refreshBlog manifestPath blogEntryMapping
+  wrapper "Blog refreshed" $ "Blog successfully refreshed!"
+
+blog :: FilePath -> TVar BlogEntryMapping -> Server BlogApi
+blog manifestPath blogEntryMapping =
+       blogMainView blogEntryMapping
+  :<|> blogEntry blogEntryMapping
+  :<|> blogRefresh manifestPath blogEntryMapping
 
 blogMainView :: TVar BlogEntryMapping -> Server (Get '[HTML] Html)
 blogMainView blogEntryMapping = do
@@ -127,7 +136,7 @@ blogListing entry = do
   div ! class_ "level" $ do
     span ! class_ "level-left" $ do
       span ! class_ "level-item" $
-        h1 $ a ! href (toValue $ "blog/" <> blogEntrySlug entry) $ toHtml (blogEntryName entry)
+        a ! href (toValue $ "blog/" <> blogEntrySlug entry) $ toHtml (blogEntryName entry)
     span ! class_ "level-item" $ em $ renderTags entry
     span ! class_ "level-right" $ do
       span ! class_ "level-item" $ em $ "on " <> toHtml (show $ blogEntryPublishDate entry)

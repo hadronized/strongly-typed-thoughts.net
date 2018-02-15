@@ -15,9 +15,9 @@ import FileBrowser (FileBrowserApi, PubList, fileBrowserHandler)
 import Home (HomeApi, home)
 import Portfolio (PortfolioApi, portfolio)
 
-webApp :: TVar PubList -> FilePath -> TVar BlogEntryMapping -> Application
-webApp filesTVar uploadDir blogEntryMapping =
-  serve (Proxy :: Proxy Api) (server filesTVar uploadDir blogEntryMapping)
+webApp :: TVar PubList -> FilePath -> FilePath -> TVar BlogEntryMapping -> Application
+webApp filesTVar uploadDir blogManifestPath blogEntryMapping =
+  serve (Proxy :: Proxy Api) (server filesTVar uploadDir blogManifestPath blogEntryMapping)
 
 type Api =
        HomeApi
@@ -28,12 +28,12 @@ type Api =
   :<|> "pub" :> Raw -- legacy links
   :<|> "blog" :> BlogApi
 
-server :: TVar PubList -> FilePath -> TVar BlogEntryMapping -> Server Api
-server filesTVar uploadDir blogEntryMapping =
+server :: TVar PubList -> FilePath -> FilePath -> TVar BlogEntryMapping -> Server Api
+server filesTVar uploadDir blogManifestPath blogEntryMapping =
        home
   :<|> portfolio
   :<|> fileBrowserHandler filesTVar
   :<|> serveDirectoryWebApp "media"
   :<|> serveDirectoryWebApp "static"
   :<|> serveDirectoryWebApp uploadDir
-  :<|> blog blogEntryMapping
+  :<|> blog blogManifestPath blogEntryMapping

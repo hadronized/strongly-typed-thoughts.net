@@ -1,0 +1,240 @@
+- blogEntryName: Abstracting shader – Haskell ash library
+  blogEntryPath: media/blog/abstracting_over_shader.md
+  blogEntryPublishDate: 2014-11-14 00:00:00 Z
+  blogEntryTags: [abstract, DirectX, GLSL, graphics, Haskell, HLSL, OpenGL, shader, shading]
+  blogEntrySlug: abstracting_over_shader
+
+- blogEntryName: Abstracting shader – Environment
+  blogEntryPath: media/blog/abstracting_over_shader_environment.md
+  blogEntryPublishDate: 2014-11-17 00:00:00 Z
+  blogEntryTags: [abstract, DirectX, environment, GLSL, graphics, Haskell, HLSL, OpenGL, shader, shading]
+  blogEntrySlug: abstracting_over_shader_environment
+
+- blogEntryName: Why has type aliasing almost killed me
+  blogEntryPath: media/blog/type_aliasing.md
+  blogEntryPublishDate: 2015-01-07 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: type_aliasing
+
+- blogEntryName: Smoothie, a Haskell library for creating smooth curves
+  blogEntryPath: media/blog/smoothie.md
+  blogEntryPublishDate: 2015-02-26 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: smoothie 
+
+- blogEntryName: al 0.1 released!
+  blogEntryPath: media/blog/al_0.1.md
+  blogEntryPublishDate: 2015-02-28 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: al_0.1_released
+
+- blogEntryName: al 0.1.0.2 – documentation and default paths
+  blogEntryPath: media/blog/al_0.1.0.2.md
+  blogEntryPublishDate: 2015-03-01 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: al_0.1.0.2
+
+- blogEntryName: al 0.1.1.2 was shipped
+  blogEntryPath: media/blog/al_0.1.1.2.md
+  blogEntryPublishDate: 2015-03-03 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: al_0.1.1.2
+
+- blogEntryName: Getting into netwire
+  blogEntryPath: media/blog/getting_into_netwire.md
+  blogEntryPublishDate: 2015-03-15 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: getting_into_netwire
+
+- blogEntryName: Volumetric light shafts
+  blogEntryPath: media/blog/volumetric_light_shafts.md
+  blogEntryPublishDate: 2015-04-08 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: volumetric_light_shafts
+
+- blogEntryName: Generalized swap
+  blogEntryPath: media/blog/generalized_swap.md
+  blogEntryPublishDate: 2015-04-14 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: generalized_swap
+
+- blogEntryName: Losing our privacy
+  blogEntryPath: media/blog/you_are_being_spied_on.md
+  blogEntryPublishDate: 2015-04-21 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: you_are_being_spied_on 
+
+- blogEntryName: Asset management in a real time 3D engine in Haskell
+  blogEntryPath: media/blog/resource_management.md
+  blogEntryPublishDate: 2015-06-16 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: resource_management
+
+- blogEntryName: HID and MSI keyboards
+  blogEntryPath: media/blog/hid_msi_keyboards.md
+  blogEntryPublishDate: 2015-06-20 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: hid_and_msi_keyboards 
+
+- blogEntryName: Mac OS X support in al-0.1.4
+  blogEntryPath: media/blog/osx_al.md
+  blogEntryPublishDate: 2015-06-29 00:00:00 Z
+  blogEntryTags: [haskell, OpenAL, pkg-config]
+  blogEntrySlug: osx_al
+
+- blogEntryName: smoothie-0.3, Bézier curves and new user interface
+  blogEntryPath: media/blog/smoothie_bezier.md
+  blogEntryPublishDate: 2015-06-30 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: smoothie_bezier
+
+- blogEntryName: Don’t use Default
+  blogEntryPath: media/blog/default.md
+  blogEntryPublishDate: 2015-07-16 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: dont_use_default
+
+- blogEntryName: Introducing Luminance, a safer OpenGL API
+  blogEntryPath: media/blog/introducing_luminance.md
+  blogEntryPublishDate: 2015-07-24 00:00:00 Z
+  blogEntryTags: [graphics, Haskell OpenGL]
+  blogEntrySlug: introducing_luminance 
+
+- blogEntryName: Luminance – framebuffers and textures
+  blogEntryPath: media/blog/luminance_framebuffer_texture.md
+  blogEntryPublishDate: 2015-08-01 00:00:00 Z
+  blogEntryTags: [framebuffer, graphics, Haskell, OpenGL, texture]
+  blogEntrySlug: luminance_framebuffer_texture 
+
+- blogEntryName: Luminance – Vertex Arrays
+  blogEntryPath: media/blog/luminance_vertex_arrays.md
+  blogEntryPublishDate: 2015-08-10 00:00:00 Z
+  blogEntryTags: [alignment, buffers, graphics, Haskell, index, luminance, OpenGL, vertex]
+  blogEntrySlug: luminance_vertex_arrays
+
+- blogEntryName: Luminance – what was that alignment stuff already?
+  blogEntryPath: media/blog/luminance_32bit.md
+  blogEntryPublishDate: 2015-08-11 00:00:00 Z
+  blogEntryTags: [32-bit, alignment, Haskell, luminance, OpenGL]
+  blogEntrySlug: luminance_32bit
+
+- blogEntryName: Never forget your git stashes again!
+  blogEntryPath: media/blog/reverse_prompt_git_stash.md
+  blogEntryPublishDate: 2015-08-16 00:00:00 Z
+  blogEntryTags: [git, prompt, shell, stash, terminal, zsh]
+  blogEntrySlug: reverse_prompt_git_stash
+
+- blogEntryName: Contravariance and luminance to add safety to uniforms
+  blogEntryPath: media/blog/luminance_uniform_contravariance.md
+  blogEntryPublishDate: 2015-08-23 00:00:00 Z
+  blogEntryTags: [contravariant, divisible, functor, graphics, luminance, OpenGL, uniform]
+  blogEntrySlug: luminance_uniform_contravariance
+
+- blogEntryName: Thoughts about software meta-design
+  blogEntryPath: media/blog/software_meta_design.md
+  blogEntryPublishDate: 2015-09-13 00:00:00 Z
+  blogEntryTags: [design, elegancy, free, KISS, meta, principle, software]
+  blogEntrySlug: software_meta_design 
+
+- blogEntryName: luminance 0.1 released!
+  blogEntryPath: media/blog/luminance_0.1.md
+  blogEntryPublishDate: 2015-09-22 00:00:00 Z
+  blogEntryTags: [framework, graphics, Haskell, luminance]
+  blogEntrySlug: luminance_0.1 
+
+- blogEntryName: luminance first tutorial
+  blogEntryPath: media/blog/luminance_first_tutorial.md
+  blogEntryPublishDate: 2015-09-24 00:00:00 Z
+  blogEntryTags: [framework, graphics, Haskell, luminance, tutorial]
+  blogEntrySlug: luminance_first_tutorial 
+
+- blogEntryName: luminance-0.3 – Adding more texture kinds to the equation…
+  blogEntryPath: media/blog/luminance-0.3.md
+  blogEntryPublishDate: 2015-10-06 00:00:00 Z
+  blogEntryTags: [cubemap, framework, graphics, Haskell, luminance, OpenGL, texture]
+  blogEntrySlug: luminance-0.3 
+
+- blogEntryName: Load geometries with wavefront-0.1!
+  blogEntryPath: media/blog/wavefront-0.1.md
+  blogEntryPublishDate: 2015-10-11 00:00:00 Z
+  blogEntryTags: [graphics, Haskell, luminance, OBJ, wavefront]
+  blogEntrySlug: wavefront-0.1 
+
+- blogEntryName: luminance-0.5.1 and wavefront-0.4.0.1
+  blogEntryPath: media/blog/luminance-0.5.1.md
+  blogEntryPublishDate: 2015-10-18 00:00:00 Z
+  blogEntryTags: [3D, graphics, Haskell, luminance, OBJ, OpenGL, parser, wavefront]
+  blogEntrySlug: luminance-0.5.1_and_wavefront-0.4.0.1
+
+- blogEntryName: "luminance, episode 0.6: UBO, SSBO, Stackage"
+  blogEntryPath: media/blog/luminance-0.6.md
+  blogEntryPublishDate: 2015-10-25 00:00:00 Z
+  blogEntryTags: [Haskell, luminance, OpenGL, SSBO, Stackage, UBO, uniform]
+  blogEntrySlug: luminance-0.6
+
+- blogEntryName: OpenGL 3.2 support for luminance!
+  blogEntryPath: media/blog/luminance-0.7.md
+  blogEntryPublishDate: 2015-11-13 00:00:00 Z
+  blogEntryTags: [bug, Haskell, Intel, luminance, OpenGL, UBO]
+  blogEntrySlug: luminance-0.7
+
+- blogEntryName: Existential quantification and GADT in luminance-0.8
+  blogEntryPath: media/blog/luminance-0.8.md
+  blogEntryPublishDate: 2015-12-09 00:00:00 Z
+  blogEntryTags: [existential quantification, GADT, Haskel, luminance, OpenGL]
+  blogEntrySlug: luminance-0.8 
+
+- blogEntryName: Pure API vs. IO-bound API for graphics frameworks
+  blogEntryPath: media/blog/pure_vs_io.md
+  blogEntryPublishDate: 2016-02-18 00:00:00 Z
+  blogEntryTags: [frameworks, GPipe, graphics, impure, IO, LambdaCube, luminance, pure, side-effects]
+  blogEntrySlug: pure_vs_io 
+
+- blogEntryName: Porting a Haskell graphics framework to Rust (luminance)
+  blogEntryPath: media/blog/luminance_rust.md
+  blogEntryPublishDate: 2016-04-29 00:00:00 Z
+  blogEntryTags: [framework, graphics, Haskell, luminance, OpenGL, Rust]
+  blogEntrySlug: luminance_rust
+
+- blogEntryName: luminance-0.6.0 sample
+  blogEntryPath: media/blog/luminance_sample.md
+  blogEntryPublishDate: 2016-07-25 00:00:00 Z
+  blogEntryTags: [graphics, luminance, OpenGL]
+  blogEntrySlug: luminance_sample 
+
+- blogEntryName: luminance designs
+  blogEntryPath: media/blog/luminance_design.md
+  blogEntryPublishDate: 2016-08-28 00:00:00 Z
+  blogEntryTags: [graphics, luminance, OpenGL]
+  blogEntrySlug: luminance_design
+
+- blogEntryName: Lifetimes limits – self borrowing and dropchecker
+  blogEntryPath: media/blog/lifetimes_and_self_borrowing.md
+  blogEntryPublishDate: 2017-02-07 00:00:00 Z
+  blogEntryTags: [borrowing, dropchecker, lifetimes, Rust]
+  blogEntrySlug: lifetimes_and_self_borrowing
+
+- blogEntryName: "Postmortem #1 – Revision 2017"
+  blogEntryPath: media/blog/what_went_revision_2017.md
+  blogEntryPublishDate: 2017-04-20 00:00:00 Z
+  blogEntryTags: [demoscene, Outline, phaazon, postmortem, Revision]
+  blogEntrySlug: what_went_revision_2017
+
+- blogEntryName: On programming workflows
+  blogEntryPath: media/blog/workflow.md
+  blogEntryPublishDate: 2017-07-23 00:00:00 Z
+  blogEntryTags: []
+  blogEntrySlug: workflow
+
+- blogEntryName: Rust GLSL crate
+  blogEntryPath: media/blog/glsl_crate.md
+  blogEntryPublishDate: 2017-07-30 00:00:00 Z
+  blogEntryTags: [AST, compiler, GLSL, OpenGL, Rust, shader, shading, SPIR-V]
+  blogEntrySlug: glsl_crate
+
+- blogEntryName: State of luminance
+  blogEntryPath: media/blog/state_of_luminance.md
+  blogEntryPublishDate: 2017-09-14 00:00:00 Z
+  blogEntryTags: [luminance]
+  blogEntrySlug: state_of_luminance
+

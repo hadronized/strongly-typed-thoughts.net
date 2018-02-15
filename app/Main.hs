@@ -32,4 +32,4 @@ main = do
   blogTVar <- newTVarIO defaultBlogEntryMapping
   refreshBlog blogManifestPath blogTVar
 
-  run (fromIntegral port) (webApp filesTVar uploadDir blogTVar)
+  run (fromIntegral port) (webApp filesTVar uploadDir blogManifestPath blogTVar)
