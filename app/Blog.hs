@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE StrictData #-}
+{-# LANGUAGE TypeOperators #-}
 
 module Blog (
     BlogApi
@@ -17,8 +18,8 @@ import Data.Aeson (FromJSON)
 import Data.Foldable (traverse_)
 import Data.HashMap.Strict (HashMap)
 import qualified Data.HashMap.Strict as H
-import Data.List (stripPrefix)
-import Data.Maybe (fromJust)
+import Data.List (intersperse, sortBy)
+import Data.Ord (comparing)
 import Data.Semigroup ((<>))
 import Data.Text (Text)
 import qualified Data.Text.IO as T
@@ -27,7 +28,7 @@ import Data.Traversable (for)
 import Data.Yaml (ParseException, decodeFileEither)
 import GHC.Generics (Generic)
 import Prelude hiding (div, span)
-import Servant (Get)
+import Servant ((:>), (:<|>)(..), Capture, Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
 import Text.Blaze.Html5 hiding (style)
@@ -36,7 +37,9 @@ import Text.Blaze.Html5.Attributes hiding (content, for, icon, name, span)
 import Markdown (markdownToHtml_)
 import Wrapper (wrapper)
 
-type BlogApi = Get '[HTML] Html
+type BlogApi =
+       Get '[HTML] Html
+  :<|> Capture "slug" Text :> Get '[HTML] Html
 
 -- The blog entries configuration.
 newtype BlogEntryManifest = BlogEntryManifest {
@@ -53,6 +56,8 @@ data BlogEntry = BlogEntry {
   , blogEntryPath :: FilePath
     -- Date when the article was published.
   , blogEntryPublishDate :: UTCTime
+    -- Some tags.
+  , blogEntryTags :: [Text]
     -- Slug used in URL to refer to that article.
   , blogEntrySlug :: Text
   } deriving (Eq, Generic, Show)
@@ -93,31 +98,59 @@ refreshBlog manifestPath blogEntryMapping = do
         pure (blogEntrySlug entry, (entry, content))
       liftIO . atomically $ writeTVar blogEntryMapping entryMap
 
-blog :: TVar BlogEntryMapping -> Server BlogApi 
-blog blogEntryMapping = do
-  entries <- liftIO (readTVarIO blogEntryMapping)
-  wrapper "Blog" $ do
-    section ! class_ "container section content" $ do
-      h1 ! class_ "title" $ do
-        b "Dimitri Sabadie"
-        " blog"
-      h2 ! class_ "subtitle" $ em $ "Functional programming, graphics, demoscene and more!"
-      hr
-      p $ do
-        "This is my blog. I talk about functional programming, graphics, demoscene, optimization "
-        "and many other topics!"
-      blockquote $ do
-        "It is intentional that no comment can be written by readers to prevent flooding, scams "
-        "and spamming."
-      hr
-      traverse_ blogListing (blogEntryMap entries)
+blog :: TVar BlogEntryMapping -> Server BlogApi
+blog blogEntryMapping = blogMainView blogEntryMapping :<|> blogEntry blogEntryMapping
 
-blogListing :: (BlogEntry, Html) -> Html
-blogListing (entry, content) = do
+blogMainView :: TVar BlogEntryMapping -> Server (Get '[HTML] Html)
+blogMainView blogEntryMapping = do
+    entries <- liftIO (readTVarIO blogEntryMapping)
+    wrapper "Blog" $ do
+      section ! class_ "container section content" $ do
+        h1 ! class_ "title" $ do
+          b "Dimitri Sabadie"
+          "’s blog"
+        h2 ! class_ "subtitle" $ em $ "Functional programming, graphics, demoscene and more!"
+        hr
+        p $ do
+          "This is my blog. I talk about functional programming, graphics, demoscene, optimization "
+          "and many other topics!"
+        blockquote $ do
+          "It is intentional that no comment can be written by readers to prevent flooding, scams "
+          "and spamming."
+        hr
+        traverse_ (blogListing . fst) (sortBy sorter . H.elems $ blogEntryMap entries)
+  where
+    sorter = flip $ comparing (blogEntryPublishDate . fst)
+
+blogListing :: BlogEntry -> Html
+blogListing entry = do
   div ! class_ "level" $ do
     span ! class_ "level-left" $ do
       span ! class_ "level-item" $
-        a ! href (toValue $ blogEntrySlug entry) $ toHtml (blogEntryName entry)
+        h1 $ a ! href (toValue $ "blog/" <> blogEntrySlug entry) $ toHtml (blogEntryName entry)
+    span ! class_ "level-item" $ em $ renderTags entry
     span ! class_ "level-right" $ do
       span ! class_ "level-item" $ em $ "on " <> toHtml (show $ blogEntryPublishDate entry)
 
+blogEntry :: TVar BlogEntryMapping -> Text -> Server (Get '[HTML] Html)
+blogEntry blogEntryMapping slug = do
+  entries <- liftIO (readTVarIO blogEntryMapping)
+  case H.lookup slug (blogEntryMap entries) of
+    Just (entry, rendered) -> wrapper "Blog" $ do
+      section ! class_ "container section content" $ do
+        section ! class_ "section hero content is-primary is-bold" $ do
+          div ! class_ "level" $ do
+            span ! class_ "level-left" $ do
+              h1 ! class_ "level-item title" $ toHtml (blogEntryName entry)
+            span ! class_ "level-right" $ do
+              h2 ! class_ "level-item subtitle" $ em $ "on " <> toHtml (show $ blogEntryPublishDate entry)
+          div ! class_ "level" $ do
+            span ! class_ "level-left" $ pure ()
+            span ! class_ "level-right" $ do
+              h2 ! class_ "level-item subtitle" $ em $ renderTags entry
+        div ! class_ "box content" $ rendered
+      
+    Nothing -> wrapper "Article not found" $ pure ()
+
+renderTags :: BlogEntry -> Html
+renderTags entry = sequence_ (fmap toHtml . intersperse ", " $ blogEntryTags entry)
