@@ -137,18 +137,18 @@ blogEntry blogEntryMapping slug = do
   entries <- liftIO (readTVarIO blogEntryMapping)
   case H.lookup slug (blogEntryMap entries) of
     Just (entry, rendered) -> wrapper "Blog" $ do
+      section ! class_ "section hero content is-primary is-bold" $ do
+        div ! class_ "level" $ do
+          span ! class_ "level-left" $ do
+            h1 ! class_ "level-item title" $ toHtml (blogEntryName entry)
+          span ! class_ "level-right" $ do
+            h2 ! class_ "level-item subtitle" $ em $ "on " <> toHtml (show $ blogEntryPublishDate entry)
+        div ! class_ "level" $ do
+          span ! class_ "level-left" $ pure ()
+          span ! class_ "level-right" $ do
+            h2 ! class_ "level-item subtitle" $ em $ renderTags entry
       section ! class_ "container section content" $ do
-        section ! class_ "section hero content is-primary is-bold" $ do
-          div ! class_ "level" $ do
-            span ! class_ "level-left" $ do
-              h1 ! class_ "level-item title" $ toHtml (blogEntryName entry)
-            span ! class_ "level-right" $ do
-              h2 ! class_ "level-item subtitle" $ em $ "on " <> toHtml (show $ blogEntryPublishDate entry)
-          div ! class_ "level" $ do
-            span ! class_ "level-left" $ pure ()
-            span ! class_ "level-right" $ do
-              h2 ! class_ "level-item subtitle" $ em $ renderTags entry
-        div ! class_ "box content" $ rendered
+        div ! class_ "content blog-content" $ rendered
       
     Nothing -> wrapper "Article not found" $ pure ()
 
