@@ -14,10 +14,12 @@ executable webserver
   ghc-options:         -threaded -W -Wall -O2
   main-is:             Main.hs
   hs-source-dirs:      app
-  default-extensions:  FlexibleContexts,
+  default-extensions:  DeriveGeneric,
+                       FlexibleContexts,
                        OverloadedStrings
 
   build-depends:       base,
+                       aeson,
                        blaze-html,
                        data-default,
                        directory,
@@ -32,6 +34,8 @@ executable webserver
                        string-conversions,
                        text,
                        time,
+                       transformers,
+                       unordered-containers,
                        yaml,
                        warp
 

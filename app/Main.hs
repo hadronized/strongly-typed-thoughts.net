@@ -4,6 +4,8 @@ import Control.Concurrent.STM.TVar (newTVarIO)
 import Data.Default (Default(..))
 import Data.Maybe  (fromMaybe)
 import Data.Yaml (decodeFile)
+
+import Blog (defaultBlogEntryMapping, refreshBlog)
 import FileBrowser (defaultPubList, refreshBrowserFiles)
 import ServerConfig (ServerConfig(..))
 import System.Directory (createDirectoryIfMissing)
@@ -14,6 +16,7 @@ main = do
   conf <- fmap (fromMaybe def) (decodeFile "server.yaml")
   let port = configPort conf
   let uploadDir = configUploadDir conf
+  let blogManifestPath = configBlogEntriesPath conf
 
   putStrLn $ "starting server on port " ++ show port
 
@@ -25,4 +28,8 @@ main = do
   filesTVar <- newTVarIO defaultPubList
   refreshBrowserFiles filesTVar
 
-  run (fromIntegral port) (webApp filesTVar uploadDir)
+  -- create a TVar to hold the blog’s entries
+  blogTVar <- newTVarIO defaultBlogEntryMapping
+  refreshBlog blogManifestPath blogTVar
+
+  run (fromIntegral port) (webApp filesTVar uploadDir blogTVar)

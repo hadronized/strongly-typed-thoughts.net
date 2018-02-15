@@ -1,5 +1,6 @@
 module Markdown (
     markdownToHtml
+  , markdownToHtml_
   ) where
 
 import Control.Monad.Error.Class (MonadError(..))
@@ -16,5 +17,12 @@ markdownToHtml :: (MonadError ServantErr m) => Text -> m Html
 markdownToHtml mkd = case runPure (readMarkdown opts mkd >>= writeHtml5 def) of
     Left e -> throwError $ err500 { errBody = "markdown compilation failed: " <> convertString (show e) }
     Right x -> pure x
+  where
+    opts = def { readerExtensions = pandocExtensions }
+
+markdownToHtml_ :: Text -> Either String Html
+markdownToHtml_ mkd = case runPure (readMarkdown opts mkd >>= writeHtml5 def) of
+    Left e -> Left (show e)
+    Right x -> Right x
   where
     opts = def { readerExtensions = pandocExtensions }

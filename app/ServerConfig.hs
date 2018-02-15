@@ -13,6 +13,7 @@ import Numeric.Natural (Natural)
 data ServerConfig = ServerConfig {
     configPort :: Natural
   , configUploadDir :: FilePath
+  , configBlogEntriesPath :: FilePath
   } deriving (Eq, Generic, Show)
 
 instance FromJSON ServerConfig
@@ -22,4 +23,5 @@ instance Default ServerConfig where
   def = ServerConfig {
       configPort = 8000
     , configUploadDir = "media/uploads"
+    , configBlogEntriesPath = "media/blog/entries.yaml"
     }
