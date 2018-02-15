@@ -10,6 +10,7 @@ import Servant (Proxy(..), Raw, (:>), (:<|>)(..))
 import Servant.Server (Application, Server, serve)
 import Servant.Utils.StaticFiles (serveDirectoryWebApp)
 
+import Blog (BlogApi, blog)
 import FileBrowser (FileBrowserApi, PubList, fileBrowserHandler)
 import Home (HomeApi, home)
 import Portfolio (PortfolioApi, portfolio)
@@ -24,6 +25,7 @@ type Api =
   :<|> "media" :> Raw
   :<|> "static" :> Raw
   :<|> "pub" :> Raw -- legacy links
+  :<|> "blog" :> BlogApi
 
 server :: TVar PubList -> FilePath -> Server Api
 server filesTVar uploadDir =
@@ -33,3 +35,4 @@ server filesTVar uploadDir =
   :<|> serveDirectoryWebApp "media"
   :<|> serveDirectoryWebApp "static"
   :<|> serveDirectoryWebApp uploadDir
+  :<|> blog

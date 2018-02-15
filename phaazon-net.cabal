@@ -35,7 +35,8 @@ executable webserver
                        yaml,
                        warp
 
-  other-modules:       FileBrowser,
+  other-modules:       Blog,
+                       FileBrowser,
                        Home,
                        Markdown,
                        Portfolio,
