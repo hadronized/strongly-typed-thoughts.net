@@ -24,7 +24,7 @@ wrapper t cont = do
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/bulma.css"
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/font-awesome.min.css"
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/index.css"
-        link ! rel "icon" ! href "/static/img/tus.png"
+        link ! rel "icon" ! href "/static/imgs/tus.png"
         -- code hilighting
         link ! rel "stylesheet" ! href "/static/css/highlight/styles/gruvbox-dark.css"
         script ! src "/static/css/highlight/highlight.pack.js" $ ""
