@@ -25,6 +25,11 @@ wrapper t cont = do
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/font-awesome.min.css"
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/index.css"
         link ! rel "icon" ! href "/static/img/tus.png"
+        -- code hilighting
+        link ! rel "stylesheet" ! href "/static/css/highlight/styles/gruvbox-dark.css"
+        script ! src "/static/css/highlight/highlight.pack.js" $ ""
+        --script ! src "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js" $ ""
+        script "hljs.initHighlightingOnLoad();"
       body $ do
         menuPart t
         cont

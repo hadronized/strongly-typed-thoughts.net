@@ -108,7 +108,7 @@ At the time of writing, corresponding versions are
 
 Have the following `[dependencies]` section
 
-```toml
+```
 [dependencies]
 luminance = "0.23.0"
 luminance-glfw = "0.3.2"
@@ -118,7 +118,7 @@ luminance-glfw = "0.3.2"
 
 Everything should be fine at this point. Now, let’s step in in writing some code.
 
-```rust
+<pre><code>
 extern crate luminance;
 extern crate luminance_glfw;
 
@@ -130,14 +130,14 @@ const SCREEN_HEIGHT: u32 = 540;
 fn main() {
   let rdev = Device::new(WindowDim::Windowed(SCREEN_WIDTH, SCREEN_HEIGHT), "lumitest", WindowOpt::default());
 }
-```
+</code></pre>
 
 The `main` function creates a [Device](https://docs.rs/luminance-glfw/0.3.2/luminance_glfw/struct.Device.html)
 that is responsible in holding the windowing stuff for us.
 
 Let’s go on:
 
-```rust
+<pre><code>
 match rdev {
   Err(e) => {
     eprintln!("{:#?}", e);
@@ -148,13 +148,13 @@ match rdev {
     println!("let’s go!");
   }
 }
-```
+</code></pre>
 
 This block will catch any `Device` errors and will print them to `stderr` if there’s any.
 
 Let’s write the main loop:
 
-```rust
+<pre><code>
 'app: loop {
   for (_, ev) in dev.events() { // the pair is an interface mistake; it’ll be removed
     match ev {
@@ -163,7 +163,7 @@ Let’s write the main loop:
     }
   }
 }
-```
+</code></pre>
 
 This loop runs forever and will exit if you hit the escape key or quit the application.
 
@@ -171,7 +171,7 @@ This loop runs forever and will exit if you hit the escape key or quit the appli
 
 Now, the most interesting thing: rendering the actual triangle! You will need a few things:
 
-```rust
+<pre><code>
 type Position = [f32; 2];
 type RGB = [f32; 3];
 type Vertex = (Position, RGB);
@@ -181,7 +181,7 @@ const TRIANGLE_VERTS: [Vertex; 3] = [
   ([-0., 0.5], [0.5, 0.8, 0.5]), // green top
   ([0.5, -0.5], [0.5, 0.5, 0.8]) // blue bottom rightmost
 ];
-```
+</code></pre>
 
 `Position`, `Color` and `Vertex` define what a vertex is. In our case, we use a 2D position and a
 RGB color.
@@ -197,13 +197,13 @@ The `TRIANGLE_VERTS` is a constant array with three vertices defined in it: the 
 our triangle. Let’s pass those vertices to the GPU with the [`Tess`](https://docs.rs/luminance/0.23.0/luminance/tess/struct.Tess.html)
 type:
 
-```rust
+<pre><code>
 // at the top location
 use luminance::tess::{Mode, Tess, TessVertices};
 
 // just above the main loop
 let triangle = Tess::new(Mode::Triangle, TessVertices::Fill(&TRIANGLE_VERTS), None);
-```
+</code></pre>
 
 This will pass the `TRIANGLE_VERTS` vertices to the GPU. You’re given back a `triangle` object. The
 [`Mode`](https://docs.rs/luminance/0.23.0/luminance/tess/enum.Mode.html) is a hint object that
@@ -216,7 +216,7 @@ We’ll need a *shader* to render that triangle. First, we’ll place its source
 
 Paste this in `data/vs.glsl`:
 
-```glsl
+<pre><code>
 layout (location = 0) in vec2 co;
 layout (location = 1) in vec3 color;
 
@@ -226,11 +226,11 @@ void main() {
   gl_Position = vec4(co, 0., 1.);
   v_color = color;
 }
-```
+</code></pre>
 
 Paste this in `data/fs.glsl`:
 
-```glsl
+<pre><code>
 in vec3 v_color;
 
 out vec4 frag;
@@ -238,14 +238,14 @@ out vec4 frag;
 void main() {
   frag = vec4(v_color, 1.);
 }
-```
+</code></pre>
 
 And add this to your `main.rs`:
 
-```rust
+<pre><code>
 const SHADER_VS: &str = include_str!("../data/vs.glsl");
 const SHADER_FS: &str = include_str!("../data/fs.glsl");
-```
+</code></pre>
 
 > Note: this is not a typical workflow. If you’re interested in shaders, have a look at how I do it
 > in [spectra]. That is, hot reloading it via SPSL (Spectra Shading Language), which enables to
@@ -255,7 +255,7 @@ const SHADER_FS: &str = include_str!("../data/fs.glsl");
 Same thing as for the tessellation, we need to pass the source to the GPU’s compiler to end up with
 a shader object:
 
-```rust
+<pre><code>
 // add this at the top of your main.rs
 use luminance::shader::program::Program;
 
@@ -265,17 +265,17 @@ let (shader, warnings) = Program::<Vertex, (), ()>::from_strings(None, SHADER_VS
 for warning in &warnings {
   eprintln!("{:#?}", warning);
 }
-```
+</code></pre>
 
 Finally, we need to tell luminance in which framebuffer we want to make the render. It’s simple: to
 the default framebuffer, which ends up to be… your screen’s back buffer! This is done this way with
 luminance:
 
-```rust
+<pre><code>
 use luminance::framebuffer::Framebuffer;
 
 let screen = Framebuffer::default([SCREEN_WIDTH, SCREEN_HEIGHT]);
-```
+</code></pre>
 
 And we’re done for the resources. Let’s step in the actual render now.
 
@@ -303,7 +303,7 @@ borrow things on the fly in a shading gate, you can.
 
 Let’s get things started:
 
-```rust
+<pre><code>
 use luminance::pipeline::{entry, pipeline};
 
 entry(|_| {
@@ -316,7 +316,7 @@ entry(|_| {
     });
   });
 });
-```
+</code></pre>
 
 We just need a final thing now: since we render to the back buffer of the screen, if we want to see
 anything appear, we need to *swap the buffer chain* so that the back buffer become the front buffer
@@ -324,7 +324,7 @@ and the front buffer become the back buffer. This is done by wrapping our render
 [`Device::draw`](https://docs.rs/luminance-glfw/0.3.2/luminance_glfw/struct.Device.html#method.draw)
 function:
 
-```rust
+<pre><code>
 dev.draw(|| {
   entry(|_| {
     pipeline(&screen, [0., 0., 0., 1.], |shd_gate| {
@@ -337,7 +337,7 @@ dev.draw(|| {
     });
   });
 });
-```
+</code></pre>
 
 You should see this:
 
@@ -345,7 +345,7 @@ You should see this:
 
 As you can see, the code is pretty straightforward. Let’s get deeper, and let’s kick some time in!
 
-```rust
+<pre><code>
 use std::time::Instant;
 
 // before the main loop
@@ -353,7 +353,7 @@ let t_start = Instant::now();
 // in your main loop
 let t_dur = t_start.elapsed();
 let t = (t_dur.as_secs() as f64 + t_dur.subsec_nanos() as f64 * 1e-9) as f32;
-```
+</code></pre>
 
 We have the time. Now, we need to pass it down to the GPU (i.e. the shader). luminance handles that
 kind of things with two concepts:
@@ -372,7 +372,7 @@ We won’t conver the buffers for this time.
 Because of type safety, luminance requires you to state which types the uniforms the shader contains
 are. We only need the time, so let’s get this done:
 
-```rust
+<pre><code>
 // you need to alter this import
 use luminance::shader::program::{Program, ProgramError, Uniform, UniformBuilder, UniformInterface, UniformWarning};
 
@@ -390,7 +390,7 @@ impl UniformInterface for TimeUniform {
     }
   }
 }
-```
+</code></pre>
 
 The [`UniformBuilder::unbound`](https://docs.rs/luminance/0.23.0/luminance/shader/program/struct.UniformBuilder.html#method.unbound)
 is a simple function that gives you any uniform you want: the resulting uniform object will just do
@@ -400,9 +400,9 @@ don’t fail, it’s not really an error”.* Handy.
 And now, all the magic: how do we access that uniform value? It’s simple: via types! Have you
 noticed the type of our `Program`? For the record:
 
-```rust
+<pre><code>
 let (shader, warnings) = Program::<Vertex, (), ()>::from_strings(None, SHADER_VS, None, SHADER_FS).unwrap();
-```
+</code></pre>
 
 See the type is parametered with three type variables:
 
@@ -413,14 +413,14 @@ See the type is parametered with three type variables:
 
 You guessed it: we need to change the third parameter from `()` to `TimeUniform`:
 
-```rust
+<pre><code>
 let (shader, warnings) = Program::<Vertex, (), TimeUniform>::from_strings(None, SHADER_VS, None, SHADER_FS).unwrap();
-```
+</code></pre>
 
 And *that’s all*. Whenever you `shade` with a `ShaderGate`, the type of the shader object is being
 inspected, and you’re handed with the uniform interface:
 
-```rust
+<pre><code>
 shd_gate.shade(&shader, |rdr_gate, uniforms| {
   uniforms.0.update(t);
 
@@ -429,11 +429,11 @@ shd_gate.shade(&shader, |rdr_gate, uniforms| {
     tess_gate.render(t.into());
   });
 });
-```
+</code></pre>
 
 Now, change your fragment shader to this:
 
-```glsl
+<pre><code>
 in vec3 v_color;
 
 out vec4 frag;
@@ -443,7 +443,7 @@ uniform float t;
 void main() {
   frag = vec4(v_color * vec3(cos(t * .25), sin(t + 1.), cos(1.25 * t)), 1.);
 }
-```
+</code></pre>
 
 And enjoy the result! Here’s the [gist](https://gist.github.com/phaazon/268d5c0285c6c7cba90d5cea1b99db76)
 that contains the whole `main.rs`.
