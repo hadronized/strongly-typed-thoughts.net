@@ -1,7 +1,5 @@
 import Control.Concurrent.STM.TVar (newTVarIO)
-import Data.Default (Default(..))
-import Data.Maybe  (fromMaybe)
-import Data.Yaml (decodeFile)
+import Data.Yaml (decodeFileEither)
 import Network.Wai.Handler.Warp (defaultSettings, runSettings, setLogger, setPort)
 
 import Blog (defaultBlogEntryMapping, refreshBlog)
@@ -12,26 +10,29 @@ import WebApp (webApp)
 
 main :: IO ()
 main = do
-  conf <- fmap (fromMaybe def) (decodeFile "server.yaml")
-  let port = configPort conf
-  let uploadDir = configUploadDir conf
-  let blogManifestPath = configBlogEntriesPath conf
+  eitherConf <- decodeFileEither "server.yaml"
 
-  putStrLn $ "starting server on port " ++ show port
+  case eitherConf of
+    Left e -> print e
+    Right conf -> do
+      let port = configPort conf
+      let uploadDir = configUploadDir conf
+      let blogManifestPath = configBlogEntriesPath conf
 
-  -- create the directory to contain uploads if it doesn’t exist yet
-  createDirectoryIfMissing True uploadDir
+      putStrLn $ "starting server on port " ++ show port
 
-  -- create a TVar to hold browser’s files; those will get reloaded everytime a new file is pushed
-  -- and at initialization
-  filesTVar <- newTVarIO defaultPubList
-  refreshBrowserFiles filesTVar
+      -- create the directory to contain uploads if it doesn’t exist yet
+      createDirectoryIfMissing True uploadDir
 
-  -- create a TVar to hold the blog’s entries
-  blogTVar <- newTVarIO defaultBlogEntryMapping
-  refreshBlog blogManifestPath blogTVar
+      -- create a TVar to hold browser’s files; those will get reloaded everytime a new file is pushed
+      -- and at initialization
+      filesTVar <- newTVarIO defaultPubList
+      refreshBrowserFiles filesTVar
 
-  let serverSettings = setLogger logger . setPort (fromIntegral port) $ defaultSettings
-      logger req st _ = putStrLn $ show st ++ " | " ++ show req ++ "\n"
-  runSettings serverSettings (webApp filesTVar uploadDir blogManifestPath blogTVar)
+      -- create a TVar to hold the blog’s entries
+      blogTVar <- newTVarIO defaultBlogEntryMapping
+      refreshBlog blogManifestPath blogTVar
 
+      let serverSettings = setLogger logger . setPort (fromIntegral port) $ defaultSettings
+          logger req st _ = putStrLn $ show st ++ " | " ++ show req ++ "\n"
+      runSettings serverSettings (webApp filesTVar uploadDir blogManifestPath blogTVar)

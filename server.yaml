@@ -1,1 +1,3 @@
-port: 8000
+configPort: 9000
+configUploadDir: "media/uploads"
+configBlogEntriesPath: "media/blog/entries.yaml"
