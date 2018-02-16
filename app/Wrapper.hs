@@ -48,7 +48,7 @@ menuPart t =
             a ! class_ "nav-item is-tab" ! href "/portfolio" $
               span ! class_ "icon" $
                 i ! class_ "fa fa-university" $ pure ()
-            a ! class_ "nav-item is-tab" ! href "http://phaazon.blogspot.fr" $
+            a ! class_ "nav-item is-tab" ! href "/blog" $
               span ! class_ "icon" $
                 i ! class_ "fa fa-pencil" $ pure ()
             -- a ! class_ "nav-item is-tab" ! href "/upload" $
