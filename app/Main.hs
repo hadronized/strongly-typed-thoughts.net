@@ -1,9 +1,8 @@
-import Network.Wai.Handler.Warp (run)
-
 import Control.Concurrent.STM.TVar (newTVarIO)
 import Data.Default (Default(..))
 import Data.Maybe  (fromMaybe)
 import Data.Yaml (decodeFile)
+import Network.Wai.Handler.Warp (defaultSettings, runSettings, setLogger, setPort)
 
 import Blog (defaultBlogEntryMapping, refreshBlog)
 import FileBrowser (defaultPubList, refreshBrowserFiles)
@@ -32,4 +31,7 @@ main = do
   blogTVar <- newTVarIO defaultBlogEntryMapping
   refreshBlog blogManifestPath blogTVar
 
-  run (fromIntegral port) (webApp filesTVar uploadDir blogManifestPath blogTVar)
+  let serverSettings = setLogger logger . setPort (fromIntegral port) $ defaultSettings
+      logger req st _ = putStrLn $ show st ++ " | " ++ show req ++ "\n"
+  runSettings serverSettings (webApp filesTVar uploadDir blogManifestPath blogTVar)
+
