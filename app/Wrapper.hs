@@ -39,8 +39,6 @@ menuPart t =
           div ! class_ "nav-left" $
             a ! class_ "nav-item is-tab" ! href "#" $ toHtml t
 
-          --div ! class_ "nav-center" $ do
-
           div ! class_ "nav-right" $ do
             a ! class_ "nav-item is-tab" ! href "/" $
               span ! class_ "icon" $
@@ -51,9 +49,6 @@ menuPart t =
             a ! class_ "nav-item is-tab" ! href "/blog" $
               span ! class_ "icon" $
                 i ! class_ "fa fa-pencil" $ pure ()
-            -- a ! class_ "nav-item is-tab" ! href "/upload" $
-            --   span ! class_ "icon" $
-            --     i ! class_ "fa fa-cloud-upload" $ pure ()
             a ! class_ "nav-item is-tab" ! href "/browse" $
               span ! class_ "icon" $
                 i ! class_ "fa fa-cloud-download" $ pure ()
