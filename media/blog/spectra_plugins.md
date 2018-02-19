@@ -274,7 +274,7 @@ fn main() {
 
   if compilation.status.success() {
     let lib = Library::new(&target_path).unwrap();
-    let symbol = unsafe { lib.get::\<extern fn ()\>(b"hello_world").unwrap() };
+    let symbol = unsafe { lib.get::<extern fn ()>(b"hello_world").unwrap() };
 
     symbol();
   } else {
