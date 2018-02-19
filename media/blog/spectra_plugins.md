@@ -116,12 +116,12 @@ This is actually pretty simple. We’re gonna start easily by making a `.so` tha
 a function called `hello_world` that will just print `"Hello, world!"` on `stdout`. You all know how
 to implement such a function:
 
-<pre><code>
+```
 /// hello_world.rs
 pub fn hello_world() {
   println!("Hello, world!");
 }
-</code></pre>
+```
 
 > We make the function `pub` so that it gets actually exported when we generate the dynamic library.
 
@@ -129,10 +129,10 @@ Copy that code and put it in, for instance, `/tmp`.
 
 Then, let’s generate a dynamic library!
 
-<pre><code>
+```
 cd /tmp
 rustc --crate-type dylib hello_world.rs
-</code></pre>
+```
 
 Once `rustc` returned, you should see a new file in `/tmp`: `/tmp/libhello_world.so`! Here we are!
 We have a dynamic library! Let’s try to find our function in it with the handy `nm` program.
@@ -140,14 +140,14 @@ We have a dynamic library! Let’s try to find our function in it with the handy
 > I reckon `nm` is already installed on your machine. If not, it should come with packages like
 > `base-devel`, `build-essentials` or that kind of meta packages.
 
-<pre><code>
+```
 nm /tmp/libhello_world.so | grep hello_world
 0000000000000000 N rust_metadata_hello_world_8787f43e282added376259c1adb08b80
 0000000000040ba0 T _ZN11hello_world11hello_world17h49fe1e199729658eE
-</code></pre>
+```
 
 Urgh. We have a problem. Rust has mangling for its symbol names. It means that it will alter the
-symbols so that it can recognize them in a dynamic library. For instance, it the mangle version of a
+symbols so that it can recognize them in a dynamic library. For instance, the mangle version of a
 function name `foo` defined for a type `A` won’t be the same as the one of `foo` defined for a type
 `B`. However, in our case, we don’t want mangling, because, well, we won’t be able to lookup the
 name up – no one will even try to guess that `_ZN11hello_world11hello_world17h49fe1e199729658eE`
@@ -157,21 +157,21 @@ function name.
 mangled. It’ll be stored in the dynamic library the way you write it. This is done with the
 `#[no_mangle]` attribute.
 
-<pre><code>
+```
 /// hello_world.rs
 #[no_mangle]
 pub fn hello_world() {
   println!("Hello, world!");
 }
-</code></pre>
+```
 
 Now recompile with the same `rustc` line, and run the `nm` + `grep` oneliner again.
 
-<pre><code>
+```
 nm /tmp/libhello_world.so | grep hello_world
 0000000000040b70 T hello_world
 0000000000000000 N rust_metadata_hello_world_8787f43e282added376259c1adb08b80
-</code></pre>
+```
 
 Now you can see there exists a symbol called `hello_world`: this is our symbol!
 
@@ -179,25 +179,25 @@ Now you can see there exists a symbol called `hello_world`: this is our symbol!
 
 For our little example here, we’re just gonna load and run the code in a new project.
 
-<pre><code>
+```
 cd /tmp
 cargo new --bin dyn-hello-world
      Created binary (application) `dyn-hello-world` project
 cd dyn-hello-world
-</code></pre>
+```
 
 Edit the `Cargo.tml` file to include `libloading = "0.5"` in the `[dependencies]` section. Ok, we’re
 good to go. Run a second terminal in which you run this command to automatically check whether your
 code is okay:
 
-<pre><code>
+```
 cd /tmp/dyn-hello-world
 cargo watch
-</code></pre>
+```
 
 Let’s edit our `main.rs` file.
 
-<pre><code>
+```
 extern crate libloading;
 
 use libloading::Library;
@@ -208,7 +208,7 @@ fn main() {
 
   symbol();
 }
-</code></pre>
+```
 
 It should check. A bit of explanation:
 
@@ -219,7 +219,7 @@ It should check. A bit of explanation:
 
 Now compile and run the code:
 
-<pre><code>
+```
 cargo build
    Compiling cc v1.0.4
    Compiling libloading v0.5.0
@@ -229,7 +229,7 @@ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
      Running `target/debug/dyn-hello-world`
 Hello, world!
-</code></pre>
+```
 
 Hurray! We’ve just built our first dynamic library loader!
 
@@ -243,13 +243,13 @@ the `TempDir` goes out of scope. We’ll also be using the `std::process` module
 
 Add the following to your `[dependencies]` section in your `Cargo.toml`:
 
-<pre><code>
+```
 tempdir = "0.3"
-</code></pre>
+```
 
 Ok, let’s compile a Rust source file into a dynamic library from our Rust source code!
 
-<pre><code>
+```
 extern crate libloading;
 extern crate tempdir;
 
@@ -274,7 +274,7 @@ fn main() {
 
   if compilation.status.success() {
     let lib = Library::new(&target_path).unwrap();
-    let symbol = unsafe { lib.get::<extern fn ()>(b"hello_world").unwrap() };
+    let symbol = unsafe { lib.get::\<extern fn ()\>(b"hello_world").unwrap() };
 
     symbol();
   } else {
@@ -282,17 +282,17 @@ fn main() {
     eprintln!("cannot compile {}", stderr);
   }
 }
-</code></pre>
+```
 
 Compile, run, and…
 
-<pre><code>
+```
 cargo run
    Compiling dyn-hello-world v0.1.0 (file:///tmp/dyn-hello-world)
     Finished dev [unoptimized + debuginfo] target(s) in 0.58 secs
      Running `target/debug/dyn-hello-world`
 Hello, world!
-</code></pre>
+```
 
 This piece of code is the first premise of our plugin system. You can see interesting properties:
 
@@ -305,18 +305,18 @@ This piece of code is the first premise of our plugin system. You can see intere
 
 However, there’s a problem. Try adding an `extern crate` to `hello_world.rs`, like, for instance:
 
-<pre><code>
+```
 extern crate spectra;
 
 #[no_mangle]
 pub fn hello_world() {
   println!("Hello, world!");
 }
-</code></pre>
+```
 
 Run `dyn-hello-world`.
 
-<pre><code>
+```
 cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
      Running `target/debug/dyn-hello-world`
@@ -327,7 +327,7 @@ cannot compile error[E0463]: can't find crate for `spectra`
   | ^^^^^^^^^^^^^^^^^^^^^ can't find crate
 
 error: aborting due to previous error
-</code></pre>
+```
 
 Damn, how are we gonna solve this?
 
@@ -337,7 +337,7 @@ The key is to understand how `cargo` deals with the dependencies you declare in 
 `[dependencies]` section. To do this, clean your project, and recompile in *verbose* mode – we’re
 like… *reverse engineering* `cargo build`!
 
-<pre><code>
+```
 cargo clean -p dyn-hello-world
 cargo build --verbose
        Fresh libc v0.2.36
@@ -352,7 +352,7 @@ cargo build --verbose
    Compiling dyn-hello-world v0.1.0 (file:///tmp/dyn-hello-world)
      Running `rustc --crate-name dyn_hello_world src/main.rs --crate-type bin --emit=dep-info,link -C debuginfo=2 -C metadata=e8b1e5e96f709abe -C extra-filename=-e8b1e5e96f709abe --out-dir /tmp/dyn-hello-world/target/debug/deps -C incremental=/tmp/dyn-hello-world/target/debug/incremental -L dependency=/tmp/dyn-hello-world/target/debug/deps --extern tempdir=/tmp/dyn-hello-world/target/debug/deps/libtempdir-9929bcad6dc8cc47.rlib --extern libloading=/tmp/dyn-hello-world/target/debug/deps/liblibloading-a2854ce154eb4d6f.rlib -L native=/tmp/dyn-hello-world/target/debug/build/libloading-4553b9f132aa813a/out`
     Finished dev [unoptimized + debuginfo] target(s) in 0.50 secs
-</code></pre>
+```
 
 We can see a few things going on here. First, there are some `Fresh` lines we’re not interested
 about. Then `cargo` tries to compile our application. You can see an invokation to `rustc` with a
@@ -369,9 +369,9 @@ long list of arguments. Among them, two interest us:
 
 As you can see, the path used in `-L dependencie=…` is pretty *constant*. It seems it has the form:
 
-<pre><code>
+```
 /path/to/project/target/<build type>/deps
-</code></pre>
+```
 
 However, remember that the initial intent was to write a plugin system for `spectra`, which is a
 library. We don’t know the path to the project that will be using `spectra`, so we must find it in
@@ -388,7 +388,7 @@ I chose the second option because it was pretty easy and straight-forward to imp
 I’m not a huge fan of it – it’s pretty… non-elegant to me. Here’s the code that gives me the root
 path of the current project a function is defined in:
 
-<pre><code>
+```
 /// Try to find the project root path so that we can pick dependencies.
 fn find_project_root() -> Result<PathBuf, PluginError> {
   let result =
@@ -413,7 +413,7 @@ fn find_project_root() -> Result<PathBuf, PluginError> {
     root.ok_or_else(|| PluginError::CannotFindMetaData("cannot extract root project path from metadata".to_owned()))
   }
 }
-</code></pre>
+```
 
 As you can see, I use the `cargo locate-project` feature, that gives you the root path of the
 project the `cargo` invokation is in. It supports calling it from a subdirectory, which is neat (a
@@ -434,9 +434,9 @@ Finding the build type is pretty easy: you can use the `debug_assertions` `cfg!`
 to `true` on `debug` target and `false` on `release`. You can actually witness it works with the
 following oneliner:
 
-<pre><code>
+```
 println!("build target is debug: {}", cfg!(debug_assertions));
-</code></pre>
+```
 
 Ok, now, how do we find our `spectra` crate’s path? You saw it has a metadata glued to its name in
 the previous verbose output.
@@ -446,7 +446,7 @@ elegant, it’s highly unsafe, but for now, it works. I’ll try to find a bette
 
 Here’s the code.
 
-<pre><code>
+```
 /// Find the spectra crate in the given directory.
 fn find_spectra_crate(path: &Path) -> Result<PathBuf, PluginError> {
   // we open the directory we pass in as argument to the function
@@ -471,7 +471,7 @@ fn find_spectra_crate(path: &Path) -> Result<PathBuf, PluginError> {
     Err(PluginError::CannotFindMetaData("cannot find read dependencies".to_owned()))
   }
 }
-</code></pre>
+```
 
 If you put those three functions altogether, you can now implement the `rustc` call without
 hardcoding any paths, since they all will be found at runtime and injected in the call!
@@ -488,12 +488,12 @@ talk too much about `warmy` – if you’re interested, go read the online docum
 The idea is that I just created a type that wraps both `libloading::Library` and `tempdir::TempDir`.
 Something like this:
 
-<pre><code>
+```
 pub struct Plugin {
   lib: Library,
   dir: TempDir
 }
-</code></pre>
+```
 
 I still don’t know whether I need to implement `Drop` or not – if the `TempDir` dies first, I don’t
 know whether the `Library` object is in an unstable state. If not, that means that the whole library
