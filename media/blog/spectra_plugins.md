@@ -102,8 +102,8 @@ runtime, inside our application. For achieving that goal, we need to load a dyna
 on Linux) with [`libloading::Libray::open`](https://docs.rs/libloading/0.5.0/libloading/struct.Library.html#method.new).
 Once we have the library, we can just look a symbol up with
 [`libloading::Library::get`](https://docs.rs/libloading/0.5.0/libloading/struct.Library.html#method.get).
-In case of a successful lookup, that function returns a value of type `Symbol>`, which implements
-`Deref` for the symbol your asking.
+In case of a successful lookup, that function returns a value of type `Symbol`, which implements
+`Deref` for the symbol you’re asking.
 
 > Dynamic library typically gathers functions, so we’ll be looking for `fn` symbols.
 
@@ -186,9 +186,9 @@ cargo new --bin dyn-hello-world
 cd dyn-hello-world
 ```
 
-Edit the `Cargo.tml` file to include `libloading = "0.5"` in the `[dependencies]` section. Ok, we’re
-good to go. Run a second terminal in which you run this command to automatically check whether your
-code is okay:
+Edit the `Cargo.toml` file to include `libloading = "0.5"` in the `[dependencies]` section. Ok,
+we’re good to go. Run a second terminal in which you run this command to automatically check
+whether your code is okay:
 
 ```
 cd /tmp/dyn-hello-world
@@ -300,8 +300,8 @@ This piece of code is the first premise of our plugin system. You can see intere
   dynamic library.
 - There’s no need to depend on a dynamic library *directly*, since we can just generate it on the
   fly!
-- Can display error messages (the current code is a bit perfunctory but you could enhance to have
-  nice error messages!).
+- You can display error messages (the current code is a bit perfunctory but you could enhance to
+  have nice error messages!).
 
 However, there’s a problem. Try adding an `extern crate` to `hello_world.rs`, like, for instance:
 
@@ -358,7 +358,7 @@ We can see a few things going on here. First, there are some `Fresh` lines we’
 about. Then `cargo` tries to compile our application. You can see an invokation to `rustc` with a
 long list of arguments. Among them, two interest us:
 
-- The one specifying the list of dependencies your project, needs:
+- The one specifying the list of dependencies your project needs:
   + `-L dependency=/tmp/dyn-hello-world/target/debug/deps`.
 - The ones specifying the list of crates you might use in `extern crate` statements.
   + `--extern tempdir=/tmp/dyn-hello-world/target/debug/deps/libtempdir-9929bcad6dc8cc47.rlib`
@@ -475,6 +475,14 @@ fn find_spectra_crate(path: &Path) -> Result<PathBuf, PluginError> {
 
 If you put those three functions altogether, you can now implement the `rustc` call without
 hardcoding any paths, since they all will be found at runtime and injected in the call!
+
+> A bit of hindsight. I didn’t explain that, but it’s a bit obvious: you won’t be able to use all
+> the crates you want in your plugins, for a very simple reason: you must have them installed
+> somewhere. In order for the `find_spectra_crate` to find anything, you must have `spectra = "…"`
+> in the `[dependencies]` section of your `Cargo.toml`. If you want to use any crate, you need to
+> add them in the `[dependencies]` and write a smarter function that parses the `Cargo.toml`’s
+> `[dependencies]` section and add them to the `rustc` invokation… which is basically like
+> re-writting a feature of `cargo` itself!
 
 ## How do you make auto-reload again?
 
