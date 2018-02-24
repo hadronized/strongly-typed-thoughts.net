@@ -244,7 +244,7 @@
   blogEntryTags: [spectra, Rust, plugins, dynamic library]
   blogEntrySlug: spectra_plugins
 
-- blogEntryName: Spectra gets Rust scripting!
+- blogEntryName: warmy-0.6.0; bug fixes and rewrite
   blogEntryPath: media/blog/warmy_rewrite.md
   blogEntryPublishDate: 2018-02-23 19:46:00 Z
   blogEntryTags: [warmy, fix, bug]
