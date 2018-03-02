@@ -64,7 +64,7 @@ A macro is generally used to introduce an [EDSL]. For instance, [nom]’s [`do_p
 uses a funny EDSL (you use operators like `>>` and return result with `(…)`, which is not
 *normal* Rust code).
 
-The [`uniform_interface`] macro uses an EDSL that you know very well: it’s plain Rust code! Hot
+The [`uniform_interface!`] macro uses an EDSL that you know very well: it’s plain Rust code! Hot
 news: you’ll have nothing more to learn!
 
 > Note: it’s not really *any* Rust code, since you can only define `struct`s. Then, see that as a
