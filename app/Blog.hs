@@ -147,8 +147,8 @@ blogEntry blogEntryMapping slug = do
   case H.lookup slug (blogEntryMap entries) of
     Just (entry, rendered) -> do
       let entryName = blogEntryName entry
-          title = entryName <> " – phaazon.net/blog"
-      wrapper title $ do
+          entryTitle = entryName <> " – phaazon.net/blog"
+      wrapper entryTitle $ do
         section ! class_ "section hero content is-primary is-bold" $ do
           div ! class_ "level" $ do
             span ! class_ "level-left" $ do
