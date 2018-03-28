@@ -1,6 +1,6 @@
 It’s been a while since I’ve been wanting to do this. Either on IRC, Reddit, GitHub Issues, IRL or
 other any other way of communicating, there are more and more people asking me to *compare
-[luminance] to other, well known and famous, rendering-like frameworks.
+[luminance] to other, well known and famous, rendering-like frameworks*.
 
 I’ve made a listing with pros and cons. in the [README] file of [luminance]. I’ll just copy that
 section and report it below so that you’re not even a click away from the listing!
