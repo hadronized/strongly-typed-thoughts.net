@@ -255,3 +255,9 @@
   blogEntryPublishDate: 2018-03-01 02:18:00 Z
   blogEntryTags: [luminance, uniform, interface, derive, macro]
   blogEntrySlug: auto_derive_luminance-0.25.5
+
+- blogEntryName: Main differences between luminance and other famous Rust crates
+  blogEntryPath: media/blog/luminance_comparing.md
+  blogEntryPublishDate: 2018-03-28 18:40:00 Z
+  blogEntryTags: [luminance, glium, gfx-rs, vulkano, amethyst, spectra]
+  blogEntrySlug: luminance_comparing
