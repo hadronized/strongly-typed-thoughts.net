@@ -261,3 +261,9 @@
   blogEntryPublishDate: 2018-03-28 18:40:00 Z
   blogEntryTags: [luminance, glium, gfx-rs, vulkano, amethyst, spectra]
   blogEntrySlug: luminance_comparing
+
+- blogEntryName: "Asynchronous warmy: a prequel"
+  blogEntryPath: media/blog/async_warmy_prequel.md
+  blogEntryPublishDate: 2018-05-08 19:30:00 Z
+  blogEntryTags: [asynchronous, futures, warmy]
+  blogEntrySlug: asynchronous_warmy_prequel
