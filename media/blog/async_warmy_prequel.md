@@ -2,17 +2,17 @@ Last weeks were interesting for [warmy], a crate I’ve been writing for several
 now that enables you to hot load and reload scarce resources – e.g. textures, meshes, configuration,
 JSON parameters, dependency nodes, whatever. [warmy] received several interesting features, among:
 
-- *Context passing*: it is now possible to pass a mutable reference (`&mut self`) to a typed context
+- *Context passing*: it is now possible to pass a mutable reference (`&mut`) to a typed context
   when loading and reloading a resource. This enables per-value loadings, which is neat if you need
   to add extra data when loading your resources (e.g. increment a counter).
 - *Methods support*: before version 0.7, you had to implement a trait, `Load`, in order to tell
   [warmy] how to load a given object of a given type. This is convenient but carries a bad drawback:
   if you want to represent your object with both JSON and XML for instance, you need to *type wrap*
   your type so that you can `impl Load` twice. This was annoying and the type system also handed you
-  back an object which the type was the wrapper type, not the wrapped type. This annoyance was
-  removed in 0.7 as you know have an extra type variable to `Load` – it defaults to `()` though –
+  back an object which type was the wrapper type, not the wrapped type. This annoyance was
+  removed in 0.7 as you now have an extra type variable to `Load` – it defaults to `()` though –
   that you can use to `impl Load` several times – think of that tag type variable as a type
-  representing the *encoding* or the *method* to use to load your type.
+  representing the *encoding* or the *method* to use to load your value.
 - *A VFS (Virtual FileSystem)*: the VFS makes it possible to write resource keys without caring
   about their real location – e.g. `/splines/color_grading.json`. Before that, you still had to
   provide a real filesystem path, which was both confusing and annoying (since you already give one
@@ -22,7 +22,7 @@ JSON parameters, dependency nodes, whatever. [warmy] received several interestin
 [I posted on reddit](https://www.reddit.com/r/rust/comments/8fy3q4/warmy070_vfs_context_passing_reload_methods_and/)
 in order to make people know of the new version, and interesting talks started to occur on both IRC
 and GitHub. What people seem to want the most now is *asynchronous loading and reloading*. I’ve been
-wanting that feature for a while so I decided it could be a good idea to start working on it.
+wanting that feature for a while too so I decided it could be a good idea to start working on it.
 However, after a day of toying around, I came to the realization that I should write a small blog
 post about it because I think it’s not trivial and it could help me shape my ideas.
 
@@ -33,23 +33,23 @@ post about it because I think it’s not trivial and it could help me shape my i
 # Synchronous versus asynchronous
 
 What does it mean to have a *synchronous* computation? What does it mean to have an *asynchronous*
-one? You might find it funny, but a lot of people are still confused at the exact definition, so
+one? You might find it funny, but a lot of people are still confused with the exact definition, so
 I’ll try to give you more hindsight.
 
 We talk about a *synchronous* task when we have to wait for it to finish before moving on to another
 task. We have to wait until its completion to get the control flow back and call other functions. We
 often talk about *blocking computations*, because you cannot do anything else while that computation
-is running.
+is running – at least on the thread this computation is running on.
 
 We talk about an *asynchronous* task when you can get the control flow back without having to wait
-for the task to finish. However, that doesn’t necessarily mean that the task is being executed in
-parallel or concurrently. At some extent, you could easily label [generators] as *asynchronous
+for the task to finish. However, **that doesn’t necessarily mean that the task is being executed in
+parallel or concurrently**. At some extent, you could easily label [generators] as *asynchronous
 primitives*, and this is what actually happens in `async / await` code: you give back the control
 flow to the caller and the callee execution gets re-scheduled later. Hence, this is asynchronous
 programming, yet the scheduling execution could be implemented on a single thread – hence no
 parallel nor concurrency actually happen. Another example is when you perform a HTTP request: you
-can send the request and instead of blocking until the response arrives, you can give the control
-back, do something else, and then, at some time, handles the response. You don’t need parallelism
+can send the request and instead of blocking until the response arrive, you can give the control
+back, do something else, and then, at some time, handle the response. You don’t need parallelism
 to do this: you need asynchronous programming.
 
 > Note: a generalization of a generator is a [coroutine], which hands the control flow back to
@@ -57,7 +57,7 @@ to do this: you need asynchronous programming.
 
 # What about warmy?
 
-At the time of writing this blog entry – is completely synchronous. Consider the following
+At the time of writing this blog entry, [warmy] is completely synchronous. Consider the following
 example:
 
 ```
@@ -160,12 +160,13 @@ to understand what’s really happening:
   1. First, `/foo.json` is loading on the current thread.
   2. Then, when it’s loaded and cached, `/foo2.json` starts loading.
 
-We can already see a pity here: both the files are completely disconnected from each other. So we
-could perfectly imagine this new scenario:
+We can already see a pity here: both the files are completely disconnected from each other, yet, the
+second file must wait for the former to finish before starting loading. We’re not using all the
+cores / threads of our CPU. So we could perfectly imagine this new scenario:
 
   1. First, ask to load `/foo.json` and immediately get control flow back.
   2. Then, ask to load `/foo2.json` and immediately get control flow back.
-  3. Wait for both the resource to be available, then continue.
+  3. Wait for both the resources to be available, then continue.
 
 You could even do whatever you want between (2.) and (3.). The point here is that we can run tasks
 without having to wait for them to finish before starting others. The explicit *waiting* part could
@@ -200,7 +201,7 @@ function argument. Because that function might take a while (at least several mi
   1. Either we decide to block the current thread until a response gets available (the host responds
      to our ping and we get the packet back).
   2. Or either we decide to free the control flow from the `ping` function and do something else
-     until the response arrives.
+     until the response arrive.
 
 If you’ve followed all what I said since the beginning of this blog post, you might have noticed that
 (1.) is synchronous and (2.) is asynchronous (also notice that we haven’t talked about parallelism
@@ -275,8 +276,8 @@ impl Future<Item = AsyncRes<T>, Error = StoreErrorOr<T, C>>
 Which reads as *“An asynchronous resource of type `T` available in the future or an error due to the
 loading of `T` and `C` or due to the store”*.
 
-However, something important to notice is that we miss something important here: we actually *want a
-parallel execution*. How to do this properly is by defining a small state machine to step through the
+However, something important to notice is that we miss a crucial point here: we actually *want a
+parallel execution*. We could start try by defining a small state machine to step through the
 process of loading a resource. That could be:
 
 ```
@@ -311,7 +312,7 @@ impl<K, T, C> Future for LoadState<K, T, C> {
         });
 
         // spawn a new task to load the resource and update the state machine
-        context.spawn(task);
+        ctx.spawn(task);
         *self = LoadState::Loading(rx);
         Ok(Async::NotReady)
       }
