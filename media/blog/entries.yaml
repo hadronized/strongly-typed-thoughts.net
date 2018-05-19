@@ -267,3 +267,9 @@
   blogEntryPublishDate: 2018-05-08 19:30:00 Z
   blogEntryTags: [asynchronous, futures, warmy]
   blogEntrySlug: asynchronous_warmy_prequel
+
+- blogEntryName: Rank-n functions in Rust?
+  blogEntryPath: media/blog/rank_n_rust.md
+  blogEntryPublishDate: 2018-05-19 12:48:00 Z
+  blogEntryTags: [Haskell, Rust, existential, functions, rank-n]
+  blogEntrySlug: rank-n-rust
