@@ -13,11 +13,11 @@ In **Haskell**, you would represent this scenario like this:
 ```
 data T = T -- we’re not interested in this type yet
 
-               v this is F
+        --     v this is F
         --------------
 foo :: ((() -> T) -> b) -> b
          -------
-            ^ this is Λ
+         -- ^ this is Λ
 
 -- or for people less familiar with Haskell, here’s a decomposed version (but still the same thing)
 type Λ = () -> T
