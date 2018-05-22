@@ -178,7 +178,7 @@ still leak it, temporarily giving you the power to move out of it. You will also
 want to have `A = T`, it’s possible: that would mean you destructure a value and re-build it back
 again inside the same type, which is still sound.
 
-However, this function has would make it very easy to leak any field you don’t move out. This is
+However, this function would make it very easy to leak any field you don’t move out. This is
 actually the same situation as with `mem::forget`: if you forget to `mem::replace` a field before
 calling `mem::forget`, you end up in the exact same situation.
 
