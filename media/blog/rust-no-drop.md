@@ -156,7 +156,7 @@ The problem is that I used to function I wish I didn’t:
     [as the docs state](https://doc.rust-lang.org/std/mem/fn.uninitialized.html),
     **incredibly hazardous**.
   - `mem::forget`, which is not unsafe in the Rust idea of safety, but still has some kind of very
-    nasty unsafety deep in it – it’s very easy to leak resources if you don’t pay extra mind.
+    nasty unsafety deep in it – it’s very easy to leak resources if you don’t pay extra attention.
 
 The problem is that Rust doesn’t allow you to move out of a value which implement `Drop` even if you
 know that you’ll `forget` it. Rust doesn’t currently have a primitive / function to express both
@@ -182,7 +182,7 @@ However, this function would make it very easy to leak any field you don’t mov
 actually the same situation as with `mem::forget`: if you forget to `mem::replace` a field before
 calling `mem::forget`, you end up in the exact same situation.
 
-I agree it’s a very nich need, and if you’re curious about why I need this, it’s because of how
+I agree it’s a very niche need, and if you’re curious about why I need this, it’s because of how
 *buffers* are handled in [luminance]. The `Buffer<T>` type has an internal `RawBuffer` as field that
 holds GPU handles and internal details and a `PhantomData<T>`. It’s possible to convert from
 one type to the other but both implement `Drop`, so you have to implement the hack I just presented
