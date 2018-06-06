@@ -12,7 +12,7 @@ import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes hiding (span)
 import Prelude hiding (div, id, head, span)
 
--- |Wrapper function.
+-- |Wrapper function that must be applied to any page’s content.
 wrapper :: (MonadIO m) => Text -> Html -> m Html
 wrapper t cont = do
     (year, _, _) <- liftIO $ fmap (toGregorian . utctDay) getCurrentTime
@@ -21,6 +21,7 @@ wrapper t cont = do
       head $ do
         H.title (toHtml $ t)
         meta ! charset "utf-8"
+        meta ! name "viewport" ! content "width=device-width, initial-scale=1"
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/bulma.css"
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/font-awesome.min.css"
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/index.css"
@@ -28,7 +29,6 @@ wrapper t cont = do
         -- code hilighting
         link ! rel "stylesheet" ! href "/static/css/highlight/styles/gruvbox-dark.css"
         script ! src "/static/css/highlight/highlight.pack.js" $ ""
-        --script ! src "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js" $ ""
         script "hljs.initHighlightingOnLoad();"
       body $ do
         menuPart t
