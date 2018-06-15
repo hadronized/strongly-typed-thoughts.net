@@ -9,9 +9,10 @@ module FileBrowser (
   , refreshBrowserFiles
   ) where
 
+import Control.Concurrent.Async (async)
 import Control.Concurrent.STM (atomically)
 import Control.Concurrent.STM.TVar (TVar, readTVarIO, writeTVar)
-import Control.Monad (unless)
+import Control.Monad (unless, void)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.List (isInfixOf, sort)
 import Servant ((:<|>)(..), (:>), Get)
@@ -94,9 +95,9 @@ createPubList files = do
     isText = isInfixOf "text"
     isPaper = isInfixOf "pdf"
 
--- Replace the current PubList in a TVar by freshly acquired data.
+-- Asynchronously replace the current PubList in a TVar by freshly acquired data.
 refreshBrowserFiles :: (MonadIO m) => TVar PubList -> m ()
-refreshBrowserFiles var = liftIO $ do
+refreshBrowserFiles var = liftIO . void . async $ do
   files <- fmap (filter (not . flip elem [".", ".."])) (getDirectoryContents uploadDir)
   pl <- createPubList (map (uploadDir </>) files)
   atomically (writeTVar var pl)

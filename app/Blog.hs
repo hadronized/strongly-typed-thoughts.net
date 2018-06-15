@@ -11,8 +11,10 @@ module Blog (
   , refreshBlog
   ) where
 
+import Control.Concurrent.Async (async)
 import Control.Concurrent.STM (atomically)
 import Control.Concurrent.STM.TVar (TVar, readTVarIO, writeTVar)
+import Control.Monad (void)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.Aeson (FromJSON)
 import Data.Foldable (traverse_)
@@ -32,7 +34,7 @@ import Servant ((:>), (:<|>)(..), Capture, Get, Post)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
 import Text.Blaze.Html5 hiding (style)
-import Text.Blaze.Html5.Attributes hiding (content, for, icon, name, span)
+import Text.Blaze.Html5.Attributes hiding (async, content, for, icon, name, span)
 
 import Markdown (markdownToHtml_)
 import Wrapper (wrapper)
@@ -85,10 +87,9 @@ newtype BlogEntryMapping = BlogEntryMapping {
 defaultBlogEntryMapping :: BlogEntryMapping
 defaultBlogEntryMapping = BlogEntryMapping mempty
 
--- Read all the articles and return the HTML representation. Return a string description errors
--- if any occurred.
+-- Asynchronously read all the articles and return the HTML representation.
 refreshBlog :: (MonadIO m) => FilePath -> TVar BlogEntryMapping -> m ()
-refreshBlog manifestPath blogEntryMapping = do
+refreshBlog manifestPath blogEntryMapping = void . liftIO . async $ do
   manif <- readBlogEntryManifest manifestPath
   case manif of
     Left e -> liftIO (print e)
@@ -137,7 +138,7 @@ blogListing entry = do
     span ! class_ "level-left" $ do
       span ! class_ "level-item" $
         a ! href (toValue $ "blog/" <> blogEntrySlug entry) $ toHtml (blogEntryName entry)
-    span ! class_ "level-item" $ em $ renderTags entry
+
     span ! class_ "level-right" $ do
       span ! class_ "level-item" $ em $ "on " <> toHtml (show $ blogEntryPublishDate entry)
 
@@ -147,9 +148,11 @@ blogEntry blogEntryMapping slug = do
   case H.lookup slug (blogEntryMap entries) of
     Just (entry, rendered) -> do
       let entryName = blogEntryName entry
+          tags = renderTags entry
       wrapper "Blog" $ do
         section ! class_ "section container" $ do
           h1 ! class_ "title" $ toHtml entryName
+          h2 ! class_ "subtitle" $ em tags
           h2 ! class_ "subtitle" $ toHtml (show $ blogEntryPublishDate entry) <> ", by Dimitri Sabadie"
           hr
           div ! class_ "content blog-content" $ rendered
