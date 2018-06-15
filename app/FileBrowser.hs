@@ -14,12 +14,12 @@ import Control.Concurrent.STM.TVar (TVar, readTVarIO, writeTVar)
 import Control.Monad (unless)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.List (isInfixOf, sort)
-import Magic (MagicFlag(..), magicFile, magicLoadDefault, magicOpen)
 import Servant ((:<|>)(..), (:>), Get)
 import Servant.Server (Server)
 import Servant.HTML.Blaze (HTML)
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>), takeFileName)
+import System.Process (readProcess)
 import Text.Blaze.Html5 (AttributeValue, Html, (!), a, h3, li, section, toHtml, toValue, ul)
 import Text.Blaze.Html5.Attributes as A (class_, href, id)
 
@@ -64,12 +64,12 @@ data PubList = PubList {
 defaultPubList :: PubList
 defaultPubList = PubList [] [] [] [] [] [] [] []
 
+-- FIXME: see #6, which is a workaround
 -- Returns the list of mimes for each files in the input.
 mimes :: [FilePath] -> IO [String]
-mimes files = do
-  magicDB <- magicOpen [MagicMime, MagicPreserveAtime]
-  magicLoadDefault magicDB
-  traverse (magicFile magicDB) files
+mimes = traverse guessMime
+  where
+    guessMime path = readProcess "file" ["--mime-type", "-b", "-h", path] ""
 
 -- Create a list of files.
 createPubList :: [FilePath] -> IO PubList
