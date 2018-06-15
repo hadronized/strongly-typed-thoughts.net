@@ -39,49 +39,55 @@ menuPart:: Text -> Html
 menuPart t =
   section ! class_ "hero is-danger is-bold" $ do
     div ! class_ "hero-body" $ do
-      div ! class_ "container" $ do
-        nav ! class_ "nav has-shadow" $ do
-          div ! class_ "nav-left" $
-            a ! class_ "nav-item is-tab" ! href "#" $ toHtml t
+      div ! class_ "level is-mobile has-shadow" $ do
+        div ! class_ "level-item" $
+          p ! class_ "title" $ toHtml t
 
-          div ! class_ "nav-right" $ do
-            a ! class_ "nav-item is-tab" ! href "/" $
-              span ! class_ "icon" $
-                i ! class_ "fa fa-home" $ pure ()
-            a ! class_ "nav-item is-tab" ! href "/portfolio" $
-              span ! class_ "icon" $
-                i ! class_ "fa fa-university" $ pure ()
-            a ! class_ "nav-item is-tab" ! href "/blog" $
-              span ! class_ "icon" $
-                i ! class_ "fa fa-pencil" $ pure ()
-            a ! class_ "nav-item is-tab" ! href "/browse" $
-              span ! class_ "icon" $
-                i ! class_ "fa fa-cloud-download" $ pure ()
+        div ! class_ "level-item" $ do
+          a ! href "/" $
+            span ! class_ "icon" $
+              i ! class_ "fa fa-home" $ pure ()
+
+        div ! class_ "level-item" $ do
+          a ! href "https://git.phaazon.net" $
+            span ! class_ "icon" $
+              i ! class_ "fa fa-code-fork" $ pure ()
+        div ! class_ "level-item" $ do
+          a ! href "/portfolio" $
+            span ! class_ "icon" $
+              i ! class_ "fa fa-university" $ pure ()
+        div ! class_ "level-item" $ do
+          a ! href "/blog" $
+            span ! class_ "icon" $
+              i ! class_ "fa fa-pencil" $ pure ()
+        div ! class_ "level-item" $ do
+          a ! href "/browse" $
+            span ! class_ "icon" $
+              i ! class_ "fa fa-cloud-download" $ pure ()
 
 footerPart :: Int -> Html
 footerPart year = do
   footer ! class_ "footer" $ 
-    div ! class_ "container" $ do
-      div ! class_ "content has-text-centered" $ do
-        p . sequence_ $ intersperse " "
-          [
-            a ! class_ "icon" ! href "https://github.com/phaazon" $
-              i ! class_ "fa fa-github" $ pure ()
-          , a ! class_ "icon" ! href "https://twitter.com/phaazon_" $
-              i ! class_ "fa fa-twitter" $ pure ()
-          , a ! class_ "icon" ! href "https://www.linkedin.com/in/dimitri-sabadie-97a9009b/" $
-              i ! class_ "fa fa-linkedin-square" $ pure ()
-          , a ! class_ "icon" ! href "https://soundcloud.com/phaazon" $
-              i ! class_ "fa fa-soundcloud" $ pure ()
-          , a ! class_ "icon" ! href "https://stackoverflow.com/users/1784267/phaazon" $
-              i ! class_ "fa fa-stack-overflow" $ pure ()
-          , a ! class_ "icon" ! href "/media/uploads/cv.pdf" $
-              i ! class_ "fa fa-graduation-cap" $ pure ()
-          ]
-        p . sequence_ $ intersperse " · "
-          [
-            a ! href "http://haskell.org/" $ "Haskell"
-          , a ! href "http://haskell-servant.readthedocs.io" $ "servant"
-          , a ! href "http://bulma.io" $ "bulma"
-          ]
-        p $ void (toHtml $ "Copyright © 2014—" ++ show year ++ ", Dimitri Sabadie")
+    div ! class_ "content has-text-centered" $ do
+      p . sequence_ $ intersperse " "
+        [
+          a ! class_ "icon" ! href "https://github.com/phaazon" $
+            i ! class_ "fa fa-github" $ pure ()
+        , a ! class_ "icon" ! href "https://twitter.com/phaazon_" $
+            i ! class_ "fa fa-twitter" $ pure ()
+        , a ! class_ "icon" ! href "https://www.linkedin.com/in/dimitri-sabadie-97a9009b/" $
+            i ! class_ "fa fa-linkedin-square" $ pure ()
+        , a ! class_ "icon" ! href "https://soundcloud.com/phaazon" $
+            i ! class_ "fa fa-soundcloud" $ pure ()
+        , a ! class_ "icon" ! href "https://stackoverflow.com/users/1784267/phaazon" $
+            i ! class_ "fa fa-stack-overflow" $ pure ()
+        , a ! class_ "icon" ! href "/media/uploads/cv.pdf" $
+            i ! class_ "fa fa-graduation-cap" $ pure ()
+        ]
+      p . sequence_ $ intersperse " · "
+        [
+          a ! href "http://haskell.org/" $ "Haskell"
+        , a ! href "http://haskell-servant.readthedocs.io" $ "servant"
+        , a ! href "http://bulma.io" $ "bulma"
+        ]
+      p $ void (toHtml $ "Copyright © 2014—" ++ show year ++ ", Dimitri Sabadie")

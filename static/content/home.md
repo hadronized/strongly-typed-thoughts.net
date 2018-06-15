@@ -19,7 +19,7 @@ I’m **Dimitri Sabadie**, I’m {{age}} years old. I was born in the South-West
 neighborhood of Bordeaux. You can find me on the net as **phaazon** , **phz** or **skypers**
 (old nickname).
 
-I’ve been writting programs for a very long time. I discovered the C language when I was 12, and
+I’ve been writing programs for a very long time. I discovered the C language when I was 12, and
 started a long trek in the IT jungle. I quickly started getting more and more interested in C++ then
 I wrote a few programs in C, like an .OBJ mesh file loader (shamefuly called lobj) with light and
 camera support in OpenGL. A few days after lobj was released, I got my first way into the IRC world.
