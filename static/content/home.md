@@ -8,8 +8,26 @@ Welcome on my official website. This place is dedicated to what I do on my spare
 nothing to do with any company nor professional purpose. You’ll find only personal-related projects
 and material.
 
-However, if you are a recruiter, you might be interested in [my portfolio](/portfolio) and
-[how to contact me](/contact).
+However, if you are a recruiter, you might be interested in [my portfolio](/portfolio) and/or 
+contact me:
+
+  - Via [GitHub](https://github.com/phaazon).
+  - Via [Twitter](https://twitter.com/phaazon_).
+  - Via IRC – as `phaazon`, `phz_` or similar – on:
+    - Freenode
+    - Mozilla
+    - IRCNet
+  - Via [Linkedin](https://www.linkedin.com/in/dimitri-sabadie-97a9009b).
+
+I don’t update the portfolio very often; I highly suggest you to have a look at my
+[GitHub](https://github.com/phaazon) page for a more accurate idea of my contributions. Also, I’ve
+been making special efforts to decentralize my activity, so here are a few more places where you can
+find work of mine:
+
+  - My own personal [Gitea instance](https://git.phaazon.net).
+  - My [packages on Hackage](https://hackage.haskell.org/user/DimitriSabadie).
+  - My [crates on crates.io](https://crates.io/users/phaazon).
+  - I’m also on [Gitter](https://gitter.im) as phaazon. Feel free to explore!
 
 <h1 class="title">About me…</h1>
 
