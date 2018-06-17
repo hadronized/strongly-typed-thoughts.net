@@ -149,6 +149,10 @@
   color: #EEEEEE;
 }
 
+#home {
+  text-align: justify;
+}
+
 .blog-content {
   text-align: justify;
 }

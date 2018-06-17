@@ -8,9 +8,9 @@ import Control.Monad.IO.Class (MonadIO(..))
 import Data.List (intersperse)
 import Data.Text (Text)
 import Data.Time (getCurrentTime, toGregorian, utctDay)
+import Prelude hiding (div, id, head, span)
 import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html5.Attributes hiding (span)
-import Prelude hiding (div, id, head, span)
 
 -- |Wrapper function that must be applied to any page’s content.
 wrapper :: (MonadIO m) => Text -> Html -> m Html
@@ -30,6 +30,11 @@ wrapper t cont = do
         link ! rel "stylesheet" ! href "/static/css/highlight/styles/gruvbox-dark.css"
         script ! src "/static/css/highlight/highlight.pack.js" $ ""
         script "hljs.initHighlightingOnLoad();"
+        -- github activity
+        link ! rel "stylesheet" ! href "//cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css"
+        link ! rel "stylesheet" ! href "/static/css/github-activity.css"
+        script ! src "//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js" $ ""
+        script ! src "/static/js/github-activity.js" $ ""
       body $ do
         menuPart t
         cont

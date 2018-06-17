@@ -14,7 +14,9 @@ import Data.String (IsString(..))
 import Servant (Get, ServantErr(..))
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server, err500)
-import Text.Blaze.Html (Html)
+import Prelude hiding (div, id)
+import Text.Blaze.Html5 ((!), Html, div, script, toHtml)
+import Text.Blaze.Html5.Attributes (class_, id)
 import Text.Mustache ((~>), compileTemplate, object, substitute)
 
 import Markdown (markdownToHtml)
@@ -32,7 +34,21 @@ home = do
       age <- computeAge
       let markdown = substitute template (object ["age" ~> age])
 
-      markdownToHtml markdown >>= wrapper "Home"
+      homeContent <- markdownToHtml markdown
+
+      wrapper "Home" $ do
+        div ! class_ "columns" $ do
+          div ! id "home" ! class_ "column content" $ homeContent
+
+          div ! class_ "column" $ do
+            div ! id "feed" $ pure ()
+            script . toHtml . unlines $
+              [ "GitHubActivity.feed({"
+              , "  username: \"phaazon\","
+              , "  selector: \"#feed\","
+              , "  limit: 10"
+              , "});"
+              ]
 
 computeAge :: (MonadIO m) => m Int
 computeAge = liftIO $ fmap (age . toGregorian . utctDay) getCurrentTime
