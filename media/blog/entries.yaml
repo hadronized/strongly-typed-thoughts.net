@@ -279,3 +279,9 @@
   blogEntryPublishDate: 2018-05-22 22:22:00 Z
   blogEntryTags: [Rust, Drop, forget, unsafe]
   blogEntrySlug: rust-no-drop
+
+- blogEntryName: "luminance-0.27: cleanup, easier to use and examples!"
+  blogEntryPath: media/blog/luminance-0.27
+  blogEntryPublishDate: 2018-06-28 14:00:00 Z
+  blogEntryTags: [examples, luminance]
+  blogEntrySlug: luminance-0.27
