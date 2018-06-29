@@ -35,7 +35,7 @@ implementations listed above can be invoked with:
 
 For those who wonder:
 
-> *Why have you not implemented [Index] instead?
+> *Why have you not implemented [Index] instead?*
 
 The current [Index] trait doesn’t give you enough power to index a value by returning something else
 than a direct reference. Everything is summed up [in the RFC I wrote to fix Index].
