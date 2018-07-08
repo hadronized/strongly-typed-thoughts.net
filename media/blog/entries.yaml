@@ -285,3 +285,9 @@
   blogEntryPublishDate: 2018-06-28 14:00:00 Z
   blogEntryTags: [examples, luminance]
   blogEntrySlug: luminance-0.27
+
+- blogEntryName: The Cheddar shading language
+  blogEntryPath: media/blog/cheddar-0.1.md
+  blogEntryPublishDate: 2018-07-09 01:00:00 Z
+  blogEntryTags: [edsl, glsl, shading]
+  blogEntrySlug: cheddar-0.1
