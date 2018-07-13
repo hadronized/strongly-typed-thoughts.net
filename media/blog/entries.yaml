@@ -291,3 +291,9 @@
   blogEntryPublishDate: 2018-07-09 01:00:00 Z
   blogEntryTags: [edsl, glsl, shading]
   blogEntrySlug: cheddar-0.1
+
+- blogEntryName: On impl blocks, injection and surjection in Rust
+  blogEntryPath: media/blog/on-rust-impl-block.md
+  blogEntryPublishDate: 2018-07-22 22:05:00 Z
+  blogEntryTags: [typesystem]
+  blogEntrySlug: on-rust-impl-block
