@@ -116,7 +116,7 @@ This won’t work and rustc will complain that `E` is not contrained enough (it 
 
 # Enter surjection and injection
 
-The problem with that last block is that `E` is not constrained on `OrderedList<T>` and is. If you
+The problem with that last block is that `E` is not constrained on `OrderedList<T>`. If you
 don’t know what it means, don’t freak out: I’m going to introduce every concepts you need to know.
 Hang on, it’s gonna be a bit math–ish, but that is worth it.
 
