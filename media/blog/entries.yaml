@@ -297,3 +297,9 @@
   blogEntryPublishDate: 2018-07-22 22:05:00 Z
   blogEntryTags: [typesystem]
   blogEntrySlug: on-rust-impl-block
+
+- blogEntryName: Easy interpolation across splines
+  blogEntryPath: media/blog/interpolation-rs.md
+  blogEntryPublishDate: 2018-08-05 19:00:00 Z
+  blogEntryTags: [interpolation, spline]
+  blogEntrySlug: splines-introduction

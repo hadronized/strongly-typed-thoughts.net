@@ -1,4 +1,4 @@
-This article introduces the [???] crate.
+This article introduces the [splines] crate.
 
 # Preliminary work
 
@@ -73,5 +73,15 @@ their own types. Because the `spline` name is already taken – duh! – I’ll 
 > I’ll take my chance to try to take over `spline` first, though. I really don’t like that kind of
 > things in an ecosystem, it’s just unaesthetic.
 
+> Note²: Ok, I tried, and seems like it’s more complicated than I thought. I’ll just go with the
+> `splines` name then.
+
+So this blogpost serves as an introduction to [splines]. I added a few unit tests to start off with
+and a very few examples in the documentation. Most of the interface is *sufficient* for now but more
+complex needs might show up. If you have any, please shoot an issue or even better, open a PR!
+
+Keep the vibes and happy hacking!
+
+[splines]: https://crates.io/crates/splines
 [smoothie]: https://hackage.haskell.org/package/smoothie
 [B-spline]: https://en.wikipedia.org/wiki/B-spline
