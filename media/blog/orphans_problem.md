@@ -213,7 +213,7 @@ for another blog entry.
 Keep the vibes!
 
 [orphan instance problem]:  https://wiki.haskell.org/Orphan_instance#Description
-[OrphanRules]: https://github.com/Ixrec/rust-orphan-rules#what-are-the-orphan-rules
+[Orphan Rules]: https://github.com/Ixrec/rust-orphan-rules#what-are-the-orphan-rules
 [deref rules]: https://doc.rust-lang.org/std/ops/trait.Deref.html
 [`splines`]: https://crates.io/crates/splines
 [`spectra`]: https://crates.io/crates/spectra
