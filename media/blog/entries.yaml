@@ -303,3 +303,9 @@
   blogEntryPublishDate: 2018-08-05 19:00:00 Z
   blogEntryTags: [interpolation, spline]
   blogEntrySlug: splines-introduction
+
+- blogEntryName: Trying to tackle the orphans problem
+  blogEntryPath: media/blog/orphans_problem.md
+  blogEntryPublishDate: 2018-09-20 12:30:00 Z
+  blogEntryTags: [conditonal-compilation, orphans]
+  blogEntrySlug: orphans-problem
