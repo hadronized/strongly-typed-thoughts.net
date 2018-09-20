@@ -17,7 +17,7 @@ combination of typeclass and types.
 > can find another way because you expose yourself to ambiguities there.
 
 Because Rust also has types and typeclasses (traits), it doesn’t escape the problem very much. You
-still have orphan instances in Rust (called [Orphan Rules] – unofficial link). There’re scoped to
+still have orphan instances in Rust (called [Orphan Rules]). There’re scoped to
 crates though, not modules.
 
 In this blog entry, I want to explore a specific problem of orphans and how I decided to solve it in
@@ -213,7 +213,7 @@ for another blog entry.
 Keep the vibes!
 
 [orphan instance problem]:  https://wiki.haskell.org/Orphan_instance#Description
-[Orphan Rules]: https://github.com/Ixrec/rust-orphan-rules#what-are-the-orphan-rules
+[Orphan Rules]: https://doc.rust-lang.org/reference/items/implementations.html#trait-implementation-coherence
 [deref rules]: https://doc.rust-lang.org/std/ops/trait.Deref.html
 [`splines`]: https://crates.io/crates/splines
 [`spectra`]: https://crates.io/crates/spectra
