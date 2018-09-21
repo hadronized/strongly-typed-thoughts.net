@@ -13,12 +13,12 @@ possible to pick an instances by hand, GHC disables you from writing several ins
 combination of typeclass and types.
 
 > GHC actually has a workaround for the problem: the `{-# OPTIONS_GHC -fno-warn-orphans #-}` pragma
-> annotation (or the `-fno-warn-orphans` compiler option). However, this is not recommended if you
+> annotation (or the `-fno-warn-orphans` compiler switch). However, this is not recommended if you
 > can find another way because you expose yourself to ambiguities there.
 
 Because Rust also has types and typeclasses (traits), it doesn’t escape the problem very much. You
-still have orphan instances in Rust (called [Orphan Rules]). There’re scoped to
-crates though, not modules.
+still have orphan instances in Rust (called [Orphan Rules]). There’re scoped to crates though, not
+modules.
 
 In this blog entry, I want to explore a specific problem of orphans and how I decided to solve it in
 a crate of mine. The problem is the following:
@@ -38,7 +38,7 @@ because no one will ever use your type wrapper, only you (and your team mates, b
 a library?
 
 You will expose a type that is not the source one, forcing people to wrap it again if they want to
-implement another feature. If your type has a very different from the source one, it’s okay.
+implement another feature. If your type has a very different form from the source one, it’s okay.
 However, if you want to stick to the original semantics and use cases, people might get confused,
 especially whenever they will write functions that accept as arguments the source type.
 
@@ -56,7 +56,7 @@ When I thought about where I should write the code to allow serialization / dese
 across the realization that writing it directly in `splines` would add another set of dependencies
 for *everyone*, even people not using the serialization part of it. I was a bit unsatisfied with
 that. So I thought about *“Why not just adding another crate, like `splines-serde`?”* Obviously,
-this doesn’t work because of the orphan rules: you cannot write an implementation of a trait in a
+that doesn’t work because of the orphan rules: you cannot write an implementation of a trait in a
 different crate than where the type or the trait is defined. Meh.
 
 # A limited solution yet a solution: feature-gated impls
@@ -92,11 +92,11 @@ optional = true
 ```
 
 Here, you can see that we are using *default features*. That means that if you depend on `splines`
-in simple way (for instance, by just giving a version string, i.e. `splines = "0.2"`), you’ll get
+in simple ways (for instance, by just giving a version string, i.e. `splines = "0.2"`), you’ll get
 those features enabled by default. In the `splines` case, you’ll get the `"std" ` and
 `"impl-cgmath"` features by default.
 
-Looking at the `"std"` feature, you can see that it doesn’t depende on anything else. That feature
+Looking at the `"std"` feature, you can see that it doesn’t depend on anything else. That feature
 will just make the whole library use the `std` crate. If you disable it, you can compile `splines`
 with `no_std`.
 
@@ -108,7 +108,7 @@ If you look closely at that manifest, you also see a feature that must be set ex
 `"serialization"`. That feature depends on both `serde` and `serde_derive`, adding support for the
 serialization code we talked earlier.
 
-All of this is great and cool but how do we write the `impl`s based on that manifest?
+All of that is great and cool but how do we write the `impl`s based on that manifest?
 
 ## Step 2: the conditional code
 
@@ -151,7 +151,7 @@ Can be rewritten more elegantly as this:
 #![cfg_attr(not(feature = "std"), no_std)]
 ```
 
-For the rest, as `#![]` applies to the direct item after it, it’s easy to write conditional
+For the rest, as `#[]` applies to the direct item after it, it’s easy to write conditional
 `extern crate` for instance:
 
 ```rust
@@ -164,8 +164,8 @@ For the rest, as `#![]` applies to the direct item after it, it’s easy to writ
 #[cfg(feature = "serialization")] #[macro_use] extern crate serde_derive;
 ```
 
-The `#[cfg_attr(…)` is even nicer when wanting to insert attributes on type, as with the `Key`
-type:
+The `#[cfg_attr(…)` is even nicer when wanting to insert attributes on a type definition, as with
+the `Key` type:
 
 ```rust
 #[derive(Copy, Clone, Debug)]
@@ -198,7 +198,7 @@ Interpolation::Cosine => {
 }
 ```
 
-And finally, the one we were looking for our orphans problem:
+And finally, the one we were looking for to solve our orphans problem:
 
 ```rust
 #[cfg(feature = "impl-cgmath")]
