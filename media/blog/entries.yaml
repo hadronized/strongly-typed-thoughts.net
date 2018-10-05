@@ -309,3 +309,9 @@
   blogEntryPublishDate: 2018-09-20 12:30:00 Z
   blogEntryTags: [conditonal-compilation, orphans]
   blogEntrySlug: orphans-problem
+
+- blogEntryName: GLSL quasiquoting in Rust!
+  blogEntryPath: media/blog/glsl-quasiquote.md
+  blogEntryPublishDate: 2018-10-05 19:00:00 Z
+  blogEntryTags: [quasiquoting, glsl]
+  blogEntrySlug: glsl-quasiquoting
