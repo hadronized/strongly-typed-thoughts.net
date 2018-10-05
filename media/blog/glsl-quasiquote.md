@@ -86,8 +86,8 @@ reads that, executes some code defined in the [postgresql-query] library and if 
 the resulting expression is inserted directly at the place of use as if nothing has happened.
 Brillant, right? :)
 
-Having wrote [glsl], that seemed like a perfect – maybe even wanted and mandatory? – opportunity to
-me to introduce GLSL quasiquoting into the Rust environment. Maybe it’ll also bring some people
+Having written [glsl], that seemed like a perfect – maybe even wanted and mandatory? – opportunity
+to me to introduce GLSL quasiquoting into the Rust environment. Maybe it’ll also bring some people
 onto the [glsl] project – I really need hands, especially because the [SPIR-V] transpiler doesn’t
 exist yet!
 
