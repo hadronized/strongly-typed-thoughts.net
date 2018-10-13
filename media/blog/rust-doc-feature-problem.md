@@ -66,7 +66,7 @@ actually applies: what happens if someone tries to contribute? What if you save 
 for some weeks and get back to it afterwards?
 
 Those three paragraphs just show you that the **First Hypothesis** was wrong: there are not several
-situations. Only one: as soon as you write code, whatever whom it’s aimed for, just document it.
+situations. Only one: as soon as you write code, whatever whom it’s aimed at, just document it.
 You’ll be thanked and you might even thank yourself in a near future for doing so. Documenting your
 code enables you to run `cargo doc --open` and immediately start *exploring*. Exploring is when you
 need to catch up with a project’s ideas, concepts, or whenever you join a team as a new job and need
@@ -75,7 +75,7 @@ to get used to the codebase.
 I want to share my experience here: most people are *bad* at this – it’s not necessarily their
 faults, don’t blame them. Most teams I worked in were under high pressure, with business deadlines
 to meet – I’ve been there and still am. This is more about a political discussion to have with “the
-ones who give you such deadlines” but really, **developing a project doesn’t stop to writing code
+ones who give you such deadlines” but really, **developing a project doesn’t stop at writing code
 and testing.** Onboarding and discoverability should be considered of a massive importance, because
 it helps preventing the project from burying itself and getting too bloated for newcomers or even
 long-running team members to understand *the actual heck is happening there*. When someone new joins
@@ -91,7 +91,7 @@ should have *leads* or *hints* to get their feet wet. Several solutions exist to
   - Be consistent: it’s not because a small project consists in only a single shell script that you
     shouldn’t write a `README.md`: **write it**!
   - Something that I love doing, especially at work: have some kind of a cron / task that builds the
-    documentation for all your projects across the scope of your team… and have it host it all of it
+    documentation for all your projects across the scope of your team… and have it host it all
     on a server documented in the top-level `README.md` of your team. This is a real plus: people
     will just go to that documentation link to search for things *“that has already been done by the
     team”* instead of reinventing the wheels – trust me, even the ones who wrote the features might
