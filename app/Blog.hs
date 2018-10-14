@@ -149,7 +149,7 @@ blogEntry blogEntryMapping slug = do
     Just (entry, rendered) -> do
       let entryName = blogEntryName entry
           tags = renderTags entry
-      wrapper "Blog" $ do
+      wrapper entryName $ do
         section ! class_ "section container" $ do
           h1 ! class_ "title" $ toHtml entryName
           h2 ! class_ "subtitle" $ em tags

@@ -7,6 +7,7 @@ import Control.Monad (sequence_, void)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.List (intersperse)
 import Data.Text (Text)
+import Data.Semigroup ((<>))
 import Data.Time (getCurrentTime, toGregorian, utctDay)
 import Prelude hiding (div, id, head, span)
 import Text.Blaze.Html5 as H hiding (map)
@@ -19,7 +20,7 @@ wrapper t cont = do
 
     pure . docTypeHtml $ do
       head $ do
-        H.title (toHtml $ t)
+        H.title (toHtml t <> " – phaazon.net")
         meta ! charset "utf-8"
         meta ! name "viewport" ! content "width=device-width, initial-scale=1"
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/bulma.css"
