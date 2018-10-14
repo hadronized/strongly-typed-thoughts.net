@@ -86,7 +86,7 @@ should have *leads* or *hints* to get their feet wet. Several solutions exist to
   - Write a `README.md` in all the projects your team has. This should be mandatory. Describe what
     the project is about, how to build it as a developer, how to run it as a dev-ops. Describe the
     architecture, etc.
-  - Write a `CONTRIBUTION.md` to help onboarding newcomers with your team guidelines, conventions,
+  - Write a `CONTRIBUTING.md` to help onboarding newcomers with your team guidelines, conventions,
     engineering processes, etc.
   - Be consistent: it’s not because a small project consists in only a single shell script that you
     shouldn’t write a `README.md`: **write it**!
