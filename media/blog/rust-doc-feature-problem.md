@@ -210,7 +210,7 @@ A workaround to this problem is to get a local copy of the documentation, genera
 wished features. However, this will not fix the problem of the discoverability.
 
 A solution to this could be to simply *“ignore”* the features while generating the documentation –
-and only why generating it **but annotate the documented symbols with the features.** That would
+and only while generating it **but annotate the documented symbols with the features.** That would
 enable something like this (generated with `cargo doc --open --no-default-features` and retouched
 to mock the idea up):
 
