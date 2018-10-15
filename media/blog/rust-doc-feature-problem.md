@@ -53,7 +53,7 @@ symbols:
   - Constants.
   - Functions and macros.
   - Traits along with their associated types / constants and methods.
-  - Trait impls (think of how useful the documentation of a `impl Default` can be!).
+  - Trait impls (think of how useful the documentation of an `impl Default` can be!).
   - Modules.
 
 Now, if you are writing something that is private to a crate that you plan to release, think about
@@ -93,9 +93,9 @@ should have *leads* or *hints* to get their feet wet. Several solutions exist to
   - Something that I love doing, especially at work: have some kind of a cron / task that builds the
     documentation for all your projects across the scope of your team… and have it host it all
     on a server documented in the top-level `README.md` of your team. This is a real plus: people
-    will just go to that documentation link to search for things *“that has already been done by the
-    team”* instead of reinventing the wheels – trust me, even the ones who wrote the features might
-    have forgotten writing them already.
+    will just go to that documentation link to search for things *“that have already been done by
+    the team”* instead of reinventing the wheels – trust me, even the ones who wrote the features
+    might have forgotten writing them already.
 
 We’re now reaching the point of this blog entry: documentation can (should?) be used to explore what
 a project is about, how to use it, what are the public variants and invariants, etc. But there is
@@ -120,7 +120,7 @@ different effects:
 
 All of this is currently documented in the `README.md` of the project and the top-level
 documentation of the project (for instance, `splines-0.2.3` has [this paragraph about features and
-what they do](https://docs.rs/splines/0.2.3/splines/#features-and-customization).
+what they do](https://docs.rs/splines/0.2.3/splines/#features-and-customization)).
 
 We have two problems here:
 
