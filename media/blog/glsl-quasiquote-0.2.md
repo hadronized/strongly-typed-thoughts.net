@@ -31,7 +31,7 @@ Instead of:
 We could write:
 
 ```
-#![version 300 core]
+#![version 330 core]
 ```
 
 Such a small change yet effective, right? I was appealed by the idea, so I implemented it. The code
@@ -58,7 +58,7 @@ initial intent was about with this type, but in order to use it, I had to add th
 feature. That type gives positional information along with macro expansion on a token. Specifically,
 it has a method that gives the line and column at which the token starts and ends.
 
-This information gives us the line on which a token lay. That’s it. We have the newlines! A newline
+This information gives us the line on which a token lays. That’s it. We have the newlines! A newline
 is just whenever a token following another token has a different line in its span. That’s as easy as
 it gets.
 
