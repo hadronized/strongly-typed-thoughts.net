@@ -321,3 +321,9 @@
   blogEntryPublishDate: 2018-10-13 23:37:00 Z
   blogEntryTags: [rust, documentation, features]
   blogEntrySlug: rust-features-documentation
+
+- blogEntryName: Release of glsl-quasiquote-0.2
+  blogEntryPath: media/blog/glsl-quasiquote-0.2.md
+  blogEntryPublishDate: 2018-10-22 02:00:00 Z
+  blogEntryTags: [quasiquoting, glsl]
+  blogEntrySlug: glsl-quasiquote-0.2
