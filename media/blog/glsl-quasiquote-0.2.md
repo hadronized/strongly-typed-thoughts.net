@@ -91,7 +91,7 @@ let ast = glsl!{
 Some future announcements to come (things that I’ve already been working on and that I might release
 soon):
 
-  - The quasiquoter will have interpollation at some time.
+  - The quasiquoter will have interpolation at some time.
   - [glsl] is about to be released with an experimental SPIR-V transpiler. The current
     implementation uses [shaderc] as backend in order to test how everything goes.
 
