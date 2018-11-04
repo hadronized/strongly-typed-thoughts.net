@@ -23,7 +23,7 @@ to give people a hint at how they should shape their APIs by driving the types w
 # The base code
 
 ```
-struct Thing {
+struct Person {
   ident: String
 }
 ```
@@ -231,10 +231,18 @@ have different semantics that can be used to *encode* different contracts in pub
   - `Q: Into<T>` has vague and large semantics but can be used to encode the fact that you *want*
     owned data, but you accept your clients to provide a borrow as long as you can clone. If they
     provide you with an owned data, you’ll just do nothing (move in).
-  - (bonus) `Q: Iterator<Item = T>` is also something you can use for the slices thing just above.
-    If (and only if) you don’t care about contiguity or will just inspect values one by one, this is
-    the interface to go. This interface gives hints that your function might iterate through the
-    input and perform (perhaps heavy) computation on each items before stepping to the next one.
+  - (bonus) `Q: IntoIterator<Item = T>` is also something you can use for the slices thing just
+    above. If (and only if) you don’t care about contiguity or will just inspect values one by one,
+    this is the interface to go. This interface gives hints that your function might iterate through
+    the input and perform (perhaps heavy) computation on each items before stepping to the next one.
+    Using `IntoIterator` instead of `Iterator` enables you the same kind of trick you have with
+    `AsRef<_>` vs. `&_`: you can take a `Vec<_>` directly instead of the iterator directly. Keep in
+    mind that this might not have sense for some types, especially if they have several iterator
+    interfaces. The `str` type has for instance the
+    [str::bytes](https://doc.rust-lang.org/std/primitive.str.html#method.bytes) method that gives
+    you an iterator over bytes and the
+    [str::chars](https://doc.rust-lang.org/std/primitive.str.html#method.chars) method that yields
+    an iterator over UTF-8 characters.
 
 This list gives you a good idea about what interface you should use in your public interfaces.
 Read-only? Owned data? Read and maybe write? All those semantics are visible through those types and
