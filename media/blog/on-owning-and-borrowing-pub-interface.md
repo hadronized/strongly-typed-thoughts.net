@@ -208,7 +208,7 @@ Obviously, there are drawbacks:
 
 # Let’s draw a conclusion
 
-What I wantedd to highlight in this blog post is that `&_`, `AsRef<_>`, `Cow<_>`, and `Into<_>` all
+What I wanted to highlight in this blog post is that `&_`, `AsRef<_>`, `Cow<_>`, and `Into<_>` all
 have different semantics that can be used to *encode* different contracts in public interfaces.
 
   - `&T` means that you don’t require your client to clone nor move because you *might* only perform
