@@ -339,3 +339,9 @@
   blogEntryPublishDate: 2018-11-17 05:00:00 Z
   blogEntryTags: [nom, past, parsing, glsl]
   blogEntrySlug: glsl-pest-part-1
+
+- blogEntryName: Introducing pest into glsl and hindsight about nom vs. pest (part 2)
+  blogEntryPath: media/blog/glsl-pest-part-2.md
+  blogEntryPublishDate: 2018-11-17 20:40:00 Z
+  blogEntryTags: [nom, past, parsing, glsl]
+  blogEntrySlug: glsl-pest-part-2

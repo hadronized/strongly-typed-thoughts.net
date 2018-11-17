@@ -11,6 +11,8 @@ This is the first article of a series about how writing a [pest] looks like is f
 writing the [nom] parser. I’ll post several articles as I advance and see interesting matter to
 discuss and share.
 
+  - Second article [here](https://phaazon.net/blog/glsl-pest-part-2)
+
 # Oh my; I love PEG!
 
 First thing first: [pest] consumes a file at compile-time that contains a [PEG] grammar defining the
