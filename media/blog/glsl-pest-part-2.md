@@ -2,7 +2,7 @@ This is the second article about my experience at supporting [pest] in my [glsl]
 for now, removing the [nom] parser.
 
 > You can read the first article
-> [here](https://phaazon.net/https://phaazon.net/blog/glsl-pest-part-1).
+> [here](https://phaazon.net/blog/glsl-pest-part-1).
 
 # RY: DRY without D
 
