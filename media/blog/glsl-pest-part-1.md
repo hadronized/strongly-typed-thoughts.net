@@ -56,8 +56,8 @@ Additionally, [pest] provides a notation to add *rule modifiers*:
   - `~`, `*` and `+` rules get interleaved with two special rules **if defined**:
     - `WHITESPACE`, defining how to eat a single whitespace.
     - `COMMENT`, defining how to eat a comment.
-    - Those rules are interleaved as `(WHITESPACE | COMMENT)*` so that `number { ASCII_DIGIT+ }` gets
-      actually rewritten as `number = { (ASCII_DIGIT | (WHITESPACE | COMMENT)*)+ }`.
+    - Those rules are interleaved as `(WHITESPACE | COMMENT)*` so that `number = { ASCII_DIGIT+ }`
+      gets actually rewritten as `number = { (ASCII_DIGIT | (WHITESPACE | COMMENT)*)+ }`.
   - Because of that last rule, sometimes we don’t want that to happen. In the case of the `number`
     rule defined above, both `"324"` and `"3 2 4"` will get matched if we defined `WHITESPACE` to
     eat `" "`. In order to fix this, the `@` modifier can be prepended to the rule definition:
