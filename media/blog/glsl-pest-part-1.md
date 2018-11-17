@@ -83,7 +83,7 @@ It’s that simple.
 
 # Facing issues
 
-PEG is really cool to use… but they are caveats. For instance, PEG / [pest] cannot express
+PEG is really cool to use… but there are caveats. For instance, PEG / [pest] cannot express
 *left-recursive* rules. To understand this, take this rule:
 
 ```
