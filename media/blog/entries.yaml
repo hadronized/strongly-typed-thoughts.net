@@ -345,3 +345,9 @@
   blogEntryPublishDate: 2018-11-17 20:40:00 Z
   blogEntryTags: [nom, past, parsing, glsl]
   blogEntrySlug: glsl-pest-part-2
+
+- blogEntryName: glsl-0.13 and its visitor pattern
+  blogEntryPath: media/blog/glsl-visitor.md
+  blogEntryPublishDate: 2018-11-22 04:20:00 Z
+  blogEntryTags: [glsl, visitor, ast]
+  blogEntrySlug: glsl-0.13-visitor
