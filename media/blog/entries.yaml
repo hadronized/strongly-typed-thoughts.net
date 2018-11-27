@@ -351,3 +351,9 @@
   blogEntryPublishDate: 2018-11-22 04:20:00 Z
   blogEntryTags: [glsl, visitor, ast]
   blogEntrySlug: glsl-0.13-visitor
+
+- blogEntryName: Rust traits and their (lack of) privacy
+  blogEntryPath: media/blog/rfc-private-traits-items.md
+  blogEntryPublishDate: 2018-11-27 04:00:00 Z
+  blogEntryTags: [rust, trait, privacy, haskell]
+  blogEntrySlug: rust-traits-privacy
