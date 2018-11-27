@@ -192,8 +192,8 @@ trait PrivTrait { // private trait
 
 pub trait PubTrait { // public trait
   fn method_a(); // public, even without the pub privacy modifier!!!
-  pub(crate) method_b(); // won’t compile
-  pub method_c(); // won’t compile
+  pub(crate) fn method_b(); // won’t compile
+  pub fn method_c(); // won’t compile
 }
 ```
 
@@ -202,8 +202,8 @@ To me, it would make much more sense for Rust to authorize this:
 ```
 pub trait PubTrait { // public trait
   fn method_a(); // private, only usable from this module
-  pub(crate) method_b(); // callable only from modules from this crate
-  pub method_c(); // public
+  pub(crate) fn method_b(); // callable only from modules from this crate
+  pub fn method_c(); // public
 }
 ```
 
@@ -214,15 +214,15 @@ this:
 ```
 trait PrivTrait { // private trait
   fn method_a(); // private
-  pub(crate) method_b(); // compilation error: the trait is private
-  pub method_c(); // compilation error: the trait is private
+  pub(crate) fn method_b(); // compilation error: the trait is private
+  pub fn method_c(); // compilation error: the trait is private
 }
 
 pub trait PubTrait { // public trait
   fn method_a(); // public (backward compatibility)
-  pub(crate) method_b(); // callable only from modules from this crate
-  pub method_c(); // public, akin not to use the pub modifier
-  priv method_d(); // private; only callable from this module
+  pub(crate) fn method_b(); // callable only from modules from this crate
+  pub fn method_c(); // public, akin not to use the pub modifier
+  priv fn method_d(); // private; only callable from this module
 }
 ```
 
