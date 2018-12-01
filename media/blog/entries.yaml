@@ -357,3 +357,9 @@
   blogEntryPublishDate: 2018-11-27 04:00:00 Z
   blogEntryTags: [rust, trait, privacy, haskell]
   blogEntrySlug: rust-traits-privacy
+
+- blogEntryName: A more faithful Display for proc-macro token types
+  blogEntryPath: media/blog/proc-macro-faithful-display.md
+  blogEntryPublishDate: 2018-12-01 19:51:00 Z
+  blogEntryTags: [rust, proc-macro]
+  blogEntrySlug: proc-macro-faithful-display
