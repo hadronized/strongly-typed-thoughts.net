@@ -49,27 +49,24 @@ menuPart t =
         div ! class_ "level-item" $
           p ! class_ "title" $ toHtml t
 
-        div ! class_ "level-item" $ do
-          a ! href "/" $
-            span ! class_ "icon" $
-              i ! class_ "fa fa-home" $ pure ()
+        a! href "/" ! class_ "level-item" $ do
+          span ! class_ "icon" $
+            i ! class_ "fa fa-home" $ pure ()
 
-        div ! class_ "level-item" $ do
-          a ! href "https://git.phaazon.net" $
-            span ! class_ "icon" $
-              i ! class_ "fa fa-code-fork" $ pure ()
-        div ! class_ "level-item" $ do
-          a ! href "/portfolio" $
-            span ! class_ "icon" $
-              i ! class_ "fa fa-university" $ pure ()
-        div ! class_ "level-item" $ do
-          a ! href "/blog" $
-            span ! class_ "icon" $
-              i ! class_ "fa fa-pencil" $ pure ()
-        div ! class_ "level-item" $ do
-          a ! href "/browse" $
-            span ! class_ "icon" $
-              i ! class_ "fa fa-cloud-download" $ pure ()
+        a ! href "https://git.phaazon.net" ! class_ "level-item" $ do
+          span ! class_ "icon" $
+            i ! class_ "fa fa-code-fork" $ pure ()
+
+        a ! href "/portfolio" ! class_ "level-item" $ do
+          span ! class_ "icon" $
+            i ! class_ "fa fa-university" $ pure ()
+
+        a ! href "/blog" ! class_ "level-item" $ do
+          span ! class_ "icon" $
+            i ! class_ "fa fa-pencil" $ pure ()
+        a ! href "/browse" ! class_ "level-item" $ do
+          span ! class_ "icon" $
+            i ! class_ "fa fa-cloud-download" $ pure ()
 
 footerPart :: Int -> Html
 footerPart year = do
