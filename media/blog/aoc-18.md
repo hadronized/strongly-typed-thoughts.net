@@ -218,5 +218,291 @@ equal. This function only works, obviously, if both the input strings are almost
 character differs and they have the same length). The `otherwise` branch is a short-circuit
 optimization that prevents us from traversing the whole inputs after the difference.
 
+[Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-02/src/Main.hs)
+
+# --- Day 3: No Matter How You Slice It ---
+
+[Text](https://adventofcode.com/2018/day/3)
+
+## Part 1
+
+This problem was the first “challenging” as it required more thinking. The idea is that a very large
+area – the text gives us the hint it is at least `1000` inches on each side but truly, we do not
+need this information – must be sliced into several rectangular smaller areas (with edges aligned
+with X and Y axis). Obviously, some rectangular area might overlap and the aim of the first part of
+this problem is to find out **the total overlapping area**.
+
+My idea was simple: we can trick and change the problem by discretizing it. This is something I
+have said already but most of AoC problems have *hidden properties* and *hidden hints*. By thinking
+more about the form of the solution, the area to find is expressed in *inches²*. The rectangular
+areas are all lying on a 2D grid (1000×1000 at least, remember?) and their coordinates are always
+natural numbers (they belong to `[0;+∞]`). Then, my idea was to state that 1 inch² is actually a
+single “cell” at any coordinate in that grid – imagine that as a pixel. 4 inches² would be a 2×2
+region in that grad (yielding 4 cells).
+
+So instead of using the general idea of an area (M×N for a rectangle which sides are M and N long
+wide), we can simply break a rectangular area into its most atomic components (1×1 cells)… and sum
+them up! We will effectively end up with the area of this area.
+
+A more interesting property of my way of solving it: we can now have a big array mapping to each
+1×1 cell the number of times a rectangle lies on it. When iterating through all the rectangles, we
+just break them into a list of 1×1 cells, look ingg up and updating the big count array. Once we’re
+done, we just have to filter that big array to remove any element which count is less or equal to 1.
+The remaining elements are 1×1 cells that contain at least two overlapping rectangles – we don’t
+really care about the number. We don’t actually care about those elements: the length of that
+filtered array is the area we are looking for, because it is the sum of 1×1 elements!
+
+Converting a rectangular area – called claim in the text – into 1×1 cells is very easy in Haskell:
+
+```
+type Plan = Map (Int, Int) Natural -- the big array I told you
+type Claim = (Id, Pos, Area)
+type Id = Text -- the “name” of the fabric the rectangular area is about
+type Pos = (Int, Int)
+type Area = (Int, Int)
+
+claim1x1 :: Claim -> [Pos]
+claim1x1 (_, (line, row), (width, height)) =
+  [(x, y) | x <- [line .. line + width - 1], y <- [row .. row + height - 1]]
+```
+
+As you can see, I chose to use a `Map (Int, Int) Natural` instead of an array to store the number
+of overlaps per 1×1 cell. That enables us not to care at all about the size of the grid (remember
+when I told you we don’t need the `1000` hint?).
+
+The function that updates the `Plan` to take a claim into account is:
+
+```
+checkClaims :: [Claim] -> Plan
+checkClaims = foldl' (\p (x, y) -> checkInch x y p) mempty . concatMap claim1x1
+
+checkInch :: Int
+          -> Int 
+          -> Plan
+          -> Plan
+checkInch line row = insertWith (+) (line, row) 1
+```
+
+Given a list of claims (`[Claim]`), `checkClaims` maps the `claim1x1` function and concats the
+result, yielding a `[Pos]` list. That list is then folded over with the `checkInch x y p` function,
+that takes an empty map as initial value. `checkInch` just increment the value found in the map if
+it already exists; otherwise, it sets that value to `1`.
+
+Finally, we need to compute the area:
+
+```
+overlappingInches :: Plan -> Int
+overlappingInches = length . M.filter (> 1)
+```
+
+As I told you, that is crystal clear: it’s just the length of the filtered map.
+
+## Part 2
+
+This part is interesting also: you need to find out the `Id` of the claim that doesn’t overlap with
+any other claim. I will not go into too much details about the algorithm as it’s very similar to the
+previous one: instead of storing the number of overlaps by 1×1 cell, we store a `Set Id`, giving all
+claims that are overlapping – we can see that as a more general form of the first part. We also need
+a `Map Id Natural` that maps a fabric and the number of times it overlaps another. The fabric that
+doesn’t overlap any other is then easily identifiable within that map: it has its associated value
+set to `0`:
+
+```
+searchNonOverlapped :: [Claim] -> Maybe Id
+searchNonOverlapped claims =
+    case M.toList filtered of
+      [(i, _)] -> Just i -- the text supposes there’s only one
+      _ -> Nothing
+  where
+    (_, overlapped) = indexClaims claims
+    filtered = M.filter (== 0) overlapped -- hello
+```
+
+[Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-03/src/Main.hs)
+
+# --- Day 4: Repose Record ---
+
+[Text](https://adventofcode.com/2018/day/4)
+
+## Part 1
+
+Aaaah, day 4… I really don’t get why I got so annoyed by this one. It is quite simple in theory. But
+that made me realize something I don’t really like about AoC: the *hidden rules*. You will see, if
+you read this whole article, that some puzzles require you to make very important assumptions about
+the input – and there’re a lot of assumptions you could make, so you have to make the right ones!
+
+This puzzle is about guards that must protect a prototype manufacturing lab. You are given an
+unordered list of events that occur about the guards:
+
+  - When they begin their shifts (you are given the ID of the guard here).
+  - When they fall asleep.
+  - When they wake up.
+  - Each action gives you a timestamp so that you can re-create the historical events.
+
+The goal of the part 1 is to find the guard that has the most minutes asleep, and especially, find
+the minute it is asleep the most – we must multiply the ID of the guard by the minute.
+
+Obviously, the first part of this puzzle is to re-order the input to have it chronologically. Here
+is the setup code:
+
+```
+data Entry = Entry {
+    timestamp :: LocalTime,
+    action :: Text
+  } deriving (Show)
+
+type GuardianId = Natural
+
+data Action
+  = BeginShift GuardianId
+  | WakeUp
+  | FallAsleep
+    deriving (Eq, Ord, Show)
+
+entryFromString :: Text -> Maybe Entry
+entryFromString s = case split (== ']') s of
+    [timestamp, action] -> Just $ Entry (parse . unpack $ T.drop 1 timestamp) action
+    _ -> Nothing
+  where
+    parse = parseTimeOrError False defaultTimeLocale "%Y-%-m-%-d %H:%M"
+```
+
+The parsing part is not really interesting as it’s just challenge code: nasty but working parsing
+code. :D
+
+I then re-ordered the input with:
+
+```
+entries <- fmap (fromJust . traverse entryFromString . T.lines) T.getContents
+let byTimeSorted = sortBy (comparing timestamp) entries
+```
+
+By the way, that code made me want to [tweet about how Haskell is actually pretty easy to read and
+reason about](https://twitter.com/phaazon_/status/1070054255887822848). Anyway.
+
+The next part of the algorithm is to transform the entries into a list of timed action. I actually
+decided to stream it so that I could benefit from Haskell’s stream fusion – and because it’s so
+simple and transparent:
+
+```
+readGuardianId :: Text -> Natural
+readGuardianId = readT . T.drop 1
+
+treatEntries :: [Entry] -> [(LocalTime, Action)]
+treatEntries = map $ \entry ->
+  let time = timestamp entry
+  in case T.words (action entry) of
+    ["Guard", ident, "begins", "shift"] -> (time, BeginShift $ readGuardianId ident)
+    ("falls":_) -> (time, FallAsleep)
+    ("wakes":_) -> (time, WakeUp)
+    _ -> error "lol"
+```
+
+That is like mixing streaming and parsing at the same time. Then, the core of my algorithm: dispatch
+the actions by guard. That is mandatory if we want to actually accumulate the “state” of a guardian
+(when they’re sleeping, waking up, etc.). Otherwise, we get interleaved results.
+
+```
+dispatchActions :: [(LocalTime, Action)] -> Map GuardianId [(LocalTime, Action)]
+dispatchActions = go mempty Nothing
+  where
+    go guardians _ ((t, action@(BeginShift gid)):xs) =
+      go (insertAction gid t action guardians) (Just gid) xs
+
+    go guardians jgid@(Just gid) ((t, action):xs) = go (insertAction gid t action guardians) jgid xs
+
+    go guardians _ [] = fmap V.toList guardians
+
+    go _ _ _ = error "dispatchActions: the impossible fucking occurred!"
+
+    insertAction gid t action guardians =
+      M.insertWith (flip (<>)) gid (V.singleton (t, action)) guardians
+```
+
+This is a by-hand fold that just applies the rule of beginning a shift (storing the ID of the
+guardian that went napping so that we can correctly dispatch the remaining events).
+
+Then the tricky part:
+
+```
+type Minute = Natural
+type Minutes = [Minute]
+
+minutesCounts :: [(LocalTime, Action)] -> Minutes
+minutesCounts = go zeroMinutes Nothing
+  where
+    zeroMinutes = replicate 60 0 -- (1)
+    asMinutes = todMin . localTimeOfDay
+
+    -- the guard was sleeping
+    go minutes (Just sleepTime) ((t, action):xs) =
+      case action of
+        BeginShift _ -> go minutes Nothing xs
+        FallAsleep -> go minutes (Just t) xs -- not sure if that would even occur in the input
+        WakeUp -> go (addSleepCount minutes (asMinutes sleepTime) (asMinutes t)) Nothing xs
+
+    -- the guard was awake, so we’re only interested in when they go to sleep
+    go minutes Nothing ((t, action):xs) =
+      case action of
+        FallAsleep -> go minutes (Just t) xs
+        _ -> go minutes Nothing xs
+
+    go minutes _ [] = minutes
+    
+    addSleepCount minutes sleepTime t = zipWith (+) minutes range -- (2)
+      where
+        -- this function is a bit hacky but it generates, for a given range of time, a list of 60
+        -- elements where the time period has 1 and all the other has 0 (I leave you to the
+        -- exercise of making that a better function)
+        range :: Minutes
+        range = replicate sleepTime 0 <> replicate (fromIntegral t - sleepTime) 1 <> replicate (60 - t) 0
+```
+
+This big function generates a list which length is 60 – mapping the number of times a guard has
+passed sleeping at a given minute from midnight to 1:00 AM (see `(1)` and `(2)`).
+
+Finally, what we need is a way to compute frequencies – or counts. That is, given a list of anyting,
+compute that number of time a given anything happens in the list. I wrote a small utility function
+for that – I got inspired by [\@jle], thanks!:
+
+```
+freqTable :: (Ord a) => [a] -> Map a Count
+freqTable = M.fromListWith (+) . map (,1)
+```
+
+Then, finding the guard that has slept the more and the minute is easy:
+
+```
+findMostOccurring :: Map a Count -> (a, Count)
+findMostOccurring = maximumBy (comparing snd) . M.toList -- and Haskell is hard?! ;)
+
+findSleepiest :: Map GuardianId [(LocalTime, Action)] -> (GuardianId, (Minute, Count))
+findSleepiest =
+    fmap (findMostOccurring . freqTable . spanIndex) . maximumBy (comparing $ sum . snd) . M.toList . fmap minutesCounts
+  where
+    spanIndex = concatMap (\(i, x) -> replicate (fromIntegral x) i) . zip [0..]
+```
+
+We first find the guard that has the most time asleep (`maximumBy (comparing $ sum . snd)`. Then,
+we find the minutes at which they were asleep the most (`findMostOccurring`). We are given the guard
+ID, the given minute and the number of times they were asleep at that minute. Yay!
+
+## Part 2
+
+For this part, we would like to know which guard is most frequently asleep on the same minute? We
+already have written all the code needed for that:
+
+```
+findMostFrequentlySleepy :: Map GuardianId [(LocalTime, Action)] -> (GuardianId, Minute)
+findMostFrequentlySleepy =
+    fmap findMin . maximumBy (comparing $ maximum . snd) . M.toList . fmap minutesCounts
+  where
+    findMin = fst . maximumBy (comparing snd) . zip [0..]
+```
+
+Instead of summing, we find the maximum time a guard was asleep. Pretty easy.
+
+[Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-04/src/Main.hs)
+
 [Advent of Code]: https://adventofcode.com/about
 [referential transparency]: https://wiki.haskell.org/Referential_transparency
