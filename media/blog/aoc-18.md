@@ -504,5 +504,79 @@ Instead of summing, we find the maximum time a guard was asleep. Pretty easy.
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-04/src/Main.hs)
 
+# --- Day 5: Alchemical Reduction ---
+
+[Text](https://adventofcode.com/2018/day/5)
+
+## Part 1
+
+That puzzle is very natural to solve in Haskell. You are given an ASCII string that contains only
+letters (lower case and upper case) that represent polymers. You must compute their final reduction
+by following some basic rules:
+
+  - Two adjacent letters will cancel them out if they don’t have the same case (lower vs. upper) but
+    are the same letter. For instance, `aA` and `Bb` cancel each other but not `aa` nor `BB`.
+  - This rule happens until no more reduction is possible. For instance, `AbBa` will first get
+    reduced to `Aa` because `aB` will cancel out, but then `Aa` will also cancel out and we will be
+    left with nothing.
+
+You must give the number of units left in the final reducted polymer after all reductions have
+occurred.
+
+As I said, that is very simple and elegant in Haskell:
+
+```
+reduce :: String -> String
+reduce = go []
+  where
+    go [] (x:xs) = go [x] xs
+    go a [] = a
+    go (a:xs) (b:bs)
+      | not (isLetter b) = go (a:xs) bs
+      | (toLower a /= toLower b) || (isLower a && isLower b) || (isUpper a && isUpper b) = go (b:a:xs) bs
+      | otherwise = go xs bs
+```
+
+I decided to use a [zipper](https://wiki.haskell.org/Zipper)-like traversal. My idea is the
+following:
+
+  - Read a character. If we have nothing previously seen, just place it in the previous list.
+  - If we have something previously seen, check whether it reacts with the last previously seen
+    character. If so, just drop it and drop the previously seen character, and go on with the next
+    character.
+  - When we have exhausted the input list, the previously seen list of characters is the final form
+    of the reduction.
+
+This algorithm allows me to reduce by doing a forwards-and-backwards kind of sweeping, yielding
+nice performance. Also, notice that the resulting list is reversed because of how we accumulate the
+seen characters. Because we don’t care about the order, we will not reverse it back to its original
+order.
+
+The result is just the length of the output list.
+
+## Part 2
+
+This part asks us to find the polymer that is the smaller if we remove one kind of unit (a single
+letter type). So if we remove `a` for instance, we must remove all `a` and `A`.
+
+As there’re only 26 possible solutions (from `a` to `z`), and because my solution to part 1 was
+already fast, I decided to go brute-force with this one: reducing the input string without a’s,
+reducing the input string without b’s, reducing without c’s, etc. And then simply take the shorter
+one.
+
+```
+bruteForce :: String -> Int
+bruteForce polymers = minimum (map length allReduced)
+  where
+    types = ['a' .. 'z']
+    allReduced = map (\c -> reduce $ filter (\x -> toLower x /= c) polymers) types
+```
+
+Winner winner chicken dinner.
+
+[Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-05/src/Main.hs)
+
+[Text](https://adventofcode.com/2018/day/5)
+
 [Advent of Code]: https://adventofcode.com/about
 [referential transparency]: https://wiki.haskell.org/Referential_transparency
