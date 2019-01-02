@@ -363,3 +363,9 @@
   blogEntryPublishDate: 2018-12-01 19:51:00 Z
   blogEntryTags: [rust, proc-macro]
   blogEntrySlug: proc-macro-faithful-display
+
+- blogEntryName: Hindsight on Advent of Code 2018
+  blogEntryPath: media/blog/aoc-18.md
+  blogEntryPublishDate: 2019-01-01 23:00:00 Z
+  blogEntryTags: [aoc, programming, puzzles, challenges]
+  blogEntrySlug: aoc-18-hindsight
