@@ -727,8 +727,8 @@ be traversed at the same time, the node which letter comes first alphabetically 
 I’ll just show the traversal because the rest is not really interesting for that puzzle:
 
 ```
--- The graph encodes the relationship in reverse: it maps every node their list of dependencies.
--- So if we have something like A -> [], it means that the A node doesn’t have dependencies.
+-- The graph encodes the relationship in reverse: it maps each node its list of dependencies.
+-- So if we have something like A -> [], it means that the A node doesn’t have any dependency.
 type Graph = Map Step (Set Step)
 type Step = Char
 
@@ -738,8 +738,8 @@ getAvailable gr = [step | (step, set) <- M.toList gr, S.null set]
 
 stepAvailable :: Graph -> [Step]
 stepAvailable gr = case sort (getAvailable gr) of
-    [] -> []
-(s:sx) -> s : stepAvailable (removeStep s gr)
+  [] -> []
+  (s:sx) -> s : stepAvailable (removeStep s gr)
 ```
 
 ![Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-07/src/Main.hs)
