@@ -82,8 +82,7 @@ cycle = fix . (++)
 
 > `fix` is a very powerful function any Haskell should know. Typically, when you want to
 > corecursively build something, it’s very likely you’ll need `fix`. I advise you to have a look at
-> my [netwire tutorial](https://phaazon.net/blog/getting_into_netwire) in which I used `fix` pretty
-> much everywhere.
+> my [netwire tutorial] in which I used `fix` pretty much everywhere.
 
 There are several ways to fix this problem. I chose to use a **set** to hold all the known
 intermediate sums. Because we’re working with integers, the Haskell `IntSet` type is perfect for
@@ -736,15 +735,241 @@ type Step = Char
 getAvailable :: Graph -> [Step]
 getAvailable gr = [step | (step, set) <- M.toList gr, S.null set]
 
+-- Traverse the graph and get the ordered steps to go through.
 stepAvailable :: Graph -> [Step]
 stepAvailable gr = case sort (getAvailable gr) of
   [] -> []
   (s:sx) -> s : stepAvailable (removeStep s gr)
+
+removeStep :: Step -> Graph -> Graph
+removeStep s = purgeDep s . M.delete s
+  where
+    purgeDep = fmap . S.delete
 ```
+
+It’s a typical functional problem that gets solved very easily in Haskell.
+
+## Part 2
+
+The second part is pretty interesting. Instead of stepping through all the steps sequentially, you
+ar given a *pool of workers*. It will take a given amount of time for a given worker to complete a
+task and able us to visit a given node in the graph. We have to guess how many time it will take to
+complete all of the steps.
+
+I won’t post the code (it’s on GitHub if you want to have a look at it) as it’s a bit boring and the
+idea of my solution is enough. The concept is to have a stepped simulation (i.e. you perform a set
+of action in a given *“round”*, then repeat). In my case, each round is composed of several steps:
+
+  1. First, partition the current work load into a set of *done tasks* and *running tasks*. This is
+     quite easy to do by just checking at the remaining time of each task. If the remaining time is
+     `0`, then it’s done, otherwise it’s still running.
+  2. Generate the *time increment*. This is the minimal duration until a next interesting action
+     occurs (i.e. a task gets done). Nothing can happen below that duration. That value can easily
+     be found by looking up the remaining duration of the running tasks and taking the minimum.
+  3. If we still have running tasks, step forward (i.e. recursively call the same function) by
+     advancing the current time by the time increment and removing the done tasks.
+  4. The *backlog*, that is implicit, can be created by monoidal operations and is detailed in the
+     code on GitHub.
+  5. When the backlog gets empty, we have the final time and the answer to the initial question.
+
+This part was interesting because it made me write a parallel graph traversal (a graph task
+scheduler) that could be used as base for a real and parallelized (I/O) task scheduler. Interesting
+stuff.
 
 ![Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-07/src/Main.hs)
 
+# --- Day 8: Memory Maneuver ---
+
+[Text](https://adventofcode.com/2018/day/8)
+
+## Part 1
+
+In its simple form, this puzzle is not really interesting and I could definitely present you the
+solution in a single paragraph. However, I found it pretty fun to do so I’ll go a bit further.
+
+The problem is the following: we are given a list of numbers that represent a data structure. That
+data structure is basically a tree with tagged metadata. The goal is to parse the list of numbers
+to generate a memory representation of that tree and compute checksums on it. The structure is:
+
+  - A header, that has the number of children of a given node and the number of metadata entries.
+  - Zero or many children.
+  - At least one or many metadata entries.
+
+The file format is made so that the data are nested. I’ll copy and explain an example:
+
+```
+2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2
+A----------------------------------
+    B----------- C-----------
+                     D-----
+```
+
+Here, only the first line is present in the input file. The first `2` means that the first (`A`)
+node has two children (we don’t know anything about them yet) and the `3` means it has three
+metadata. Those are the header. Then, since it has two children, the next `0` is the start of the
+header of its first children (`B`), which has no child and three metadata (`3`). The next `10`, `11`
+and `12` are then those metadata (since it doesn’t have any child). This node is then complete. If
+you go back up in the tree, you know that `A` still has another child. So the next number, `1`, is
+the number of child of `C` and `1` its number of metadata. The next number `0` is the number of
+child of `D` and it has `1` metadata, which is `99`. `C`, as seen above, has one metadata, so `2` is
+`C`’s metadata. Then, since `A` has three metadata, `1`, `1` and `2` are its.
+
+Pfiou. Seems hard to read for a human, right? However, if you’re used a bit to recursive data
+structure and more specifically recursive parsers, this kind of encoding is actually pretty neat!
+
+Let’s go and implement the parser of that tree. First, the structure. We will not need the header in
+the output (it’s only used for parsing), so we will not encode that directly (it’s still available
+as the length of the list of children and length of the list of metadata entries):
+
+```
+data Node = Node {
+    nodeChildren :: [Node],
+    nodeMetadata :: NonEmpty Natural
+  } deriving (Eq, Show)
+```
+
+Pretty simple, right? This is a self-recursing data structure that is pretty simple and basic to any
+functional programmer.
+
+> The `NonEmpty a` data type, in Haskell, is a list that cannot have zero element. That is enforced
+> at compilation as it’s impossible to create such a list without explicitly giving at least one
+> element. All the operations defined on `NonEmpty a` respect that rule (for instance, removing an
+> element from it might not remove anything if it has only one element – otherwise you’d break its
+> invariant and Haskell is not Javascript. [Lol](https://phaazon.net/media/uploads/inner_troll.png).
+
+So, how do we parse that? I’ve already spoiled you the solution: we need to implement a recursive
+parser. I know that because I’ve been using [parsec] for like 7 years now, so I’m pretty used to
+that kind of parsing and as you use it, you will quickly recognize when you can use such an idiom.
+
+However, instead of using [parsec] directly, I will implement it myself with some very basic types
+every Haskellers know – if you don’t: go learn them! I’ll be using the `State` type only, which is
+basically *just* a recursive function used in a monadic fancy way:
+
+```
+-- A possible representation of the State monad is just a function that takes a value 's' and
+-- returns a new, altered 's' (we call that a state, but as you can see, it’s completely pure code,
+-- no mutation happens at all) and an output value 'a'.
+data State s a = State { runState :: s -> (s, a) }
+```
+
+> The real `State` type is defined in the [mtl](http://hackage.haskell.org/package/mtl-2.2.2/docs/Control-Monad-State-Lazy.html#t:State)
+> Haskell library.
+
+So here, you have the *impression* or *illusion* of `s` being a state, but what it truly is is just
+a value that is passed around to a recursive function – and plot twist: recursion is the way to
+implement locally-defined states, but I will not explain that (read my [netwire tutorial] and the
+`Auto` type, if you are interested).
+
+The functor / monadic part:
+
+```
+instance Functor (State s) where
+  fmap f = State . fmap (fmap f) . runState
+
+instance Applicative (State s) where
+  pure x = State (, x)
+  p <*> q = State $ \s ->
+    let (s', f) = runState p s
+        (s'', a) = runState q s'
+    in (s'', f a)
+
+instance Monad (State s) where
+  return = pure
+  q >>= f = State $ \s -> let (s', a) = runState q s in runState (f a) s'
+```
+
+> All of this can be generated automatically by GHC with `deriving` data annotation.
+
+And some combinators we’ll need:
+
+```
+-- Get the current value of the “state”.
+get :: State s s
+get = State $ \s -> (s, s)
+
+-- Get the current value of the “state” with a function pre-applied to it.
+gets :: (s -> a) -> State s a
+gets = flip fmap get
+
+-- Change the value of the “state” by applying a function to the state.
+modify :: (s -> s) -> State s ()
+modify f = State $ \s -> (f s, ())
+
+-- Just a convenient method to just get the output value and discard the final state. You need the
+-- initial value to use as state.
+evalState :: State s a -> s -> a
+evalState st = snd . runState st
+```
+
+So basically, since this is a very basic and simple code (I think all Haskellers should write that
+in their first month using Haskell, it’s a good exercise), I just included the `mtl` library and
+used its `State` type to write my recursive parser.
+
+This is my parser:
+
+```
+newtype Parser a = Parser { runParser :: State [Natural] a } deriving (Applicative, Functor, Monad)
+```
+
+So basically, a `Parser a` generates value of type `a` and maintains a list of `Natural` around.
+Those `Natural` are the numbers from the input we are going to parse. Let’s write the actual parser
+now.
+
+```
+-- Turns the (string-encoded) list of numbers and generates the root node, that contains all of
+-- the children.
+parse :: String -> Node
+parse = evalState (runParser parseNode) . map read . words
+
+-- Read a single number from the input and consume it from the state.
+readInput :: Parser Natural
+readInput = Parser $ gets head <* modify tail
+
+parseNode :: Parser Node
+parseNode = do
+  -- We read the two first numbers (header)
+  childrenNb <- readInput
+  metadataNb <- readInput
+
+  -- Recursive parser! The NE.fromList is an unsafe function that is used for convenience for this
+  -- puzzle part.
+  children <- replicateM (fromIntegral childrenNb) parseNode
+  metadata <- fmap NE.fromList (replicateM (fromIntegral metadataNb) readInput)
+
+  pure $ Node children metadata
+```
+
+As you can see, the parser code is extremely simple with a recursive combinator parser! And we’re
+actually done for the first part. The checksum is simple and is:
+
+```
+checksum :: Node -> Natural
+checksum node = metadataChecksum (nodeMetadata node) + sum (map checksum $ nodeChildren node)
+
+metadataChecksum :: NonEmpty Natural -> Natural
+metadataChecksum = sum . NE.toList
+```
+
+## Part 2
+
+The second part is not interesting as it just requires a new method to compute the “value” of a
+given node:
+
+```
+nodeValue :: Node -> Natural
+nodeValue (Node [] metadata) = metadataChecksum metadata
+nodeValue (Node children metadata) = sum [nodeValue n | Just n <- map index (NE.toList metadata)]
+  where
+    index i =
+      let i' = fromIntegral i - 1
+      in if i' < 0 || i' >= length children then Nothing else Just (children !! i')
+```
+
+[Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-08/src/Main.hs)
+
 [Advent of Code]: https://adventofcode.com/about
+[netwire tutorial]: https://phaazon.net/blog/getting_into_netwire
 [referential transparency]: https://wiki.haskell.org/Referential_transparency
 [AABB]: https://en.wikipedia.org/wiki/Bounding_volume
 [Manhattan distance]: https://en.wikipedia.org/wiki/Taxicab_geometry
+[parsec]: http://hackage.haskell.org/package/parsec
