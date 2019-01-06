@@ -536,8 +536,7 @@ reduce = go []
       | otherwise = go xs bs
 ```
 
-I decided to use a [zipper](https://wiki.haskell.org/Zipper)-like traversal. My idea is the
-following:
+I decided to use a [zipper]-like traversal. My idea is the following:
 
   - Read a character. If we have nothing previously seen, just place it in the previous list.
   - If we have something previously seen, check whether it reacts with the last previously seen
@@ -967,9 +966,130 @@ nodeValue (Node children metadata) = sum [nodeValue n | Just n <- map index (NE.
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-08/src/Main.hs)
 
+# --- Day 9: Marble Mania ---
+
+[Text](https://adventofcode.com/2018/day/9
+
+## Part 1 & 2
+
+This puzzle was the first one when I decided to go full Rust! All the remaining puzzles were solved
+in Rust – if you were reading only for Haskell, sorry for your loss. :(
+
+This puzzle is not really interesting as it’s just a fancy algorithm that adds element to a
+collection and sometimes removes from it. There was a trick, though: the second part requires to run
+our algorithm on an input that was a hundred times larger.
+
+The typical trap is that when you add value in the middle of a collection, the complexity in terms
+of memory and CPU can largely vary. Everything depends on what you do. For very rare additions /
+deletions, it’s possible that you can accept *O(n)* complexities. However, if you often insert
+stuff, you might want something else. In the same spirit, some data structure can efficiently add
+in *O(1)* at the beginning or end of the collection or might require a complete copy.
+
+Even though the puzzle is not interesting in itself, it reminds us how crucial and critical it is
+that a programmer must know what structure to use depending on the inputs **and operations that will
+be performed on the data**. In our case, we are going to add and remove *a lot* at arbitrary places
+in the collection. Vectors are really bad candidates at that kind of operations, because they will
+require a complete scan of the right part of the collection, which is *O(n)*, every time you add
+or delete something (to shift right / left, respectively). This is bad. Vectors are also bad when
+you want to add at its beginning (it requires the same right shift as the random case).
+
+Double-ended queue ([`VecDeque`](https://doc.rust-lang.org/std/collections/struct.VecDeque.html) in
+Rust) are a solution to the problem to insert at the beginning. That insertion is *O(1)* amortized.
+
+My solution to this was to use a [zipper] to stay focus on a given number in the collection but also
+“move around” in *O(1)*. The idea is the following:
+
+```
+struct Zipper {
+  left: VecDeque<isize>,
+  middle: isize,
+  right: VecDeque<isize>,
+}
+```
+
+When you want to move to the left, you just take the `middle` number and `push_front` it to the
+`right` double-ended queue and you `pop_back` the `left` one and that value becomes the new
+`middle`. You do the opposite thing to go to the right.
+
+To insert an element at the current location, you just `push_front` `middle` to the `right` and then
+`middle` is assigned the new value. To remove, you just `pop_front` `right` into `middle`.
+
+Then, the all puzzle is just adding and removing according to a predicate. Since all the operations
+I mentioned above run in *O(1)* amortized (they might allocate if the buffer is too small), we will
+not suffer from the typical *O(n²)* complexity a `Vec` implementation has.
+
+[Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-09/src/main.rs)
+
+# --- Day 10: The Stars Align ---
+
+[Text](https://adventofcode.com/2018/day/10)
+
+## Part 1
+
+This is the kind of problem I suck the most at. Not because they’re hard. Because they’re easier
+than expected. As an engineer, I tend to overthink about the context, the input’s hidden properties,
+the possible errors, the heuristics, what could go wrong, etc. On a regular job basis, that is
+actually a good thing – it’s better to foresee things than to have to repair them. However, at a
+given extreme, that way of thinking will make you go nuts and will make you think of an easy and
+straightforward problem as a complex and convoluted one. I know that and the main thing my mind does
+when solving a problem is to think about how **really hard** a problem is. I just completely failed
+on this one, haha. :D
+
+So, you are given a short list (~360) of 2D points. You know nothing about how they’re spread nor
+the limits they lie in. You **only** have ~360 points on a 2D plane. Those points, however, come
+with two attributes:
+
+  - Their positions, as a pair of relative numbers ([`-∞; +∞]`).
+  - Their (constant) velocities, as a pair of relative numbers as well ([`-∞; +∞]`).
+
+So basically, each point starts at a given position and goes into a straight line forever. The unit
+of the velocity is not known and is not really needed – even though it might be `unit/s`.
+Nevertheless, the text gives the hinting that, at a given (unknown) time, the points form a message
+that can be visually witness. The goal is to give the message.
+
+In the first 15 minutes, I went through several thoughts. “Whoa, they want us to write an [OCR]?!
+Really?!”. Nah, you dumbass. Since we all have a unique input (and hence, a unique expected output),
+we don’t have to write an algorithm that can recognize any text. We just have to get to visualize
+our input.
+
+However, when does the text appear? At `t = 0`, we have a large cloud of spread points. We don’t
+know when the text will form. Also, the challenge explicitly states that the text forms only once:
+the points will never gather into text afterwards. We must not miss it then.
+
+My idea was that to find hidden properties of the overall text first. By being able to extract a
+useful information telling me whether or not I’m far or close from having a visualizable text, I was
+able to run a loop-like simulation, moving each points by its respectiv velocities, until that
+hidden information reaches a local minimum. As an engineer, I was annoyed by that, because I had no
+idea whether the first local minimum was the right one – the puzzle’s text doesn’t state anything
+about that and I had not found any information to help with that in the input. I could also use the
+wrong criteria (maybe we’re looking for a local maximum?). I got stuck with those ideas for long
+minutes.
+
+Finally, I decided to implement a specific criteria:
+
+  - At each simulation step, we compute the [AABB] that encloses all the input points that have
+    moved.
+  - If that [AABB]’s [area] is less then the previous one, we store the [area], the width and height
+    of the [AABB] and the current time of the simulation. We also print those values on the standard
+    output.
+  - If not, we continue.
+
+When I ran that loop, I got the first local minimum in **10011** seconds. Clearly, if you tried to
+actually run that simulation with the real time, you’d be waiting for a long time – **10011**
+seconds is 2 hours, 46 minutes and 51 seconds.
+
+The size of the [AABB] at `t = 10011` was also pretty small (around **60×60**). I then decided to
+display the message directly in the console. In order to do that, I had to transform my 2D points
+(expressed in the natural ℝ² basis we use in *world space* coordinates) into 
+
+[Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-10/src/main.rs)
+
 [Advent of Code]: https://adventofcode.com/about
 [netwire tutorial]: https://phaazon.net/blog/getting_into_netwire
+[zipper]: https://wiki.haskell.org/Zipper
 [referential transparency]: https://wiki.haskell.org/Referential_transparency
 [AABB]: https://en.wikipedia.org/wiki/Bounding_volume
 [Manhattan distance]: https://en.wikipedia.org/wiki/Taxicab_geometry
 [parsec]: http://hackage.haskell.org/package/parsec
+[OCR]: https://en.wikipedia.org/wiki/Optical_character_recognition
+[area]: https://en.wikipedia.org/wiki/Area
