@@ -1115,6 +1115,45 @@ Part 2 was almost a joke: we were asked to give the time at which the text appea
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-10/src/main.rs)
 
+# --- Day 11: Chronal Charge ---
+
+[Text](https://adventofcode.com/2018/day/11)
+
+## Part 1
+
+A pretty common algorithm to implement: sliding window. Basically, you are given a matrix of numbers and you
+have to compute several sums using a sliding *kernel* which size is *3×3*. The size of the matrix is *300×300*
+and you just want to compute the biggest *3×3* square (and give its index in the matrix as row / column).
+
+This was my solution:
+
+```
+let mut largest = (0, i8::min_value()); // (index, power)
+
+// 298 is 300 - 2: we want to stop there so that the 3×3 square won’t overflow
+for row in 0 .. 298 {
+  for col in 0 .. 298 {
+    let mut power = 0;
+
+    for i in 0 .. 3 {
+      for k in 0 .. 3 {
+        power += grid[index(col + i, row + k)];
+      }
+    }
+
+    let i = index(col, row);
+
+    if (power == largest.1 && i < largest.0) || power > largest.1 {
+      largest = (i, power);
+    }
+  }
+}
+
+println!("Largest fuel cell: ({}, {})", 1 + largest.0 % 300, 1 + largest.0 / 300);
+```
+
+[Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-11/src/main.rs)
+
 [Advent of Code]: https://adventofcode.com/about
 [netwire tutorial]: https://phaazon.net/blog/getting_into_netwire
 [zipper]: https://wiki.haskell.org/Zipper
