@@ -1,6 +1,6 @@
 On the 1st of December 2018, I decided to give it a try to [Advent of Code]. AoC is, basically, a
 programming challenge website where you get two puzzles unlocked every day of December from 1st to
-25th – hence the name. It has a ranking system which scores are based on the absolute time you took 
+25th – hence the name. It has a ranking system which scores are based on the absolute time you took
 to solve the puzzles – i.e. spent time as soon as the puzzles got unlocked. As a French living in
 Paris, I find this a bit unfair (we get puzzles unlocked at around 5:00 AM!) and then I just
 realized I could do the puzzles for fun only.
@@ -144,7 +144,7 @@ The algorithm is then run on the input and we get the final result:
 
 ```
 hashes <- fmap lines getContents
-let checksum = uncurry (*) $ foldl' treatHash (0, 0) hashes 
+let checksum = uncurry (*) $ foldl' treatHash (0, 0) hashes
 ```
 
 We transform the standard input into lines – i.e. `[String]` – and then fold them with our
@@ -153,7 +153,7 @@ of a pair with its right part.
 
 ## Part 2
 
-This part is about finding strings that are almost the same and differ and only by one letter. As 
+This part is about finding strings that are almost the same and differ and only by one letter. As
 doing a programming challenge, the first thing I want to find is *a solution*, not the best
 solution. I also think people should really learn from this:
 
@@ -276,7 +276,7 @@ checkClaims :: [Claim] -> Plan
 checkClaims = foldl' (\p (x, y) -> checkInch x y p) mempty . concatMap claim1x1
 
 checkInch :: Int
-          -> Int 
+          -> Int
           -> Plan
           -> Plan
 checkInch line row = insertWith (+) (line, row) 1
@@ -447,7 +447,7 @@ minutesCounts = go zeroMinutes Nothing
         _ -> go minutes Nothing xs
 
     go minutes _ [] = minutes
-    
+
     addSleepCount minutes sleepTime t = zipWith (+) minutes range -- (2)
       where
         -- this function is a bit hacky but it generates, for a given range of time, a list of 60
@@ -1080,7 +1080,7 @@ seconds is 2 hours, 46 minutes and 51 seconds.
 
 The size of the [AABB] at `t = 10011` was also pretty small (around **60×60**). I then decided to
 display the message directly in the console. In order to do that, I had to transform my 2D points
-(expressed in the natural ℝ² basis we use in *world space* coordinates) into 
+(expressed in the natural ℝ² basis we use in *world space* coordinates) into [prout].
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-10/src/main.rs)
 
