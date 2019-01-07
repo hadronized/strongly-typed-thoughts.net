@@ -2,3 +2,7 @@
 dist
 tmp
 assets/uploaded
+.stack-work
+.ghc*
+cabal.project.local
+db/*

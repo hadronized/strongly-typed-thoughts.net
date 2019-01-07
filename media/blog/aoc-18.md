@@ -1080,7 +1080,38 @@ seconds is 2 hours, 46 minutes and 51 seconds.
 
 The size of the [AABB] at `t = 10011` was also pretty small (around **60×60**). I then decided to
 display the message directly in the console. In order to do that, I had to transform my 2D points
-(expressed in the natural ℝ² basis we use in *world space* coordinates) into [prout].
+(expressed in the natural ℝ² basis we use in *world space* coordinates) into a space that I could easily use
+to display (basically, `[0; w]` and `[0; h]`). That transformation is done with the following code:
+
+```
+// The rendered “map”
+let mut lol = vec!['.'; w as usize * h as usize];
+
+for p in points {
+  let x = (p.position.0 - aabb.lower.0) * (w - 1) / w;
+  let y = (p.position.1 - aabb.lower.1) * (h - 1) / h;
+  let o = x + y * w;
+
+  lol[o as usize] = '#';
+}
+```
+
+Then, we just need to iterate on all the points and render them to the terminal to finish the challenge:
+
+```
+for row in 0 .. h {
+  for col in 0 .. w {
+    print!("{}", lol[(col + row * w) as usize]);
+  }
+
+  println!("");
+}
+```
+
+## Part 2
+
+Part 2 was almost a joke: we were asked to give the time at which the text appeared. As this was a
+*hidden property* to find in the first place, completing part 2 took a few seconds: `10011`.
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-10/src/main.rs)
 
