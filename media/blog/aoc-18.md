@@ -22,6 +22,43 @@ Enjoy the reading!
 > **If you want to try and take the challenges, I advise you not to read any further as this article
 > would spoil you solutions! You will need a Github account and… a lot of time.**
 
+<!-- vim-markdown-toc GFM -->
+
+* [--- Day 1: Chronal Calibration ---](#----day-1-chronal-calibration----)
+    * [Part 1](#part-1)
+    * [Part 2](#part-2)
+* [--- Day 2: Inventory Management System ---](#----day-2-inventory-management-system----)
+    * [Part 1](#part-1-1)
+    * [Part 2](#part-2-1)
+* [--- Day 3: No Matter How You Slice It ---](#----day-3-no-matter-how-you-slice-it----)
+    * [Part 1](#part-1-2)
+    * [Part 2](#part-2-2)
+* [--- Day 4: Repose Record ---](#----day-4-repose-record----)
+    * [Part 1](#part-1-3)
+    * [Part 2](#part-2-3)
+* [--- Day 5: Alchemical Reduction ---](#----day-5-alchemical-reduction----)
+    * [Part 1](#part-1-4)
+    * [Part 2](#part-2-4)
+* [--- Day 6: Chronal Coordinates ---](#----day-6-chronal-coordinates----)
+    * [Part 1](#part-1-5)
+    * [Part 2](#part-2-5)
+* [--- Day 7: The Sum of Its Parts ---](#----day-7-the-sum-of-its-parts----)
+    * [Part 1](#part-1-6)
+    * [Part 2](#part-2-6)
+* [--- Day 8: Memory Maneuver ---](#----day-8-memory-maneuver----)
+    * [Part 1](#part-1-7)
+    * [Part 2](#part-2-7)
+* [--- Day 9: Marble Mania ---](#----day-9-marble-mania----)
+    * [Part 1 & 2](#part-1--2)
+* [--- Day 10: The Stars Align ---](#----day-10-the-stars-align----)
+    * [Part 1](#part-1-8)
+    * [Part 2](#part-2-8)
+* [--- Day 11: Chronal Charge ---](#----day-11-chronal-charge----)
+    * [Part 1](#part-1-9)
+    * [Part 2](#part-2-9)
+
+<!-- vim-markdown-toc -->
+
 # --- Day 1: Chronal Calibration ---
 
 [Text](https://adventofcode.com/2018/day/1)
@@ -1080,8 +1117,9 @@ seconds is 2 hours, 46 minutes and 51 seconds.
 
 The size of the [AABB] at `t = 10011` was also pretty small (around **60×60**). I then decided to
 display the message directly in the console. In order to do that, I had to transform my 2D points
-(expressed in the natural ℝ² basis we use in *world space* coordinates) into a space that I could easily use
-to display (basically, `[0; w]` and `[0; h]`). That transformation is done with the following code:
+(expressed in the natural ℝ² basis we use in *world space* coordinates) into a space that I could
+easily use to display (basically, `[0; w]` and `[0; h]`). That transformation is done with the
+following code:
 
 ```
 // The rendered “map”
@@ -1096,7 +1134,8 @@ for p in points {
 }
 ```
 
-Then, we just need to iterate on all the points and render them to the terminal to finish the challenge:
+Then, we just need to iterate on all the points and render them to the terminal to finish the
+challenge:
 
 ```
 for row in 0 .. h {
@@ -1121,9 +1160,10 @@ Part 2 was almost a joke: we were asked to give the time at which the text appea
 
 ## Part 1
 
-A pretty common algorithm to implement: sliding window. Basically, you are given a matrix of numbers and you
-have to compute several sums using a sliding *kernel* which size is *3×3*. The size of the matrix is *300×300*
-and you just want to compute the biggest *3×3* square (and give its index in the matrix as row / column).
+A pretty common algorithm to implement: sliding window. Basically, you are given a matrix of numbers
+and you have to compute several sums using a sliding *kernel* which size is *3×3*. The size of the
+matrix is *300×300* and you just want to compute the biggest *3×3* square (and give its index in the
+matrix as row / column).
 
 This was my solution:
 
@@ -1135,6 +1175,7 @@ for row in 0 .. 298 {
   for col in 0 .. 298 {
     let mut power = 0;
 
+    // sum the square
     for i in 0 .. 3 {
       for k in 0 .. 3 {
         power += grid[index(col + i, row + k)];
@@ -1143,6 +1184,7 @@ for row in 0 .. 298 {
 
     let i = index(col, row);
 
+    // if its power is any larger, store it along with its index
     if (power == largest.1 && i < largest.0) || power > largest.1 {
       largest = (i, power);
     }
@@ -1150,6 +1192,150 @@ for row in 0 .. 298 {
 }
 
 println!("Largest fuel cell: ({}, {})", 1 + largest.0 % 300, 1 + largest.0 / 300);
+```
+
+That’s pretty much it. Second part is more interesting.
+
+## Part 2
+
+For this part, the problem changes a bit: we still want to sum squares, but we want to get the find
+the square that has the largest total power of any size comprised between *1×1* and *300×300* – we
+want its index and its size.
+
+That problem can be solved in several ways, with different complexities. It’s easy to see that you
+can quickly go with a bad complexity if you decide to refactor the previous algorithm to take a
+dimension (that will be squared) and call it 300 times. Maybe that would be enough.
+
+However, I wanted to implement something smarter on this one. It’s easy to see that a lot of
+spanning squares will overlap. For instance:
+
+```
++-+-+-+-+-+
+|0|1|2|3|4|
++-+-+-+-+-+
+|6|7|8|9|A|
++-+-+-+-+-+
+|B|C|D|E|F|
++-+-+-+-+-+
+```
+
+If you consider the first, top-leftmost *2×2* square:
+
+```
++-+-+
+|0|1|
++-+-+
+|6|7|
++-+-+
+```
+
+And the top-left-mostmost *3×3* square:
+
+```
++-+-+-+
+|0|1|2|
++-+-+-+
+|6|7|8|
++-+-+-+
+|B|C|D|
++-+-+-+
+```
+
+You can see that a the smaller one is included in the bigger one. What it means is that each
+spanning square is a partial sum to spanning square of a higher dimension. My algorithm benefits
+from that in order to reduce the number of elements to sum at each given dimension.
+
+Also, another thing I did that suprised people on IRC: I reversed the way the algorithm works in
+terms of traversal. Instead of traversing dimensions and then traversing the grid (for all
+dimensions then for all squares), I traverse the grid and then I traverse the dimensions (for all
+square in the grid, for all the dimensions). This gives me a more natural way to write the partial
+sums in my code.
+
+Finally, I also work out some formalæ to know “what’s the biggest dimension we can go up to given
+the current grid cell.” Yeah, think twice: when you want to go through all dimensions from the
+top-leftmost cell, you will be able to sum squares from *1×1* up to *300×300*. But which dimension
+can you go to when the starting (*1×1*) cell is in the middle of the grid? This is actually pretty
+easy. The formalæ can be found very quickly by thinking in terms of size of the grid (*300×300*) and
+the index of a grid cell. The biggest dimension is just the minimum of the maximal allowed row
+iterations and the maximal allowed column iterations. You can picture that mentally by “which edge
+I am the closest to?”. For rows, it’s simply `300 - current_row` and for columns,
+`300 - current_column`. The minimum value gives you the maximal spanning dimension you can go up to.
+
+Finally, a word on how the partial sums are created: when you start computing the sum of the `N`
+dimension, you already have the partial sum of dimension `N-1` (the algorithm starts with the first
+dimension set to a given value). Then, instead of summing `N²` element, since you already have the
+sum of `(N-1)²`, you just need to sum *2 × (N - 1) + 1* values. If you’re not convinced, at
+dimension `278`, `278² = 77284` sums while my algorithm is `2 × (278 - 1) + 1 = 555` sums. It’s
+around **139 times less**.
+
+In my code, I do that by adding – relative to the previous spanning square – the right column
+(which size is *N - 1*), the bottom line (*N - 1* as well) and the single element in the diagonal.
+Hence `2 × (N - 1) + 1`. And that completes a new partial sum, that will be used for higher
+dimensions!
+
+Here’s just a very quick schema to show you how to compute the sum at dimension `5` by using the
+sum of the spanning square of dimension `4` – `·` is already computed and `R` are the right column,
+`B` the bottom line and `D` the element in the diagonal:
+
+```
++-+-+-+-+-+
+|·|·|·|·|R|
++-+-+-+-+-+
+|·|·|·|·|R|
++-+-+-+-+-+
+|·|·|·|·|R|
++-+-+-+-+-+
+|·|·|·|·|R|
++-+-+-+-+-+
+|B|B|B|B|D|
++-+-+-+-+-+
+```
+
+So, here’s the code:
+
+```
+let mut largest2 = (0, i64::min_value(), 0); // (index, power, dimension)
+
+// for all rows…
+for row in 0 .. 300 {
+  let max_iter_row = 300 - row; // 300 -> 1
+
+  // for all columns…
+  for col in 0 .. 300 {
+    let max_iter_col = 300 - col; // 300 -> 1
+    let max_dim_squared = max_iter_row.min(max_iter_col); // 300x300 -> 1x1
+
+    // power used for nested dimensions
+    let mut nested_power = grid[index(col, row)] as i64;
+
+    // note: we don’t have to compute the first dimension because it’s set right away to the given
+    // nested power
+
+    // for all dimensions up to the max
+    for d in 1 .. max_dim_squared {
+      let mut power = nested_power;
+
+      // compute the 2 × (N - 1) elements
+      for k in 0 .. d {
+        power += grid[index(col + d, row + k)] as i64;
+        power += grid[index(col + k, row + d)] as i64;
+      }
+
+      // add the diagonal
+      power += grid[index(col + d, row + d)] as i64;
+
+      let i = index(col, row);
+
+      if (power == largest2.1 && i < largest2.0) || power > largest2.1 {
+        largest2 = (index(col, row), power, d + 1);
+      }
+
+      nested_power = power;
+    }
+  }
+}
+
+println!("Largest fuel cell of all: ({}, {}, {}, of power {})", 1 + largest2.0 % 300, 1 + largest2.0 / 300, largest2.2, largest2.1);
 ```
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-11/src/main.rs)
