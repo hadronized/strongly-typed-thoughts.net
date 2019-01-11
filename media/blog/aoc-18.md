@@ -24,54 +24,54 @@ Enjoy the reading!
 
 <!-- vim-markdown-toc GFM -->
 
-* [--- Day 1: Chronal Calibration ---](#----day-1-chronal-calibration----)
+* [Day 1: Chronal Calibration](#day-1-chronal-calibration)
     * [Part 1](#part-1)
     * [Part 2](#part-2)
-* [--- Day 2: Inventory Management System ---](#----day-2-inventory-management-system----)
+* [Day 2: Inventory Management System](#day-2-inventory-management-system)
     * [Part 1](#part-1-1)
     * [Part 2](#part-2-1)
-* [--- Day 3: No Matter How You Slice It ---](#----day-3-no-matter-how-you-slice-it----)
+* [Day 3: No Matter How You Slice It](#day-3-no-matter-how-you-slice-it)
     * [Part 1](#part-1-2)
     * [Part 2](#part-2-2)
-* [--- Day 4: Repose Record ---](#----day-4-repose-record----)
+* [Day 4: Repose Record](#day-4-repose-record)
     * [Part 1](#part-1-3)
     * [Part 2](#part-2-3)
-* [--- Day 5: Alchemical Reduction ---](#----day-5-alchemical-reduction----)
+* [Day 5: Alchemical Reduction](#day-5-alchemical-reduction)
     * [Part 1](#part-1-4)
     * [Part 2](#part-2-4)
-* [--- Day 6: Chronal Coordinates ---](#----day-6-chronal-coordinates----)
+* [Day 6: Chronal Coordinates](#day-6-chronal-coordinates)
     * [Part 1](#part-1-5)
     * [Part 2](#part-2-5)
-* [--- Day 7: The Sum of Its Parts ---](#----day-7-the-sum-of-its-parts----)
+* [Day 7: The Sum of Its Parts](#day-7-the-sum-of-its-parts)
     * [Part 1](#part-1-6)
     * [Part 2](#part-2-6)
-* [--- Day 8: Memory Maneuver ---](#----day-8-memory-maneuver----)
+* [Day 8: Memory Maneuver](#day-8-memory-maneuver)
     * [Part 1](#part-1-7)
     * [Part 2](#part-2-7)
-* [--- Day 9: Marble Mania ---](#----day-9-marble-mania----)
+* [Day 9: Marble Mania](#day-9-marble-mania)
     * [Part 1 & 2](#part-1--2)
-* [--- Day 10: The Stars Align ---](#----day-10-the-stars-align----)
+* [Day 10: The Stars Align](#day-10-the-stars-align)
     * [Part 1](#part-1-8)
     * [Part 2](#part-2-8)
-* [--- Day 11: Chronal Charge ---](#----day-11-chronal-charge----)
+* [Day 11: Chronal Charge](#day-11-chronal-charge)
     * [Part 1](#part-1-9)
     * [Part 2](#part-2-9)
-* [--- Day 12: Subterranean Sustainability ---](#----day-12-subterranean-sustainability----)
+* [Day 12: Subterranean Sustainability](#day-12-subterranean-sustainability)
     * [Part 1](#part-1-10)
     * [Part 2](#part-2-10)
-* [--- Day 13: Mine Cart Madness ---](#----day-13-mine-cart-madness----)
+* [Day 13: Mine Cart Madness](#day-13-mine-cart-madness)
     * [Part 1](#part-1-11)
     * [Part 2](#part-2-11)
-* [--- Day 14: Chocolate Charts ---](#----day-14-chocolate-charts----)
+* [Day 14: Chocolate Charts](#day-14-chocolate-charts)
     * [Part 1](#part-1-12)
     * [Part 2](#part-2-12)
-* [--- Day 15: Beverage Bandits ---](#----day-15-beverage-bandits----)
+* [Day 15: Beverage Bandits](#day-15-beverage-bandits)
 * [Part 1](#part-1-13)
 * [Conclusion](#conclusion)
 
 <!-- vim-markdown-toc -->
 
-# --- Day 1: Chronal Calibration ---
+# Day 1: Chronal Calibration
 
 [Text](https://adventofcode.com/2018/day/1)
 
@@ -149,7 +149,7 @@ findFreq knownFreq freq (change:xs)
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-01/src/Main.hs)
 
-# --- Day 2: Inventory Management System ---
+# Day 2: Inventory Management System
 
 [Text](https://adventofcode.com/2018/day/2)
 
@@ -268,7 +268,7 @@ optimization that prevents us from traversing the whole inputs after the differe
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-02/src/Main.hs)
 
-# --- Day 3: No Matter How You Slice It ---
+# Day 3: No Matter How You Slice It
 
 [Text](https://adventofcode.com/2018/day/3)
 
@@ -368,7 +368,7 @@ searchNonOverlapped claims =
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-03/src/Main.hs)
 
-# --- Day 4: Repose Record ---
+# Day 4: Repose Record
 
 [Text](https://adventofcode.com/2018/day/4)
 
@@ -552,7 +552,7 @@ Instead of summing, we find the maximum time a guard was asleep. Pretty easy.
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-04/src/Main.hs)
 
-# --- Day 5: Alchemical Reduction ---
+# Day 5: Alchemical Reduction
 
 [Text](https://adventofcode.com/2018/day/5)
 
@@ -623,7 +623,7 @@ Winner winner chicken dinner.
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-05/src/Main.hs)
 
-# --- Day 6: Chronal Coordinates ---
+# Day 6: Chronal Coordinates
 
 [Text](https://adventofcode.com/2018/day/6)
 
@@ -761,7 +761,7 @@ Done. :)
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-06/src/Main.hs)
 
-# --- Day 7: The Sum of Its Parts ---
+# Day 7: The Sum of Its Parts
 
 [Text](https://adventofcode.com/2018/day/7)
 
@@ -826,7 +826,7 @@ stuff.
 
 ![Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-07/src/Main.hs)
 
-# --- Day 8: Memory Maneuver ---
+# Day 8: Memory Maneuver
 
 [Text](https://adventofcode.com/2018/day/8)
 
@@ -1015,7 +1015,7 @@ nodeValue (Node children metadata) = sum [nodeValue n | Just n <- map index (NE.
 
 [Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-08/src/Main.hs)
 
-# --- Day 9: Marble Mania ---
+# Day 9: Marble Mania
 
 [Text](https://adventofcode.com/2018/day/9
 
@@ -1069,7 +1069,7 @@ not suffer from the typical *O(n²)* complexity a `Vec` implementation has.
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-09/src/main.rs)
 
-# --- Day 10: The Stars Align ---
+# Day 10: The Stars Align
 
 [Text](https://adventofcode.com/2018/day/10)
 
@@ -1166,7 +1166,7 @@ Part 2 was almost a joke: we were asked to give the time at which the text appea
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-10/src/main.rs)
 
-# --- Day 11: Chronal Charge ---
+# Day 11: Chronal Charge
 
 [Text](https://adventofcode.com/2018/day/11)
 
@@ -1352,7 +1352,7 @@ println!("Largest fuel cell of all: ({}, {}, {}, of power {})", 1 + largest2.0 %
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-11/src/main.rs)
 
-# --- Day 12: Subterranean Sustainability ---
+# Day 12: Subterranean Sustainability
 
 [Text](https://adventofcode.com/2018/day/12)
 
@@ -1415,7 +1415,7 @@ That kind of linear optimization was really fun to write yet a bit tricky to fin
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-12/src/main.rs)
 
-# --- Day 13: Mine Cart Madness ---
+# Day 13: Mine Cart Madness
 
 [Text](https://adventofcode.com/2018/day/13)
 
@@ -1544,7 +1544,7 @@ println!("Last standing cart: {:?} ", carts); // this contains only one cart
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-13/src/main.rs)
 
-# --- Day 14: Chocolate Charts ---
+# Day 14: Chocolate Charts
 
 [Text](https://adventofcode.com/2018/day/14)
 
@@ -1581,7 +1581,7 @@ the code if you’re interested.
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-14/src/main.rs)
 
-# --- Day 15: Beverage Bandits ---
+# Day 15: Beverage Bandits
 
 [Text](https://adventofcode.com/2018/day/15]
 
