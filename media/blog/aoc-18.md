@@ -824,7 +824,7 @@ This part was interesting because it made me write a parallel graph traversal (a
 scheduler) that could be used as base for a real and parallelized (I/O) task scheduler. Interesting
 stuff.
 
-![Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-07/src/Main.hs)
+[Haskell solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-07/src/Main.hs)
 
 # Day 8: Memory Maneuver
 
