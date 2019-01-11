@@ -56,6 +56,18 @@ Enjoy the reading!
 * [--- Day 11: Chronal Charge ---](#----day-11-chronal-charge----)
     * [Part 1](#part-1-9)
     * [Part 2](#part-2-9)
+* [--- Day 12: Subterranean Sustainability ---](#----day-12-subterranean-sustainability----)
+    * [Part 1](#part-1-10)
+    * [Part 2](#part-2-10)
+* [--- Day 13: Mine Cart Madness ---](#----day-13-mine-cart-madness----)
+    * [Part 1](#part-1-11)
+    * [Part 2](#part-2-11)
+* [--- Day 14: Chocolate Charts ---](#----day-14-chocolate-charts----)
+    * [Part 1](#part-1-12)
+    * [Part 2](#part-2-12)
+* [--- Day 15: Beverage Bandits ---](#----day-15-beverage-bandits----)
+* [Part 1](#part-1-13)
+* [Conclusion](#conclusion)
 
 <!-- vim-markdown-toc -->
 
@@ -1340,6 +1352,291 @@ println!("Largest fuel cell of all: ({}, {}, {}, of power {})", 1 + largest2.0 %
 
 [Rust solution](https://github.com/phaazon/advent-of-code-2k18/tree/master/day-11/src/main.rs)
 
+# --- Day 12: Subterranean Sustainability ---
+
+[Text](https://adventofcode.com/2018/day/12)
+
+## Part 1
+
+This puzzle looked a bit like the double-ended queue one from day 9. The extra bit of information
+is that you now have to apply a pattern on several values to know how they should be mutated. Given
+a list of flower pots and some rules that give you how a pot should grow flowers (or not) according
+to the state of itself and its neighbors, the goal is to predict the sum of the pots (their index in
+the list) for all pots that contain flowers after **20 generations**.
+
+In the first place, I had to recognize that I needed a double-ended queue. As always, the puzzle’s
+text doesn’t explicitly tell you that the pots at leftmost and rightmost positions can “spawn” new
+pots by applying the rules on empty pots (infinite). I was confused at that for a while.
+
+My encoding of rules is pretty simple and wasteful: since a rule gives you a pattern (which pots)
+and an output (should have flowers / shouldn’t), a single byte should be enough for that (the length
+of a rule is five: it gives you the state of the two left neighbors, the state of the current pot
+and the state of the two right neighbors). However, I encoded those with a simple array of five
+binary states (`Rule::Empty` and `Rule::Pot`).
+
+In order to apply a pattern, we must retreive the current pot and two at its left position and two
+at its right position (if pots are missing because we’re at edges, we must spawn empty pots with
+negative / positive indices). Then we can just apply the pattern by looking it up in a hashmap: we
+get the next generation value.
+
+Nothing really interesting code-wise to show here.
+
+## Part 2
+
+Part 2 is funny. We’re told that instead of finding the sums after **20 generations**, we need to
+find it **after fifty billion (50000000000) generations.** Obviously, trying to run the above
+algorithm for 50000000000 generations will take ages, so we need to find a better way.
+
+My first inital idea was that if I took a look at the actual sum value at each generation, I could
+– perhaps – see some kind of patterns. At first I was looking for cycles and hence cycling sums. I
+then run my algorithm and had a look at the output data. I was suprised to find that, very quickly,
+the flowers grow linearily. What it means is that, after a given number of generations, you can
+guess how many flowers there will be at a given future generation by applying a linear formula
+(typically, a simple multiplication and addition).
+
+In my case, I noticed that at generation `100`, the sum was `6346`. At `101`, it was `6397`. At
+`102`, it was `6448`. At `200`, it was `16546`. You can see the pattern – if you don’t, compute the
+difference between the sum at `101` and the sum at `100`… and the difference of sum at `102` and
+`101`.
+
+Hence, I came up with the following linear formula:
+
+```
+// O(1) get the score at a given generation – works only for gen ≥ 100.
+fn score_at(gen: u64) -> u64 {
+  6346 + (gen - 100) * 51
+}
+```
+
+The actual implementation uses `101` instead of `100` because we want to get the sum **after** a
+given number of generations, not **at**.
+
+That kind of linear optimization was really fun to write yet a bit tricky to find. :)
+
+[Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-12/src/main.rs)
+
+# --- Day 13: Mine Cart Madness ---
+
+[Text](https://adventofcode.com/2018/day/13)
+
+## Part 1
+
+I think this was the puzzle I enjoyed the most – among the ones I did. The goal is to parse is rails
+map on which wagons go and make wagons move around by respecting some specific rules: we must find
+wagon collision is report their positions 2D position.
+
+Parsing is actually pretty simple: the input data is the 2D map that contains the rail system along
+with the initial position of wagons. About the map, I decided to store only crossings, not the
+actual rails, because I didn’t need them! So in order to do so, I changed a bit the regular way I
+encode 2D maps in memory and decided to use a hashmap!
+
+```
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+enum Rail {
+  Cross, // +
+  RampRight, // /
+  RampLeft // \
+}
+
+struct Map(HashMap<(u32, u32), Rail>);
+```
+
+The rest of the code is actually pretty simple: there are several functions, one for moving carts,
+one for changing directions at cross, one for detecting collision. A main `loop` is responsible in
+moving carts and checking if there’s any collision. If no collision is detected, we just loop back
+up. If a detection is detected, we break the loop and display the position of the crash. The
+collision algorith returns the IDs of the carts that collided into each other.
+
+```
+let collision = loop {
+  // sort the cart by y component
+  carts.sort_by(|a, b| a.pos.cmp(&b.pos));
+
+  let collisions = move_carts(&map, &mut carts);
+  if !collisions.is_empty() {
+    break collisions[0];
+  }
+};
+
+println!("First collision: {:?}", carts[collision.0].pos);
+```
+
+The `sort_by` is needed because of priority rules in the puzzle’s text.
+
+Moving carts and detecting collision is pretty straightforward:
+
+```
+fn move_carts(
+  map: &Map,
+  carts: &mut Vec<Cart>,
+) -> Vec<(usize, usize)> {
+  let mut collisions: Vec<(usize, usize)> = Vec::new(); // no collision to begin with
+
+  // move and check collision for all carts
+  'outer: for i in 0 .. carts.len() {
+    // check that this cart hasn’t been collided into yet
+    for &collision in &collisions {
+      if i == collision.0 || i == collision.1 {
+        // already collided, don’t move that
+        continue 'outer;
+      }
+    }
+
+    // move the cart and check if it’s collided into another
+    move_cart(map, &mut carts[i]);
+    let collision = find_collision(&carts, i);
+
+    if let Some(collider) = collision {
+      collisions.push((collider, i));
+    }
+  }
+
+  collisions
+}
+```
+
+This code is not really optimized – we redo the same thing very often – but it’s way than enough to
+solve that puzzle’s part. Finding collision is very simple: we just try to find a cart with the
+same position.
+
+The tricky part is for moving at cross. The rules state that if you arrive at a cross, you have to
+turn in a given direction and change the future direction you will take at the future cross, if any.
+This was encoded inside each cart, so that they have a *“memory”* of turns to take.
+
+```
+#[derive(Debug)]
+struct Cart {
+  pos: (u32, u32),
+  dir: Direction,
+  next_turn: Turn
+}
+```
+
+A cart starts by going on its (relative!) `Turn::Left`, then at the next turn it will go
+`Turn::Straight`, then `Turn::Right` and finaly will loop back to `Turn::Left`. Note how different
+it is to `Direction`: a `Turn` is relative to the current movement of a cart while a `Direction` is
+absolute (at first, I wanted to have `North`, `East` etc. for `Direction` so that [confusion is not
+possible](https://kaamelott-soundboard.2ec0b4.fr/#son/de_tout_facon_on_dit_le_nord_selon_comment_on_est_tourne_ca_change_tout)).
+
+## Part 2
+
+In that part, we want to find the last standing cart, assuming that crashing carts are immediately
+removed from the map. The code is actually very similar: instead of breaking the loop at the first
+collision, we break it when there’s only one cart left on the map – we don’t forget te remove the
+crashed carts!
+
+```
+loop {
+  // sort the cart by y component
+  carts.sort_by(|a, b| a.pos.cmp(&b.pos));
+
+  for (ci, ck) in move_carts(&map, &mut carts) {
+    carts = carts.into_iter().enumerate().filter(|&(i, _)| i != ci && i != ck).map(|(_, c)| c).collect();
+  }
+
+  if carts.len() == 1 {
+    break;
+  }
+};
+
+println!("Last standing cart: {:?} ", carts); // this contains only one cart
+```
+
+[Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-13/src/main.rs)
+
+# --- Day 14: Chocolate Charts ---
+
+[Text](https://adventofcode.com/2018/day/14)
+
+## Part 1
+
+Very similar to the double-ended queue puzzle as well, this one doesn’t actually require any
+deletion, just indexing correctly into a growing buffer. Nothing really interesting to show about
+this problem, except maybe the way recipes are created.
+
+> To create new recipes, the two Elves combine their current recipes. This creates new recipes from
+> the digits of the sum of the current recipes' scores. With the current recipes' scores of 3 and 7,
+> their sum is 10, and so two new recipes would be created: the first with score 1 and the second
+> with score 0. If the current recipes' scores were 2 and 3, the sum, 5, would only create one
+> recipe (with a score of 5) with its single digit.
+
+In order to implement that, I recognized that I will always create at least one recipe: `0 + 0 = 0`,
+and as soon as I create two recipes, the other one will always be `1`, because the maximum value is
+`9 + 9 = 18 (1 and 8)`. Here’s my code that gets those two recipe numbers:
+
+```
+fn create_new_recipe(a: usize, b: usize) -> (Option<usize>, usize) {
+  let s = a + b;
+  let x = s / 10;
+  let y = s % 10;
+
+  (if x == 1 { Some(x) } else { None }, y)
+}
+```
+
+## Part 2
+
+Part 2 is really not interesting as it’s just using `ends_with` to find a suffix. I’ll let you read
+the code if you’re interested.
+
+[Rust solution](https://github.com/phaazon/advent-of-code-2k18/blob/master/day-14/src/main.rs)
+
+# --- Day 15: Beverage Bandits ---
+
+[Text](https://adventofcode.com/2018/day/15]
+
+# Part 1
+
+Aaaaaaaaaand this is the last puzzle I attempted. I actually decided not to finish it because it was
+taking me time. I will tell you more about that in the conclusion.
+
+The goal is to write a simulation of elves fighting goblins (or goblins fighting elves) and finding
+paths in a map that has holes / mountains in it. So most of the code to write is about [Dijkstra] or
+[A*]. The puzzle seemed interesting but it was way too much for my spare time to spend on. I advise
+you to have a look at the insanely long puzzle’s text – that will give you an idea of everything you
+need to implement in order to get the your solution working.
+
+# Conclusion
+
+Ah, my first Advent of Code. It was both interesting, exciting, frustrating and time-consuming. I
+found several pros and drawbacks:
+
+Pros, first:
+
+  - It’s all fun. Since I live in France, I couldn’t compete with people who get the puzzles
+    unlocked in the morning around 10:00 AM while they were unlocked around 5:00 AM in France – I
+    have a job, I have to, you know… SLEEP! So I just did it for fun.
+  - Writing algorithms to solve math and operational problems is always interesting and makes it a
+    great training.
+  - Comparing solutions on IRC was also pretty fun!
+
+And drawbacks:
+
+  - The fact west-europeans cannot compete (the timezone issue).
+  - The difficulty of the puzzles is not correctly balanced. Some puzzle are insanely simple to
+    solve and some others take you hours (if not days if you don’t have a lot of spare time).
+    Sometimes I felt frustrated at this, because I’ve been lacking sleep time for weeks and had to
+    go to bed in order not to destroy my physical health. I’m curious to hear about other
+    west-europeans: how did you manage your time, social life and work life with AoC?
+  - Some problems had a very long first part 2 and the second part was really stupid (read
+    [The Stars Align – Part 2](#part-2-8)). I would have preferred to have more consistency or more
+    parts, for instance.
+
+My general feeling is that it was fun, but I think that I won’t do it next year, because I had to
+put all my spare projects on hold for that. I didn’t learn anything new – all the algorithms had me
+write algorithms I already knew, except maybe the partial dimension squared algorithm I “invented”:
+someone told me that it’s very similar to a real and well-known algorithm! How funny is that! The
+algorithm is [Summed-area table](https://en.wikipedia.org/wiki/Summed-area_table) and my solution
+is, indeed, very similar to it. But the thing is: I came up with the idea, and this is priceless for
+training brains!
+
+Now I’ll return to my graphics, Rust and over experiment projects of mine! I hope you liked that
+article, it was a bit long (it took me almost two weeks to write!) but I felt I needed to make it.
+To… well… scrap and forget about Advent of Code and all my spare time I didn’t use for my own
+projects. :)
+
+Keep the vibes – especially you, [\@lqd].
+
 [Advent of Code]: https://adventofcode.com/about
 [netwire tutorial]: https://phaazon.net/blog/getting_into_netwire
 [zipper]: https://wiki.haskell.org/Zipper
@@ -1349,3 +1646,6 @@ println!("Largest fuel cell of all: ({}, {}, {}, of power {})", 1 + largest2.0 %
 [parsec]: http://hackage.haskell.org/package/parsec
 [OCR]: https://en.wikipedia.org/wiki/Optical_character_recognition
 [area]: https://en.wikipedia.org/wiki/Area
+[Dijkstra]: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+[A*]: https://en.wikipedia.org/wiki/A*_search_algorithm
+[\@lqd]: https://github.com/lqd
