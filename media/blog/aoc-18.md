@@ -1017,7 +1017,7 @@ nodeValue (Node children metadata) = sum [nodeValue n | Just n <- map index (NE.
 
 # Day 9: Marble Mania
 
-[Text](https://adventofcode.com/2018/day/9
+[Text](https://adventofcode.com/2018/day/9)
 
 ## Part 1 & 2
 
@@ -1583,7 +1583,7 @@ the code if you’re interested.
 
 # Day 15: Beverage Bandits
 
-[Text](https://adventofcode.com/2018/day/15]
+[Text](https://adventofcode.com/2018/day/15)
 
 # Part 1
 
