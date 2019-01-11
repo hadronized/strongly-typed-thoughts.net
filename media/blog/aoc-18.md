@@ -66,7 +66,7 @@ Enjoy the reading!
     * [Part 1](#part-1-12)
     * [Part 2](#part-2-12)
 * [Day 15: Beverage Bandits](#day-15-beverage-bandits)
-* [Part 1](#part-1-13)
+    * [Part 1](#part-1-13)
 * [Conclusion](#conclusion)
 
 <!-- vim-markdown-toc -->
@@ -1585,7 +1585,7 @@ the code if you’re interested.
 
 [Text](https://adventofcode.com/2018/day/15)
 
-# Part 1
+## Part 1
 
 Aaaaaaaaaand this is the last puzzle I attempted. I actually decided not to finish it because it was
 taking me time. I will tell you more about that in the conclusion.
