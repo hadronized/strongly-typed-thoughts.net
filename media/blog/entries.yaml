@@ -376,7 +376,7 @@
   blogEntryTags: [warmy, universal, json]
   blogEntrySlug: warmy-universal-json
 
-- blogEntryName: New cargo subcommand: sync-readme
+- blogEntryName: "New cargo subcommand: sync-readme"
   blogEntryPath: media/blog/cargo_sync_readme.md
   blogEntryPublishDate: 2019-02-25 18:50:00 Z
   blogEntryTags: [cargo, subcommand, readme]
