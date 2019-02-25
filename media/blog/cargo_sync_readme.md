@@ -65,9 +65,32 @@ READMEs.
 
 # Conclusion
 
-`cargo sync-readme` is already available on [crates.io]
+`cargo sync-readme` is already available on [crates.io] for you to use. You can install it as a
+development tool with the following command:
+
+```
+cargo install cargo-sync-readme
+```
+
+> Disclaimer: after having published `cargo-sync-readme`, I was told that there is already another
+> cargo plugin, [cargo-readme], that already does that. Indeed, that crate does more or less the
+> same job. However, the way it does it is very different. First, it uses a template file while
+> `cargo-sync-readme` lets you use your README file without having to depend on a template. Also,
+> [cargo-readme] has special semantics in its template (like {{crate_name}}, etc.) while
+> `cargo-sync-readme` is simpler and just requires a single marker. To sum up: `cargo-readme` is
+> heavier and is likely to require you to break your file into two separate files but contains more
+> customization options while `cargo-sync-readme` only requires a single line in your README and
+> will synchronize from within that same file.
+
+Feel free to comment, open issues, drink beers, share that [awesome bear driving a sausage podracer]
+and most of all… keep the vibes!
+
+  - [`cargo-sync-readme` on GitHub](https://github.com/phaazon/cargo-sync-readme)
+  - [`cargo-sync-readme` on crates.io](https://crates.io/crates/cargo-sync-readme)
 
 [GitHub]: https://github.com
 [docs.rs]: https://docs.rs
 [onboard documentation of warmy]: https://docs.rs/warmy
 [crates.io]: https://crates.io/crates/cargo-sync-readme
+[cargo-readme]: https://crates.io/crates/cargo-readme
+[awesome bear driving a sausage podracer]: https://phaazon.net/media/uploads/bear_sausage.mp4
