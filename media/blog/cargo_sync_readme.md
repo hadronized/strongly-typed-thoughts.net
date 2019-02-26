@@ -90,7 +90,7 @@ and most of all… keep the vibes!
 
 [GitHub]: https://github.com
 [docs.rs]: https://docs.rs
-[onboard documentation of warmy]: https://docs.rs/warmy
+[onboarding documentation of warmy]: https://docs.rs/warmy
 [crates.io]: https://crates.io/crates/cargo-sync-readme
 [cargo-readme]: https://crates.io/crates/cargo-readme
 [awesome bear driving a sausage podracer]: https://phaazon.net/media/uploads/bear_sausage.mp4
