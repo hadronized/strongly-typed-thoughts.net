@@ -8,7 +8,7 @@ Welcome on my official website. This place is dedicated to what I do on my spare
 nothing to do with any company nor professional purpose. You’ll find only personal-related projects
 and material.
 
-However, if you are a recruiter, you might be interested in [my portfolio](/portfolio) and/or 
+However, if you are a recruiter, you might be interested in [my portfolio](/portfolio) and/or
 contact me:
 
   - Via [GitHub](https://github.com/phaazon).
@@ -77,14 +77,20 @@ I obtained my engineer’s degree ([CTI](https://en.wikipedia.org/wiki/Commissio
 by fall 2015, delivered by [EFREI](https://en.wikipedia.org/wiki/EFREI). You can download a generic
 version of my CV [here](http://phaazon.net/pub/CV.pdf).
 
-Today, I work at [vente-privee.com](http://vente-privee.com) as Functional Software Engineer. I
-design and implement complex systems. Oh and I use Haskell and even Elm!
+Today, I work at [Ledger](https://www.ledger.com) as Software Engineer. I work mostly on low-level
+systems and applications, ranging from heavy-cryptographic code to blockchain protocols, formats,
+serialization and financial transaction-related code, but I also integrate those systems end-to-end
+into different architectures, such as `node.js`, Electron, Android and iOS via React Native, etc.
 
 > Disclaimer to headhunters: if you want to contact me for a job offer, please do not use a template
-> you send to everyone. It’s both boring and disrespectful. Still, I used to, respond to that kind
-> of requests, but I won’t anymore. What would you think if someone applied for a job position
-> with a template they would obviously use for other people? If you really want to contact me, just
-> talk to me with your own words. I’m a human being, I don’t want to talk to a template.
+> you send to everyone. It’s both boring and disrespectful. Even though I used to respond to that
+> kind of requests, I will not anymore. What would you think if someone applied for a job position
+> with a template they would obviously use for other companies? Do you feel they would express their
+> real interest in getting hired in your company with such a process? If you really want to contact
+> me, just talk to me with your own words and read through my work.. I’m a human being, I don’t want
+> to talk to a template nor being considered as “a human resource.”
+>
+> Disclaimer²: I’m not interested in PHP. You peeps have to stop with that.
 
 Enjoy your visit, and feel free to contact me!
 
