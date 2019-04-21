@@ -72,7 +72,142 @@ done inside the [splines] crate, not in other crates. I will discuss why just be
 
 Basically, in [splines], prior to `1.0.0`, a spline was polymorphic type mapping a key of type `f32`
 to a control point of type `Key<V>`, `V` being the carried value. You then manipulate a `Spline<V>`.
+The problem with that is whenever someone wants to use a different time, like, `f64` or something of
+their own.
+
+My first solution was to turn the spline type to `Spline<T, V>`. That would allow people to use both
+`f32` and `f64` as sampling type. The problem kicks in with the code handling those sampling values.
+For instance, for the `Interpolation::Cosine` interpolation mode, I need to take the cosine of a
+value which type is either `f32` or `f64`. How can we do that in a generic and polymorphic maneer?
+
+> [num-traits] to the rescue!
+
+Yeah, so was my first thoughts. I then re-wrote most of the interpolating code using [num-traits]…
+and then decided to tackle all the feature gates. Because, I haven’t told you yet, but [splines] has
+several feature gates allowing you to use, e.g., implement the `Interpolate` trait for some famous
+crates’ types ([nalgebra], [cgmath]), enable [serde] serialization, etc. One feature gate that is
+important to me as a demoscener is the `"std"` feature gate, that, if not defined, makes the
+[splines] crate compile with the `no_std` feature.
+
+And here comes the first problems. The [num-traits] has a trait that isn’t compatible with `no_std`,
+the [`Float`](https://docs.rs/num-traits/0.2.6/num_traits/float/trait.Float.html) trait. I then sat
+in front of my computer and [thought](https://phaazon.net/media/uploads/trying_to_think.jpg). I came
+to the realization that whatever library I would use for that trait, I would always get my hands
+tied by the *contracts of the public interface of that crate*, for a feature that is almost central
+to the whole [splines] crate. It quickly became obvious that I couln’t use [num-traits].
+
+> Yes, I know about the [`FloatCore`](https://docs.rs/num-traits/0.2.6/num_traits/float/trait.FloatCore.html)
+> trait. However, I was stuck with `FloatConst` right after that and I just wanted to clean the
+> interface.
+
+The monomorphic version of [splines] is easy to implement for `no_std`, but now I’m stuck because of
+some simple traits? Naaah.
+
+So I decided to write my own traits. Enter: `Additive`, a simple trait with no content but `Add` and
+`Sub` as supertraits (and some non-important ones for comprehension here), `One`, a trait that
+provides the neutral element of the multiplication for a given type (i.e. the multiplication monoid)
+and the `Linear<T>` trait, providing linear combinations, mandatory for all kind of interpolations
+mentioned earlier.
+
+Those traits have universal implementors so that you don’t have to implement them. And enabling a
+feature gate for, e.g., [cgmath] will also implement those traits accordingly in an enough
+polymorphic way that you shouldn’t have to ever worry about them.
+
+Just a little remark of mine: implementing the support for [cgmath] was pretty simple and
+straight-forward. As feared (because I used this crate), [nalgebra] was way harder to get right —
+and I even decided not to implement the `Point<..>` type because I’ve been struggling all the
+afternoon with error types that reminded me old and dark times with C++ Boost library. I’ve already
+discussed that with people from the [nalgebra] world and none seemed to agree with me that this
+crate is *a little bit too overengineered*. For instance, adding the support for [nalgebra] in
+splines also adds several mandatory dependencies — i.e. [num-traits] and [alga]. It’s not that bad,
+but if you want to play with simple vector spaces, I really do not recommend [nalgebra] as it’s a
+really convoluted library with lots of `type` aliases and types with infinite counts of type
+variables. Maybe it’s just a confirmation bias of mine, because I’ve always used (and written, back
+then in C++) linear libraries that were both simple and fast. [nalgebra] makes me [think of this and
+this is driving me crazy](https://www.boost.org/doc/libs/1_55_0/libs/geometry/doc/html/geometry/design.html).
+I’m not saying it’s bad. I’m saying it’s not for me and that I wouldn’t recommend it for people
+wanting to do simple things — and yes, video game still falls in that *simple things* bag.
+
+## Let’s talk about feature gates
+
+So, the design of feature gating in [splines]. I know it might feel a bit weird to have gates like
+`"impl-nalgebra"` or `"impl-cgmath"` but to me it makes lots of sense. For a simple reason: a crate
+exposes several types and functions via its public API. Everything that is not public is not for a
+very good reason. Mostly, *invariants*. An invariant is something that must remain true _before_ a
+function / morphism / whatever is called and _after_. What happens in between can actually break
+that invariant. The idea is that *“If a function breaks internally an invariant, it must restore it
+before returning”*, so that the API remains safe to use.
+
+Invariants are central in my way of thinking. Everytime I write some code, everytime I design an
+interaction between several piece of algorithms, crates or even cross-language and cross-systems, I
+always asks myself *“Am I breaking an invariant here? Is it possible to fuck up a state or a hidden
+property somewhere?”*
+
+In Rust, invariants are not a first-class citizen of the language (have a look at how the [D]
+language handles `invariant`: it’s interesting!). However, they still exist. Imagine this piece of
+code:
+
+```rust
+pub struct Even(pub u64);
+
+impl Even {
+  pub fn new(nth: u64) -> Self {
+    Even(nth * 2)
+  }
+}
+
+impl Add<u64, Output = Even> for Even {
+  fn add(self, rhs: u64) -> Output {
+    Even(self.0 + rhs * 2)
+  }
+}
+```
+
+Imagine this is wrapped in a crate `num-even`. Adding a `u64` to an `Even` gives you the nth next
+even number. All of this is cool. But there is an invariant. The carried `u64` by `Even` must…
+remain even. If at some time a user handle a `Even` with an odd `u64` inside of it, something has
+gone wrong terribly. And with this current implementation, it’s very easy to break such an
+invariant. Consider:
+
+```rust
+use num_even::Even;
+
+fn main() {
+  let mut a = Even::new(1); // the 1st even number
+  a.0 += 1; // oooooooh, fuuuuuuu-
+}
+```
+
+I had long heated debates with people on IRC about why this kind of library should be patched. The
+main argument of people who would think it shouldn’t be patched is “Yeah but we want users to have
+access to the underlying objects in any way they want.” I think invariants matter most. The patch
+version is actually a negative diff:
+
+```rust
+pub struct Even(u64);
+```
+
+Done. Here, the invariant cannot be broken anymore because people cannot create or modify `Even`
+by hand. Constraining is powerful. You should try it. :)
+
+[splines] holds keys in a `Spline<..>` that must remain sorted. Hence, you don’t have a direct
+access to the keys nor you can mutate them. Mutating keys would imply resorting the keys in a
+smart way, which is something I haven’t needed yet.
+
+So, that’s all for me for today. If you have any question about [splines], please feel free to open
+an issue on GitHub. Also, if you’re interested in trying it, please have a look at the
+[splines-1.0.0-rc.1] release candidate. It contains everything you need to get started!
+
+> The documentation is not up to date and some is missing, but it should be enough to start.
+
+As always, keep the vibes!
 
 [splines]: https://crates.io/crates/splines
 [splines-1.0.0-rc.1]: https://crates.io/crates/splines/1.0.0-rc.1
 [Bézier interpolation]: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
+[num-traits]: https://crates.io/crates/num-traits
+[nalgebra]: https://crates.io/crates/nalgebra
+[cgmath]: https://crates.io/crates/cgmath
+[serde]: https://crates.io/crates/serde
+[alga]: https://crates.io/crates/alga
+[D]: https://dlang.org/spec/contracts.html#Invariants

@@ -381,3 +381,9 @@
   blogEntryPublishDate: 2019-02-25 18:50:00 Z
   blogEntryTags: [cargo, subcommand, readme]
   blogEntrySlug: cargo-sync-readme
+
+- blogEntryName: splines-1.0.0 and first release candidate
+  blogEntryPath: media/blog/splines-1.0.0.md
+  blogEntryPublishDate: 2019-04-22 01:10:00 Z
+  blogEntryTags: [splines, release-candidate]
+  blogEntrySlug: splines-1.0.0-rc.1
