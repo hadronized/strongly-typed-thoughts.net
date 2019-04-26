@@ -141,7 +141,7 @@ having split the feature set into several releases?”*, and that’s a good que
 
 Lately, I’ve been feeling on-and-off about everything I do on my spare-time on the FOSS level. I
 have several crates I care about and sometimes people show up and start asking for features and/or
-big fixes. This takes some time and afer a long day of work, I sometimes feel that I just want to
+bug fixes. This takes some time and after a long day of work, I sometimes feel that I just want to
 hack on things I like, play my electric guitar, go to swim or wakeboard or just spend time with
 people I care about and love.
 
@@ -168,9 +168,9 @@ in engineering — also, pro tip: I highly value that when interviewing candidat
 
 But the more I advance and grow up, the more things I learn and the more things I master. And as I
 master new things, I tend to get used to them. And the “mental effort” it requires tends to slowly
-disappear. I remember when I tried (hard!) to wrap my finger around what a profunctor is, or what
-_free monads_ or even *natural transformations* are and how to use them. It was hard. I was
-told on IRC things I highly disagree with. As a friend of mine ([\@lucasdicciocio]) perfectly
+disappear. I remember when I tried (hard!) to wrap my finger around what a *profunctor* is, or what
+_free monads_ or even *natural transformations* are and how to use them. It was hard. As a friend of
+mine ([\@lucasdicciocio]) perfectly
 summarized it some times ago, when we learn something as a beginner, we struggle. But people who
 master those concepts struggle even harder when trying to learn the next concepts at hand. And I’m
 not an exception. Today, _free monads_ are something I know (even though I don’t use them; it’s a
@@ -193,7 +193,9 @@ give people some relief — maybe you too have a similar experience? Please shar
 [the Reddit thread this article is post in].
 
 As always, stick doing awesome things and spend your spare-time wisely. Spend time with the ones you
-love and do the things you hecking love too! Keep the vibes!
+love and do the things you hecking love too!
+
+*Keep the vibes!*
 
 [luminance]: https://crates.io/crates/luminance
 [quaazar]: https://github.com/phaazon/quaazar
@@ -204,5 +206,5 @@ love and do the things you hecking love too! Keep the vibes!
 [amethyst]: https://crates.io/crates/amethyst
 [piston]: https://crates.io/crates/piston
 [\@lucasdicciocio]: http://dicioccio.fr
-[the Reddit thread this article is post in]:
 [ECS]: https://en.wikipedia.org/wiki/Entity_component_system
+[the Reddit thread this article is post in]:
