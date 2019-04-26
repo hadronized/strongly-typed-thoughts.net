@@ -79,7 +79,7 @@ beers).
 
   - Add the `"std"` feature-gate. This will help use [luminance] with specific contexts, especially
     for demoscene or size-limited devices. Currently, the work on `no_std` has been saved for later
-    as [I had hit a bug last time I checked](TODO).
+    as [I had hit a bug last time I checked](https://github.com/rust-lang/rust/issues/51540).
   - Change the `Tess` interface. Now, a `TessBuilder` must be used. This allows for three major
     enhancements:
     - Vertex instancing.
@@ -202,5 +202,5 @@ love and do the things you hecking love too! Keep the vibes!
 [ggez]: https://crates.io/crates/ggez
 [amethyst]: https://crates.io/crates/amethyst
 [piston]: https://crates.io/crates/piston
-[\@lucasdicciocio]: TODO
-[the Reddit thread this article is post in]: TODO
+[\@lucasdicciocio]: http://dicioccio.fr
+[the Reddit thread this article is post in]:
