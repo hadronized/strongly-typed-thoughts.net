@@ -42,9 +42,9 @@ going to be soon. Currently, [luminance]’s goals are (according to the
     learn a lot of new concepts to get their feet wet.
   - Need-driven: every piece of code added in the project must come from a real use case. If you
     feel something is missing, feel free to open an issue or even contribute!
-    - This is an important aspect to me. I don’t write code for the sake of writing codes (even
+    - This is an important aspect to me. I don’t write code for the sake of writing code (even
       libraries). I have a problem and write code to solve it. So, on the surface, [luminance]
-      might seem a bit less completex that, again, e.g. [gfx-hal]. And that would be likely right.
+      might seem a bit less complete that, again, e.g. [gfx-hal]. And that would be likely right.
       However, if someone likes the API and wants something in, I accept both issues and PRs. There
       are several examples of people asking for features and having me implement them. There’s also
       some folks who actually wrote the code and it’s now in [luminance]!
@@ -94,40 +94,41 @@ beers).
     - All the previous `macro_rules` are removed.
   - Support a new dynamic way to get uniforms. Sometimes, you don’t know in advance the uniforms
     your shader is going to use. When such a case arise, you might be tempted to have a minimal
-    *uniform interface* — if none. *Dynamic uniform lookups* allows you to query uniforms on the
+    *uniform interface* — if none. *Dynamic uniform lookups* allow you to query uniforms on the
     fly. That has obviously a runtime cost but it can be handy for lots of situations (GUI editors,
     scripting, etc.).
   - Update framebuffer code so that *color slots* and *depth slots* are easier to use.
   - Introduce the concept of *drivers*. Drivers allow code to be parametered by a type which
-    represent a given implementation to use for the graphics code. You can have a `GL33` driver
+    represents a given implementation to use for the graphics code. You can have a `GL33` driver
     for **OpenGL 3.3**, a `GL40`, `GL44`, `GL45` etc., but you can also have `WebGL` and `VK10`.
   - Add vertex instancing. Vertex instancing allows to instantiate objects by providing instance
-    data directly in a `Tess`. This was asked by several people and I just couldn’t ignore such an
-    interesting and useful feature!
+    data directly in a `Tess` — instead of using the current method with GPU `Buffer<_>`. This was
+    asked by several people and I just couldn’t ignore such an interesting and useful feature!
   - Support for deinterleaved memory. Deinterleaved memory allows for more granularity on how data
     is fetched GPU-side. With the legacy [luminance] situation, data is completely interleaved,
     which means that a vertex’s attributes all follow each other in a GPU buffer. This is both nice
-    and bad: if you need to access to all attributes of a vertex, this is pretty good, since
+    and bad: if you need to access all attributes of a vertex, this is pretty good, since
     cache-locality will be in your advantage. However, if you’re only interested in positions, for
     instance, you will waste your cache lines with attributes you will never read from!
     Deinterleaved memory stores each attributes in a different GPU memory region, allowing for a way
-    better memory scheme for such uses.
+    better memory scheme for such uses. People using the [ECS] pattern might be used to
+    deinterleaved memory.
   - Add vertex primitive restart. This allows to use tessellation indexing modes such as
     `TriangleFan` or `LineStrip` and “cut” a primitive if an index is equal to a given value. This
     is very useful for implementing terrains, quadrics or a lot of other nice things.
   - Introduce *vertex semantics*. This is one of the sexiest and most exciting feature of this next
-    release. I got the idea by thinking about the fact [lumimance] should be low-level but provide
+    release. I got the idea by thinking about the fact [luminance] should be low-level but provide
     very quick access to building high-level blocks. I got the idea with vertex semantics via my
     [spectra] crate. The idea is simple: currently, we must define a `Vertex` type and the order
-    in which the fields appear in the `struct` define the bindings the GPU will present them to
-    shaders… but it’s the user responsability to tell how the shader will fetch those attributes.
+    in which the fields appear in the `struct` defines the bindings the GPU will present to
+    shaders… but it’s the user responsibility to tell how the shader will fetch those attributes.
     This can lead to very wrong situations in which, for instance, the GPU present the *normal*
     attribute as having the index `4` but the shader tries to fetch them on index `2`. Vertex
     semantics fix this situation by adding an intermediate layer both the user and the GPU (i.e. via
     [luminance]) must speak: semantics. Semantics are user-defined and none is hardcoded in
     [luminance]. As soon as a type uses vertex semantics, all the type system knows how to forward
     that information to shaders and what shaders should do to fetch them. The other bonus, ultra
-    cool thing is that shader and memory buffers now compose way better: since vertex semantics
+    cool thing is that shaders and memory buffers now compose way better: since vertex semantics
     define a sort of namespace, you will never have two shaders using the same index for different
     semantics (unless you use completely different vertex semantics type). A very cool feature I’m
     proud of and that I will detail in a future article / [luminance] tutorial.
@@ -136,7 +137,7 @@ beers).
 # One word about the feature set and spare-time
 
 You might be wondering *“Woah, this is such a big feature set. A lot of things are coming! Why not
-having split the feature set into several releases?*, and that’s a good question.
+having split the feature set into several releases?”*, and that’s a good question.
 
 Lately, I’ve been feeling on-and-off about everything I do on my spare-time on the FOSS level. I
 have several crates I care about and sometimes people show up and start asking for features and/or
@@ -204,3 +205,4 @@ love and do the things you hecking love too! Keep the vibes!
 [piston]: https://crates.io/crates/piston
 [\@lucasdicciocio]: http://dicioccio.fr
 [the Reddit thread this article is post in]:
+[ECS]: https://en.wikipedia.org/wiki/Entity_component_system
