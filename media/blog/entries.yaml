@@ -387,3 +387,9 @@
   blogEntryPublishDate: 2019-04-22 01:10:00 Z
   blogEntryTags: [splines, release-candidate]
   blogEntrySlug: splines-1.0.0-rc.1
+
+- blogEntryName: Pre luminance-1.0.0 and random thoughts
+  blogEntryPath: media/blog/pre-luminance-1.0.0.md
+  blogEntryPublishDate: 2019-04-26 22:30:00 Z
+  blogEntryTags: [luminance, imposter-syndrom]
+  blogEntrySlug: pre-luminance-n-random-thoughts
