@@ -207,4 +207,4 @@ love and do the things you hecking love too!
 [piston]: https://crates.io/crates/piston
 [\@lucasdicciocio]: http://dicioccio.fr
 [ECS]: https://en.wikipedia.org/wiki/Entity_component_system
-[the Reddit thread this article is post in]:
+[the Reddit thread this article is post in]: https://www.reddit.com/r/rust/comments/bhslno/pre_luminance100_random_thoughts_about
