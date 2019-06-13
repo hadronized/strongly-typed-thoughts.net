@@ -48,7 +48,7 @@ impl<B, T> Var<B, T> {
 impl<B, T> Var<B, T> where B: Backend, T: Interface {
   // Update the value of the variable.
   //
-  // For simplicity, I don’t include a mutuable reference to the backend, because that is not the
+  // For simplicity, I don’t include a mutable reference to the backend, because that is not the
   // topic of this blog article. However, you might want to if you want to be able to, for instance,
   // change the value in a map stored in the backend, for instance. But whatever.
   pub fn update(&mut self, value: &T) {
