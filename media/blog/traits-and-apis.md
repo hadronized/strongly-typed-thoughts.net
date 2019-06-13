@@ -316,7 +316,7 @@ and a set of matching implementations. Notice in the last solution the `Interfac
 now reduced to something pretty dumb. It would be easy for anyone to implement it for their own
 types and then implement `Backend<TheirType> for TheirBackend`. Rust doesn’t offer a way to have
 *sealed traits* so far, so my current solution to this is to mark the trait `unsafe` (to scare
-people and tell them not to implement the trait). However, a clear and first-citizen language
+people and tell them not to implement the trait). However, a clear and first-class citizen language
 construct for this would be highly appreciated.
 
 [luminance]: https://crates.io/crates/luminance
