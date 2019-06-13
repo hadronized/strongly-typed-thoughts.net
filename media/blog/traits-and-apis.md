@@ -15,6 +15,8 @@ There are several ways to do this. Let’s start with a nobrainer.
 ```rust
 use std::marker::PhantomData;
 
+// This type serves as to reify typing information at runtime and also serves as “public contract”.
+// What it means is that this type gives you all the possible logical types you can use.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum Type {
   Int,
@@ -23,6 +25,8 @@ enum Type {
   Bool
 }
 
+// We will use a very small abstraction to represent the update function (and the backend).
+// Var<B, T> is just a variable of type T represented in the backend B.
 #[derive(Debug)]
 pub struct Var<B, T> where B: ?Sized {
   name: String,
@@ -31,6 +35,7 @@ pub struct Var<B, T> where B: ?Sized {
 }
 
 impl<B, T> Var<B, T> {
+  // Just create a variable of a given name, whatever its type and backend.
   pub fn new(name: &str) -> Self {
     Var {
       name: name.to_owned(),
@@ -41,11 +46,19 @@ impl<B, T> Var<B, T> {
 }
 
 impl<B, T> Var<B, T> where B: Backend, T: Interface {
+  // Update the value of the variable.
+  //
+  // For simplicity, I don’t include a mutuable reference to the backend, because that is not the
+  // topic of this blog article. However, you might want to if you want to be able to, for instance,
+  // change the value in a map stored in the backend, for instance. But whatever.
   pub fn update(&mut self, value: &T) {
     B::update(self, value);
   }
 }
 
+// The interface (i.e. public API) trait. This serves as a “anything implementing that can be used
+// with the API.” It simply associates a Type that is, if you remember, an exhaustive list of types
+// that can be used (and reified at runtime).
 trait Interface {
   const TY: Type;
 }
@@ -66,12 +79,19 @@ impl Interface for bool {
   const TY: Type = Type::Bool;
 }
 
+// The backend (i.e. private implementations) trait. An implementation should implement this trait
+// to implement the actual update of a variable for a given context / backend. Notice the Interface
+// constraint on the T type parameter.
 trait Backend {
   fn update<T>(var: &mut Var<Self, T>, value: &T) where T: Interface;
 }
 
 impl Backend for () {
   fn update<T>(var: &mut Var<Self, T>, _: &T) where T: Interface {
+    // We can reify the type of the variable at runtime thanks to the associated constant value.
+    // However, you can see that we have no way to actually inspect the value. This is due to the
+    // fact our update function is universally quantified on T: we cannot observe T (i.e. know its
+    // exact type) from within the implementation. That might be a problem.
     match T::TY {
       Type::Int => println!("setting {} to int", var.name),
       Type::UInt => println!("setting {} to unsigned int", var.name),
@@ -97,6 +117,8 @@ compile-time. That requires some changes but in the end it’s pretty clear what
 ```rust
 use std::marker::PhantomData;
 
+// We don’t need the Type enum anymore so I just removed it. However, even with that solution, we
+// could still want to keep it around.
 #[derive(Debug)]
 pub struct Var<B, T> where B: ?Sized, T: ?Sized {
   name: String,
@@ -114,16 +136,21 @@ impl<B, T> Var<B, T> {
   }
 }
 
-impl<B, T> Var<B, T> where T: Interface, B: Backend {
+impl<B, T> Var<B, T> where B: Backend, T: Interface {
   pub fn update(&mut self, value: &T) {
+    // Notice how now, we use the update method from the Interface and not the Backend! Important
+    // change, as you will see.
     T::update(self, value)
   }
 }
 
+// The interface trait loses the associated constant and gets a method, update. This method must
+// work for any backend (i.e. types that implement Backend), since it’s our public facing trait.
 trait Interface {
   fn update<B>(var: &mut Var<B, Self>, value: &Self) where B: Backend;
 }
 
+// We can then implement it for all our types by selecting manually the update_* method we want.
 impl Interface for i32 {
   fn update<B>(var: &mut Var<B, Self>, value: &Self) where B: Backend {
     B::update_i32(var, value);
@@ -148,6 +175,8 @@ impl Interface for bool {
   }
 }
 
+// The trait backend is now a list of a methods that will be available to the Interface’s
+// implementors.
 trait Backend {
   fn update_i32(var: &mut Var<Self, i32>, value: &i32);
   fn update_u32(var: &mut Var<Self, u32>, value: &u32);
@@ -155,6 +184,9 @@ trait Backend {
   fn update_bool(var: &mut Var<Self, bool>, value: &bool);
 }
 
+/// Implementing the backend trait now gives us a power we didn’t have back then in solution 1: we
+// now can observe the type of the variable and, then, we can actually do useful things with it, as
+// displaying it!
 impl Backend for () {
   fn update_i32(var: &mut Var<Self, i32>, value: &i32) {
     println!("setting {} to int {}", var.name, value);
@@ -220,12 +252,17 @@ impl<B, T> Var<B, T> {
   }
 }
 
+// Wouhouh, some changes here. We go back to the first solution by using the update method of the
+// Backend trait, but notice how we bind the Backend trait to the Interface by using Backend<T>.
 impl<B, T> Var<B, T> where T: Interface, B: Backend<T> {
   pub fn update(&mut self, value: &T) {
     B::update(self, value)
   }
 }
 
+// This trait is now a bit dumb and even dangerous as it’s very easy to implement it. In a perfect
+// Rust world, we would have sealed traits — i.e. we could only implement it from the inside of the
+// current crate.
 trait Interface {}
 
 impl Interface for i32 {}
@@ -236,6 +273,10 @@ impl Interface for f32 {}
 
 impl Interface for bool {}
 
+// The backend trait now has an associated type parameter that represents the variable type. What
+// it means is that we will be able to implement the update function for all types of our choices…
+// and still observe the type, since from inside the update function, it’s not universally
+// quantified anymore!
 trait Backend<T> {
   fn update(var: &mut Var<Self, T>, value: &T);
 }
