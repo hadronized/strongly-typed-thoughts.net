@@ -1,78 +1,281 @@
-For those who have been following me for some months now, you might already know that I’ve been
-refactoring and redesign from the ground up [luminance]. The `1.0-beta` will arrive as soon as
-possible but in the waiting, I thought it could be interesting to share design ideas I had while
-redesigning.
+In this blog article, I want to explore a problem I’ve been facing from time to time in [luminance].
 
-I know it’s a thing to do a “This Week In Whatever™”, which is not something I will start because I
-already lack spare time to finish all my crates and merge contributions, but I will maybe have my
-own “This Month In Luminance” instead.
+# The manual dispatch problem
 
-Today, I wanna talk about a situation I’ve been facing several times, in [luminance] but also in
-previous projects (even from other languages!).
+The idea is simple: you are writing a crate and want to expose an API to people. You want them to
+know which type they can use with a given operation (let’s call it `update`). However, the actual
+implementation of this update function is not performed directly by your API but is deferred to a
+*backend* implementation. Some people usually like to do that with several crates; in my case, I
+really don’t care and let’s think in terms of types / modules instead.
 
-# The manual static dispatch burden
+There are several ways to do this. Let’s start with a nobrainer.
 
-There is a concept in [luminance] I’m pretty proud of that ages from its
-[Haskell version](https://hackage.haskell.org/package/luminance). It’s the way *shader uniforms* are
-handled. Shader uniforms, in [luminance], are write-only variables you can set to customize a pass
-of a render in a given shader. Because their nature, they live in only one shader and are not shared
-between shader programs (but they’re shared between stages inside a given shader program).
+## The first attempt: dynamic dispatch
 
-> *“Wait, what are you talking about?! Shader? Stages? Programs?”*
+```rust
+use std::marker::PhantomData;
 
-Ah, yes. All the fuzz around raytracing and shaders lately drive people confused. So:
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum Type {
+  Int,
+  UInt,
+  Float,
+  Bool
+}
 
-  - *A shader* is a *buzzword*. A graphics programmer will never use the word this way to describe
-    something concrete. At last they will use it to describe a rough and abstract concept but not a
-    real thing. When you see someone talking about *a shader*, depending on whom, it’s very likely
-    they’re actually talking about a *fragment shader*, which is a *shader stage*. Keep on reading.
-  - *A shader* stage is a piece of program that runs on a graphics system — I use *graphics system*
-    instead of GPU on purpose since you could have shader support without a GPU! As the name
-    implies, you can imagine that a graphics system will run several *stages*. Each stage is
-    responsible in a given, very specific task. Some common stages we found in demos or games:
-    - *A vertex shader* is a *shader stage* that is responsible in transforming vertices that
-      flow-in from a vertex stream. When you want to [rasterize] triangles for instance, the
-      *vertex shader* will inspect all vertices and possibly move them around, changing their
-      coordinates, add them some data, etc. It cannot remove nor add vertices. See it as a `map`
-      function.
-    - *A geometry shader* does a bit the same job as a *vertex shader*, but instead of working on
-      vertices, it works on *primitives* (i.e. lines, triangles, etc.), constructed from the output
-      of the previously active *vertex shader*. So a *geometry shader* comes next after a *vertex
-      shader*. Geometry shaders can remove vertices or add ones, change data, etc. See them as a
-      `concat_map` function: for each primitive (triangle would be 3 vertices), they can generate
-      no vertex data, or as many as the input, or add more. Geometry shaders are VERY useful when
-      you want to enrich geometry on the fly or do some tricky transformation.
-    - *A fragment shader* will run as part of one of the last part of the rasterizer and will be
-      run on all covered pixels by your mutilated triangle from the previously active *geometry
-      shader*. The output of *fragment shaders* are color channels, mostly.
-  - *A shader program* is a pipeline comprised of several stages. Some of them are optional (you
-    don’t have to use a geometry shader or tessellation shaders, for instance) and some are
-    mandatory (you need a vertex shader and a fragment shader).
+#[derive(Debug)]
+pub struct Var<B, T> where B: ?Sized {
+  name: String,
+  _b: PhantomData<*const B>,
+  _t: PhantomData<*const T>,
+}
 
-That was a big digression but now you might know something new about graphics programming! In the
-rest of document, I will always talk about stages or programs and never about *shaders*.
+impl<B, T> Var<B, T> {
+  pub fn new(name: &str) -> Self {
+    Var {
+      name: name.to_owned(),
+      _b: PhantomData,
+      _t: PhantomData,
+    }
+  }
+}
 
-I will not explain the rationale between how [luminance] does to provide a clean and safe API above
-uniforms (this is the topic for a whole blog post). Instead, I’m going to give you the problem of
-the day.
+impl<B, T> Var<B, T> where B: Backend, T: Interface {
+  pub fn update(&mut self, value: &T) {
+    B::update(self, value);
+  }
+}
 
-Uniforms are abstracted by the `Uniform<T>` type in [luminance]. `T` represents the type of the
-variable on the graphics system. For instance, if you want to change 4D 32-bit floating value, you
-will do it via a `Uniform<[f32; 4]>`. So far, so good.
+trait Interface {
+  const TY: Type;
+}
 
-The problem is that the OpenGL API is a bit boring with uniforms. Each type has a specific function
-to call. For instance, to send 4 `f32` as uniforms, you must use the [`glUniform4f`] function. If
-you want to pass a single 32-bit integer (`i32`), you will use `glUniform1i`. Etc., etc.
+impl Interface for i32 {
+  const TY: Type = Type::Int;
+}
 
-Maybe you already see the problem. We need a way to restrict the user on the set of types they can
-use… and for each type, we need to call a specific function. We could restrict the types via several
-methods:
+impl Interface for u32 {
+  const TY: Type = Type::UInt;
+}
 
-  - Algebraic types (enums with data): this would allow us to declare all the supported types at
-    once. however, we will then have to branch at run time to perform the dispatch, which is not
-    something I want.
-  - Use a trait
+impl Interface for f32 {
+  const TY: Type = Type::Float;
+}
+
+impl Interface for bool {
+  const TY: Type = Type::Bool;
+}
+
+trait Backend {
+  fn update<T>(var: &mut Var<Self, T>, value: &T) where T: Interface;
+}
+
+impl Backend for () {
+  fn update<T>(var: &mut Var<Self, T>, _: &T) where T: Interface {
+    match T::TY {
+      Type::Int => println!("setting {} to int", var.name),
+      Type::UInt => println!("setting {} to unsigned int", var.name),
+      Type::Float => println!("setting {} to float", var.name),
+      Type::Bool => println!("setting {} to bool", var.name),
+    }
+  }
+}
+```
+
+Let’s dig in. The idea of this solution is to have a trait, `Interface`, that is used to create a
+set of types that can be used in the API with the `update` function on the `Var` type. The
+implementation is deferred to a backend via the `Backend` trait, that contains the interface of
+the implementation. Basically, the `Var::update` function will select at compile-time which
+backend to use, that will in its turn *observe* the type of the variable at runtime — see the
+`match` block. This is not ideal as we will have branching. We would like a better way to do it.
+
+## The second attempt: static dispatch
+
+Instead of dynamically dispatching the types of the variable, we can play around with it at
+compile-time. That requires some changes but in the end it’s pretty clear what we need to do:
+
+```rust
+use std::marker::PhantomData;
+
+#[derive(Debug)]
+pub struct Var<B, T> where B: ?Sized, T: ?Sized {
+  name: String,
+  _b: PhantomData<*const B>,
+  _t: PhantomData<*const T>,
+}
+
+impl<B, T> Var<B, T> {
+  pub fn new(name: &str) -> Self {
+    Var {
+      name: name.to_owned(),
+      _b: PhantomData,
+      _t: PhantomData,
+    }
+  }
+}
+
+impl<B, T> Var<B, T> where T: Interface, B: Backend {
+  pub fn update(&mut self, value: &T) {
+    T::update(self, value)
+  }
+}
+
+trait Interface {
+  fn update<B>(var: &mut Var<B, Self>, value: &Self) where B: Backend;
+}
+
+impl Interface for i32 {
+  fn update<B>(var: &mut Var<B, Self>, value: &Self) where B: Backend {
+    B::update_i32(var, value);
+  }
+}
+
+impl Interface for u32 {
+  fn update<B>(var: &mut Var<B, Self>, value: &Self) where B: Backend {
+    B::update_u32(var, value);
+  }
+}
+
+impl Interface for f32 {
+  fn update<B>(var: &mut Var<B, Self>, value: &Self) where B: Backend {
+    B::update_f32(var, value);
+  }
+}
+
+impl Interface for bool {
+  fn update<B>(var: &mut Var<B, Self>, value: &Self) where B: Backend {
+    B::update_bool(var, value);
+  }
+}
+
+trait Backend {
+  fn update_i32(var: &mut Var<Self, i32>, value: &i32);
+  fn update_u32(var: &mut Var<Self, u32>, value: &u32);
+  fn update_f32(var: &mut Var<Self, f32>, value: &f32);
+  fn update_bool(var: &mut Var<Self, bool>, value: &bool);
+}
+
+impl Backend for () {
+  fn update_i32(var: &mut Var<Self, i32>, value: &i32) {
+    println!("setting {} to int {}", var.name, value);
+  }
+
+  fn update_u32(var: &mut Var<Self, u32>, value: &u32) {
+    println!("setting {} to unsigned int {}", var.name, value);
+  }
+
+  fn update_f32(var: &mut Var<Self, f32>, value: &f32) {
+    println!("setting {} to float {}", var.name, value);
+  }
+
+  fn update_bool(var: &mut Var<Self, bool>, value: &bool) {
+    println!("setting {} to bool {}", var.name, value);
+  }
+}
+```
+
+We change the definition of the `Backend` trait to have all the functions dispatched statically.
+Then, using the `Interface` trait, we now have one information we didn’t have in the first example:
+the actual, concrete type of the variable. We can then call the right function from the `Backend`
+trait.
+
+To sum up, because all of this is starting to be a bit confusing:
+
+  - The `Interface` trait is the trait used to restrict the public API (i.e. which types can be
+    used publicly).
+  - The `Backend` trait is the trait to implement when providing the actual implementation.
+
+However, if we add more types, that solution won’t scale easily. The problem is that we have the
+typing information in several places (at the `impl` level and in a static list in a trait). It would
+be much easier if we could, somehow, force an `impl` to exist in another trait. Basically, I want to
+remove those `update_*` and use `impl`s instead.
+
+## The third and final solution: inferred static dispatch
+
+I have no idea how to call that way of doing but I like to think of it about inferred constraints.
+The idea is almost the same as the second solution but instead of declaring the list of functions
+that can be used in the implementation of the `Interface` trait, we will just create a generic
+dependency between the `Interface` trait and `Backend`. The advantage will also be that we don’t
+have to worry about the name of the function anymore, since it will be polymorphic.
+
+Let’s go.
+
+```rust
+use std::marker::PhantomData;
+
+#[derive(Debug)]
+pub struct Var<B, T> where B: ?Sized, T: ?Sized {
+  name: String,
+  _b: PhantomData<*const B>,
+  _t: PhantomData<*const T>,
+}
+
+impl<B, T> Var<B, T> {
+  pub fn new(name: &str) -> Self {
+    Var {
+      name: name.to_owned(),
+      _b: PhantomData,
+      _t: PhantomData,
+    }
+  }
+}
+
+impl<B, T> Var<B, T> where T: Interface, B: Backend<T> {
+  pub fn update(&mut self, value: &T) {
+    B::update(self, value)
+  }
+}
+
+trait Interface {}
+
+impl Interface for i32 {}
+
+impl Interface for u32 {}
+
+impl Interface for f32 {}
+
+impl Interface for bool {}
+
+trait Backend<T> {
+  fn update(var: &mut Var<Self, T>, value: &T);
+}
+
+impl Backend<i32> for () {
+  fn update(var: &mut Var<Self, i32>, value: &i32) {
+    println!("setting {} to int {}", var.name, value);
+  }
+}
+
+impl Backend<u32> for () {
+  fn update(var: &mut Var<Self, u32>, value: &u32) {
+    println!("setting {} to unsigned int {}", var.name, value);
+  }
+}
+
+impl Backend<f32> for () {
+  fn update(var: &mut Var<Self, f32>, value: &f32) {
+    println!("setting {} to float {}", var.name, value);
+  }
+}
+
+impl Backend<bool> for () {
+  fn update(var: &mut Var<Self, bool>, value: &bool) {
+    println!("setting {} to bool {}", var.name, value);
+  }
+}
+```
+
+This solution is quite interesting because of the use of the type parameter in the `Backend` trait.
+It enables you to implement the `Backend` trait and still observe (i.e. *know*) the type of the
+variable you’re playing with. Compare with the first solution, where we were completely generic on
+the `T` type.
+
+In [luminance], I use the last solution to allow a clear distinction between a set of public types
+and a set of matching implementations. Notice in the last solution the `Interface` trait, which is
+now reduced to something pretty dumb. It would be easy for anyone to implement it for their own
+types and then implement `Backend<TheirType> for TheirBackend`. Rust doesn’t offer a way to have
+*sealed traits* so far, so my current solution to this is to mark the trait `unsafe` (to scare
+people and tell them not to implement the trait). However, a clear and first-citizen language
+construct for this would be highly appreciated.
 
 [luminance]: https://crates.io/crates/luminance
-[rasterize]: https://en.wikipedia.org/wiki/Rasterisation
-[`glUniform4f`]: https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUniform.xhtml
