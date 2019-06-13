@@ -319,4 +319,9 @@ types and then implement `Backend<TheirType> for TheirBackend`. Rust doesn’t o
 people and tell them not to implement the trait). However, a clear and first-class citizen language
 construct for this would be highly appreciated.
 
+That’s all for me today. If you have any question about such a design, I’d be happy to answer your
+questions on Reddit, as usual.
+
+Keep the vibes!
+
 [luminance]: https://crates.io/crates/luminance

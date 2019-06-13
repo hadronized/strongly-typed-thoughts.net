@@ -393,3 +393,9 @@
   blogEntryPublishDate: 2019-04-26 22:30:00 Z
   blogEntryTags: [luminance, imposter-syndrom]
   blogEntrySlug: pre-luminance-n-random-thoughts
+
+- blogEntryName: On public API and private implementation
+  blogEntryPath: media/blog/traits-and-apis.md
+  blogEntryPublishDate: 2019-06-13 17:05:00 Z
+  blogEntryTags: [public, api, private, implementation]
+  blogEntrySlug: public-api-private-implementation
