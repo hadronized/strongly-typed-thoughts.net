@@ -175,7 +175,7 @@ impl Interface for bool {
   }
 }
 
-// The trait backend is now a list of a methods that will be available to the Interface’s
+// The trait backend is now a list of methods that will be available to the Interface’s
 // implementors.
 trait Backend {
   fn update_i32(var: &mut Var<Self, i32>, value: &i32);
