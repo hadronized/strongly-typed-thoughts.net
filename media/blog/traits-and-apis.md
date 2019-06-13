@@ -224,7 +224,7 @@ remove those `update_*` and use `impl`s instead.
 
 ## The third and final solution: inferred static dispatch
 
-I have no idea how to call that way of doing but I like to think of it about inferred constraints.
+I have no idea how to call that way of doing but I like to think of it as inferred constraints.
 The idea is almost the same as the second solution but instead of declaring the list of functions
 that can be used in the implementation of the `Interface` trait, we will just create a generic
 dependency between the `Interface` trait and `Backend`. The advantage will also be that we don’t
