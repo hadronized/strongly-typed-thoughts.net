@@ -52,6 +52,10 @@ From my point of view, we need at least two mechanisms of synchronization:
     can be solved by sampling from a curve, for instance.
 
 Both those problems are solved by two crates I wrote lately. Respectively, [awoo] and [splines].
+This blog post is about [awoo]. [splines] already has his own dedicated articles
+[here](https://phaazon.net/blog/splines-introduction) and
+[here](https://phaazon.net/blog/splines-1.0.0-rc.1). Nevertheless, I will make another blog article
+about it because I have new ideas I will add to the crate to enrich the [splines] experience.
 
 # [awoo] and the if / else if problem
 
@@ -146,10 +150,25 @@ scheduler.schedule();
 Here, we use the spinning loop of the scheduler to check for interruptions in a straight-forward
 way.
 
-# [splines] and the continuous world
+So far, I have to admit I haven’t digged the `async`, `await` and `Future` concepts in Rust too
+much. For a single reason: discussions around those concepts have been heated and I will wait for an
+official announcement of the feature. Schedulers, especially as simple as the ones in [awoo], don’t
+necessarily requires such IO features but the interruptible feature might. To me, the current
+implementation of interruptible schedulers in [awoo] is sufficient, especially for animation
+purposes — I might even add that feature directly in [awoo] so that you don’t have to do it by hand.
 
-On the other side, [splines] solves a problem completely different.
+# About the scope of the crate
 
+Currently, the crate’s scope is very narrow — and I actually like that. A tight and small scope
+implies a better visibility about what the crate must do and how it must do it. The crate is
+currently simple and it might get more and more complex stuff as needs appear. As I always tell
+other developers and engineers, I don’t like to overthink too much features I don’t even need.
+Obviously, it’s important to keep planning possible future additions… But not too much. This is why
+that crate’s scope, if augmented, will only and always revolve around the concept of scheduling
+animation code. It’s currently an experimental crate and I’m trying to write demos with it, so we’ll
+see what time thinks about it.
+
+So that’s all for me for today. I hope you liked it. Keep the vibes!
 
 [awoo]: https://crates.io/crates/awoo
 [splines]: https://crates.io/crates/splines
