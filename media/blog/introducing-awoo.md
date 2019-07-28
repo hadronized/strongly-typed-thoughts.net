@@ -28,8 +28,8 @@ value for any value of its input that lies in its domain. That property is inter
 can get a value at any time with an arbitrary precision (the boundary being the precision at which
 we can represent a number on a computer).
 
-The thing is, the kind of program we want generate its own inputs based on, mostly, the speed it
-which the hardware it’s running on is able to render a complete frame. The faster the more precise
+The thing is, the kind of program we want generates its own inputs based on, mostly, the speed at
+which the hardware it’s running on is able to render a complete frame. The faster the more accurate
 we sample from that continuous function. That is actually quite logical: more FPS means, literally,
 more images to sample. The difference between two images will get less and less noticeable as the
 number of FPS rises. That gives you smooth images.
@@ -37,13 +37,13 @@ number of FPS rises. That gives you smooth images.
 The “challenge” here is to write code to schedule those images. Instead of taking a parameter like
 the time on the command-line and rendering the corresponding image, we will generate a stream of
 images and will do different things at different times. Especially in demoscene productions, we want
-to synchronize what’s on the screen with what’s playing on your audio device.
+to synchronize what’s on the screen with what’s playing on the audio device.
 
 # The overall idea
 
 From my point of view, we need at least two mechanisms of synchronization:
 
-  - An *high-level* synchronization mechanism, to state how globally the application will behave.
+  - A *high-level* synchronization mechanism, to state how globally the application will behave.
     I also like to see that kind of mechanism as a _discrete space_ problem. You don’t have values
     to interpolate or sample from but only several pure values to “jump” from one to another every
     time the simulation time passes a given point in time. This kind of synchronization will state
@@ -58,7 +58,7 @@ From my point of view, we need at least two mechanisms of synchronization:
     can be solved by sampling from a curve, for instance.
 
 Both those problems are solved by two crates I wrote lately. Respectively, [awoo] and [splines].
-This blog post is about [awoo]. [splines] already has his own dedicated articles
+This blog post is about [awoo]. [splines] already has its own dedicated articles
 [here](https://phaazon.net/blog/splines-introduction) and
 [here](https://phaazon.net/blog/splines-1.0.0-rc.1). Nevertheless, I will make another blog article
 about it because I have new ideas I will add to the crate to enrich the [splines] experience.
@@ -72,19 +72,19 @@ following naive yet working snippet:
 let mut time_ms: f32 = 0.;
 
 loop {
-  if time <= 5. {
+  if time_ms <= 5. {
     // render scene 1
-  } else if time <= 8. {
+  } else if time_ms <= 8. {
     // render scene 2
-  } else if time <= 20. {
+  } else if time_ms <= 20. {
     // render scene 1 again
-  } else if time <= 25. {
+  } else if time_ms <= 25. {
     // render scene 3
   } else
     break; // quit
   }
 
-  time += 0.01; // 100 FPS
+  time_ms += 0.01; // 100 FPS
 }
 ```
 
@@ -95,7 +95,7 @@ to write. However, it has several problems:
   - The more time passes, the more conditions and branching we will do. What it means is that even
     if it’s not noticeable (testing floating-point numbers like that is really fast so it won’t
     change much), it’s easy to get that the second scene requires two tests in order to be rendered
-    while scene 3 requires 4 and scene 1 requires _either_ 1 or 3!
+    while scene 3 requires four and scene 1 requires _either_ one or three!
   - We notice that, every time a condition evaluates to `true`, all the previous branches can be
     completely discarded — we don’t have to test them anymore! — because time will never go
     backwards in a simulation (that is a strong assumption and it’s not true if you’re debugging,
@@ -127,10 +127,36 @@ The code is now declarative and easier to read. Internally, the `SequentialSched
 will make a single test to know which code it has to run. The implementation is not the typical
 implementation you would find for a FSM ([finite-state machine]), which uses a graph, but it’s akin.
 
+You might be wondering why we do that `map` stuff instead of creating a `Window` directly with the
+actions. The answer is simple: a `Window` doesn’t hold any actions. That allows for creating windows
+via JSON, for instance, without having to deal with closures (I have no idea how that would even be
+possible with JSON). The idea is then to _zip_ your windows to your actions by using a _hashmap_,
+for instance. This following snippet showcases exactly that
+(fully available [here](https://github.com/phaazon/awoo/blob/master/examples/json-driven.rs)):
+
+```rust
+const WINDOWS: &str = r#"
+{
+  "a": {
+    "start": 0,
+    "end":   3
+  },
+  "b": {
+    "start": 3,
+    "end":  10
+  }
+}"#;
+
+let windows: HashMap<String, Window<f32>> = from_str(WINDOWS).expect("cannot deserialize windows");
+let a = windows.get("a").unwrap().map(|t| println!("in a: {}", t));
+let b = windows.get("b").unwrap().map(|t| println!("in b: {}", t));
+}
+```
+
 What gets interesting is that you can write your own time generator to manipulate the simulation in
 other ways — and you can also use different schedulers regarding what you do with time. For
 instance, you can imagine implementing a time generator that gets time from a HTTP request, a
-keyboard, a network socket, etc. and then controlling your simulation with external control.
+keyboard, a network socket, etc. and then control your simulation with external stimuli.
 
 What happens when the escape key is pressed and that you need to stop the simulation in order to
 quit? Simple: you need an interruptible scheduler. [awoo] offers that as well in this form:
