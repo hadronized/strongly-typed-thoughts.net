@@ -7,10 +7,16 @@ See, the type of application you need to write to make a demo is a bit special. 
 there are often either _oneshot_ or _reactive_.
 
   - A CLI program, an encoder/decoder, a math equation solver or a script are often _oneshot_
-    programs. You give them a list of input and parameters and they do something based on the input.
-    There are most of the time non-interactive.
-  - Programs such as GUIs, editors, etc. are often _reactive_, meaning that they mostly sleep until
-    an event happen (a key press, mouse movement, etc.).
+    programs. You give them a list of inputs and parameters and they do something based on their
+    inputs. They’re are most of the time non-interactive.
+  - Programs such as GUIs, editors, video games, simulations etc. are often _reactive_, meaning that
+    they mostly sleep until an event happen (a key press, mouse movement, etc.). For some, sleeping
+    is reduced because they have a lot to do (handling network connections, performing I/O
+    operations, streaming audio, rendering frames to the screen, etc.).
+
+That binary split is not absolute, of course. Some programs don’t belong to any of the two prevous
+sections (think of a driver, a firmware, etc.). For the purpose of this article, though, it will be
+enough.
 
 At some extent, we could state that a demoscene production, a video game or a simulation are also
 _reactive_ programs. They mostly react to time as well as user interaction, network events, etc..
