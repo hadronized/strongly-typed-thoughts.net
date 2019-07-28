@@ -399,3 +399,9 @@
   blogEntryPublishDate: 2019-06-13 17:05:00 Z
   blogEntryTags: [public, api, private, implementation]
   blogEntrySlug: public-api-private-implementation
+
+- blogEntryName: Animate code with awoo!
+  blogEntryPath: media/blog/introducing-awoo.md
+  blogEntryPublishDate: 2019-07-28 11:00:00 Z
+  blogEntryTags: [animation, demoscene, synchronization]
+  blogEntrySlug: introducing-awoo
