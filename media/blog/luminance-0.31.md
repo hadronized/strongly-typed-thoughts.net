@@ -224,6 +224,8 @@ allow releasing features in a structured way without having to wait too much. So
     - Server: `irc.freenode.net`
     - Channel: `#luminance`
 
+And of course, keep the vibes!
+
 [last luminance version]: https://crates.io/crates/luminance/0.30.1
 [luminance]: https://crates.io/crates/luminance
 [luminance-0.31]: https://crates.io/crates/luminance/0.31.0
