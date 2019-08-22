@@ -405,3 +405,9 @@
   blogEntryPublishDate: 2019-07-28 11:00:00 Z
   blogEntryTags: [animation, demoscene, synchronization]
   blogEntrySlug: introducing-awoo
+
+- blogEntryName: Announcement: luminance-0.31, luminance-derive and luminance-glutin
+  blogEntryPath: media/blog/luminance-0.31.md
+  blogEntryPublishDate: 2019-08-22 00:00:00 Z
+  blogEntryTags: [luminance]
+  blogEntrySlug: luminance-0.31
