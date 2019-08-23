@@ -406,6 +406,12 @@
   blogEntryTags: [animation, demoscene, synchronization]
   blogEntrySlug: introducing-awoo
 
+- blogEntryName: cargo and how crates.io doesn’t like cyclic dev-dependencies
+  blogEntryPath: media/blog/cargo-cyclic-deps.md
+  blogEntryPublishDate: 2019-08-23 12:00:00 Z
+  blogEntryTags: [cargo, crates.io, hack, cyclic dependencies]
+  blogEntrySlug: cargo-cyclic-dev-deps
+
 - blogEntryName: Announcement: luminance-0.31, luminance-derive and luminance-glutin
   blogEntryPath: media/blog/luminance-0.31.md
   blogEntryPublishDate: 2019-08-29 13:12:00 Z
