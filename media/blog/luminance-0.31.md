@@ -1,6 +1,15 @@
 [luminance] has been having lots of activity lately. I’ve been working (hard) on making it to the
-`1.0` release for weeks now and came to a very important realization: lots of changes have been
-done and I’m still not ready to release it.
+`1.0` release for months now and came to a very important realization: lots of changes have been
+done and I’m still not ready to release it. I’ve kind of lost myself in the process.
+
+This article is about two main topics:
+
+  - The new release of [luminance] and its changes.
+  - The introducing of ways to learn [luminance] (_yay_!).
+
+> If you don’t care about the changes, feel free to go read
+> [this](https://github.com/phaazon/luminance-rs#learning) to know how you can learn about
+> [luminance] and graphics programming in general.
 
 # Motivation
 
@@ -229,7 +238,20 @@ of the samples.
     - Server: `irc.freenode.net`
     - Channel: `#luminance`
 
-And of course, keep the vibes!
+# Learning luminance
+
+I also spent quite a lot of time and energy working on two ways to learn [luminance]:
+
+  - [Examples](https://github.com/phaazon/luminance-rs/blob/master/luminance/examples/README.md).
+  - [The official, brand new wiki](https://github.com/phaazon/luminance-rs/wiki).
+
+So far, I’m writing articles and the wiki is going to be updated let’s say, every week, if I find
+enough spare time. You can also tell me what kind of stuff you’d like to learn and do.
+
+The [official documentation](https://docs.rs/luminance/) is up to date but is not as good as I
+expect it to be. I will be adding patches versions to _0.31_ to update it.
+
+I hope you like [luminance] and will make a good use of it. And of course, keep the vibes!
 
 [last luminance version]: https://crates.io/crates/luminance/0.30.1
 [luminance]: https://crates.io/crates/luminance
