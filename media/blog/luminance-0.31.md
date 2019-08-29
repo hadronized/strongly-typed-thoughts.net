@@ -20,26 +20,27 @@ I have decided to go with the second option.
 
 # luminance-0.31
 
-At the time of writing this article, the [last luminance version] is `0.30` — just for the record,
-that version is eleven months old, ~200 commits behind the current `master`, at the time of writing.
-The very-soon-to-be version will thus be `0.31` and crates are going to be updated:
+Just before writing this article, the [last luminance version] was `0.30` — just for the record,
+that version is eleven months old, ~200 commits behind `master`. The new and most recent version is
+thus `0.31` and crates got updated:
 
   - [luminance-0.31]
   - [luminance-windowing-0.3]
   - [luminance-glfw-0.6]
-  - [luminance-derive-0.1], **a new crate** bring procedural macros for the `#[derive(..)]`
+  - [luminance-derive-0.1], **a new crate** that brings procedural macros for the `#[derive(..)]`
     construct.
-  - [luminance-glutin-0.1], **a new crate** supporting the [glutin] windowing crate.
+  - [luminance-glutin-0.1], **a new crate** supporting the [glutin] windowing crate. Currently, not
+    all features are implemented but it’s usable.
 
 Lot of work has been accomplished and I received several contributions from people all around the
-globe, including PRs and issues. I’d like to remind that I appreciate both and you are really
+globe, including PRs and issues. I’d like to remind that I appreciate both and you are **really**
 encouraged to contribute in _any way you want to_. Special thanks fly to:
 
   - [\@ambihelical](https://github.com/ambihelical)
   - [\@linkmauve](https://github.com/linkmauve)
   - [\@bobtwinkles](https://github.com/bobtwinkles)
   - [\@twetzel59](https://github.com/twetzel59)
-  - And all others whom I discussed with and provided feedback, especially on Reddit.
+  - And all others whom I discussed with and who provided feedback, especially on Reddit.
 
 About that last point, my Reddit and Twitter interactions about [luminance] have been _very_
 interesting because I got to test the water about how people feel about [luminance], especially
@@ -52,10 +53,10 @@ _OpenGL 2.1_ (yes, some people still make pretty good games with that), why woul
 perfect zero-cost abstraction down-to-the-metal unsafe ultra-optimized crate to write something?
 See, I went round and squares about that topic, because I’ve already used [luminance] in several
 projects of mine (mostly demoscene purposes), and _it just does the job_. So, yes, [luminance]
-doesn’t have that cool, new and modern _Vulkan-type_ API. But it has a its own API, which is very
-functional-based (see the [History](https://github.com/phaazon/luminance-rs#history) section of
-[luminance] for further details about that) and, to me, modern enough so that people don’t get
-frustrated with the overall design.
+doesn’t have that cool, new and modern _Vulkan-type_ API, I must confess. But it has its own API,
+which is very functional-based (see the [History](https://github.com/phaazon/luminance-rs#history)
+section of [luminance] for further details about that) and, to me, modern enough so that people
+don’t get frustrated with the overall design being too clunky.
 
 So, yeah. I gave up on the [idea of introducing backends](https://phaazon.net/blog/pre-luminance-n-random-thoughts)
 in [luminance]. I really changed my mind several times about that topic and it’s actually when I
@@ -65,10 +66,10 @@ concurrent etc. is just going to make things hard for people to use it — and m
 likely that I will introduce, however, _feature-gates_ to allow to compile [luminance] on
 WebAssembly via WebGL, _OpenGL ES_ or even Vulkan at some point, but the difference is that no backend
 will be implemented. That means that those feature-flags aren’t likely to be summable at first. But
-all of this will be done in future releases.
+all of this will be done in future releases; stay tuned.
 
-The current blog post describes the changes of [luminance-0.31]. It should be the last `0.*.*`
-version before hitting the `1.0` release. To the question:
+The current blog post brings a description of all the changes of [luminance-0.31]. It should be the
+last `0.*.*` version before hitting the `1.0` release. To the question:
 
 > _Why not releasing `1.0` directly?_
 
@@ -77,7 +78,11 @@ implement and I think it would be a pity to postpone a lot of great changes that
 available because of two features that are yet to be implemented. The concept of versions is to
 allow releasing features in a structured way without having to wait too much. So here we are.
 
-> Disclaimer: the rest of this article is based on
+This post also show cases a small tutorial about how to get started with [luminance]. The very first
+steps you should have would be to have a look at the [examples/] directory and try to play with all
+of the samples.
+
+> Disclaimer: the following section of this article is based on
 > [luminance’s changelog](https://github.com/phaazon/luminance-rs/blob/master/luminance/CHANGELOG.md#031).
 
 ## Bug fixes
@@ -237,3 +242,4 @@ And of course, keep the vibes!
 [gfx-hal]: https://crates.io/crates/gfx-hal
 [glium]: https://crates.io/crates/glium
 [gl]: https://crates.io/crates/gl
+[examples/]: https://github.com/phaazon/luminance-rs/blob/master/luminance/examples/README.md
