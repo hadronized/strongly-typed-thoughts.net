@@ -412,7 +412,7 @@
   blogEntryTags: [cargo, crates.io, hack, cyclic dependencies]
   blogEntrySlug: cargo-cyclic-dev-deps
 
-- blogEntryName: Announcement: luminance-0.31, luminance-derive and luminance-glutin
+- blogEntryName: "Announcement: luminance-0.31, luminance-derive and luminance-glutin"
   blogEntryPath: media/blog/luminance-0.31.md
   blogEntryPublishDate: 2019-08-29 13:12:00 Z
   blogEntryTags: [luminance]
