@@ -1,11 +1,10 @@
-resolver: lts-11.13
+resolver: lts-14.4
 
 packages:
 - '.'
 
 extra-deps:
   - magic-1.1
-  - async-2.2.1
 
 flags: {}
 
