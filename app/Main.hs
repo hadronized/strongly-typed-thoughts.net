@@ -18,6 +18,7 @@ main = do
       let port = configPort conf
       let uploadDir = configUploadDir conf
       let blogManifestPath = configBlogEntriesPath conf
+      let gpgKeyPath = configGPGKeyFile conf
 
       putStrLn $ "starting server on port " ++ show port
 
@@ -35,4 +36,4 @@ main = do
 
       let serverSettings = setLogger logger . setPort (fromIntegral port) $ defaultSettings
           logger req st _ = putStrLn $ show st ++ " | " ++ show req ++ "\n"
-      runSettings serverSettings (webApp filesTVar uploadDir blogManifestPath blogTVar)
+      runSettings serverSettings (webApp filesTVar uploadDir blogManifestPath blogTVar gpgKeyPath)

@@ -42,6 +42,7 @@ executable webserver
 
   other-modules:       Blog,
                        FileBrowser,
+                       GPG,
                        Home,
                        Markdown,
                        Portfolio,

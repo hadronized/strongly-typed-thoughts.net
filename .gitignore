@@ -1,8 +1,6 @@
-*.vim
-dist
-tmp
-assets/uploaded
-.stack-work
-.ghc*
-cabal.project.local
-db/*
+/dist*
+/.ghc*
+/cabal.project.local
+/db/*
+/media/gpg
+/media/uploads

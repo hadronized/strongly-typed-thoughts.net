@@ -14,6 +14,7 @@ data ServerConfig = ServerConfig {
     configPort :: Natural
   , configUploadDir :: FilePath
   , configBlogEntriesPath :: FilePath
+  , configGPGKeyFile :: FilePath
   } deriving (Eq, Generic, Show)
 
 instance FromJSON ServerConfig
@@ -24,4 +25,5 @@ instance Default ServerConfig where
       configPort = 8000
     , configUploadDir = "media/uploads"
     , configBlogEntriesPath = "media/blog/entries.yaml"
+    , configGPGKeyFile = "media/gpg/phaazon.gpg"
     }
