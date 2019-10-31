@@ -418,7 +418,7 @@
   blogEntryTags: [luminance]
   blogEntrySlug: luminance-0.31
 
-- blogEntryName: My Rust 2020 ideas
+- blogEntryName: "My Rust 2020 ideas"
   blogEntryPath: media/blog/rust-2020.md
   blogEntryPublishDate: 2019-10-32 15:15:00 Z
   blogEntryTags: [rust, roadmap]
