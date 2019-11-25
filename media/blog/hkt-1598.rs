@@ -1,0 +1,280 @@
+Lately, I’ve been working on a huge feature that’s coming to [luminance] soon. While working on
+it, I’ve been facing several design problems I think are interesting to talk about.
+
+
+<!-- vim-markdown-toc GFM -->
+
+* [The context](#the-context)
+* [The problem](#the-problem)
+* [Faking higher-kinded types](#faking-higher-kinded-types)
+    * [A simple implementor](#a-simple-implementor)
+
+<!-- vim-markdown-toc -->
+
+# The context
+
+Imagine you want to expose a trait that defines an interface. People know about the interface and
+can use provided types to switch the implementation. That’s a typical use case of traits.
+
+```rust
+// This trait is pub so that users can see and use it
+pub trait System {
+  type Err;
+
+  fn do_something(&mut self) -> Result<(), Self::Err>;
+}
+```
+
+You can have a type `SimpleSystem` that implements `System` and that will do someting special in
+`do_something`, as well as a type `ComplexSystem` doing something completely different.
+
+Now imagine that your `System` trait needs to expose a function that returns an object that must be
+typed. What it means is that such an object’s type is tagged with another type. Imagine a
+type `Event` that is typed with the type of event it represents:
+
+```rust
+pub struct Event<T> {
+  code: i64,
+  msg: String,
+  // …
+}
+```
+
+That type must be implemented by systems, not by the actual interface code. How would we do this?
+
+Furthermore, we might want another trait to restrict what `T` can be, but we’ll see that later.
+
+# The problem
+
+Let’s try a naive implementation first:
+
+```rust
+pub trait System {
+  type Event;
+
+  type Err;
+
+  fn do_something(&mut self) -> Result<(), Self::Err>;
+
+  fn emit_event(&mut self, event: Self::Event);
+}
+```
+
+That implementation authorize `SimpleSystem` to implement `Event` to a single type and then
+implement `emit_event`, taking its `Event` type. However, that event is not typed as we
+wanted to. We want `Event<T>`, not `Event`.
+
+However, Rust doesn’t authorize that per-se. The following is currently illegal in Rust:
+
+```rust
+pub trait System {
+  type Event<T>;
+
+  // …
+
+  fn emit_event<T>(&mut self, event: Self::Event<T>);
+}
+```
+
+> [RFC 1598] is ongoing and will allow that, but until then, we need to come up with a solution.
+
+The problem is that associated types, in Rust, are completely monomorphized when the `trait` impl
+is monomorphized, which is, for instance, not the case for trait’s functions. `emit_event` will
+not have its `F` type variable substituted when the implementor is monomorphized. So what do we
+really want to express with our `Event<T>` type?
+
+```rust
+pub trait System<EventType> {
+  type Event;
+
+  fn emit_event(&mut self, event: Self::Event);
+}
+```
+
+That would work but that’s not _exactly_ the same thing as our previous trait. The rest of the
+trait doesn’t really depend on `EventType`, so we would duplicate code everytime we want to support
+a new type of event. Meh.
+
+# Faking higher-kinded types
+
+`Event<T>` is a higher-kinded type (HKT). `Event`, here, is what we call a _type constructor_ — as
+opposed to _data constuctor_, like associated `new` functions. `Event` takes a type and returns a
+type, in the type-system world.
+
+As I said earlier, Rust doesn’t have such a construct yet. However, we can emulate it with a nice
+hack I just come accross while trying to simulate kinds.
+
+See, when a HKT has its type(s) variable(s) substited, it becomes a regular, monomorphized type. A
+`Vec<T>`, when considered as `Vec<u32>`, is just a simple type the same way `u32` is. The key is
+to two decompose our trait into two interfaces:
+
+- One that will work with the monomorphized version _after_ the trait is monomorphized.
+- One that will re-introduce polymorphism via a method, and not an associated type.
+
+The first trait is implemented on systems and means “[a type] knows how to handle an event of a
+given type.” The second trait is implemented on systems too and means “can handle all events.”
+
+```rust
+pub trait SystemEvent<T>: System {
+  type Event;
+
+  fn emit_system_event(&mut self, event: Self::Event) -> Result<(), Self::Err>;
+}
+
+pub trait System {
+  type Err;
+
+  fn do_something(&mut self) -> Result<(), Self::Err>;
+
+  fn emit_event<T>(
+    &mut self,
+    event: <Self as SystemEvent<T>>::Event
+  ) -> Result<(), Self::Err>
+  where Self: SystemEvent<T> {
+    <Self as SystemEvent<T>>::emit_system_event(self, event)
+  }
+}
+```
+
+The idea is that the `SystemEvent<T>` trait must be implemented by a system to be able to emit
+events of type `T` inside the system itself. Because the `Event` type is associated in
+`SystemEvent<T>`, it is the monomorphized version of the polymorphic type in the actual
+implementation of the trait, and is provided by the implementation.
+
+Then, the `System::emit_event` can now have a `T` type variable representing that `Event<T>` we
+wanted. We use a special type-system candy of Rust here: `Self: Trait`, which allows us to say
+that in order to use that `emit_event<T>` function, the implementor of `System` must also
+satisfy `SystemEvent<T>`. Even better: because we already have the implementation of
+`emit_system_event`, we can blanket-implement `emit_event<T>`!
+
+Several important things to notice here:
+
+- First, a system _can_ now implement several traits:
+  - `System`, to work as a system, obviously
+  - `SystemEvent<T>`, to handle event of type `T`. The actual type is defined by the system itself.
+- Second, a system doesn’t have to implement `SystemEvent<T>` if it doesn’t know how to handle
+  events. That opt-in property is interesting for us as it allows systems to implement what they
+  support only without having to make our design bleed to all systems. Neat.
+- The usage of `Self: Trait` allows to introduce a form of polymorphism that is not available without
+  it.
+- `SystemEvent<T>` has `System` has super-trait to share its `Err` type.
+
+The last point is the _hack key_. Without `Self: Trait`, it would be way harder or more convoluted
+to achieve the same result.
+
+## A simple implementor
+
+Let’s see a simple implementor that will just print out the event it gets and does nothing in
+`do_something`.
+
+```rust
+struct Simple;
+
+#[derive(Debug)]
+struct ForwardEvent<T>(pub T);
+
+impl System for Simple {
+  type Err = ();
+
+  fn do_something(&mut self) -> Result<(), Self::Err> {
+    Ok(())
+  }
+}
+
+impl<T> SystemEvent<T> for Simple where T: std::fmt::Debug {
+  type Event = ForwardEvent<T>;
+
+  fn emit_system_event(&mut self, event: Self::Event) -> Result<(), Self::Err> {
+    println!("emit: {:?}", event.0);
+    Ok(())
+  }
+}
+```
+
+As you can see, it’s really simple and straight-forward. We can select which events we want to be
+able to handle: in our case, anything that implements `Debug`.
+
+Let’s use it:
+
+```rust
+fn main() {
+  let mut system = Simple;
+  system.emit_event(ForwardEvent("Hello, world!"));
+  system.emit_event(ForwardEvent(123));
+}
+```
+
+## Polymorphic use
+
+The idea is that, given a type `S: System`, we might want to emit some events without knowing the
+implementation. To make things even more crunchy, let’s say we want the error type to be a
+`()`.
+
+Again, it’s quite simple to do:
+
+```rust
+// we need this to forward the event from the outer world into the system
+impl<T> From<T> for ForwardEvent<T> {
+  fn from(t: T) -> Self {
+    ForwardEvent(t)
+  }
+}
+
+fn emit_specific_event<S, E>(
+  system: &mut S,
+  event: E
+) -> Result<(), S::Err>
+where
+  S: System<Err = ()> + SystemEvent<E>,
+  S::Event: From<E>,
+{
+  system.emit_event(event.into())
+}
+
+fn main() {
+  let mut system = Simple;
+  system.emit_event(ForwardEvent("Hello, world!"));
+  emit_specific_event(&mut system, "Hello, world!");
+}
+```
+
+We could event change the signature of `System::emit_event` to add that `From<E>` constraint to
+make the first call easier, but I’ll leave you with that.
+
+# Rationale
+
+Why do I care about such a design? It might seem complex and hard, but it’s actually a very simple
+use of a typeclass / trait type system. If you compare my solution to the next-to-come HKT proposal
+from [RFC 1598], we have:
+
+- [RFC 1598] will bring the syntax `type Event<T>;` as associated types, which will allow to remove
+  our `SystemEvent<T>` trait.
+- With that RFC, the type will have to be total. What it means is that the `T` here is the same for
+  all implementors. If you want to restrict the type of events your type can receive, if I
+  understand the RFC correctly, you’re handcuffed. That RFC will authorize the _author of the trait_
+  to restrict your `T`, not the _author of the implementor_. That might have some very useful
+  advantages, too.
+- With my solution, the _author of the trait_ can still restrict `T` by applying constraints on
+  `emit_event`.
+
+# Conclusion
+
+In the quest of emulating HKT, I’ve found myself with a _type-system toy_ I like using a lot:
+_equality constraints_ and self-constraints (I don’t know how those `Self: Trait` should be named).
+In Haskell, since we don’t implement a typeclass _for a type_ but we provide _an instance for
+typeclass_, things are slightly different. Haskell doesn’t have a `Self` type alias, since a
+typeclass can be implemented for several types variables (i.e. with the `MultiParamTypeClasses` and
+`FlexibleInstances` GHC extensions), only _equality constraints_ are needed.
+
+In the end, Rust continues to prove to me that even though it’s a systems programming language, I
+can express lots of powerful abstractions I miss (_a lot_) from Haskell with _a bit more_ noise. I
+think the tradeoff is worth it.
+
+I still haven’t completely made up my mind about GAT / [RFC 1598] (for sure I’m among the ones who
+want it on stable ASAP but I’m yet to figure out _exactly_ how it’s going to change my codebases).
+
+As always, have fun, don’t drink and drive, use condoms, keep the vibes and don’t use impl Trait in
+argument position. Have fun!
+
+[luminance]: https://crates.io/crates/luminance
+[RFC 1598]: https://github.com/rust-lang/rfcs/pull/1598

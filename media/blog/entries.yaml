@@ -423,3 +423,9 @@
   blogEntryPublishDate: 2019-10-31 15:15:00 Z
   blogEntryTags: [rust, roadmap]
   blogEntrySlug: rust-2020-ideas
+
+- blogEntryName: "Emulating RFC 1598, less or… more?!"
+  blogEntryPath: media/blog/hkt-1598.rs
+  blogEntryPublishDate: 2019-11-25 15:50:00 Z
+  blogEntryTags: [type-systems, rust, haskell, hkt, gat, rfc-1598]
+  blogEntrySlug: hkt-1598
