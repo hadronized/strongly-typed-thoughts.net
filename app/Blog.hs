@@ -5,7 +5,8 @@
 
 module Blog (
     BlogApi
-  , BlogEntryMapping
+  , BlogEntry(..)
+  , BlogEntryMapping(..)
   , blog
   , defaultBlogEntryMapping
   , refreshBlog
@@ -41,6 +42,7 @@ import Wrapper (wrapper)
 
 type BlogApi =
        Get '[HTML] Html
+  -- :<|> "rss" :> Get '[XML]
   :<|> Capture "slug" Text :> Get '[HTML] Html
   :<|> "refresh" :> Post '[HTML] Html
 
@@ -156,7 +158,7 @@ blogEntry blogEntryMapping slug = do
           h2 ! class_ "subtitle" $ toHtml (show $ blogEntryPublishDate entry) <> ", by Dimitri Sabadie"
           hr
           div ! class_ "content blog-content" $ rendered
-      
+
     Nothing -> wrapper "Article not found" $ pure ()
 
 renderTags :: BlogEntry -> Html

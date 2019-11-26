@@ -11,6 +11,7 @@ import Servant.Server (Application, Server, serve)
 import Servant.Server.StaticFiles (serveDirectoryWebApp)
 
 import Blog (BlogApi, BlogEntryMapping, blog)
+import Feed (FeedApi, feed)
 import FileBrowser (FileBrowserApi, PubList, fileBrowserHandler)
 import GPG (GPGApi, serveGPGKeys)
 import Home (HomeApi, home)
@@ -27,7 +28,7 @@ type Api =
   :<|> "media" :> Raw
   :<|> "static" :> Raw
   :<|> "pub" :> Raw -- legacy links
-  :<|> "blog" :> BlogApi
+  :<|> "blog" :> ("feed" :> FeedApi :<|> BlogApi)
   :<|> "gpg" :> GPGApi
 
 server :: TVar PubList -> FilePath -> FilePath -> TVar BlogEntryMapping -> FilePath -> Server Api
@@ -38,5 +39,5 @@ server filesTVar uploadDir blogManifestPath blogEntryMapping gpgKeyPath =
   :<|> serveDirectoryWebApp "media"
   :<|> serveDirectoryWebApp "static"
   :<|> serveDirectoryWebApp uploadDir
-  :<|> blog blogManifestPath blogEntryMapping
+  :<|> (feed blogEntryMapping :<|> blog blogManifestPath blogEntryMapping)
   :<|> serveGPGKeys gpgKeyPath
