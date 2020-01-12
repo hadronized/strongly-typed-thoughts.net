@@ -10,6 +10,7 @@ import Control.Monad.IO.Class (MonadIO(..))
 import qualified Data.HashMap.Strict as H
 import Data.List (intersperse)
 import Data.Text (Text, pack)
+import Data.Time.Format (defaultTimeLocale, formatTime, rfc822DateFormat)
 import Text.RSS.Syntax (RSS(..), RSSChannel(..), RSSItem(..), nullChannel, nullItem, nullRSS)
 import qualified Data.Text as T
 import Servant (Get)
@@ -42,5 +43,5 @@ rssItem entry = (nullItem $ blogEntryName entry) {
     rssItemLink = Just (urlBlogBase <> "/" <> blogEntrySlug entry),
     rssItemDescription = Just (T.concat . intersperse ","  $ blogEntryTags entry),
     rssItemAuthor = Just "Dimitri 'phaazon' Sabadie <dimitri.sabadie@gmail.com>",
-    rssItemPubDate = Just (pack . show $ blogEntryPublishDate entry)
+    rssItemPubDate = Just (pack . formatTime defaultTimeLocale rfc822DateFormat $ blogEntryPublishDate entry)
 }
