@@ -7,10 +7,12 @@
 
 #top-header h1 {
   color: white;
+  font-weight: bold;
 }
 
 #top-header h2 {
   color: #FFA500;
+  font-weight: bold;
 }
 
 a {

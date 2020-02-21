@@ -10,7 +10,7 @@ import Data.Text (Text)
 import Data.Time (getCurrentTime, toGregorian, utctDay)
 import Prelude hiding (div, id, head, span)
 import Text.Blaze.Html5 as H hiding (map)
-import Text.Blaze.Html5.Attributes hiding (span)
+import Text.Blaze.Html5.Attributes as A hiding (span)
 
 -- |Wrapper function that must be applied to any page’s content.
 wrapper :: (MonadIO m) => Text -> Html -> m Html
@@ -45,19 +45,19 @@ menuPart =
           p $ h1 ! class_ "title is-1" $ "Dimitri Sabadie"
           p $ h2 ! class_ "subtitle is-4" $ em $ "Do not make more tools than existing problems."
 
-      a ! href "/" ! class_ "level-item" $ do
+      a ! href "/" ! A.title "phaazon.net" ! class_ "level-item" $ do
         span ! class_ "icon is-large" $
           i ! class_ "fa fa-home" $ pure ()
 
-      a ! href "https://git.phaazon.net" ! class_ "level-item" $ do
+      a ! href "https://git.phaazon.net" ! A.title "git.phaazon.net" ! class_ "level-item" $ do
         span ! class_ "icon is-large" $
           i ! class_ "fa fa-code-fork" $ pure ()
 
-      a ! href "/blog" ! class_ "level-item" $ do
+      a ! href "/blog" ! A.title "/blog" ! class_ "level-item" $ do
         span ! class_ "icon is-large" $
           i ! class_ "fa fa-pencil" $ pure ()
 
-      a ! href "/browse" ! class_ "level-item" $ do
+      a ! href "/browse" ! A.title "all the memes!" ! class_ "level-item" $ do
         span ! class_ "icon is-large" $
           i ! class_ "fa fa-cloud-download" $ pure ()
 
