@@ -23,6 +23,10 @@ hr {
   background-color: #9E358F;
 }
 
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+  color: #9E358F;
+}
+
 .browse-content ul {
   margin: 0 0 40px 0;
   padding: 0;
