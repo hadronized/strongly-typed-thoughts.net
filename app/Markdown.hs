@@ -5,7 +5,6 @@ module Markdown (
 
 import Control.Monad.Error.Class (MonadError(..))
 import Data.Default (def)
-import Data.Semigroup (Semigroup(..))
 import Data.String.Conversions (convertString)
 import Data.Text (Text)
 import Servant.Server (ServerError(..), err500)

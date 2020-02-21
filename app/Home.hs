@@ -15,7 +15,7 @@ import Servant (Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server, ServerError(..), err500)
 import Prelude hiding (div, id)
-import Text.Blaze.Html5 ((!), Html, div, section, script, toHtml)
+import Text.Blaze.Html5 ((!), Html, div, section)
 import Text.Blaze.Html5.Attributes (class_, id)
 import Text.Mustache ((~>), compileTemplate, object, substitute)
 

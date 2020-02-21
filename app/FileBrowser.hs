@@ -15,7 +15,7 @@ import Control.Concurrent.STM.TVar (TVar, readTVarIO, writeTVar)
 import Control.Monad (unless, void)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.List (isInfixOf, sort)
-import Servant ((:<|>)(..), (:>), Get)
+import Servant (Get)
 import Servant.Server (Server)
 import Servant.HTML.Blaze (HTML)
 import System.Directory (getDirectoryContents)
@@ -28,16 +28,14 @@ import Wrapper (wrapper)
 
 type FileBrowserApi =
        BrowserApi
-  :<|> RefreshBrowserApi
 
 type BrowserApi = Get '[HTML] Html
-type RefreshBrowserApi = "refresh" :> Get '[HTML] Html
 
 uploadDir :: FilePath
 uploadDir = "media/uploads"
 
 fileBrowserHandler :: TVar PubList -> Server FileBrowserApi
-fileBrowserHandler files = fileBrowser files :<|> refreshBrowserFilesHandler files
+fileBrowserHandler = fileBrowser
 
 fileBrowser :: TVar PubList -> Server BrowserApi
 fileBrowser filesTVar = liftIO $ fmap renderPubList (readTVarIO filesTVar) >>= wrapper "Browse"
@@ -101,13 +99,6 @@ refreshBrowserFiles var = liftIO . void . async $ do
   files <- fmap (filter (not . flip elem [".", ".."])) (getDirectoryContents uploadDir)
   pl <- createPubList (map (uploadDir </>) files)
   atomically (writeTVar var pl)
-
--- Same as refreshBrowserFiles but for endpoint purpose.
-refreshBrowserFilesHandler :: TVar PubList -> Server RefreshBrowserApi
-refreshBrowserFilesHandler files = do
-  refreshBrowserFiles files
-  wrapper "Refresh" $
-    section ! class_ "container section content" $ "Refreshed!"
 
 renderPubList :: PubList -> Html
 renderPubList pl =
