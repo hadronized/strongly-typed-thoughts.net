@@ -30,7 +30,7 @@ import Data.Traversable (for)
 import Data.Yaml (ParseException, decodeFileEither)
 import GHC.Generics (Generic)
 import Prelude hiding (div, span)
-import Servant ((:>), (:<|>)(..), Capture, Get, Post)
+import Servant ((:>), (:<|>)(..), Capture, Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
 import Text.Blaze.Html5 hiding (style)
@@ -43,7 +43,6 @@ type BlogApi =
        Get '[HTML] Html
   -- :<|> "rss" :> Get '[XML]
   :<|> Capture "slug" Text :> Get '[HTML] Html
-  :<|> "refresh" :> Post '[HTML] Html
 
 -- The blog entries configuration.
 newtype BlogEntryManifest = BlogEntryManifest {
@@ -101,16 +100,10 @@ refreshBlog manifestPath blogEntryMapping = void . liftIO . async $ do
         pure (blogEntrySlug entry, (entry, content))
       liftIO . atomically $ writeTVar blogEntryMapping entryMap
 
-blogRefresh :: FilePath -> TVar BlogEntryMapping -> Server (Post '[HTML] Html)
-blogRefresh manifestPath blogEntryMapping = do
-  refreshBlog manifestPath blogEntryMapping
-  wrapper "Blog refreshed" $ "Blog successfully refreshed!"
-
-blog :: FilePath -> TVar BlogEntryMapping -> Server BlogApi
-blog manifestPath blogEntryMapping =
+blog :: TVar BlogEntryMapping -> Server BlogApi
+blog blogEntryMapping =
        blogMainView blogEntryMapping
   :<|> blogEntry blogEntryMapping
-  :<|> blogRefresh manifestPath blogEntryMapping
 
 blogMainView :: TVar BlogEntryMapping -> Server (Get '[HTML] Html)
 blogMainView blogEntryMapping = do

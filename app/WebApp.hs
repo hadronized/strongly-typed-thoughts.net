@@ -18,9 +18,9 @@ import FileBrowser (FileBrowserApi, PubList, fileBrowserHandler)
 import GPG (GPGApi, serveGPGKeys)
 import Home (HomeApi, home)
 
-webApp :: TVar PubList -> FilePath -> FilePath -> TVar BlogEntryMapping -> FilePath -> Application
-webApp filesTVar uploadDir blogManifestPath blogEntryMapping gpgKeyPath =
-  serve (Proxy :: Proxy Api) (server filesTVar uploadDir blogManifestPath blogEntryMapping gpgKeyPath )
+webApp :: TVar PubList -> FilePath -> TVar BlogEntryMapping -> FilePath -> Application
+webApp filesTVar uploadDir blogEntryMapping gpgKeyPath =
+  serve (Proxy :: Proxy Api) (server filesTVar uploadDir blogEntryMapping gpgKeyPath )
 
 type Api =
        HomeApi
@@ -32,14 +32,14 @@ type Api =
   :<|> "gpg" :> GPGApi
   :<|> "lost" :> LostApi
 
-server :: TVar PubList -> FilePath -> FilePath -> TVar BlogEntryMapping -> FilePath -> Server Api
-server filesTVar uploadDir blogManifestPath blogEntryMapping gpgKeyPath =
+server :: TVar PubList -> FilePath -> TVar BlogEntryMapping -> FilePath -> Server Api
+server filesTVar uploadDir blogEntryMapping gpgKeyPath =
        home
   :<|> fileBrowserHandler filesTVar
   :<|> serveDirectoryWebApp "media"
   :<|> serveDirectoryWebApp "static"
   :<|> serveDirectoryWebApp uploadDir
-  :<|> (feed blogEntryMapping :<|> blog blogManifestPath blogEntryMapping)
+  :<|> (feed blogEntryMapping :<|> blog blogEntryMapping)
   :<|> serveGPGKeys gpgKeyPath
   :<|> serveLost
 

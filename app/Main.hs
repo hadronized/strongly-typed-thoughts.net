@@ -56,4 +56,4 @@ main = do
 
         let serverSettings = setLogger logger . setPort (fromIntegral port) $ defaultSettings
             logger req st _ = putStrLn $ show st ++ " | " ++ show req ++ "\n"
-        runSettings serverSettings (webApp filesTVar uploadDir blogManifestPath blogTVar gpgKeyPath)
+        runSettings serverSettings (webApp filesTVar uploadDir blogTVar gpgKeyPath)
