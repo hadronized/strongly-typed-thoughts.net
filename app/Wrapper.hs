@@ -27,7 +27,7 @@ wrapper t cont = do
         link ! rel "stylesheet" ! type_ "text/css" ! href "/static/css/index.css"
         link ! rel "icon" ! href "/static/imgs/tus.png"
         -- code hilighting
-        link ! rel "stylesheet" ! href "/static/css/highlight/styles/gruvbox-dark.css"
+        link ! rel "stylesheet" ! href "/static/css/highlight/styles/atom-one-dark.css"
         script ! src "/static/css/highlight/highlight.pack.js" $ ""
         script "hljs.initHighlightingOnLoad();"
 
@@ -38,26 +38,23 @@ wrapper t cont = do
 
 menuPart:: Text -> Html
 menuPart t =
-  section ! class_ "hero is-danger is-bold" $ do
-    div ! class_ "hero-body" $ do
-      div ! class_ "level is-mobile has-shadow" $ do
-        div ! class_ "level-item" $
-          p ! class_ "title" $ toHtml t
+  section ! class_ "section container" $ do
+    div ! class_ "level is-mobile has-shadow" $ do
+      a ! href "/" ! class_ "level-item" $ do
+        span ! class_ "icon" $
+          i ! class_ "fa fa-home" $ pure ()
 
-        a ! href "/" ! class_ "level-item" $ do
-          span ! class_ "icon" $
-            i ! class_ "fa fa-home" $ pure ()
+      a ! href "https://git.phaazon.net" ! class_ "level-item" $ do
+        span ! class_ "icon" $
+          i ! class_ "fa fa-code-fork" $ pure ()
 
-        a ! href "https://git.phaazon.net" ! class_ "level-item" $ do
-          span ! class_ "icon" $
-            i ! class_ "fa fa-code-fork" $ pure ()
+      a ! href "/blog" ! class_ "level-item" $ do
+        span ! class_ "icon" $
+          i ! class_ "fa fa-pencil" $ pure ()
 
-        a ! href "/blog" ! class_ "level-item" $ do
-          span ! class_ "icon" $
-            i ! class_ "fa fa-pencil" $ pure ()
-        a ! href "/browse" ! class_ "level-item" $ do
-          span ! class_ "icon" $
-            i ! class_ "fa fa-cloud-download" $ pure ()
+      a ! href "/browse" ! class_ "level-item" $ do
+        span ! class_ "icon" $
+          i ! class_ "fa fa-cloud-download" $ pure ()
 
 footerPart :: Int -> Html
 footerPart year = do
