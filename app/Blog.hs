@@ -34,7 +34,7 @@ import Servant ((:>), (:<|>)(..), Capture, Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
 import Text.Blaze.Html5 hiding (style)
-import Text.Blaze.Html5.Attributes hiding (async, content, for, icon, name, span)
+import Text.Blaze.Html5.Attributes hiding (async, content, for, span)
 
 import Markdown (markdownToHtml_)
 import Wrapper (wrapper)
@@ -121,6 +121,10 @@ blogMainView blogEntryMapping = do
         blockquote $ do
           "It is intentional that no comment can be written by readers to prevent flooding, scams "
           "and spamming."
+        p $ do
+          text "Feel free to subscribe to the "
+          rssLink
+          text " to be notified when a new article is released!"
         hr
         traverse_ (blogListing . fst) (sortBy sorter . H.elems $ blogEntryMap entries)
   where
@@ -147,7 +151,9 @@ blogEntry blogEntryMapping slug = do
         section ! class_ "section container" $ do
           h1 ! class_ "title" $ toHtml entryName
           h2 ! class_ "subtitle" $ em tags
-          h2 ! class_ "subtitle" $ toHtml (show $ blogEntryPublishDate entry) <> ", by Dimitri Sabadie"
+          h2 ! class_ "subtitle" $ do
+            toHtml (show $ blogEntryPublishDate entry) <> ", by Dimitri Sabadie — "
+            rssLink
           hr
           div ! class_ "content blog-content" $ rendered
 
@@ -155,3 +161,8 @@ blogEntry blogEntryMapping slug = do
 
 renderTags :: BlogEntry -> Html
 renderTags entry = sequence_ (fmap toHtml . intersperse ", " $ blogEntryTags entry)
+
+rssLink :: Html
+rssLink = a ! href "/blog/feed" $ do
+  span ! class_ "icon" $ i ! class_ "fa fa-rss" $ pure ()
+  text "feed"
