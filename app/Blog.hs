@@ -23,7 +23,6 @@ import Data.HashMap.Strict (HashMap)
 import qualified Data.HashMap.Strict as H
 import Data.List (intersperse, sortBy)
 import Data.Ord (comparing)
-import Data.Semigroup ((<>))
 import Data.Text (Text)
 import qualified Data.Text.IO as T
 import Data.Time (UTCTime)

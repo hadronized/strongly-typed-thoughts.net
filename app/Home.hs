@@ -15,7 +15,7 @@ import Servant (Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server, ServerError(..), err500)
 import Prelude hiding (div, id)
-import Text.Blaze.Html5 ((!), Html, div, script, toHtml)
+import Text.Blaze.Html5 ((!), Html, div, section, script, toHtml)
 import Text.Blaze.Html5.Attributes (class_, id)
 import Text.Mustache ((~>), compileTemplate, object, substitute)
 
@@ -37,18 +37,8 @@ home = do
       homeContent <- markdownToHtml markdown
 
       wrapper "Home" $ do
-        div ! class_ "columns" $ do
-          div ! id "home" ! class_ "column content" $ homeContent
-
-          div ! class_ "column" $ do
-            div ! id "feed" $ pure ()
-            script . toHtml . unlines $
-              [ "GitHubActivity.feed({"
-              , "  username: \"phaazon\","
-              , "  selector: \"#feed\","
-              , "  limit: 10"
-              , "});"
-              ]
+        section ! class_ "container section content" $ do
+          div ! id "home" ! class_ "content" $ homeContent
 
 computeAge :: (MonadIO m) => m Int
 computeAge = liftIO $ fmap (age . toGregorian . utctDay) getCurrentTime

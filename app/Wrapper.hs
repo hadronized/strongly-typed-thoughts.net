@@ -3,11 +3,10 @@ module Wrapper (
     wrapper
   ) where
 
-import Control.Monad (sequence_, void)
+import Control.Monad (void)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.List (intersperse)
 import Data.Text (Text)
-import Data.Semigroup ((<>))
 import Data.Time (getCurrentTime, toGregorian, utctDay)
 import Prelude hiding (div, id, head, span)
 import Text.Blaze.Html5 as H hiding (map)
@@ -31,11 +30,7 @@ wrapper t cont = do
         link ! rel "stylesheet" ! href "/static/css/highlight/styles/gruvbox-dark.css"
         script ! src "/static/css/highlight/highlight.pack.js" $ ""
         script "hljs.initHighlightingOnLoad();"
-        -- github activity
-        link ! rel "stylesheet" ! href "//cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css"
-        link ! rel "stylesheet" ! href "/static/css/github-activity.css"
-        script ! src "//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js" $ ""
-        script ! src "/static/js/github-activity.js" $ ""
+
       body $ do
         menuPart t
         cont
@@ -49,17 +44,13 @@ menuPart t =
         div ! class_ "level-item" $
           p ! class_ "title" $ toHtml t
 
-        a! href "/" ! class_ "level-item" $ do
+        a ! href "/" ! class_ "level-item" $ do
           span ! class_ "icon" $
             i ! class_ "fa fa-home" $ pure ()
 
         a ! href "https://git.phaazon.net" ! class_ "level-item" $ do
           span ! class_ "icon" $
             i ! class_ "fa fa-code-fork" $ pure ()
-
-        a ! href "/portfolio" ! class_ "level-item" $ do
-          span ! class_ "icon" $
-            i ! class_ "fa fa-university" $ pure ()
 
         a ! href "/blog" ! class_ "level-item" $ do
           span ! class_ "icon" $
@@ -70,7 +61,7 @@ menuPart t =
 
 footerPart :: Int -> Html
 footerPart year = do
-  footer ! class_ "footer" $ 
+  footer ! class_ "footer" $
     div ! class_ "content has-text-centered" $ do
       p . sequence_ $ intersperse " "
         [

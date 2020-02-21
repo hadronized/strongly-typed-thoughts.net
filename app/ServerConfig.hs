@@ -12,6 +12,7 @@ import Numeric.Natural (Natural)
 
 data ServerConfig = ServerConfig {
     configPort :: Natural
+  , configMediaDir :: FilePath
   , configUploadDir :: FilePath
   , configBlogEntriesPath :: FilePath
   , configGPGKeyFile :: FilePath
@@ -23,6 +24,7 @@ instance ToJSON ServerConfig
 instance Default ServerConfig where
   def = ServerConfig {
       configPort = 8000
+    , configMediaDir = "media"
     , configUploadDir = "media/uploads"
     , configBlogEntriesPath = "media/blog/entries.yaml"
     , configGPGKeyFile = "media/gpg/phaazon.gpg"
