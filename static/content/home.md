@@ -1,5 +1,3 @@
-<section class="container section content">
-
 <h1 class="title">Welcome !</h1>
 
 ---
@@ -93,5 +91,3 @@ into different architectures, such as `node.js`, Electron, Android and iOS via R
 > Disclaimer²: I’m not interested in PHP. You peeps have to stop with that.
 
 Enjoy your visit, and feel free to contact me!
-
-</section>

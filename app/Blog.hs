@@ -164,5 +164,5 @@ renderTags entry = sequence_ (fmap toHtml . intersperse ", " $ blogEntryTags ent
 
 rssLink :: Html
 rssLink = a ! href "/blog/feed" $ do
-  span ! class_ "icon" $ i ! class_ "fa fa-rss" $ pure ()
+  span ! class_ "icon rss-feed" $ i ! class_ "fa fa-rss" $ pure ()
   text "feed"

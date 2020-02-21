@@ -32,28 +32,33 @@ wrapper t cont = do
         script "hljs.initHighlightingOnLoad();"
 
       body $ do
-        menuPart t
+        menuPart
         cont
         footerPart (fromIntegral year)
 
-menuPart:: Text -> Html
-menuPart t =
-  section ! class_ "section container" $ do
-    div ! class_ "level is-mobile has-shadow" $ do
+menuPart:: Html
+menuPart =
+  nav ! class_ "hero is-medium" ! id "top-header" $ do
+    div ! class_ "hero-body container level has-shadow" $ do
+      div ! class_ "level-item has-text-centered" $ do
+        div ! class_ "content" $ do
+          p $ h1 ! class_ "title is-1" $ "Dimitri Sabadie"
+          p $ h2 ! class_ "subtitle is-4" $ em $ "Do not make more tools than existing problems."
+
       a ! href "/" ! class_ "level-item" $ do
-        span ! class_ "icon" $
+        span ! class_ "icon is-large" $
           i ! class_ "fa fa-home" $ pure ()
 
       a ! href "https://git.phaazon.net" ! class_ "level-item" $ do
-        span ! class_ "icon" $
+        span ! class_ "icon is-large" $
           i ! class_ "fa fa-code-fork" $ pure ()
 
       a ! href "/blog" ! class_ "level-item" $ do
-        span ! class_ "icon" $
+        span ! class_ "icon is-large" $
           i ! class_ "fa fa-pencil" $ pure ()
 
       a ! href "/browse" ! class_ "level-item" $ do
-        span ! class_ "icon" $
+        span ! class_ "icon is-large" $
           i ! class_ "fa fa-cloud-download" $ pure ()
 
 footerPart :: Int -> Html

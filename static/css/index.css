@@ -1,3 +1,26 @@
+#top-header {
+  background-image: url("/static/imgs/banner_bg.jpg");
+  background-position-x: center;
+  background-position-y: 60%;
+  border-bottom: 5px solid #9E358F;
+}
+
+#top-header h1 {
+  color: white;
+}
+
+#top-header h2 {
+  color: #FFA500;
+}
+
+a {
+  color: #9E358F;
+}
+
+hr {
+  background-color: #9E358F;
+}
+
 .browse-content ul {
   margin: 0 0 40px 0;
   padding: 0;
@@ -155,4 +178,8 @@
 
 .blog-content {
   text-align: justify;
+}
+
+.rss-feed {
+  color: orange;
 }
