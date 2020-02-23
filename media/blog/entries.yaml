@@ -429,3 +429,9 @@
   blogEntryPublishDate: 2019-11-25 15:50:00 Z
   blogEntryTags: [type-systems, rust, haskell, hkt, gat, rfc-1598]
   blogEntrySlug: hkt-1598
+
+- blogEntryName: "Let’s talk about C++ constructors"
+  blogEntryPath: media/blog/cpp-constructors.md
+  blogEntryPublishDate: 2020-02-24 00:35:00 Z
+  blogEntryTags: [c++, constructors, rust]
+  blogEntrySlug: c++-constructors
