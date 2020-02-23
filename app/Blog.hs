@@ -90,6 +90,7 @@ defaultBlogEntryMapping = BlogEntryMapping mempty
 -- Asynchronously read all the articles and return the HTML representation.
 refreshBlog :: (MonadIO m) => FilePath -> TVar BlogEntryMapping -> m ()
 refreshBlog manifestPath blogEntryMapping = void . liftIO . async $ do
+  liftIO . putStrLn $ "refreshing blog (" ++ manifestPath ++ ")"
   manif <- readBlogEntryManifest manifestPath
   case manif of
     Left e -> liftIO (print e)

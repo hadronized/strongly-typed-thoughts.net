@@ -96,6 +96,7 @@ createPubList files = do
 -- Asynchronously replace the current PubList in a TVar by freshly acquired data.
 refreshBrowserFiles :: (MonadIO m) => TVar PubList -> m ()
 refreshBrowserFiles var = liftIO . void . async $ do
+  liftIO . putStrLn $ "refreshing browse files"
   files <- fmap (filter (not . flip elem [".", ".."])) (getDirectoryContents uploadDir)
   pl <- createPubList (map (uploadDir </>) files)
   atomically (writeTVar var pl)
