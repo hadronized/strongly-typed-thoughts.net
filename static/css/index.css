@@ -16,7 +16,7 @@
 }
 
 a {
-  color: #9E358F;
+  color: #1E90FF;
 }
 
 hr {
@@ -25,6 +25,10 @@ hr {
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
   color: #9E358F;
+}
+
+code {
+  color: #BA55D3;
 }
 
 .browse-content ul {
