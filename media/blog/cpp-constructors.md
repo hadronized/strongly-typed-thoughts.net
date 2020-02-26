@@ -3,7 +3,7 @@ Lately, I had an interesting talk with colleagues of mine about C++. I told them
 needed to be uniquely owned in our code base, but at the same time, checking every time whether
 a value is present (`nullptr` being the problem here) yields large numbers of bugs in production.
 
-They asked “_What’s a safest `std::unique_ptr`?_ My main problem was (still is) that
+They asked _“What’s a safest `std::unique_ptr`?”_ My main problem was (still is) that
 `std::unique_ptr` can be initialized with `nullptr`. The problem with this is that you cannot
 assume that you _always_ own a `T` if you are given a `std::unique_ptr<T>`. References and wrapped
 references cannot be used either because we really want to own the data here.
@@ -83,7 +83,7 @@ int main() {
 Even though that code seems pretty _harmless_, to me, it’s very easy to misuse C’s construction
 syntax. I will not explain exactly why here because we’re interested in C++, but you’ll understand
 what’s the problem by reading on. It relates to being possible to leave a state or part of a state
-undefined without having your compiler enforce that.
+undefined without having your compiler prevent you from doing that.
 
 ## Hidden costs
 
