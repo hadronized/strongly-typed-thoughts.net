@@ -37,6 +37,7 @@ truth_ about how to do things has become obsolete.
 
 I’m going to explain why in a series of blog articles, starting with this one. Let’s go.
 
+
 <!-- vim-markdown-toc GFM -->
 
 * [C++ and the wrong idea of constructors](#c-and-the-wrong-idea-of-constructors)
@@ -47,6 +48,8 @@ I’m going to explain why in a series of blog articles, starting with this one.
 * [How would you do that in Rust?](#how-would-you-do-that-in-rust)
 
 <!-- vim-markdown-toc -->
+
+> [Next article in the series](https://phaazon.net/blog/c++-exceptions).
 
 # C++ and the wrong idea of constructors
 
