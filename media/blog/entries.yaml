@@ -435,3 +435,9 @@
   blogEntryPublishDate: 2020-02-24 00:35:00 Z
   blogEntryTags: [c++, constructors, rust]
   blogEntrySlug: c++-constructors
+
+- blogEntryName: "Let’s talk about C++ exceptions"
+  blogEntryPath: media/blog/on-cpp-exceptions.md
+  blogEntryPublishDate: 2020-02-29 20:20:00 Z
+  blogEntryTags: [c++, exceptions]
+  blogEntrySlug: c++-exceptions
