@@ -25,7 +25,7 @@ import Data.List (intersperse, sortBy)
 import Data.Ord (comparing)
 import Data.Text (Text)
 import qualified Data.Text.IO as T
-import Data.Time (UTCTime)
+import Data.Time (UTCTime, getCurrentTime)
 import Data.Traversable (for)
 import Data.Yaml (ParseException, decodeFileEither)
 import GHC.Generics (Generic)
@@ -80,26 +80,32 @@ readBlogEntryManifest :: (MonadIO m) => FilePath -> m (Either ParseException Blo
 readBlogEntryManifest = liftIO . decodeFileEither
 
 -- The internal structure that maps the HTML to a given blog entry.
-newtype BlogEntryMapping = BlogEntryMapping {
-    blogEntryMap :: HashMap Text (BlogEntry, Html)
+data BlogEntryMapping = BlogEntryMapping {
+    blogEntryMap :: HashMap Text (BlogEntry, Html),
+    blogLastUpdateDate :: Maybe UTCTime
   }
 
 defaultBlogEntryMapping :: BlogEntryMapping
-defaultBlogEntryMapping = BlogEntryMapping mempty
+defaultBlogEntryMapping = BlogEntryMapping mempty Nothing
 
 -- Asynchronously read all the articles and return the HTML representation.
 refreshBlog :: (MonadIO m) => FilePath -> TVar BlogEntryMapping -> m ()
-refreshBlog manifestPath blogEntryMapping = void . liftIO . async $ do
+refreshBlog manifestPath blogEntryTVar = void . liftIO . async $ do
   liftIO . putStrLn $ "refreshing blog (" ++ manifestPath ++ ")"
   manif <- readBlogEntryManifest manifestPath
   case manif of
     Left e -> liftIO (print e)
     Right manif' -> do
       -- we render all entries and regenerate the hashmap
-      entryMap <- fmap (BlogEntryMapping . H.fromList) . for (getEntries manif') $ \entry -> do
+      entries <- fmap H.fromList . for (getEntries manif') $ \entry -> do
         content <- blogEntryToHtml entry
         pure (blogEntrySlug entry, (entry, content))
-      liftIO . atomically $ writeTVar blogEntryMapping entryMap
+
+      now <- liftIO getCurrentTime
+
+      let entryMap = BlogEntryMapping entries (Just now)
+
+      liftIO . atomically $ writeTVar blogEntryTVar entryMap
 
 blog :: TVar BlogEntryMapping -> Server BlogApi
 blog blogEntryMapping =
