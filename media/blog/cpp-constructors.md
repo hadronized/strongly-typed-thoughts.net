@@ -40,9 +40,9 @@ I’m going to explain why in a series of blog articles, starting with this one.
 <!-- vim-markdown-toc GFM -->
 
 * [C++ and the wrong idea of constructors](#c-and-the-wrong-idea-of-constructors)
-    * [Hidden costs](#hidden-costs)
-    * [The C++ broken initialization design](#the-c-broken-initialization-design)
-    * [Construction ≠ constructors](#construction--constructors)
+  * [Hidden costs](#hidden-costs)
+  * [The C++ broken initialization design](#the-c-broken-initialization-design)
+  * [Construction ≠ constructors](#construction--constructors)
 * [C++ and its bad standard library](#c-and-its-bad-standard-library)
 * [How would you do that in Rust?](#how-would-you-do-that-in-rust)
 
@@ -650,6 +650,8 @@ C++. ;)
 [Keep the vibes!](https://phaazon.net/media/uploads/the_golden_smile.gif)
 
 > [Discussion on the article here.](https://www.reddit.com/r/rust/comments/f8j304/lets_talk_about_c_constructors)
+
+> [Keep on reading](https://phaazon.net/blog/c++-exceptions).
 
 [aggregate initialization]: https://en.cppreference.com/w/cpp/language/aggregate_initialization
 [(N)RVO]: https://en.cppreference.com/w/cpp/language/copy_elision
