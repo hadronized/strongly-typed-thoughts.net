@@ -441,3 +441,9 @@
   blogEntryPublishDate: 2020-02-29 20:20:00 Z
   blogEntryTags: [c++, exceptions]
   blogEntrySlug: c++-exceptions
+
+- blogEntryName: An interesting subtle property of where clauses with super traits
+  blogEntryPath: media/blog/undecidable-instances-rust.md
+  blogEntryPublishDate: 2020-05-02 23:50:00 Z
+  blogEntryTags: [undecidable instances, traits, super-traits, where-clause]
+  blogEntrySlug: where-clause-super-trait
