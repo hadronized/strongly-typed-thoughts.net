@@ -453,3 +453,9 @@
   blogEntryPublishDate: 2020-07-16 18:49:00 Z
   blogEntryTags: [luminance, opengl, webgl, sdl2, backend]
   blogEntrySlug: luminance-0.40
+
+- blogEntryName: The compile-time deinterleaving interface of luminance-0.40
+  blogEntryPath: media/blog/typesafe-deinterleaving.md
+  blogEntryPublishDate: 2020-07-19 19:39 Z
+  blogEntryTags: [luminance, type-safe, deinterleaving]
+  blogEntrySlug: typesafe-deinterleaving
