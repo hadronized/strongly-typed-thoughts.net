@@ -20,7 +20,7 @@ executable webserver
                        MultiParamTypeClasses,
                        OverloadedStrings
 
-  build-depends:       base,
+  build-depends:       base >= 4.13 && < 5,
                        aeson >= 1.2 && < 1.5,
                        async >= 2.2 && < 2.3,
                        blaze-html >= 0.9 && < 0.10,
@@ -35,9 +35,9 @@ executable webserver
                        mustache >= 2.3 && < 2.4,
                        pandoc >= 2.1 && < 2.10,
                        process >= 1.6 && < 1.7,
-                       servant >= 0.16 && < 0.17,
+                       servant >= 0.17 && < 0.18,
                        servant-blaze >= 0.8 && < 0.10,
-                       servant-server >= 0.13 && < 0.17,
+                       servant-server >= 0.17 && < 0.18,
                        stm >= 2.4 && < 2.6,
                        string-conversions >= 0.4 && < 0.5,
                        text >= 1.2 && < 1.3,
