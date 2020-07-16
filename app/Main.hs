@@ -25,7 +25,7 @@ main = do
       let blogDir = takeDirectory blogManifestPath
       let gpgKeyPath = configGPGKeyFile conf
 
-      putStrLn $ "starting server on port " ++ show port
+      putStrLn $ "starting server at http://localhost:" ++ show port
 
       -- create the directory to contain uploads if it doesn’t exist yet
       createDirectoryIfMissing True uploadDir
