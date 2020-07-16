@@ -447,3 +447,9 @@
   blogEntryPublishDate: 2020-05-02 23:50:00 Z
   blogEntryTags: [undecidable instances, traits, super-traits, where-clause]
   blogEntrySlug: where-clause-super-trait
+
+- blogEntryName: The new luminance is there
+  blogEntryPath: media/blog/luminance-0.40.md
+  blogEntryPublishDate: 2020-07-16 18:49:00 Z
+  blogEntryTags: [luminance, opengl, webgl, sdl2, backend]
+  blogEntrySlug: luminance-0.40
