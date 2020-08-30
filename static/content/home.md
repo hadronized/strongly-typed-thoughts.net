@@ -4,7 +4,7 @@
 
 Welcome on my official website. This place is dedicated to what I do on my spare time and has
 nothing to do with any company nor professional purpose. You’ll find only personal-related projects
-and material.
+and material. Feel free to have a look at the articles I write [on my blog]!
 
 However, if you are a recruiter, you might be interested in [my GitHub page] and/or contacting me:
 
@@ -91,4 +91,5 @@ and highly available data systems.
 
 Enjoy your visit, and feel free to contact me!
 
+[on my blog]: https://phaazon.net/blog
 [my GitHub page]: https://github.com/phaazon
