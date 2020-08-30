@@ -47,13 +47,13 @@ I released two demoscene productions in 2013: **Lightning Road To Liquid Radiato
 64k intro* – and **Heat Station** – a *PC Windows 64k intro*, at Eersel (NL)  and Köln (DE)
 respectively.
 
-I then have a two years time learning and writing programs in **Haskell**. That period was a very
-important one to me as I learned a lot about *functional programming*. I’ve been introducing myself
-as a *functional programmer* since then. My **Haskell** experience taught me a lot and helped me
-sharpening my mind and rigorous thoughts about software engineering, language designs and software
-architectures.
+I then had several years learning and writing programs in **Haskell** – I still am! That period was
+a very important one to me as I learned a lot about _functional programming_, and especially _pure
+functional programming_. I’ve been introducing myself as a *functional programmer* ever since. My
+**Haskell** experience taught me a lot and helped me sharpening my mind and rigorous thoughts about
+software engineering, language designs and software architectures.
 
-After those two years, I decided to get back to writing demo productions and decided to jump in
+After those years, I decided to get back to writing demo productions and decided to jump in
 [Rust](https://www.rust-lang.org) as it’s a very well appreciated language in the **Haskell**
 community. I learned the basic language in two days and the more complex concepts in a single week
 (lifetime ellision, borrowing, mpsc, complex macros, uniqueness typing, etc.). My **Haskell**
@@ -61,9 +61,12 @@ experience helped a lot to get my feet wet with **Rust**. Today, I consider **Ru
 imperative Haskell”*. Less powerful in terms of abstraction, it’s better to handle memory and design
 the control-flow of my programs.
 
-I’m currently sticking around **Rust** as it fits my needs in terms of abstraction, readability,
-expressiveness and minimal runtime overhead (thus runtime performance in terms of CPU and memory
-footprint).
+I’m currently sticking around **Rust** and **Haskell**, as it
+fits my needs in terms of abstraction, readability, expressiveness and minimal runtime overhead (thus runtime performance in terms of CPU and memory
+footprint), while still getting interested into learning new languages (lately, Idris, Elm, Go,
+modern Java, Scala, some Lisp and a bunch of others). I don’t consider myself as belonging to a
+specific expertise field, even though I think I’m best at graphics programming, code architecture
+and APIs designing, and clearly type-level architecture and type-system coding.
 
 <h1 class="title">Pro-side</h1>
 
