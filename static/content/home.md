@@ -6,26 +6,24 @@ Welcome on my official website. This place is dedicated to what I do on my spare
 nothing to do with any company nor professional purpose. You’ll find only personal-related projects
 and material.
 
-However, if you are a recruiter, you might be interested in [my portfolio](/portfolio) and/or
-contact me:
+However, if you are a recruiter, you might be interested in [my GitHub page] and/or contacting me:
 
-  - Via [GitHub](https://github.com/phaazon).
-  - Via [Twitter](https://twitter.com/phaazon_).
-  - Via IRC – as `phaazon`, `phz_` or similar – on:
-    - Freenode
-    - Mozilla
-    - IRCNet
-  - Via [Linkedin](https://www.linkedin.com/in/dimitri-sabadie-97a9009b).
+- Via [GitHub](https://github.com/phaazon).
+- Via [Twitter](https://twitter.com/phaazon_).
+- Via IRC – as `phaazon`, `phz_` or similar – on:
+  - Freenode.
+  - Mozilla (RIP :().
+  - IRCNet.
+- Via [Linkedin](https://www.linkedin.com/in/dimitri-sabadie-97a9009b).
 
-I don’t update the portfolio very often; I highly suggest you to have a look at my
-[GitHub](https://github.com/phaazon) page for a more accurate idea of my contributions. Also, I’ve
-been making special efforts to decentralize my activity, so here are a few more places where you can
-find work of mine:
+I don’t update the portfolio very often; I highly suggest you to have a look at [my GitHub page]
+for a more accurate idea of my contributions. Also, I’ve been making special efforts to
+decentralize my activity, so here are a few more places where you can find work of mine:
 
-  - My own personal [Gitea instance](https://git.phaazon.net).
-  - My [packages on Hackage](https://hackage.haskell.org/user/DimitriSabadie).
-  - My [crates on crates.io](https://crates.io/users/phaazon).
-  - I’m also on [Gitter](https://gitter.im) as phaazon. Feel free to explore!
+- My own personal [Gitea instance](https://git.phaazon.net).
+- My [packages on Hackage](https://hackage.haskell.org/user/DimitriSabadie).
+- My [crates on crates.io](https://crates.io/users/phaazon).
+- I’m also on [Gitter](https://gitter.im) as phaazon. Feel free to explore!
 
 <h1 class="title">About me…</h1>
 
@@ -75,10 +73,8 @@ I obtained my engineer’s degree ([CTI](https://en.wikipedia.org/wiki/Commissio
 by fall 2015, delivered by [EFREI](https://en.wikipedia.org/wiki/EFREI). You can download a generic
 version of my CV [here](http://phaazon.net/pub/CV.pdf).
 
-Today, I work at [Ledger](https://www.ledger.com) as Software Engineer. I work mostly on low-level
-systems and applications, ranging from heavy-cryptographic code to blockchain protocols, formats,
-serialization and financial transaction-related code, but I also integrate those systems end-to-end
-into different architectures, such as `node.js`, Electron, Android and iOS via React Native, etc.
+Today, I work at [Datadog](https://www.datadoghq.com) as Software Engineer. I work on distributed
+and highly available data systems.
 
 > Disclaimer to headhunters: if you want to contact me for a job offer, please do not use a template
 > you send to everyone. It’s both boring and disrespectful. Even though I used to respond to that
@@ -91,3 +87,5 @@ into different architectures, such as `node.js`, Electron, Android and iOS via R
 > Disclaimer²: I’m not interested in PHP. You peeps have to stop with that.
 
 Enjoy your visit, and feel free to contact me!
+
+[my GitHub page](https://github.com/phaazon)
