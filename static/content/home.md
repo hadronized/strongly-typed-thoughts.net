@@ -88,4 +88,4 @@ and highly available data systems.
 
 Enjoy your visit, and feel free to contact me!
 
-[my GitHub page](https://github.com/phaazon)
+[my GitHub page]: https://github.com/phaazon
