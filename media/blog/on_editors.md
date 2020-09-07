@@ -475,8 +475,9 @@ _a vim enthusiast_, not _all of them_. We all look for different things and I tr
 with all those editors out there. They won’t fit for everybody, but everybody will find one for them, and damn, that’s
 a pretty good conclusion to this article.
 
-Feel free to tell me about what you think about your editor, whether there’re things you dislike about it or what you
-would like to see appear in it. Keep the vibes!
+[Feel free to tell me](https://www.reddit.com/r/programming/comments/inx2ul/my_thoughts_about_editors_in_2020)
+about what you think about your editor, whether there’re things you dislike about it or what you would like to see
+appear in it. Keep the vibes!
 
 [neovim]: https://neovim.io
 [IntelliJ IDEA]: https://www.jetbrains.com/idea
