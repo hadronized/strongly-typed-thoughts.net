@@ -19,7 +19,7 @@ import Text.Blaze.Html5 ((!), Html, div, section)
 import Text.Blaze.Html5.Attributes (class_, id)
 import Text.Mustache ((~>), compileTemplate, object, substitute)
 
-import Markdown (markdownToHtml)
+import Markup (Markup(..), markupToHtmlServant)
 import Wrapper (wrapper)
 
 type HomeApi = Get '[HTML] Html
@@ -34,7 +34,7 @@ home = do
       age <- computeAge
       let markdown = substitute template (object ["age" ~> age])
 
-      homeContent <- markdownToHtml markdown
+      homeContent <- markupToHtmlServant Markdown markdown
 
       wrapper "Home" $ do
         section ! class_ "container section content" $ do

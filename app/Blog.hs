@@ -18,6 +18,7 @@ import Control.Concurrent.STM.TVar (TVar, readTVarIO, writeTVar)
 import Control.Monad (void)
 import Control.Monad.IO.Class (MonadIO(..))
 import Data.Aeson (FromJSON)
+import Data.Either (fromRight)
 import Data.Foldable (traverse_)
 import Data.HashMap.Strict (HashMap)
 import qualified Data.HashMap.Strict as H
@@ -33,10 +34,11 @@ import Prelude hiding (div, span)
 import Servant ((:>), (:<|>)(..), Capture, Get)
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (Server)
+import System.FilePath (takeExtension)
 import Text.Blaze.Html5 hiding (style)
 import Text.Blaze.Html5.Attributes hiding (async, content, for, span)
 
-import Markdown (markdownToHtml_)
+import Markup (Markup(..), markupToHtml)
 import Wrapper (wrapper)
 
 type BlogApi =
@@ -69,11 +71,15 @@ instance FromJSON BlogEntry where
 
 -- Generate the Html from a BlogEntry.
 blogEntryToHtml :: (MonadIO m) => BlogEntry -> m Html
-blogEntryToHtml entry = do
-  mkd <- liftIO . T.readFile $ blogEntryPath entry
-  case markdownToHtml_ mkd of
-    Left e -> liftIO (print e) >> pure ""
-    Right x -> pure x
+blogEntryToHtml entry =
+    case takeExtension path of
+      ".md" -> fmap (fromRight "" . markupToHtml Markdown) . liftIO $ T.readFile path
+      ".org" -> fmap (fromRight "" . markupToHtml Org) . liftIO $ T.readFile path
+      _ -> do
+        liftIO . putStrLn $ "entry " <> path <> " has an unknown markup extension"
+        pure ""
+  where
+    path = blogEntryPath entry
 
 -- Read the blog entry manifest from a file.
 readBlogEntryManifest :: (MonadIO m) => FilePath -> m (Either ParseException BlogEntryManifest)
