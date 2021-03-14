@@ -465,3 +465,9 @@
   blogEntryPublishDate: 2020-09-07 00:03 Z
   blogEntryTags: [editor, vim, neovim, atom, vs-code, emacs, intellij-idea]
   blogEntrySlug: editors-in-2020
+
+- blogEntryName: Optimizing the permutation algorithm of hop.nvim
+  blogEntryPath: media/blog/hop-trie-backtrack-filling.md
+  blogEntryPublishDate: 2021-03-15 00:00 Z
+  blogEntryTags: [neovim, hop.nvim, trie, backtrack-filling, optimization, permutation]
+  blogEntrySlug: hop-trie-backtrack-filling
