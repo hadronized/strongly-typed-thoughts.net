@@ -471,3 +471,9 @@
   blogEntryPublishDate: 2021-03-15 00:00 Z
   blogEntryTags: [neovim, hop.nvim, trie, backtrack-filling, optimization, permutation]
   blogEntrySlug: hop-trie-backtrack-filling
+
+- blogEntryName: My thoughts about editors in (early) 2021
+  blogEntryPath: media/blog/neovim-2021.md
+  blogEntryPublishDate: 2021-03-22 21:00 Z
+  blogEntryTags: [editors, productivity-platforms]
+  blogEntrySlug: editors-in-2021
