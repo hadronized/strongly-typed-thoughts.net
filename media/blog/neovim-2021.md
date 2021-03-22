@@ -33,7 +33,7 @@ IntelliJ, Atom and others are really just superior.
 Just take [LSP]. Configuring LSP in VS Code is a click on an install button, depending on your language. That is all.
 You get all the good defaults and behaviors and you can already start enjoying coding with LSP. Doing the same in an
 editor like Neovim is a very different experience. I am not saying it is bad; **it is different**. If you are, like me,
-someone who enjoys spending time tweaking their tools, then you should not care too much. I have a colleague at work that
+someone who enjoys spending time tweaking their tools, then you should not care too much. I have a colleague at work who
 gave me an argument that I find very interesting: he basically wants an editor he does not have to configure, so that we
 knows how to use it everywhere, on any machine of any colleague. That is not a point I would make, but for someone who
 cares about that topic, it is a solid argument in favor of tools such as IntelliJ or VS Code.
@@ -65,7 +65,8 @@ Among the things that I think are going into the right direction:
   because I am used to [fzf-vim] and the all the current sorting / picking algorithms are not up to the user experience
   of fzf to me. When I compare it to [Ivy], it is roughly the same: [Ivy]’s algorithm is just better to me (it has the
   same refinement search mechanism as fzf’s). I think it will change in the near future as algorithms in Telescope are
-  improved and support is added for (I hope!) fzf.
+  improved and support is added for (I hope!) fzf, but for now, the bad performances of telescope, the choice of making
+  it pretty before focusing on the algorithms first makes it not really usable on some code bases.
 - [Neogit], an implementation of the best Git client ever, [magit], also from the emacs realm. I think it will take them
   months before it reaches the same maturity and power as magit, but I think it is cruising great.
 - [Octo], a GitHub-based workflow plugin allowing to list, create, open, add, remove, etc. lots of GitHub objects
