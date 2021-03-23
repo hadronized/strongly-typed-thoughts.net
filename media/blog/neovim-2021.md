@@ -62,11 +62,13 @@ Among the things that I think are going into the right direction:
 - The native treesitter implementation.
 - [Nvim Tree], a file browser written in Lua. Similar to netrw but better and much (much) faster.
 - [Telescope], a fuzzy finder, a bit similar to [Ivy] / [Helm] from the emacs realm. I have issues with it right now
-  because I am used to [fzf-vim] and the all the current sorting / picking algorithms are not up to the user experience
+  because I am used to [fzf-vim] and all the current sorting / picking algorithms are not up to the user experience
   of fzf to me. When I compare it to [Ivy], it is roughly the same: [Ivy]’s algorithm is just better to me (it has the
-  same refinement search mechanism as fzf’s). I think it will change in the near future as algorithms in Telescope are
-  improved and support is added for (I hope!) fzf, but for now, the bad performances of telescope, the choice of making
-  it pretty before focusing on the algorithms first makes it not really usable on some code bases.
+  same refinement search mechanism as fzf’s, and it’s much faster than Telescope, especially Swiper). I think it will
+  change in the near future as algorithms in Telescope are improved and support is added for (I hope!) fzf, but for
+  now, the bad performances of telescope, the choice of making it pretty before focusing on the algorithms first makes
+  it not really usable on some code bases. However, I do think it is going into the right direction and I will be
+  looking forward it in a few weeks / months, giving it time to mature a bit and get better defaults / algorithms.
 - [Neogit], an implementation of the best Git client ever, [magit], also from the emacs realm. I think it will take them
   months before it reaches the same maturity and power as magit, but I think it is cruising great.
 - [Octo], a GitHub-based workflow plugin allowing to list, create, open, add, remove, etc. lots of GitHub objects
@@ -80,7 +82,7 @@ Among the things that I think are going into the right direction:
 My experience with Doom Emacs really changed the way I look at software, and more specifically at “productivity
 tools.” See, my current workflow is based on tmux, Neovim and my shell, which is zsh (vanilla, I completely ditched
 [Oh My Zsh] as I find it useless and I uninstalled [starship.rs] a few weeks ago because I realized I hated the package
-managers version annotation on my prompt, that I actually never needed). For people wondering, we have spent so much
+manager version annotations on my prompt, that I actually never needed). For people wondering, we have spent so much
 time trying to install cool things that we forgot how powerful raw and vanilla zsh is. This is my current prompt:
 
 ![](https://phaazon.net/media/uploads/current_zsh.png)
