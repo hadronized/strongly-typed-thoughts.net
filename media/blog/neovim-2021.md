@@ -144,7 +144,7 @@ laugh at that? Especially when it allows more interesting kinds of interaction.
 So I have been wondering: what is a productivity platform, today, in 2021? Is it this workflow I have been using since
 I am 16, with tmux and Vim / Neovim? A friend on IRC told me lately that if I have been using this workflow (as others
 do) for so long… it has proven being good so why would I want to replace it? Even though this is a valid point, I do
-thing this is missing the point: ask some workers to dig a hole for planting trees, they will start digging the ground
+think this is missing the point: ask some workers to dig a hole for planting trees, they will start digging the ground
 with their bare hands. Later, give them a shovel and they will accept it as a better tool and will enjoy it. But does it
 mean it is the best tool for planting trees? What if a better tool existed? This is basically the reason why I never
 accept something as an ultimate solution: we can always enhance our tools. And having seen what Doom Emacs do, I do
