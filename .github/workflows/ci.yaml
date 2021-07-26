@@ -1,0 +1,23 @@
+name: CI
+on: [pull_request]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxrandr-dev xorg-dev libsdl2-dev
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cargo build
+          cargo test
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Code format
+        uses: mrkkrp/ormolu-action@v1
