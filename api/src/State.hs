@@ -9,25 +9,39 @@ module State
   )
 where
 
+import Blog (ArticleMetadataStore, LiftArticleError, readMetadata, storeFromMetadata)
+import Config (Config (..))
 import Control.Concurrent.STM (atomically, readTVarIO, writeTVar)
 import Control.Concurrent.STM.TVar (TVar, newTVarIO)
+import Control.Monad.Except (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>))
 import Upload (MimeSortedFiles, cacheFile, mimeSort, uncacheFile, uploadDir)
 
 data APIState = APIState
-  { uploadedFiles :: TVar MimeSortedFiles
+  { -- | Uploaded files, which can be cached in and uncached.
+    uploadedFiles :: TVar MimeSortedFiles,
+    cachedArticles :: TVar ArticleMetadataStore
   }
 
-newAPIState :: (MonadIO m) => m APIState
-newAPIState = do
-  liftIO $ do
-    putStr "populating cache of uploaded files…"
+newAPIState :: (MonadIO m, MonadError e m, LiftArticleError e) => Config -> m APIState
+newAPIState config = do
+  sortedFiles <- liftIO $ do
+    putStrLn "populating uploaded files cache…"
     sortedFiles <- getDirectoryContents uploadDir >>= mimeSort . map (uploadDir </>) . filter (not . flip elem [".", ".."])
-    putStrLn " done."
+    putStrLn "  done."
+    pure sortedFiles
 
-    APIState <$> newTVarIO sortedFiles
+  liftIO $ putStrLn "reading blog article index…"
+  blogMetadata <- readMetadata (configBlogIndex config)
+  liftIO $ putStrLn "  done."
+
+  liftIO $ putStrLn "populating blog articles cache…"
+  articleStore <- storeFromMetadata blogMetadata
+  liftIO $ putStrLn "  done."
+
+  liftIO $ APIState <$> newTVarIO sortedFiles <*> newTVarIO articleStore
 
 -- Stateful version of Upload.cacheFile.
 statefulCacheFile :: (MonadIO m) => FilePath -> APIState -> m ()

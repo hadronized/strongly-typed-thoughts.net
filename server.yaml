@@ -1,5 +1,0 @@
-configPort: 9000
-configMediaDir: "media"
-configUploadDir: "media/uploads"
-configBlogEntriesPath: "media/blog/entries.yaml"
-configGPGKeyFile: "media/gpg/phaazon.gpg"
