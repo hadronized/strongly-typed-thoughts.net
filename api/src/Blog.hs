@@ -5,7 +5,9 @@ module Blog
     storeFromMetadata,
     metadataArticles,
     articleContent,
+    getCacheArticle,
     readMetadata,
+    updateModificationDate,
     LiftArticleError (..),
     ArticleError (..),
   )
@@ -102,6 +104,15 @@ storeFromMetadata =
 -- Get a listing of articles metadata.
 metadataArticles :: ArticleMetadataStore -> [(FilePath, Maybe ArticleMetadata)]
 metadataArticles (ArticleMetadataStore h) = map (second cachedArticleMetadata) $ H.toList h
+
+-- Update last modification date of an article.
+updateModificationDate :: ArticleMetadataStore -> FilePath -> UTCTime -> ArticleMetadataStore
+updateModificationDate (ArticleMetadataStore h) path date =
+  ArticleMetadataStore $ H.adjust updateCached path h
+  where
+    updateCached cached =
+      cached {cachedArticleMetadata = fmap updateMetadata (cachedArticleMetadata cached)}
+    updateMetadata metadata = metadata {articleModificationDate = Just date}
 
 -- | Given a filepath representing an article, grabs it and returns its content along with the store, optionally altered
 -- if loading the file was required.

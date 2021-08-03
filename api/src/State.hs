@@ -6,10 +6,11 @@ module State
     newAPIState,
     statefulCacheFile,
     statefulUnCacheFile,
+    statefulCacheArticle,
   )
 where
 
-import Blog (ArticleMetadataStore, LiftArticleError, readMetadata, storeFromMetadata)
+import Blog (ArticleMetadataStore, LiftArticleError, getCacheArticle, readMetadata, storeFromMetadata)
 import Config (Config (..))
 import Control.Concurrent.STM (atomically, readTVarIO, writeTVar)
 import Control.Concurrent.STM.TVar (TVar, newTVarIO)
@@ -43,7 +44,7 @@ newAPIState config = do
 
   liftIO $ APIState <$> newTVarIO sortedFiles <*> newTVarIO articleStore
 
--- Stateful version of Upload.cacheFile.
+-- | Stateful version of Upload.cacheFile.
 statefulCacheFile :: (MonadIO m) => FilePath -> APIState -> m ()
 statefulCacheFile path state = do
   let var = uploadedFiles state
@@ -52,7 +53,7 @@ statefulCacheFile path state = do
     files <- readTVarIO var >>= cacheFile path
     atomically $ writeTVar var files
 
--- Stateful version of Upload.uncacheFile.
+-- | Stateful version of Upload.uncacheFile.
 statefulUnCacheFile :: (MonadIO m) => FilePath -> APIState -> m ()
 statefulUnCacheFile path state = do
   let var = uploadedFiles state
@@ -60,3 +61,35 @@ statefulUnCacheFile path state = do
     putStrLn $ "stateful uncaching of " <> path
     files <- readTVarIO var >>= uncacheFile path
     atomically $ writeTVar var files
+
+-- | Stateful version of Blog.getCacheArticle that only caches.
+statefulCacheArticle ::
+  (MonadIO m, MonadError e m, LiftArticleError e) =>
+  FilePath ->
+  APIState ->
+  m ()
+statefulCacheArticle path state = do
+  let var = cachedArticles state
+  articles <- liftIO $ do
+    putStrLn $ "stateful caching of article " <> path
+    readTVarIO var
+  (_, articles') <- getCacheArticle articles path
+  liftIO . atomically $ writeTVar var articles'
+
+-- -- | Stateful change of article.
+-- statefulChangeArticle ::
+--   (MonadIO m, MonadError e m, LiftArticleError e) =>
+--   FilePath ->
+--   APIState ->
+--   m ()
+-- statefulChangeArticle path state = do
+--   let var = cachedArticles state
+--   articles <- liftIO $ do
+--     putStrLn $ "stateful change of article " <> path
+--     readTVarIO var
+--   case articleMetadata articles path of
+--     Just metadata ->
+--   pure ()
+
+-- (_, articles') <- getCacheArticle articles path
+-- liftIO . atomically $ writeTVar var articles'

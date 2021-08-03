@@ -3,15 +3,17 @@ module Main where
 import Blog (ArticleError, LiftArticleError (..))
 import Config (Config (..))
 import Control.Concurrent (threadDelay)
-import Control.Monad (forever)
+import Control.Monad (forever, void)
 import Control.Monad.Except (ExceptT, MonadError, runExceptT)
 import Control.Monad.IO.Class (MonadIO (..))
 import Data.Aeson (eitherDecode)
 import qualified Data.ByteString.Lazy as BS
+import Data.Data (Proxy (..))
 import Data.List (isSuffixOf)
-import State (newAPIState, statefulCacheFile, statefulUnCacheFile)
+import Network.Wai.Handler.Warp (defaultSettings, runSettings, setLogger, setPort)
+import State (newAPIState, statefulCacheArticle, statefulCacheFile, statefulUnCacheFile)
 import System.Directory (createDirectoryIfMissing)
-import System.FSNotify (Event (Added, Removed), eventPath, watchTree, withManager)
+import System.FSNotify (Event (..), eventPath, watchTree, withManager)
 import System.FilePath (takeDirectory)
 
 -- | Main API error; i.e. all the possible errors that can occur.
@@ -30,12 +32,18 @@ newtype API a = API
 runAPI :: API a -> IO (Either APIError a)
 runAPI = runExceptT . unAPI
 
+ioRunAPI :: API a -> IO ()
+ioRunAPI a =
+  runAPI a >>= \case
+    Left e -> putStrLn $ "API error: " <> show e
+    Right _ -> pure ()
+
 api :: Config -> API ()
 api config = do
-  -- let port = configPort config
   let mediaDir = configMediaDir config
   let uploadDir = configUploadDir config
-  -- let blogDir = takeDirectory blogManifestPath
+  let articleIndexPath = configBlogIndex config
+  let blogDir = takeDirectory articleIndexPath
   -- let gpgKeyPath = configGPGKeyFile config
 
   -- create the directory to contain uploads if it doesn’t exist yet
@@ -47,7 +55,7 @@ api config = do
   -- start a notify thread to listen for file changes
   liftIO . withManager $ \mgr -> do
     putStrLn $ "watching " <> mediaDir
-    _ <- watchTree mgr mediaDir (const True) $ \event -> do
+    void . watchTree mgr mediaDir (const True) $ \event -> do
       putStrLn $ "event: " <> show event
       let path = eventPath event
       let parentDir = takeDirectory path
@@ -57,10 +65,19 @@ api config = do
           Added {} -> statefulCacheFile path apiState
           Removed {} -> statefulUnCacheFile path apiState
           _ -> pure ()
-        else pure ()
+        else
+          if blogDir `isSuffixOf` parentDir
+            then case event of
+              Added {} -> ioRunAPI (statefulCacheArticle path apiState)
+              -- Modified {} -> ioRunAPI (statefulChangeArticle path apiState)
+              _ -> pure ()
+            else pure ()
 
-    forever $ do
-      threadDelay 1000000
+-- let serverSettings = setLogger logger . setPort (fromIntegral $ configPort config) $ defaultSettings
+--     logger req st _ = putStrLn $ show st ++ " | " ++ show req ++ "\n"
+--     gpgKeyPath = configGPGKeyFile config
+-- runSettings serverSettings $
+--   serve (Proxy :: Proxy API) (routes filesTVar uploadDir blogEntryMapping gpgKeyPath)
 
 main :: IO ()
 main = do
@@ -73,11 +90,7 @@ main = do
       runAPI (api config) >>= \case
         Left err -> do
           putStrLn $ "API failed with: " <> show err
-        Right _ -> putStrLn "bye" -- if blogDir `isSuffixOf` parentDir
-        --   then refreshBlog blogManifestPath blogTVar
-        --   else pure ()SuffixOf` parentDir
-        --   then refreshBlog blogManifestPath blogTVar
-        --   else pure ()
+        Right _ -> putStrLn "bye"
 
 -- let serverSettings = setLogger logger . setPort (fromIntegral port) $ defaultSettings
 --     logger req st _ = putStrLn $ show st ++ " | " ++ show req ++ "\n"

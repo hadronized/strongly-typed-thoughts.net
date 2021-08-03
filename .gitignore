@@ -1,11 +1,8 @@
-/dist*
-/.ghc*
-/cabal.project.local
-/db/*
-/api/media/gpg
-/api/media/uploads
-static/
-/.stack-work
+dist*
+.ghc*
+cabal.project.local
+dist-newstyle/
+
 /bower_components/
 /node_modules/
 /.pulp-cache/
@@ -16,4 +13,7 @@ static/
 /.purs*
 /.psa*
 /.spago
-dist-newstyle/
+
+/api/media/gpg
+/api/media/uploads
+static/
