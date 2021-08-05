@@ -6,11 +6,12 @@ module State
     newAPIState,
     statefulCacheFile,
     statefulUnCacheFile,
-    statefulCacheArticle,
+    listBlogArticleMetadata,
+    getBlogArticleContent,
   )
 where
 
-import Blog (ArticleMetadataStore, LiftArticleError, getCacheArticle, readMetadata, storeFromMetadata)
+import Blog (ArticleMetadata, ArticleMetadataStore, LiftArticleError, Slug, getArticleContent, metadataArticles, readMetadata, storeFromMetadata)
 import Config (Config (..))
 import Control.Concurrent.STM (atomically, readTVarIO, writeTVar)
 import Control.Concurrent.STM.TVar (TVar, newTVarIO)
@@ -18,6 +19,7 @@ import Control.Monad.Except (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>))
+import Text.Blaze.Html (Html)
 import Upload (MimeSortedFiles, cacheFile, mimeSort, uncacheFile, uploadDir)
 
 data APIState = APIState
@@ -31,16 +33,16 @@ newAPIState config = do
   sortedFiles <- liftIO $ do
     putStrLn "populating uploaded files cache…"
     sortedFiles <- getDirectoryContents uploadDir >>= mimeSort . map (uploadDir </>) . filter (not . flip elem [".", ".."])
-    putStrLn "  done."
+    putStrLn "done."
     pure sortedFiles
 
   liftIO $ putStrLn "reading blog article index…"
   blogMetadata <- readMetadata (configBlogIndex config)
-  liftIO $ putStrLn "  done."
+  liftIO $ putStrLn "done."
 
   liftIO $ putStrLn "populating blog articles cache…"
   articleStore <- storeFromMetadata blogMetadata
-  liftIO $ putStrLn "  done."
+  liftIO $ putStrLn "done."
 
   liftIO $ APIState <$> newTVarIO sortedFiles <*> newTVarIO articleStore
 
@@ -62,34 +64,10 @@ statefulUnCacheFile path state = do
     files <- readTVarIO var >>= uncacheFile path
     atomically $ writeTVar var files
 
--- | Stateful version of Blog.getCacheArticle that only caches.
-statefulCacheArticle ::
-  (MonadIO m, MonadError e m, LiftArticleError e) =>
-  FilePath ->
-  APIState ->
-  m ()
-statefulCacheArticle path state = do
-  let var = cachedArticles state
-  articles <- liftIO $ do
-    putStrLn $ "stateful caching of article " <> path
-    readTVarIO var
-  (_, articles') <- getCacheArticle articles path
-  liftIO . atomically $ writeTVar var articles'
+listBlogArticleMetadata :: (MonadIO m) => APIState -> m [ArticleMetadata]
+listBlogArticleMetadata state =
+  liftIO . fmap (map snd . metadataArticles) . readTVarIO $ cachedArticles state
 
--- -- | Stateful change of article.
--- statefulChangeArticle ::
---   (MonadIO m, MonadError e m, LiftArticleError e) =>
---   FilePath ->
---   APIState ->
---   m ()
--- statefulChangeArticle path state = do
---   let var = cachedArticles state
---   articles <- liftIO $ do
---     putStrLn $ "stateful change of article " <> path
---     readTVarIO var
---   case articleMetadata articles path of
---     Just metadata ->
---   pure ()
-
--- (_, articles') <- getCacheArticle articles path
--- liftIO . atomically $ writeTVar var articles'
+getBlogArticleContent :: (MonadIO m, MonadError e m, LiftArticleError e) => APIState -> Slug -> m Html
+getBlogArticleContent state slug =
+  liftIO (readTVarIO $ cachedArticles state) >>= flip getArticleContent slug

@@ -2,12 +2,13 @@
 module Blog
   ( ArticleMetadata (..),
     ArticleMetadataStore,
+    Slug,
     storeFromMetadata,
     metadataArticles,
-    articleContent,
     getCacheArticle,
     readMetadata,
     updateModificationDate,
+    getArticleContent,
     LiftArticleError (..),
     ArticleError (..),
   )
@@ -16,28 +17,37 @@ where
 import Control.Monad (foldM)
 import Control.Monad.Error.Class (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
-import Data.Aeson (FromJSON (..), ToJSON (..), eitherDecode, genericParseJSON, genericToEncoding, genericToJSON)
+import Data.Aeson (FromJSON (..), FromJSONKey, ToJSON (..), ToJSONKey, eitherDecode, genericParseJSON, genericToEncoding, genericToJSON)
 import Data.Bifunctor (Bifunctor (..))
 import qualified Data.ByteString.Lazy as BS
 import qualified Data.HashMap.Strict as H
+import Data.Hashable (Hashable)
+import Data.Text (Text)
 import qualified Data.Text.IO as T
-import Data.Text.Lazy (Text)
 import Data.Time (UTCTime)
 import GHC.Generics (Generic)
 import JSON (jsonOptions)
 import Markup (Markup (..), markupToHtml)
+import Servant (FromHttpApiData (..))
 import System.FilePath (takeExtension)
-import Text.Blaze.Html.Renderer.Text (renderHtml)
+import Text.Blaze.Html (Html)
 
 -- | Type of error that can occur while dealing with blog articles.
 data ArticleError
   = CannotDecodeMetadata String
   | CannotTranslate Markup String
   | UnknownMarkup String
+  | UnknownSlug Slug
   deriving (Eq, Show)
 
 class LiftArticleError e where
   liftArticleError :: ArticleError -> e
+
+-- Article slug (i.e. short unique name to represent it in stores, URL links, etc.).
+newtype Slug = Slug {unSlug :: Text} deriving (Eq, FromJSON, FromJSONKey, Generic, Hashable, Show, ToJSON, ToJSONKey)
+
+instance FromHttpApiData Slug where
+  parseUrlPiece = Right . Slug
 
 -- Metadata about a blog article.
 --
@@ -54,7 +64,7 @@ data ArticleMetadata = ArticleMetadata
     -- Some tags.
     articleTags :: [Text],
     -- Slug used in URL to refer to that article.
-    articleSlug :: Text
+    articleSlug :: Slug
   }
   deriving (Eq, Generic, Show)
 
@@ -68,29 +78,17 @@ instance ToJSON ArticleMetadata where
 -- A cached article is the combination of metadata about the article as well as the content of the article optionally
 -- loaded.
 data CachedArticle = CachedArticle
-  { cachedArticleMetadata :: Maybe ArticleMetadata,
-    cachedArticleContent :: Text
+  { cachedArticleMetadata :: ArticleMetadata,
+    cachedArticleContent :: Html
   }
   deriving (Generic)
 
-instance FromJSON CachedArticle where
-  parseJSON = genericParseJSON jsonOptions
-
-instance ToJSON CachedArticle where
-  toEncoding = genericToEncoding jsonOptions
-  toJSON = genericToJSON jsonOptions
-
 -- Article metadata store.
+--
+-- Store article in a map-like data type, keyed by slug.
 newtype ArticleMetadataStore
-  = ArticleMetadataStore (H.HashMap FilePath CachedArticle)
+  = ArticleMetadataStore (H.HashMap Slug CachedArticle)
   deriving (Generic)
-
-instance FromJSON ArticleMetadataStore where
-  parseJSON = genericParseJSON jsonOptions
-
-instance ToJSON ArticleMetadataStore where
-  toEncoding = genericToEncoding jsonOptions
-  toJSON = genericToJSON jsonOptions
 
 readMetadata :: (MonadIO m, MonadError e m, LiftArticleError e) => FilePath -> m [ArticleMetadata]
 readMetadata path = do
@@ -99,50 +97,49 @@ readMetadata path = do
 
 storeFromMetadata :: (MonadIO m, MonadError e m, LiftArticleError e) => [ArticleMetadata] -> m ArticleMetadataStore
 storeFromMetadata =
-  foldM (\h metadata -> fmap snd . getCacheArticle h $ articlePath metadata) (ArticleMetadataStore H.empty)
+  foldM (\h metadata -> snd <$> getCacheArticle h metadata) (ArticleMetadataStore H.empty)
 
 -- Get a listing of articles metadata.
-metadataArticles :: ArticleMetadataStore -> [(FilePath, Maybe ArticleMetadata)]
+metadataArticles :: ArticleMetadataStore -> [(Slug, ArticleMetadata)]
 metadataArticles (ArticleMetadataStore h) = map (second cachedArticleMetadata) $ H.toList h
 
 -- Update last modification date of an article.
-updateModificationDate :: ArticleMetadataStore -> FilePath -> UTCTime -> ArticleMetadataStore
-updateModificationDate (ArticleMetadataStore h) path date =
-  ArticleMetadataStore $ H.adjust updateCached path h
+updateModificationDate :: ArticleMetadataStore -> Slug -> UTCTime -> ArticleMetadataStore
+updateModificationDate (ArticleMetadataStore h) slug date =
+  ArticleMetadataStore $ H.adjust updateCached slug h
   where
     updateCached cached =
-      cached {cachedArticleMetadata = fmap updateMetadata (cachedArticleMetadata cached)}
+      cached {cachedArticleMetadata = updateMetadata (cachedArticleMetadata cached)}
     updateMetadata metadata = metadata {articleModificationDate = Just date}
 
--- | Given a filepath representing an article, grabs it and returns its content along with the store, optionally altered
--- if loading the file was required.
-articleContent ::
-  (MonadIO m, MonadError e m, LiftArticleError e) =>
+-- | Get the content of an article given its slug, if exists.
+getArticleContent ::
+  (MonadError e m, LiftArticleError e) =>
   ArticleMetadataStore ->
-  FilePath ->
-  m (Text, ArticleMetadataStore)
-articleContent store@(ArticleMetadataStore h) path =
-  case H.lookup path h of
-    Just article -> pure (cachedArticleContent article, store)
-    Nothing -> getCacheArticle store path
+  Slug ->
+  m Html
+getArticleContent (ArticleMetadataStore h) slug =
+  maybe (throwError . liftArticleError $ UnknownSlug slug) (pure . cachedArticleContent) $ H.lookup slug h
 
 -- | Extract and convert the markup-formatted article into an HTML representation and cache it.
 getCacheArticle ::
   (MonadIO m, MonadError e m, LiftArticleError e) =>
   ArticleMetadataStore ->
-  FilePath ->
-  m (Text, ArticleMetadataStore)
-getCacheArticle (ArticleMetadataStore h) path = do
+  ArticleMetadata ->
+  m (Html, ArticleMetadataStore)
+getCacheArticle (ArticleMetadataStore h) metadata = do
   raw <- liftIO $ do
-    putStrLn $ "  · reading content of blog article at " <> path
+    putStrLn $ "reading content of blog article " <> show slug <> " at path " <> path
     T.readFile path
   content <-
     case takeExtension path of
-      ".md" -> convertError Markdown $ markupToHtml Markdown raw
-      ".org" -> convertError Org $ markupToHtml Org raw
+      ".md" -> convert Markdown $ markupToHtml Markdown raw
+      ".org" -> convert Org $ markupToHtml Org raw
       ext -> throwError . liftArticleError $ UnknownMarkup ext
-  let article = CachedArticle Nothing content
-      h' = H.insert path article h
+  let article = CachedArticle metadata content
+      h' = H.insert slug article h
   pure (content, ArticleMetadataStore h')
   where
-    convertError mkp = either (throwError . liftArticleError . CannotTranslate mkp) (pure . renderHtml)
+    path = articlePath metadata
+    slug = articleSlug metadata
+    convert mkp = either (throwError . liftArticleError . CannotTranslate mkp) pure
