@@ -1,9 +1,10 @@
-module Markup (
-    Markup(..),
-     markupToHtml
-  ) where
+module Markup
+  ( Markup (..),
+    markupToHtml,
+  )
+where
 
-import Data.Bifunctor (Bifunctor(..))
+import Data.Bifunctor (Bifunctor (..))
 import Data.Default (def)
 import Data.Text (Text)
 import Text.Blaze.Html (Html)
@@ -18,4 +19,4 @@ markupToHtml mkp content = first show . runPure $ render mkp opts content >>= wr
   where
     render Markdown = readMarkdown
     render Org = readOrg
-    opts = def { readerExtensions = pandocExtensions }
+    opts = def {readerExtensions = pandocExtensions}
