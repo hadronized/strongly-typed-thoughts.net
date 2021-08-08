@@ -5,15 +5,11 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libxrandr-dev xorg-dev libsdl2-dev
       - uses: actions/checkout@v2
-      - name: Build
+      - name: Build API
         run: |
-          cargo build
-          cargo test
+          cd api
+          cabal build
 
   quality:
     runs-on: ubuntu-latest
