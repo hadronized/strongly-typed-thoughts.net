@@ -1,0 +1,7 @@
+{
+  "config_port": 9000,
+  "config_media_dir": "media",
+  "config_upload_dir": "media/uploads",
+  "config_blog_index": "media/blog/index.json",
+  "config_gpg_key_file": "media/gpg/phaazon.gpg"
+}

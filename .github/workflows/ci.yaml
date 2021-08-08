@@ -1,0 +1,23 @@
+name: CI
+on: [pull_request]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-haskell@v1
+        with:
+          ghc-version: '8.10.3'
+          cabal-version: '3.2'
+      - name: Build API
+        run: |
+          cd api
+          cabal build
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Code format
+        uses: mrkkrp/ormolu-action@v1
