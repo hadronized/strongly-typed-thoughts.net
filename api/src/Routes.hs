@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-deferred-type-errors #-}
+
 -- | API server routes.
 module Routes
   ( routes,
@@ -10,10 +12,12 @@ module Routes
   )
 where
 
-import API (API, BlogArticleAPI, BlogListingAPI, GPGAPI, MainBlogAPI, runServerAPI)
+import API (API, BlogArticleAPI, BlogListingAPI, FeedAPI, GPGAPI, MainBlogAPI, runServerAPI)
 import Config (Config (..))
 import Control.Monad.IO.Class (MonadIO (..))
 import qualified Data.Text.IO as T
+import Data.Time.Clock.POSIX (getCurrentTime)
+import Feed (rssFeed, rssItem)
 import Servant (Server)
 import Servant.API (Raw, (:<|>) (..))
 import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebApp)
@@ -44,9 +48,15 @@ gpgKeyFile :: Config -> Server GPGAPI
 gpgKeyFile = liftIO . T.readFile . configGPGKeyFile
 
 blog :: APIState -> Server MainBlogAPI
-blog state = {- feed :<|> -} blogArticle
+blog state = feed state :<|> blogArticle
   where
     blogArticle = blogListing state :<|> article state
+
+feed :: APIState -> Server FeedAPI
+feed state = do
+  now <- liftIO getCurrentTime
+  items <- fmap (map rssItem) (listBlogArticleMetadata state)
+  pure $ rssFeed now items
 
 blogListing :: APIState -> Server BlogListingAPI
 blogListing = listBlogArticleMetadata

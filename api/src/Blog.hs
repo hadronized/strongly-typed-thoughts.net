@@ -1,8 +1,9 @@
 -- Blog articles.
 module Blog
   ( ArticleMetadata (..),
+    articleLastModificationDate,
     ArticleMetadataStore,
-    Slug,
+    Slug (..),
     storeFromMetadata,
     metadataArticles,
     getCacheArticle,
@@ -18,7 +19,6 @@ import Control.Monad (foldM)
 import Control.Monad.Error.Class (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
 import Data.Aeson (FromJSON (..), FromJSONKey, ToJSON (..), ToJSONKey, eitherDecode, genericParseJSON, genericToEncoding, genericToJSON)
-import Data.Bifunctor (Bifunctor (..))
 import qualified Data.ByteString.Lazy as BS
 import qualified Data.HashMap.Strict as H
 import Data.Hashable (Hashable)
@@ -29,6 +29,7 @@ import GHC.Generics (Generic)
 import JSON (jsonOptions)
 import Markup (Markup (..), markupToHtml)
 import Servant (FromHttpApiData (..))
+import System.Directory.Internal.Prelude (fromMaybe)
 import System.FilePath (takeExtension)
 import Text.Blaze.Html (Html)
 
@@ -75,6 +76,10 @@ instance ToJSON ArticleMetadata where
   toEncoding = genericToEncoding jsonOptions
   toJSON = genericToJSON jsonOptions
 
+-- | Get the last time the article was modified.
+articleLastModificationDate :: ArticleMetadata -> UTCTime
+articleLastModificationDate article = fromMaybe (articlePublishDate article) (articleModificationDate article)
+
 -- A cached article is the combination of metadata about the article as well as the content of the article optionally
 -- loaded.
 data CachedArticle = CachedArticle
@@ -100,8 +105,8 @@ storeFromMetadata =
   foldM (\h metadata -> snd <$> getCacheArticle h metadata) (ArticleMetadataStore H.empty)
 
 -- Get a listing of articles metadata.
-metadataArticles :: ArticleMetadataStore -> [(Slug, ArticleMetadata)]
-metadataArticles (ArticleMetadataStore h) = map (second cachedArticleMetadata) $ H.toList h
+metadataArticles :: ArticleMetadataStore -> [ArticleMetadata]
+metadataArticles (ArticleMetadataStore h) = map cachedArticleMetadata (H.elems h)
 
 -- Update last modification date of an article.
 updateModificationDate :: ArticleMetadataStore -> Slug -> UTCTime -> ArticleMetadataStore

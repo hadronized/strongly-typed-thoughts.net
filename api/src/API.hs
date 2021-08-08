@@ -1,11 +1,13 @@
 -- | API endpoints and handlers.
 module API
   ( API,
+    Version,
     GPGAPI,
     MainBlogAPI,
     BlogAPI,
     BlogListingAPI,
     BlogArticleAPI,
+    FeedAPI,
     RunAPI,
     runAPI,
     runServerAPI,
@@ -22,6 +24,8 @@ import Servant.API (Capture, Get, JSON, PlainText, Raw, (:<|>) (..), (:>))
 import Servant.HTML.Blaze (HTML)
 import Servant.Server (ServerError (..), err400, err404)
 import Text.Blaze.Html (Html)
+import Text.RSS.Syntax (RSS)
+import XML (XML)
 
 type Version = "v1"
 
@@ -37,11 +41,9 @@ type MainAPI =
 
 type GPGAPI = Get '[PlainText] Text
 
-type MainBlogAPI =
-  {- "feed" :> FeedAPI
-    :<|> -} BlogAPI
+type MainBlogAPI = "feed" :> FeedAPI :<|> BlogAPI
 
--- type FeedAPI = Get '[XML] RSS
+type FeedAPI = Get '[XML] RSS
 
 type BlogAPI =
   BlogListingAPI

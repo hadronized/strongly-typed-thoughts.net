@@ -66,7 +66,7 @@ statefulUnCacheFile path state = do
 
 listBlogArticleMetadata :: (MonadIO m) => APIState -> m [ArticleMetadata]
 listBlogArticleMetadata state =
-  liftIO . fmap (map snd . metadataArticles) . readTVarIO $ cachedArticles state
+  liftIO . fmap metadataArticles . readTVarIO $ cachedArticles state
 
 getBlogArticleContent :: (MonadIO m, MonadError e m, LiftArticleError e) => APIState -> Slug -> m Html
 getBlogArticleContent state slug =

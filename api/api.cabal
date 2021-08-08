@@ -59,6 +59,7 @@ executable api
     API,
     Blog,
     Config,
+    Feed,
     JSON,
     Markup,
     Routes,
