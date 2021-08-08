@@ -23,7 +23,11 @@ import Servant.HTML.Blaze (HTML)
 import Servant.Server (ServerError (..), err400, err404)
 import Text.Blaze.Html (Html)
 
-type API =
+type Version = "v1"
+
+type API = "api" :> Version :> MainAPI
+
+type MainAPI =
   "media" :> Raw
     :<|> "pub" :> Raw
     :<|> "static" :> Raw
