@@ -11,6 +11,7 @@ import Numeric.Natural (Natural)
 
 data Config = Config
   { configPort :: Natural,
+    configFrontDir :: FilePath,
     configMediaDir :: FilePath,
     configUploadDir :: FilePath,
     configBlogIndex :: FilePath,
@@ -29,6 +30,7 @@ instance Default Config where
   def =
     Config
       { configPort = 8000,
+        configFrontDir = "front",
         configMediaDir = "media",
         configUploadDir = "media/uploads",
         configBlogIndex = "media/blog/index.json",
