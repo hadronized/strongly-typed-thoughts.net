@@ -6,7 +6,7 @@ about editors, of course.
 
 ## Configuring and scripting
 
-__Configuring_ is a bit of an overloaded term these days. To me, people tend to confuse _scripting_ with
+_Configuring_ is a bit of an overloaded term these days. To me, people tend to confuse _scripting_ with
 _configuration_, which is really unfortunate because both are required and the audience / target users are not the same.
 
 _Scripting_ targets mainly developers. In the case of a tool you use like a text editor, a shell, a browser or a
@@ -32,7 +32,7 @@ to the incredible productivity platform it is today. Anyway, Neovim and Emacs. B
 doing that kind of UX: they don’t split them. Scripting comes via an EDSL or dynamic language (Emacs-Lisp, VimL, Lua)
 and allows you to interact with the public API of the editor. This is the « plugin scope. » However, the rest is really
 just decoration and layers. There is no support for configuration (Emacs does have `M-x customize` though, which is a
-bit akin to VS Code’s way of doing things, but __not completely_ since there are things you can’t do with `M-x
+bit akin to VS Code’s way of doing things, but _not completely_ since there are things you can’t do with `M-x
 customize` properly). « Configuring » Emacs or Neovim means « calling functions / commands in a special script,
 typically called `init.el`, `init.lua` or `init.vim` that change values of the editors and its plugins. » The difference
 between setting a variable in Lua in Neovim and setting a plugin’s feature is… well, there is no difference. You do that
@@ -65,7 +65,7 @@ can use a different concept to do so or even use the `M-x customize` UX. Not per
 
 I also remember people telling me that configuring via scripting is better because they have more opportunities. For
 instance, they have the opportunity to do branching, depending on the host system, the date and time, etc. That is just
-a bad design in disguise, to me. More opportunities also mean more opportunities to do something wrong. To introduce a
+a bad design in disguise, to me. More opportunities also means more opportunities to do something wrong. To introduce a
 badly designed piece of code. To ask people to write code and then potentially introduce slow-downs (especially since
 Neovim uses Lua, in which you can do _anything you want_, even make a gRPC call while loading your Neovim
 configuration).
@@ -126,5 +126,5 @@ great – and design choices, for which I think the design is old and needs to 
 Keep the vibes!
 
 [hop.nvim]: https://github.com/phaazon/hop.nvim
-[poetry.nvim]: https://github.com/phaazon/poetry.nvim
+[poetry.nvim]: https://github.com/phaazon/poetry.nvim
 [telescope.nvim]: https://github.com/nvim-telescope/telescope.nvim
