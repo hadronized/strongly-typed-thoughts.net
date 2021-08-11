@@ -30,10 +30,10 @@ routes config state =
     :<|> static
     :<|> gpgKeyFile config
     :<|> blog state
-    :<|> root
+    :<|> root config
 
-root :: Server Raw
-root = serveDirectoryWebApp "front"
+root :: Config -> Server Raw
+root = serveDirectoryWebApp . configFrontDir
 
 media :: Config -> Server Raw
 media = serveDirectoryFileServer . configMediaDir

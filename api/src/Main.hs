@@ -50,7 +50,7 @@ api config = do
 
 main :: IO ()
 main = do
-  eitherConfig <- fmap eitherDecode (BS.readFile "server.json")
+  eitherConfig <- fmap eitherDecode (BS.readFile "api.json")
   case eitherConfig of
     Left err -> do
       putStrLn "cannot read configuration"
