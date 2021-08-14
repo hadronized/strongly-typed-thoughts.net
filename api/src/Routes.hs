@@ -24,13 +24,13 @@ import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebAp
 import State (APIState, getBlogArticleContent, listBlogArticleMetadata)
 
 routes :: Config -> APIState -> Server API
-routes config state =
-  media config
-    :<|> pub config
-    :<|> static
-    :<|> gpgKeyFile config
-    :<|> blog state
-    :<|> root config
+routes config state = mainAPI :<|> static :<|> root config
+  where
+    mainAPI =
+      media config
+        :<|> pub config
+        :<|> gpgKeyFile config
+        :<|> blog state
 
 root :: Config -> Server Raw
 root = serveDirectoryWebApp . configFrontDir
@@ -42,7 +42,7 @@ pub :: Config -> Server Raw
 pub = serveDirectoryFileServer . configUploadDir
 
 static :: Server Raw
-static = serveDirectoryFileServer "static"
+static = serveDirectoryWebApp "static"
 
 gpgKeyFile :: Config -> Server GPGAPI
 gpgKeyFile = liftIO . T.readFile . configGPGKeyFile

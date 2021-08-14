@@ -29,15 +29,17 @@ import XML (XML)
 
 type Version = "v1"
 
-type API = "api" :> Version :> MainAPI
+type API = ("api" :> Version :> MainAPI) :<|> StaticAPI :<|> RootAPI
+
+type StaticAPI = "static" :> Raw
+
+type RootAPI = Raw
 
 type MainAPI =
   "media" :> Raw
     :<|> "pub" :> Raw
-    :<|> "static" :> Raw
     :<|> "gpg" :> GPGAPI
     :<|> "blog" :> MainBlogAPI
-    :<|> Raw
 
 type GPGAPI = Get '[PlainText] Text
 
