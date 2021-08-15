@@ -1,39 +1,39 @@
 module Main where
 
 import Prelude
-
 import Effect (Effect)
 import Effect.Aff (Aff)
+import Halogen (ClassName(..))
 import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
-import Halogen.HTML.Events as HE
+import Halogen.HTML.Properties as HP
 import Halogen.VDom.Driver (runUI)
+import Tile (tileComponent)
+import Type.Proxy (Proxy(..))
 
 main :: Effect Unit
-main = HA.runHalogenAff $ do
-  HA.awaitBody >>= runUI rootComponent unit
+main = HA.runHalogenAff $ HA.awaitBody >>= runUI rootComponent unit
 
-data Action = Increment | Decrement
+type Slots
+  = ( tile :: forall query. H.Slot query Void Int )
+
+_tile = Proxy :: Proxy "nested"
 
 rootComponent :: forall query input output. H.Component query input output Aff
 rootComponent =
-   H.mkComponent
-    { -- First, we provide our function that describes how to produce the first state
-      initialState
-      -- Then, we provide our function that describes how to produce HTML from the state
+  H.mkComponent
+    { initialState
     , render
-      -- Finally, we provide our function that describes how to handle actions that
-      -- occur while the component is running, which updates the state.
-    , eval: H.mkEval $ H.defaultEval { handleAction = handleAction }
+    , eval: H.mkEval H.defaultEval
     }
   where
-    initialState _ = 0
-    render state = HH.div [] [
-        HH.button [HE.onClick $ \_ -> Decrement] [HH.text "-1"],
-        HH.text (show state),
-        HH.button [HE.onClick $ \_ -> Increment] [HH.text "+1"]
+  initialState _ = 0
+
+  render _ =
+    HH.div [ HP.classes $ map ClassName [ "tile-container" ] ]
+      [ HH.slot_ _tile 0 tileComponent "upper-left"
+      , HH.slot_ _tile 1 tileComponent "upper-right"
+      , HH.slot_ _tile 2 tileComponent "lower-left"
+      , HH.slot_ _tile 3 tileComponent "lower-right"
       ]
-    handleAction = case _ of
-      Decrement -> H.modify_ (_-1)
-      Increment -> H.modify_ (_+1)
