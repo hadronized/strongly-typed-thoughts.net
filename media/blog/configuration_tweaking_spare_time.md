@@ -48,20 +48,20 @@ configurations just to be able to use a plugin or setup LSP and Treesitter is a 
 since we _know_ that other editors do split configuration and scripting and that they’ve been massively adopted and huge
 successes, especially since we are living in 2021 with all the UX and UI knowledge built from the past decades.
 
-So the worrying point to me is: why haven’t Neovim or Emacs people thought about reversing that method and adopting a
-more modern take? The topic has been discussed many times and I have to admit that among all the « new features » that
-you can see in Neovim, I’m surprised to see integration of features such as remote plugins or even Lua actually (while
-they could have decided to stick around VimL for more years), and the very fundamentals are not done correctly. Of
-course here, « correctly » is from my own perspective, I’m sure you will find people who prefer not to split
-configuration and scripting, but I don’t and think this is an old and deprecated design. I’ve had discussions with a
-bunch of Neovim contributors who told me that Neovim can already do « declarative configuration » by simply passing Lua
-tables around. That’s still code, that’s still scripting, that’s not configuration. There is no difference between
-passing a table representing a user configuration from a function taking an object and doing an opaque thing with it.
-That’s not easily introspectable. That’s not easily maintainable and that still requires people to know how to pass Lua
-tables around. This is just the wrong direction to me. Emacs is better in that sense as it has the concept of
-introspectable configuration variables, allowing you to list them, fuzzy search them, provide ad-hoc customization means
-via plugins consuming and setting those lists, etc.. People still must set them in an Emacs-Lisp script but they at least
-can use a different concept to do so or even use the `M-x customize` UX. Not perfect, but better.
+So the worrying point to me is: in 2021, why do Vim / Neovim or Emacs not have this already? The topic has been
+discussed many times and I have to admit that among all the « new features » that you can see in Neovim, I’m surprised
+to see integration of features such as remote plugins or even Lua actually (while they could have decided to stick
+around VimL for more years), and the very fundamentals are not done correctly. Of course here, « correctly » is from my
+own perspective, I’m sure you will find people who prefer not to split configuration and scripting, but I don’t and
+think this is an old and deprecated design. I’ve had discussions with a bunch of Neovim contributors who told me that
+Neovim can already do « declarative configuration » by simply passing Lua tables around. That’s still code, that’s still
+scripting, that’s not configuration. There is no difference between passing a table representing a user configuration
+from a function taking an object and doing an opaque thing with it. That’s not easily introspectable. That’s not easily
+maintainable and that still requires people to know how to pass Lua tables around. This is just the wrong direction to
+me. Emacs is better in that sense as it has the concept of introspectable configuration variables, allowing you to list
+them, fuzzy search them, provide ad-hoc customization means via plugins consuming and setting those lists, etc.. People
+still must set them in an Emacs-Lisp script but they at least can use a different concept to do so or even use the `M-x
+customize` UX. Not perfect, but better.
 
 I also remember people telling me that configuring via scripting is better because they have more opportunities. For
 instance, they have the opportunity to do branching, depending on the host system, the date and time, etc. That is just
