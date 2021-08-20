@@ -3,12 +3,16 @@ module SPA where
 
 import Prelude
 import AboutMe (aboutMeComponent)
-import Data.Array (intersperse)
+import Blog (blogComponent)
+import Control.Monad.RWS (put)
+import Data.Array (intersperse, singleton)
+import Data.Maybe (Maybe(..), maybe)
 import Effect.Aff (Aff)
 import HTMLHelper (cl)
 import Halogen (Component, defaultEval, mkComponent, mkEval)
 import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, section, slot_, span, text)
 import Halogen.HTML as H
+import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href, id, title)
 import Type.Proxy (Proxy(..))
 
@@ -23,10 +27,16 @@ data ActiveComponent
   | Blog
   | Browse
 
+data Action
+  = Switch ActiveComponent
+
 spaComponent :: forall query input output. Int -> Component query input output Aff
 spaComponent currentYear = mkComponent { eval, initialState, render }
   where
-  eval = mkEval defaultEval
+  eval = mkEval defaultEval { handleAction = handleAction }
+
+  handleAction = case _ of
+    Switch component -> put component
 
   initialState _ = AboutMe
 
@@ -35,11 +45,11 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
   activeComponent state = section [ cl [ "container", "section", "content" ] ] [ renderActiveComponent state ]
 
   renderActiveComponent = case _ of
-    AboutMe -> slot_ _aboutme 0 (aboutMeComponent) unit
-    Blog -> text "Slot blog"
+    AboutMe -> slot_ _aboutme 0 aboutMeComponent unit
+    Blog -> slot_ _blog 0 blogComponent unit
     Browse -> text "Slot browse"
 
-navPart :: forall w i. HTML w i
+navPart :: forall w. HTML w Action
 navPart =
   nav [ id "top-header", cl [ "hero", "is-medium" ] ]
     [ H.div [ cl [ "hero-body", "container", "level", "has-shadow" ] ]
@@ -49,15 +59,15 @@ navPart =
                 , p [] [ h2 [ cl [ "subtitle", "is-4" ] ] [ em [] [ text "Do not make more tools than existing problems" ] ] ]
                 ]
             ]
-        , navItem "/" "phaazon.net" "fa-home"
-        , navItem "https://git.phaazon.net" "git.phaazon.net" "fa-code-fork"
-        , navItem "/blog" "/blog" "fa-pencil"
-        , navItem "/browse" "all the memes!" "fa-cloud-download"
+        , navItem "/" "phaazon.net" "fa-home" (Just $ Switch AboutMe)
+        , navItem "https://git.phaazon.net" "git.phaazon.net" "fa-code-fork" Nothing
+        , navItem "/blog" "/blog" "fa-pencil" (Just $ Switch Blog)
+        , navItem "/browse" "all the memes!" "fa-cloud-download" (Just $ Switch Browse)
         ]
     ]
   where
-  navItem url t icon =
-    a [ href url, title t, cl [ "level-item" ] ]
+  navItem url t icon action =
+    a ([ {- href url,-} title t, cl [ "level-item" ] ] <> maybe [] (singleton <<< onClick <<< const) action)
       [ span [ cl [ "icon", "is-large" ] ]
           [ i [ cl [ "fa", icon ] ] []
           ]

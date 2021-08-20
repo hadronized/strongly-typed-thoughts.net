@@ -19,8 +19,10 @@ to generate this file without the comments in this block.
   , "halogen"
   , "integers"
   , "js-date"
+  , "maybe"
   , "prelude"
   , "psci-support"
+  , "transformers"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
