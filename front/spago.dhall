@@ -12,7 +12,16 @@ to generate this file without the comments in this block.
 -}
 { name = "phaazon.net"
 , dependencies =
-  [ "aff", "console", "effect", "halogen", "maybe", "prelude", "psci-support" ]
+  [ "aff"
+  , "arrays"
+  , "console"
+  , "effect"
+  , "halogen"
+  , "integers"
+  , "js-date"
+  , "prelude"
+  , "psci-support"
+  ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
 }
