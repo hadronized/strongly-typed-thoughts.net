@@ -7,7 +7,7 @@ import Data.Array (intersperse)
 import Effect.Aff (Aff)
 import HTMLHelper (cl)
 import Halogen (Component, defaultEval, mkComponent, mkEval)
-import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, slot_, span, text)
+import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, section, slot_, span, text)
 import Halogen.HTML as H
 import Halogen.HTML.Properties (href, id, title)
 import Type.Proxy (Proxy(..))
@@ -30,7 +30,9 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
 
   initialState _ = AboutMe
 
-  render state = H.div [] [ navPart, renderActiveComponent state, footerPart currentYear ]
+  render state = H.div [] [ navPart, activeComponent state, footerPart currentYear ]
+
+  activeComponent state = section [ cl [ "container", "section", "content" ] ] [ renderActiveComponent state ]
 
   renderActiveComponent = case _ of
     AboutMe -> slot_ _aboutme 0 (aboutMeComponent) unit
