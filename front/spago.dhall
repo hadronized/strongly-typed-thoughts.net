@@ -16,6 +16,7 @@ to generate this file without the comments in this block.
   , "arrays"
   , "console"
   , "effect"
+  , "foreign"
   , "halogen"
   , "integers"
   , "js-date"
@@ -23,6 +24,7 @@ to generate this file without the comments in this block.
   , "prelude"
   , "psci-support"
   , "transformers"
+  , "web-html"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

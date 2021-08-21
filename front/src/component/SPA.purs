@@ -7,7 +7,11 @@ import Blog (blogComponent)
 import Control.Monad.RWS (put)
 import Data.Array (intersperse, singleton)
 import Data.Maybe (Maybe(..), maybe)
+import Data.Unit (unit)
 import Effect.Aff (Aff)
+import Effect.Class (liftEffect)
+import Effect.Class.Console (log)
+import Foreign (unsafeToForeign)
 import HTMLHelper (cl)
 import Halogen (Component, defaultEval, mkComponent, mkEval)
 import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, section, slot_, span, text)
@@ -15,6 +19,9 @@ import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href, id, title)
 import Type.Proxy (Proxy(..))
+import Web.HTML (window)
+import Web.HTML.History (DocumentTitle(..), URL(..), pushState)
+import Web.HTML.Window (history)
 
 _aboutme = Proxy :: Proxy "aboutme"
 
@@ -28,7 +35,7 @@ data ActiveComponent
   | Browse
 
 data Action
-  = Switch ActiveComponent
+  = SwitchComponent ActiveComponent String
 
 spaComponent :: forall query input output. Int -> Component query input output Aff
 spaComponent currentYear = mkComponent { eval, initialState, render }
@@ -36,7 +43,9 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
   eval = mkEval defaultEval { handleAction = handleAction }
 
   handleAction = case _ of
-    Switch component -> put component
+    SwitchComponent component url -> do
+      _ <- liftEffect $ window >>= history >>= pushState (unsafeToForeign unit) (DocumentTitle "") (URL url)
+      put component
 
   initialState _ = AboutMe
 
@@ -59,15 +68,22 @@ navPart =
                 , p [] [ h2 [ cl [ "subtitle", "is-4" ] ] [ em [] [ text "Do not make more tools than existing problems" ] ] ]
                 ]
             ]
-        , navItem "/" "phaazon.net" "fa-home" (Just $ Switch AboutMe)
-        , navItem "https://git.phaazon.net" "git.phaazon.net" "fa-code-fork" Nothing
-        , navItem "/blog" "/blog" "fa-pencil" (Just $ Switch Blog)
-        , navItem "/browse" "all the memes!" "fa-cloud-download" (Just $ Switch Browse)
+        , navItem "phaazon.net" "fa-home" (SwitchComponent AboutMe "/")
+        , navItemExternal "git.phaazon.net" "fa-code-fork" "https://git.phaazon.net"
+        , navItem "/blog" "fa-pencil" (SwitchComponent Blog "/blog")
+        , navItem "all the memes!" "fa-cloud-download" (SwitchComponent Browse "/browse")
         ]
     ]
   where
-  navItem url t icon action =
-    a ([ {- href url,-} title t, cl [ "level-item" ] ] <> maybe [] (singleton <<< onClick <<< const) action)
+  navItem t icon action =
+    a [ title t, cl [ "level-item" ], onClick (const action) ]
+      [ span [ cl [ "icon", "is-large" ] ]
+          [ i [ cl [ "fa", icon ] ] []
+          ]
+      ]
+
+  navItemExternal t icon url =
+    a [ href url, title t, cl [ "level-item" ] ]
       [ span [ cl [ "icon", "is-large" ] ]
           [ i [ cl [ "fa", icon ] ] []
           ]
