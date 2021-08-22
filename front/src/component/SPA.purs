@@ -2,6 +2,7 @@
 module SPA where
 
 import Prelude
+
 import AboutMe (aboutMeComponent)
 import Blog (blogComponent)
 import Control.Monad.RWS (put)
@@ -46,9 +47,7 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
 
   initialState _ = AboutMe
 
-  render state = H.div [] [ navPart, activeComponent state, footerPart currentYear ]
-
-  activeComponent state = section [ cl [ "container", "section", "content" ] ] [ renderActiveComponent state ]
+  render state = H.div [] [ navPart, renderActiveComponent state, footerPart currentYear ]
 
   renderActiveComponent = case _ of
     AboutMe -> slot_ _aboutme 0 aboutMeComponent unit
