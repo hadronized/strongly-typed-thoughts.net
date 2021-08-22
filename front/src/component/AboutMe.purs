@@ -28,9 +28,10 @@ aboutMeComponent = mkComponent { eval, initialState, render }
               nothing to do with any company nor professional purpose. You’ll find only personal-related projects
               and material. Feel free to have a look at the articles I write """
           , a [ href "https://phaazon.net/blog" ] [ text "on my blog" ]
+          , text "!"
           ]
       , p_
-          [ text "! However, if you are a recruiter, you might be interested in "
+          [ text "However, if you are a recruiter, you might be interested in "
           , a [ href "https://github.com/phaazon" ] [ text "my GitHub page" ]
           , text " and/or contacting me:"
           ]
@@ -64,11 +65,11 @@ aboutMeComponent = mkComponent { eval, initialState, render }
               ]
           ]
       , p_
-          [ text "I don’t update the portfolio very often; I highly suggest you to have a look at "
+          [ text "I highly suggest you to have a look at "
           , a [ href "https://github.com/phaazon" ] [ text "my GitHub page" ]
           , text
               """ for a more accurate idea of my contributions. Also, I’ve been making special efforts to decentrialize
-              my my activity, so here are a few more places where you can find work of mine:"""
+              my activity, so here are a few more places where you can find work of mine:"""
           ]
       , ul_
           [ li_ [ text "My own personal ", a [ href "https://git.phaazon.net" ] [ text "Gitea instance" ], text "." ]
@@ -79,7 +80,7 @@ aboutMeComponent = mkComponent { eval, initialState, render }
               ]
           , li_
               [ text "My "
-              , a [ href "https://crates.io/users/phaazon" ] [ text "creates on crates.io" ]
+              , a [ href "https://crates.io/users/phaazon" ] [ text "crates on crates.io" ]
               , text "."
               ]
           ]
@@ -88,7 +89,7 @@ aboutMeComponent = mkComponent { eval, initialState, render }
       , p_
           [ text "I’m "
           , strong_ [ text "Dimitri Sabadie" ]
-          , text (", I’m " <> show state.age <> "years old")
+          , text (", I’m " <> show state.age <> " years old. ")
           , text
               "I was born in the South-West of France, in the neighborhood of Bordeaux. You can find me on the net as "
           , strong_ [ text "phaazon" ]
@@ -101,19 +102,19 @@ aboutMeComponent = mkComponent { eval, initialState, render }
             very long time. I discovered the C language when I was 12, and started a long trek in the IT jungle. I quickly
             started getting more and more interested in C++ then I wrote a few programs in C, like an .OBJ mesh file
             loader (shamefuly called lobj) with light and camera support in OpenGL. A few days after lobj was released,
-            I got my first way into the IRC world. I found a french OpenGL channel where I was advised to transform lobj
+            I got my first way into the IRC world. I found a French OpenGL channel where I was advised to transform lobj
             into a realtime 3D engine. I really enjoyed my experiments with the engines I wrote. The first one was called
             SGLE for Skypers OpenGL Engine, then I refactored it again and again, and finally, I ended up in the
-            demoscene world where I met nice people. It was also the time when I discovered the D language, a
-            very nice language."""
+            demoscene world where I met nice people. It was also the time when I discovered the D language, which I
+            used for a bunch of months and eventually dropped using it."""
           ]
       , p_
           [ text "I released two demoscene productions in 2013: "
-          , strong_ [ text "Lightning Road To Liquid Radiator" ]
+          , a [ href "https://www.pouet.net/prod.php?which=61355" ] [ text "Lightning Road To Liquid Radiator" ]
           , text " – a "
           , em_ [ text "PC Linux 64k intro" ]
           , text " – and "
-          , strong_ [ text "Heat Station" ]
+          , a [ href "https://www.pouet.net/prod.php?which=61729" ] [ text "Heat Station" ]
           , text " – a "
           , em_ [ text "PC Windows 64k intro" ]
           , text ", at Eersel (NL)  and Köln (DE) respectively."
@@ -131,10 +132,10 @@ aboutMeComponent = mkComponent { eval, initialState, render }
           , strong_ [ text "Haskell" ]
           , text
               """ experience taught me a lot and helped me sharpening
-            my mind and rigorous thoughts about software engineering, language designs and software architectures"""
+            my mind and rigorous thoughts about software engineering, language designs and software architectures."""
           ]
       , p_
-          [ text "After those years, I decided to get back to writing demo productions and decided to jump in"
+          [ text "After those years, I decided to get back to writing demo productions and decided to jump in "
           , a [ href "https://www.rust-lang.org" ] [ text "Rust" ]
           , text " as it’s a very well appreciated language in the "
           , strong_ [ text "Haskell" ]
@@ -153,17 +154,32 @@ aboutMeComponent = mkComponent { eval, initialState, render }
           my programs."""
           ]
       , p_
+          [ text "Using my new Rust skills, I wrote two more demoscene productions: "
+          , a [ href "https://www.pouet.net/prod.php?which=67966" ] [ text "Céleri Rémoulade" ]
+          , text ", a joke-like demo I used to test my freshly migrated graphics API (luminance), and "
+          , a [ href "https://www.pouet.net/prod.php?which=69698" ] [ text "Outline 2017 Invitation" ]
+          , text ", along with Desire, another demoscene group of people."
+          ]
+      , p_
+          [ text "Ever since, I have been polishing the graphics ecosystem I’ve made with "
+          , a [ href "https://github.com/phaazon/luminance-rs" ] [ text "luminance" ]
+          , text
+              """, which attracts more and more people because of the way I design it, using principles I’ve learned
+            on my Haskell trek. I’m using it for various experiments, ranging from writing small simulations, GUIs,
+            demoscene-like productions and even video games."""
+          ]
+      , p_
           [ text "I’m currently sticking around "
           , strong_ [ text "Rust" ]
-          , text "and "
+          , text " and "
           , strong_ [ text "Haskell" ]
           , text
               """, as they fit my needs in terms of abstraction, readability, expressiveness and minimal runtime
             overhead (thus runtime performance in terms of CPU and memory footprint), while still getting interested
-            into learning new languages (lately, Idris, Elm, Go, modern Java, Scala, some Lisp and a bunch of others).
-            I don’t consider myself as belonging to a specific expertise field, even though I think I’m best at graphics
-            programming, code architecture and APIs designing, and clearly type-level architecture and type-system
-            coding."""
+            into learning new languages (lately, Idris, Elm, Go, modern Java, Scala, some Lisp, PureScript and a bunch
+            of others). I don’t consider myself as belonging to a specific expertise field, even though I think I’m
+            best at graphics programming, code architecture and APIs designing, and clearly type-level architecture and
+            type-system coding."""
           ]
       , h1 [ cl [ "title" ] ] [ text "Pro-side" ]
       , hr_
