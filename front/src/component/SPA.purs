@@ -2,7 +2,6 @@
 module SPA where
 
 import Prelude
-
 import AboutMe (aboutMeComponent)
 import Blog (blogComponent)
 import Control.Monad.RWS (put)
@@ -12,7 +11,7 @@ import Effect.Class (liftEffect)
 import Foreign (unsafeToForeign)
 import HTMLHelper (cl)
 import Halogen (Component, defaultEval, mkComponent, mkEval)
-import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, section, slot_, span, text)
+import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, slot_, span, text)
 import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href, id, title)

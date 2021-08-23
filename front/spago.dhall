@@ -16,6 +16,7 @@ to generate this file without the comments in this block.
   , "affjax"
   , "argonaut-core"
   , "arrays"
+  , "bifunctors"
   , "console"
   , "datetime"
   , "effect"
@@ -27,10 +28,13 @@ to generate this file without the comments in this block.
   , "halogen"
   , "integers"
   , "js-date"
+  , "lists"
   , "maybe"
+  , "ordered-collections"
   , "prelude"
   , "psci-support"
   , "transformers"
+  , "tuples"
   , "web-html"
   ]
 , packages = ./packages.dhall
