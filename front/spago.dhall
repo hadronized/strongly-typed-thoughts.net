@@ -26,6 +26,7 @@ to generate this file without the comments in this block.
   , "foreign-object"
   , "formatters"
   , "halogen"
+  , "html-parser-halogen"
   , "integers"
   , "js-date"
   , "lists"
