@@ -4,6 +4,7 @@
 module State
   ( APIState,
     newAPIState,
+    cachedIndexHtml,
     statefulCacheFile,
     statefulUnCacheFile,
     listBlogArticleMetadata,
@@ -17,19 +18,28 @@ import Control.Concurrent.STM (atomically, readTVarIO, writeTVar)
 import Control.Concurrent.STM.TVar (TVar, newTVarIO)
 import Control.Monad.Except (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
+import Data.Text (Text)
+import qualified Data.Text.IO as T
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>))
-import Text.Blaze.Html (Html)
+import Text.Blaze.Html (Html, preEscapedToHtml)
 import Upload (MimeSortedFiles, cacheFile, mimeSort, uncacheFile, uploadDir)
 
 data APIState = APIState
-  { -- | Uploaded files, which can be cached in and uncached.
+  { -- | index.html; used a lot by the front-end so better cache it
+    indexHtml :: Html,
+    -- | Uploaded files, which can be cached in and uncached.
     uploadedFiles :: TVar MimeSortedFiles,
+    -- | Cached articles.
     cachedArticles :: TVar ArticleMetadataStore
   }
 
 newAPIState :: (MonadIO m, MonadError e m, LiftArticleError e) => Config -> m APIState
 newAPIState config = do
+  index <- liftIO $ do
+    putStrLn "caching index.html"
+    fmap preEscapedToHtml . T.readFile $ configFrontDir config </> "index.html"
+
   sortedFiles <- liftIO $ do
     putStrLn "populating uploaded files cache…"
     sortedFiles <- getDirectoryContents uploadDir >>= mimeSort . map (uploadDir </>) . filter (not . flip elem [".", ".."])
@@ -44,7 +54,11 @@ newAPIState config = do
   articleStore <- storeFromMetadata blogMetadata
   liftIO $ putStrLn "done."
 
-  liftIO $ APIState <$> newTVarIO sortedFiles <*> newTVarIO articleStore
+  liftIO $ APIState <$> pure index <*> newTVarIO sortedFiles <*> newTVarIO articleStore
+
+-- | Get the cached index.html.
+cachedIndexHtml :: APIState -> Html
+cachedIndexHtml = indexHtml
 
 -- | Stateful version of Upload.cacheFile.
 statefulCacheFile :: (MonadIO m) => FilePath -> APIState -> m ()

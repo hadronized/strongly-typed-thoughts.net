@@ -4,6 +4,7 @@ module API
     Version,
     GPGAPI,
     MainBlogAPI,
+    ComponentAPI,
     BlogAPI,
     BlogListingAPI,
     BlogArticleAPI,
@@ -29,7 +30,11 @@ import XML (XML)
 
 type Version = "v1"
 
-type API = ("api" :> Version :> MainAPI) :<|> StaticAPI :<|> RootAPI
+type API =
+  "api" :> Version :> MainAPI
+    :<|> ComponentAPI
+    :<|> StaticAPI
+    :<|> RootAPI
 
 type StaticAPI = "static" :> Raw
 
@@ -40,6 +45,14 @@ type MainAPI =
     :<|> "pub" :> Raw
     :<|> "gpg" :> GPGAPI
     :<|> "blog" :> MainBlogAPI
+
+-- This API is used to forward to /, but lists all the possible paths that can happen here and trigger components on the
+-- front-end side.
+type ComponentAPI =
+  Get '[HTML] Html
+    :<|> "blog" :> Get '[HTML] Html
+    :<|> "blog" :> Capture "slug" Text :> Get '[HTML] Html
+    :<|> "browse" :> Get '[HTML] Html
 
 type GPGAPI = Get '[PlainText] Text
 
