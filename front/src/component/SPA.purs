@@ -71,7 +71,7 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
 
   renderActiveComponent (State state) = case state.component of
     AboutMe -> slot_ _aboutme 0 aboutMeComponent unit
-    Blog -> slot_ _blog 0 blogComponent unit
+    Blog -> slot_ _blog 0 blogComponent state.router
     Browse -> text "Slot browse"
 
 navPart :: forall w. HTML w Action

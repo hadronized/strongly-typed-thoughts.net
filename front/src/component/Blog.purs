@@ -6,7 +6,7 @@ import Prelude
 import API (endpoint)
 import Affjax as AX
 import Affjax.ResponseFormat (json, string)
-import Control.Monad.RWS (gets, modify_, put)
+import Control.Monad.RWS (gets, modify_)
 import Data.Argonaut.Core (Json, caseJsonArray, caseJsonObject, toArray, toString)
 import Data.Array as A
 import Data.Bifunctor (bimap, lmap)
@@ -31,6 +31,7 @@ import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href)
 import Html.Renderer.Halogen as RH
+import Router (Router, setPath)
 
 data Action
   = Init
@@ -53,19 +54,21 @@ type Article
     { metadata :: Metadata, content :: Maybe PlainHTML
     }
 
-type State
-  =
+data State
+  = State
     { articles :: Map Slug Article
     , currentArticle :: Maybe PlainHTML
+    , router :: Router
     }
 
-blogComponent :: forall query input output m. (MonadAff m) => Component query input output m
+blogComponent :: forall query output m. (MonadAff m) => Component query Router output m
 blogComponent = mkComponent { eval, initialState, render }
   where
   eval = mkEval defaultEval { initialize = Just Init, handleAction = handleAction }
 
   handleAction = case _ of
     Init -> do
+      -- build the index of articles, but do not load any of them just yet
       response <- liftAff <<< map ((\res -> metadataFromJson res.body) <=< lmap AX.printError) <<< AX.get json $ endpoint "/blog"
       case response of
         Left e -> liftEffect $ log e
@@ -82,13 +85,16 @@ blogComponent = mkComponent { eval, initialState, render }
                     )
                     metadata
             currentArticle = Nothing
-          put $ { articles, currentArticle }
+          modify_ $ \(State state) -> State state { articles = articles, currentArticle = currentArticle }
+
+      -- infer whether we need to read an argument
+      -- TODO
 
     ReadArticle slug -> readArticle slug
 
-  initialState _ = { articles: M.empty, currentArticle: Nothing }
+  initialState router = State { articles: M.empty, currentArticle: Nothing, router }
 
-  render state = section [ cl [ "container", "section", "content" ] ] $ case state.currentArticle of
+  render (State state) = section [ cl [ "container", "section", "content" ] ] $ case state.currentArticle of
     Just html -> [fromPlainHTML html]
     Nothing -> renderListing state
 
@@ -170,19 +176,21 @@ getArticleContent (Slug slug) =
 -- | Read an article.
 readArticle :: forall slots output m. MonadAff m => Slug -> HalogenM State Action slots output m Unit
 readArticle slug = do
-    article <- gets (M.lookup slug <<< _.articles)
+    article <- gets (\(State state) -> M.lookup slug state.articles)
     maybe cacheAndSwitch switchToArticle $ article >>= _.content
   where
     -- read and cache, then switch
     cacheAndSwitch = getArticleContent slug >>= either noSuchArticle cache
 
     cache html = do
-      modify_ $ \state -> state
+      modify_ $ \(State state) -> State state
         { articles = M.update (\article -> Just article { content = Just html }) slug state.articles }
       switchToArticle html
 
     noSuchArticle _ = pure unit -- FIXME
 
     switchToArticle html = do
-      modify_ $ \state -> state { currentArticle = Just html }
-      -- TODO: switch the location in the url
+      modify_ $ \(State state) -> State state { currentArticle = Just html }
+      router <- gets $ \(State state) -> state.router
+      let Slug slug_ = slug
+      setPath router $ "blog/" <> slug_
