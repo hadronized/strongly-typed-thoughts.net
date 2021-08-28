@@ -4,21 +4,17 @@ module SPA where
 import Prelude
 import AboutMe (aboutMeComponent)
 import Blog (blogComponent)
-import Control.Monad.RWS (put)
+import Control.Monad.RWS (get, put)
 import Data.Array (intersperse)
 import Effect.Aff (Aff)
-import Effect.Class (liftEffect)
-import Foreign (unsafeToForeign)
 import HTMLHelper (cl)
 import Halogen (Component, defaultEval, mkComponent, mkEval)
 import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, slot_, span, text)
 import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href, id, title)
+import Router (Router, setPath)
 import Type.Proxy (Proxy(..))
-import Web.HTML (window)
-import Web.HTML.History (DocumentTitle(..), URL(..), pushState)
-import Web.HTML.Window (history)
 
 _aboutme = Proxy :: Proxy "aboutme"
 
@@ -34,21 +30,28 @@ data ActiveComponent
 data Action
   = SwitchComponent ActiveComponent String
 
-spaComponent :: forall query input output. Int -> Component query input output Aff
+data State
+  = State
+    { component :: ActiveComponent
+    , router :: Router
+    }
+
+spaComponent :: forall query output. Int -> Component query Router output Aff
 spaComponent currentYear = mkComponent { eval, initialState, render }
   where
   eval = mkEval defaultEval { handleAction = handleAction }
 
   handleAction = case _ of
     SwitchComponent component url -> do
-      _ <- liftEffect $ window >>= history >>= pushState (unsafeToForeign unit) (DocumentTitle "") (URL url)
-      put component
+      State state <- get
+      setPath state.router url
+      put <<< State $ state { component = component }
 
-  initialState _ = AboutMe
+  initialState router = State { component: AboutMe, router }
 
   render state = H.div [] [ navPart, renderActiveComponent state, footerPart currentYear ]
 
-  renderActiveComponent = case _ of
+  renderActiveComponent (State state) = case state.component of
     AboutMe -> slot_ _aboutme 0 aboutMeComponent unit
     Blog -> slot_ _blog 0 blogComponent unit
     Browse -> text "Slot browse"
