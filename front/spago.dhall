@@ -34,6 +34,7 @@ to generate this file without the comments in this block.
   , "ordered-collections"
   , "prelude"
   , "psci-support"
+  , "stringutils"
   , "transformers"
   , "tuples"
   , "web-html"

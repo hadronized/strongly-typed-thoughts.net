@@ -4,16 +4,20 @@ module SPA where
 import Prelude
 import AboutMe (aboutMeComponent)
 import Blog (blogComponent)
-import Control.Monad.RWS (get, put)
+import Control.Monad.RWS (get, gets, modify_, put)
 import Data.Array (intersperse)
+import Data.Maybe (Maybe(..), fromMaybe)
+import Data.String.Utils (startsWith)
 import Effect.Aff (Aff)
+import Effect.Class (class MonadEffect, liftEffect)
+import Effect.Class.Console (log)
 import HTMLHelper (cl)
 import Halogen (Component, defaultEval, mkComponent, mkEval)
 import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, slot_, span, text)
 import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href, id, title)
-import Router (Router, setPath)
+import Router (Router, path, setPath)
 import Type.Proxy (Proxy(..))
 
 _aboutme = Proxy :: Proxy "aboutme"
@@ -27,8 +31,15 @@ data ActiveComponent
   | Blog
   | Browse
 
+instance Show ActiveComponent where
+  show = case _ of
+    AboutMe -> "AboutMe"
+    Blog -> "Blog"
+    Browse -> "Browse"
+
 data Action
-  = SwitchComponent ActiveComponent String
+  = Init
+  | SwitchComponent ActiveComponent String
 
 data State
   = State
@@ -39,9 +50,16 @@ data State
 spaComponent :: forall query output. Int -> Component query Router output Aff
 spaComponent currentYear = mkComponent { eval, initialState, render }
   where
-  eval = mkEval defaultEval { handleAction = handleAction }
+  eval = mkEval defaultEval { handleAction = handleAction, initialize = Just Init }
 
   handleAction = case _ of
+    Init -> do
+      -- switch the component based on the location
+      router <- gets $ \(State state) -> state.router
+      component <- inferComponent router
+      p <- path router
+      liftEffect <<< log $ "inferred router is " <> show component <> " for path " <> p
+      modify_ $ \(State state) -> State $ state { component = fromMaybe AboutMe component }
     SwitchComponent component url -> do
       State state <- get
       setPath state.router url
@@ -112,3 +130,13 @@ footerPart year = footer [ cl [ "footer" ] ] [ H.div [ cl [ "content", "has-text
   iconItem url iconName = a [ cl [ "icon" ], href url ] [ i [ cl [ "fa", iconName ] ] [] ]
 
   badgeLink url name = a [ href url ] [ text name ]
+
+-- | Infer the component to use based on the current router path.
+inferComponent :: forall m. MonadEffect m => Router -> m (Maybe ActiveComponent)
+inferComponent = path >=> pure <<< pathToComponent
+  where
+  pathToComponent path
+    | startsWith "/blog" path = Just Blog
+    | startsWith "/browse" path = Just Browse
+    | startsWith "/" path = Just AboutMe
+    | otherwise = Nothing
