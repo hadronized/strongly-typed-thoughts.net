@@ -9905,6 +9905,14 @@ var PS = {};
     return s.length;
   };
 
+  exports.countPrefix = function (p) {
+    return function (s) {
+      var i = 0;
+      while (i < s.length && p(s.charAt(i))) i++;
+      return i;
+    };
+  };
+
   exports._indexOfStartingAt = function (just) {
     return function (nothing) {
       return function (x) {
@@ -9916,6 +9924,12 @@ var PS = {};
           };
         };
       };
+    };
+  };
+
+  exports.take = function (n) {
+    return function (s) {
+      return s.substr(0, n);
     };
   };
 
@@ -9965,6 +9979,11 @@ var PS = {};
           head: Data_String_Unsafe.charAt(0)(v),
           tail: $foreign.drop(1)(v)
       });
+  };                                                                                 
+  var takeWhile = function (p) {
+      return function (s) {
+          return $foreign.take($foreign.countPrefix(p)(s))(s);
+      };
   };
   var stripPrefix = function (v) {
       return function (str) {
@@ -9982,6 +10001,7 @@ var PS = {};
   exports["charAt"] = charAt;
   exports["uncons"] = uncons;
   exports["indexOf'"] = indexOf$prime;
+  exports["takeWhile"] = takeWhile;
   exports["singleton"] = $foreign.singleton;
   exports["fromCharArray"] = $foreign.fromCharArray;
   exports["toCharArray"] = $foreign.toCharArray;
@@ -11671,6 +11691,174 @@ var PS = {};
 (function(exports) {
   "use strict";
 
+  function codePointAtImpl (just, nothing, i, s) {
+    var codePointArray = Array.from(s);
+    var isWithinRange  = i >= 0 && i < codePointArray.length;
+
+    return isWithinRange ? just(codePointArray[i].codePointAt(0)) : nothing;
+  }
+
+  function codePointAtPrimeImpl (just, nothing, i, s) {
+    return i >= 0 && i < s.length ? just(s.codePointAt(i)) : nothing;
+  }
+
+  function endsWithImpl (searchString, s) {
+    return s.endsWith(searchString);
+  }
+
+  function endsWithPrimeImpl (searchString, position, s) {
+    return s.endsWith(searchString, position);
+  }
+
+  function escapeRegexImpl (str) {
+    return str.replace(/[.*+?^${}()|[\]\-\\]/g, "\\$&");
+  }
+
+  function fromCharArrayImpl (array) {
+    return array.join("");
+  }
+
+  function includesImpl (searchString, str) {
+    return str.includes(searchString);
+  }
+
+  function includesPrimeImpl (needle, position, haystack) {
+    // For negative `position` values, we search from the beginning of the
+    // string. This is in accordance with the native
+    // `String.prototype.include` function.
+    var pos = Math.max(0, position);
+
+    // Converting to arrays takes care of any surrogate code points
+    var needleA    = Array.from(needle);
+    var haystackA  = Array.from(haystack).slice(pos);
+    var needleALen = needleA.length;
+
+    var maxIndex = haystackA.length + 1 - needleALen;
+    var found    = false;
+    var i;
+
+    // Naive implementation, at some point we should check whether Boyer-Moore
+    // or Knuth-Morris-Pratt are worthwhile
+    for (i = 0; i < maxIndex; i++) {
+      if (needleA.every(function (e, j) { return e === haystackA[i+j]; })) {
+        found = true;
+        break;
+      }
+    }
+
+    return found;
+  }
+
+  function lengthImpl (str) {
+    return Array.from(str).length;
+  }
+
+  function linesImpl (str) {
+    // See http://www.unicode.org/reports/tr18/#RL1.6
+    return str.split(/\r\n|[\n\v\f\r\u0085\u2028\u2029]/);
+  }
+
+  function normalizeImpl (str) {
+    return str.normalize();
+  }
+
+  function normalizePrimeImpl (normalizationForm, str) {
+    return str.normalize(normalizationForm);
+  }
+
+  function padEndPrimeImpl (targetLength, str) {
+    return str.padEnd(targetLength);
+  }
+
+  function padStartPrimeImpl (targetLength, str) {
+    return str.padStart(targetLength);
+  }
+
+  function repeatImpl (just, nothing, n, str) {
+    var result;
+
+    try {
+      result = just(str.repeat(n));
+    }
+    catch (error) {
+      result = nothing;
+    }
+
+    return result;
+  }
+
+  function startsWithImpl (searchString, s) {
+    return s.startsWith(searchString);
+  }
+
+  function startsWithPrimeImpl (searchString, position, s) {
+    return s.startsWith(searchString, position);
+  }
+
+  function stripCharsImpl (chars, s) {
+    return s.replace(RegExp("[" + escapeRegexImpl(chars) + "]", "g"), "");
+  }
+
+  function stripDiacriticsImpl (str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function toCharArrayImpl (str) {
+    return Array.from(str);
+  }
+
+  function unsafeCodePointAtImpl (i, s) {
+    var codePointArray = Array.from(s);
+    var isWithinRange = i >= 0 && i < codePointArray.length;
+
+    if (isWithinRange) {
+      return codePointArray[i].codePointAt(0);
+    }
+    else {
+      throw new Error("Data.String.Utils.unsafeCodePointAt: Invalid index");
+    }
+  }
+
+  function unsafeCodePointAtPrimeImpl (i, s) {
+    if (i >= 0 && i < s.length) {
+      return s.codePointAt(i);
+    }
+    else {
+      throw new Error("Data.String.Utils.unsafeCodePointAt': Invalid index");
+    }
+  }
+
+  function unsafeRepeatImpl (n, str) {
+    try {
+      return str.repeat(n);
+    }
+    catch (error) {
+      throw new Error("Data.String.Utils.unsafeRepeat: Invalid count");
+    }
+  }
+
+  function wordsImpl (s) {
+    // Split at every Unicode whitespace character (25 as of Unicode 12.1)
+    return s.split(/[\u000a-\u000d\u0085\u2028\u2029\u0009\u0020\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000]+/);
+  }                                               
+  exports.startsWithImpl             = startsWithImpl;
+})(PS["Data.String.Utils"] = PS["Data.String.Utils"] || {});
+(function($PS) {
+  // Generated by purs version 0.14.3
+  "use strict";
+  $PS["Data.String.Utils"] = $PS["Data.String.Utils"] || {};
+  var exports = $PS["Data.String.Utils"];
+  var $foreign = $PS["Data.String.Utils"];
+  var startsWith = function (searchString) {
+      return function (s) {
+          return $foreign.startsWithImpl(searchString, s);
+      };
+  };
+  exports["startsWith"] = startsWith;
+})(PS);
+(function(exports) {
+  "use strict";
+
   exports.log = function (s) {
     return function () {
       console.log(s);
@@ -12706,6 +12894,9 @@ var PS = {};
   var Data_Maybe = $PS["Data.Maybe"];
   var Data_Ord = $PS["Data.Ord"];
   var Data_Semigroup = $PS["Data.Semigroup"];
+  var Data_String_CodePoints = $PS["Data.String.CodePoints"];
+  var Data_String_CodeUnits = $PS["Data.String.CodeUnits"];
+  var Data_String_Utils = $PS["Data.String.Utils"];
   var Data_Traversable = $PS["Data.Traversable"];
   var Data_Tuple = $PS["Data.Tuple"];
   var Data_Unit = $PS["Data.Unit"];
@@ -12764,6 +12955,15 @@ var PS = {};
           return Data_Ord.compare(Data_Ord.ordString)(v)(v1);
       };
   });
+  var resetArticle = function (dictMonadState) {
+      return Control_Monad_State_Class.modify_(dictMonadState)(function (v) {
+          return new State({
+              articles: v.value0.articles,
+              currentArticle: Data_Maybe.Nothing.value,
+              router: v.value0.router
+          });
+      });
+  };
   var metadataFromJson = (function () {
       var treatObject = function (o) {
           var extractField = function (errMsg) {
@@ -12778,9 +12978,9 @@ var PS = {};
                   return Control_Bind.bind(Data_Either.bindEither)(Data_Formatter_DateTime.unformatDateTime("YYYY-MM-DDTHH:mm:ssZ")(publishDateRaw))(function (publishDate) {
                       return Control_Bind.bind(Data_Either.bindEither)(extractField("missing article tags")("article_tags")(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString))))(function (tags) {
                           return Control_Bind.bind(Data_Either.bindEither)(extractField("missing article slug")("article_slug")((function () {
-                              var $54 = Data_Functor.map(Data_Maybe.functorMaybe)(Slug);
-                              return function ($55) {
-                                  return $54(Data_Argonaut_Core.toString($55));
+                              var $65 = Data_Functor.map(Data_Maybe.functorMaybe)(Slug);
+                              return function ($66) {
+                                  return $65(Data_Argonaut_Core.toString($66));
                               };
                           })()))(function (slug) {
                               return Control_Applicative.pure(Data_Either.applicativeEither)({
@@ -12798,12 +12998,31 @@ var PS = {};
       var caseMetadata = Data_Argonaut_Core.caseJsonObject(new Data_Either.Left("metadata is not an object"))(treatObject);
       return Data_Argonaut_Core.caseJsonArray(new Data_Either.Left("payload is not an array of metadata"))(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Either.applicativeEither)(caseMetadata));
   })();
+  var inferSlug = function (dictMonadEffect) {
+      var toSlug = function (p) {
+          if (Data_String_Utils.startsWith("/blog/")(p)) {
+              return Data_Maybe.Just.create(Slug(Data_String_CodeUnits.takeWhile(function (v) {
+                  return v !== "#";
+              })(Data_String_CodePoints.drop(Data_String_CodePoints.length("/blog/"))(p))));
+          };
+          if (Data_Boolean.otherwise) {
+              return Data_Maybe.Nothing.value;
+          };
+          throw new Error("Failed pattern match at Blog (line 211, column 6 - line 213, column 29): " + [ p.constructor.name ]);
+      };
+      return Control_Bind.composeKleisli((dictMonadEffect.Monad0()).Bind1())(Router.path(dictMonadEffect))((function () {
+          var $67 = Control_Applicative.pure((dictMonadEffect.Monad0()).Applicative0());
+          return function ($68) {
+              return $67(toSlug($68));
+          };
+      })());
+  };
   var getArticleContent = function (dictMonadAff) {
       return function (v) {
-          return Effect_Aff_Class.liftAff(dictMonadAff)(Data_Functor.map(Effect_Aff.functorAff)(Data_Bifunctor.bimap(Data_Bifunctor.bifunctorEither)(Affjax.printError)(function ($56) {
+          return Effect_Aff_Class.liftAff(dictMonadAff)(Data_Functor.map(Effect_Aff.functorAff)(Data_Bifunctor.bimap(Data_Bifunctor.bifunctorEither)(Affjax.printError)(function ($69) {
               return Html_Renderer_Halogen.render_((function (v1) {
                   return v1.body;
-              })($56));
+              })($69));
           }))(Affjax.get(Affjax_ResponseFormat.string)(API.endpoint("/blog/") + v)));
       };
   };
@@ -12868,7 +13087,7 @@ var PS = {};
           if (Data_Boolean.otherwise) {
               return Data_Functor.map(Data_Functor.functorArray)(inlineBlogArticle)(Data_Array.fromFoldable(Data_Map_Internal.foldableMap)(state.articles));
           };
-          throw new Error("Failed pattern match at Blog (line 124, column 3 - line 126, column 72): " + [ state.constructor.name ]);
+          throw new Error("Failed pattern match at Blog (line 129, column 3 - line 131, column 72): " + [ state.constructor.name ]);
       };
       var renderListing = function (state) {
           return Data_Semigroup.append(Data_Semigroup.semigroupArray)([ Halogen_HTML_Elements.h1([ HTMLHelper.cl([ "title" ]) ])([ Halogen_HTML_Elements.b_([ Halogen_HTML_Core.text("Dimitri Sabadie") ]), Halogen_HTML_Core.text("\u2019s blog") ]), Halogen_HTML_Elements.h2([ HTMLHelper.cl([ "subtitle" ]) ])([ Halogen_HTML_Elements.em_([ Halogen_HTML_Core.text("Functional programming, graphics, demoscene and more!") ]) ]), Halogen_HTML_Elements.hr_, Halogen_HTML_Elements.p_([ Halogen_HTML_Core.text("This is my blog. I talk about functional programming, graphics, demoscene, optimization and many other topics!") ]), Halogen_HTML_Elements.blockquote_([ Halogen_HTML_Core.text("It is intentional that no comment can be written by readers to prevent flooding, scams and spamming.") ]), Halogen_HTML_Elements.hr_, Halogen_HTML_Elements.p_([ Halogen_HTML_Core.text("Feel free to subscribe to the "), Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href("/blog/feed") ])([ Halogen_HTML_Elements.span([ HTMLHelper.cl([ "icon", "rss-feed" ]) ])([ Halogen_HTML_Elements.i([ HTMLHelper.cl([ "fa", "fa-rss" ]) ])([  ]) ]), Halogen_HTML_Core.text("feed") ]), Halogen_HTML_Core.text(" to be notified when a new article is released!") ]), Halogen_HTML_Elements.hr_ ])(renderBlogList(state));
@@ -12881,7 +13100,7 @@ var PS = {};
               if (v.value0.currentArticle instanceof Data_Maybe.Nothing) {
                   return renderListing(v.value0);
               };
-              throw new Error("Failed pattern match at Blog (line 97, column 81 - line 99, column 35): " + [ v.value0.currentArticle.constructor.name ]);
+              throw new Error("Failed pattern match at Blog (line 102, column 81 - line 104, column 35): " + [ v.value0.currentArticle.constructor.name ]);
           })());
       };
       var initialState = function (router) {
@@ -12896,31 +13115,39 @@ var PS = {};
               return Control_Bind.bind(Halogen_Query_HalogenM.bindHalogenM)(Effect_Aff_Class.liftAff(Halogen_Query_HalogenM.monadAffHalogenM(dictMonadAff))(Data_Functor.map(Effect_Aff.functorAff)(Control_Bind.composeKleisliFlipped(Data_Either.bindEither)(function (res) {
                   return metadataFromJson(res.body);
               })(Data_Bifunctor.lmap(Data_Bifunctor.bifunctorEither)(Affjax.printError)))(Affjax.get(Affjax_ResponseFormat.json)(API.endpoint("/blog")))))(function (response) {
-                  if (response instanceof Data_Either.Left) {
-                      return Effect_Class.liftEffect(Halogen_Query_HalogenM.monadEffectHalogenM(dictMonadAff.MonadEffect0()))(Effect_Class_Console.log(Effect_Class.monadEffectEffect)(response.value0));
-                  };
-                  if (response instanceof Data_Either.Right) {
-                      var articles = Data_Map_Internal.fromFoldable(ordSlug)(Data_Foldable.foldableArray)(Data_Functor.map(Data_Functor.functorArray)(function (m) {
-                          return new Data_Tuple.Tuple(m.slug, {
-                              metadata: m,
-                              content: Data_Maybe.Nothing.value
+                  return Control_Bind.discard(Control_Bind.discardUnit)(Halogen_Query_HalogenM.bindHalogenM)((function () {
+                      if (response instanceof Data_Either.Left) {
+                          return Effect_Class.liftEffect(Halogen_Query_HalogenM.monadEffectHalogenM(dictMonadAff.MonadEffect0()))(Effect_Class_Console.log(Effect_Class.monadEffectEffect)(response.value0));
+                      };
+                      if (response instanceof Data_Either.Right) {
+                          var articles = Data_Map_Internal.fromFoldable(ordSlug)(Data_Foldable.foldableArray)(Data_Functor.map(Data_Functor.functorArray)(function (m) {
+                              return new Data_Tuple.Tuple(m.slug, {
+                                  metadata: m,
+                                  content: Data_Maybe.Nothing.value
+                              });
+                          })(response.value0));
+                          return Control_Monad_State_Class.modify_(Halogen_Query_HalogenM.monadStateHalogenM)(function (v1) {
+                              return new State({
+                                  articles: articles,
+                                  currentArticle: Data_Maybe.Nothing.value,
+                                  router: v1.value0.router
+                              });
                           });
-                      })(response.value0));
-                      return Control_Monad_State_Class.modify_(Halogen_Query_HalogenM.monadStateHalogenM)(function (v1) {
-                          return new State({
-                              articles: articles,
-                              currentArticle: Data_Maybe.Nothing.value,
-                              router: v1.value0.router
-                          });
+                      };
+                      throw new Error("Failed pattern match at Blog (line 77, column 7 - line 92, column 107): " + [ response.constructor.name ]);
+                  })())(function () {
+                      return Control_Bind.bind(Halogen_Query_HalogenM.bindHalogenM)(Control_Monad_State_Class.gets(Halogen_Query_HalogenM.monadStateHalogenM)(function (v1) {
+                          return v1.value0.router;
+                      }))(function (router) {
+                          return Control_Bind.bind(Halogen_Query_HalogenM.bindHalogenM)(inferSlug(Halogen_Query_HalogenM.monadEffectHalogenM(dictMonadAff.MonadEffect0()))(router))(Data_Maybe.maybe(resetArticle(Halogen_Query_HalogenM.monadStateHalogenM))(readArticle(dictMonadAff)));
                       });
-                  };
-                  throw new Error("Failed pattern match at Blog (line 73, column 7 - line 88, column 107): " + [ response.constructor.name ]);
+                  });
               });
           };
           if (v instanceof ReadArticle) {
               return readArticle(dictMonadAff)(v.value0);
           };
-          throw new Error("Failed pattern match at Blog (line 69, column 18 - line 93, column 41): " + [ v.constructor.name ]);
+          throw new Error("Failed pattern match at Blog (line 73, column 18 - line 98, column 41): " + [ v.constructor.name ]);
       };
       var $$eval = Halogen_Component.mkEval({
           handleAction: handleAction,
@@ -13240,174 +13467,6 @@ var PS = {};
   };
   exports["getFullYear"] = getFullYear;
   exports["now"] = $foreign.now;
-})(PS);
-(function(exports) {
-  "use strict";
-
-  function codePointAtImpl (just, nothing, i, s) {
-    var codePointArray = Array.from(s);
-    var isWithinRange  = i >= 0 && i < codePointArray.length;
-
-    return isWithinRange ? just(codePointArray[i].codePointAt(0)) : nothing;
-  }
-
-  function codePointAtPrimeImpl (just, nothing, i, s) {
-    return i >= 0 && i < s.length ? just(s.codePointAt(i)) : nothing;
-  }
-
-  function endsWithImpl (searchString, s) {
-    return s.endsWith(searchString);
-  }
-
-  function endsWithPrimeImpl (searchString, position, s) {
-    return s.endsWith(searchString, position);
-  }
-
-  function escapeRegexImpl (str) {
-    return str.replace(/[.*+?^${}()|[\]\-\\]/g, "\\$&");
-  }
-
-  function fromCharArrayImpl (array) {
-    return array.join("");
-  }
-
-  function includesImpl (searchString, str) {
-    return str.includes(searchString);
-  }
-
-  function includesPrimeImpl (needle, position, haystack) {
-    // For negative `position` values, we search from the beginning of the
-    // string. This is in accordance with the native
-    // `String.prototype.include` function.
-    var pos = Math.max(0, position);
-
-    // Converting to arrays takes care of any surrogate code points
-    var needleA    = Array.from(needle);
-    var haystackA  = Array.from(haystack).slice(pos);
-    var needleALen = needleA.length;
-
-    var maxIndex = haystackA.length + 1 - needleALen;
-    var found    = false;
-    var i;
-
-    // Naive implementation, at some point we should check whether Boyer-Moore
-    // or Knuth-Morris-Pratt are worthwhile
-    for (i = 0; i < maxIndex; i++) {
-      if (needleA.every(function (e, j) { return e === haystackA[i+j]; })) {
-        found = true;
-        break;
-      }
-    }
-
-    return found;
-  }
-
-  function lengthImpl (str) {
-    return Array.from(str).length;
-  }
-
-  function linesImpl (str) {
-    // See http://www.unicode.org/reports/tr18/#RL1.6
-    return str.split(/\r\n|[\n\v\f\r\u0085\u2028\u2029]/);
-  }
-
-  function normalizeImpl (str) {
-    return str.normalize();
-  }
-
-  function normalizePrimeImpl (normalizationForm, str) {
-    return str.normalize(normalizationForm);
-  }
-
-  function padEndPrimeImpl (targetLength, str) {
-    return str.padEnd(targetLength);
-  }
-
-  function padStartPrimeImpl (targetLength, str) {
-    return str.padStart(targetLength);
-  }
-
-  function repeatImpl (just, nothing, n, str) {
-    var result;
-
-    try {
-      result = just(str.repeat(n));
-    }
-    catch (error) {
-      result = nothing;
-    }
-
-    return result;
-  }
-
-  function startsWithImpl (searchString, s) {
-    return s.startsWith(searchString);
-  }
-
-  function startsWithPrimeImpl (searchString, position, s) {
-    return s.startsWith(searchString, position);
-  }
-
-  function stripCharsImpl (chars, s) {
-    return s.replace(RegExp("[" + escapeRegexImpl(chars) + "]", "g"), "");
-  }
-
-  function stripDiacriticsImpl (str) {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  }
-
-  function toCharArrayImpl (str) {
-    return Array.from(str);
-  }
-
-  function unsafeCodePointAtImpl (i, s) {
-    var codePointArray = Array.from(s);
-    var isWithinRange = i >= 0 && i < codePointArray.length;
-
-    if (isWithinRange) {
-      return codePointArray[i].codePointAt(0);
-    }
-    else {
-      throw new Error("Data.String.Utils.unsafeCodePointAt: Invalid index");
-    }
-  }
-
-  function unsafeCodePointAtPrimeImpl (i, s) {
-    if (i >= 0 && i < s.length) {
-      return s.codePointAt(i);
-    }
-    else {
-      throw new Error("Data.String.Utils.unsafeCodePointAt': Invalid index");
-    }
-  }
-
-  function unsafeRepeatImpl (n, str) {
-    try {
-      return str.repeat(n);
-    }
-    catch (error) {
-      throw new Error("Data.String.Utils.unsafeRepeat: Invalid count");
-    }
-  }
-
-  function wordsImpl (s) {
-    // Split at every Unicode whitespace character (25 as of Unicode 12.1)
-    return s.split(/[\u000a-\u000d\u0085\u2028\u2029\u0009\u0020\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000]+/);
-  }                                               
-  exports.startsWithImpl             = startsWithImpl;
-})(PS["Data.String.Utils"] = PS["Data.String.Utils"] || {});
-(function($PS) {
-  // Generated by purs version 0.14.3
-  "use strict";
-  $PS["Data.String.Utils"] = $PS["Data.String.Utils"] || {};
-  var exports = $PS["Data.String.Utils"];
-  var $foreign = $PS["Data.String.Utils"];
-  var startsWith = function (searchString) {
-      return function (s) {
-          return $foreign.startsWithImpl(searchString, s);
-      };
-  };
-  exports["startsWith"] = startsWith;
 })(PS);
 (function($PS) {
   // Generated by purs version 0.14.3
@@ -15050,20 +15109,20 @@ var PS = {};
       return Halogen_HTML_Elements.nav([ Halogen_HTML_Properties.id("top-header"), HTMLHelper.cl([ "hero", "is-medium" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "hero-body", "container", "level", "has-shadow" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "level-item", "has-text-centered" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "content" ]) ])([ Halogen_HTML_Elements.p([  ])([ Halogen_HTML_Elements.h1([ HTMLHelper.cl([ "title", "is-1" ]) ])([ Halogen_HTML_Core.text("Dimitri Sabadie") ]) ]), Halogen_HTML_Elements.p([  ])([ Halogen_HTML_Elements.h2([ HTMLHelper.cl([ "subtitle", "is-4" ]) ])([ Halogen_HTML_Elements.em([  ])([ Halogen_HTML_Core.text("Do not make more tools than existing problems") ]) ]) ]) ]) ]), navItem("phaazon.net")("fa-home")(new SwitchComponent(AboutMe.value, "/")), navItemExternal("git.phaazon.net")("fa-code-fork")("https://git.phaazon.net"), navItem("/blog")("fa-pencil")(new SwitchComponent(Blog.value, "/blog")), navItem("all the memes!")("fa-cloud-download")(new SwitchComponent(Browse.value, "/browse")) ]) ]);
   })();
   var inferComponent = function (dictMonadEffect) {
-      var pathToComponent = function (path) {
-          if (Data_String_Utils.startsWith("/blog")(path)) {
+      var pathToComponent = function (p) {
+          if (Data_String_Utils.startsWith("/blog")(p)) {
               return new Data_Maybe.Just(Blog.value);
           };
-          if (Data_String_Utils.startsWith("/browse")(path)) {
+          if (Data_String_Utils.startsWith("/browse")(p)) {
               return new Data_Maybe.Just(Browse.value);
           };
-          if (Data_String_Utils.startsWith("/")(path)) {
+          if (Data_String_Utils.startsWith("/")(p)) {
               return new Data_Maybe.Just(AboutMe.value);
           };
           if (Data_Boolean.otherwise) {
               return Data_Maybe.Nothing.value;
           };
-          throw new Error("Failed pattern match at SPA (line 138, column 3 - line 142, column 26): " + [ path.constructor.name ]);
+          throw new Error("Failed pattern match at SPA (line 138, column 3 - line 142, column 26): " + [ p.constructor.name ]);
       };
       return Control_Bind.composeKleisli((dictMonadEffect.Monad0()).Bind1())(Router.path(dictMonadEffect))((function () {
           var $25 = Control_Applicative.pure((dictMonadEffect.Monad0()).Applicative0());

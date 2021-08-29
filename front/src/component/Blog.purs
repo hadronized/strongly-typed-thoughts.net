@@ -7,6 +7,7 @@ import API (endpoint)
 import Affjax as AX
 import Affjax.ResponseFormat (json, string)
 import Control.Monad.RWS (gets, modify_)
+import Control.Monad.State.Class (class MonadState)
 import Data.Argonaut.Core (Json, caseJsonArray, caseJsonObject, toArray, toString)
 import Data.Array as A
 import Data.Bifunctor (bimap, lmap)
@@ -18,10 +19,13 @@ import Data.List as L
 import Data.Map (Map)
 import Data.Map as M
 import Data.Maybe (Maybe(..), maybe)
+import Data.String (drop, length)
+import Data.String.CodeUnits (takeWhile)
+import Data.String.Utils (startsWith)
 import Data.Traversable (traverse)
 import Data.Tuple (Tuple(..))
 import Effect.Aff.Class (class MonadAff, liftAff)
-import Effect.Class (liftEffect)
+import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Class.Console (log)
 import Foreign.Object (Object, lookup)
 import HTMLHelper (cl)
@@ -31,11 +35,13 @@ import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href)
 import Html.Renderer.Halogen as RH
-import Router (Router, setPath)
+import Router (Router, path, setPath)
 
 data Action
   = Init
   | ReadArticle Slug
+
+-- data Query
 
 newtype Slug
   = Slug String
@@ -87,8 +93,9 @@ blogComponent = mkComponent { eval, initialState, render }
             currentArticle = Nothing
           modify_ $ \(State state) -> State state { articles = articles, currentArticle = currentArticle }
 
-      -- infer whether we need to read an argument
-      -- TODO
+      -- infer whether we need to read an article
+      router <- gets $ \(State state) -> state.router
+      inferSlug router >>= maybe resetArticle readArticle
 
     ReadArticle slug -> readArticle slug
 
@@ -173,6 +180,10 @@ getArticleContent :: forall m. MonadAff m => Slug -> m (Either String PlainHTML)
 getArticleContent (Slug slug) =
   liftAff <<< map (bimap AX.printError (RH.render_ <<< _.body)) <<< AX.get string $ endpoint "/blog/" <> slug
 
+-- | Reset current article to none and go back to blog article listing.
+resetArticle :: forall m. MonadState State m => m Unit
+resetArticle = modify_ $ \(State state) -> State state { currentArticle = Nothing }
+
 -- | Read an article.
 readArticle :: forall slots output m. MonadAff m => Slug -> HalogenM State Action slots output m Unit
 readArticle slug = do
@@ -194,3 +205,11 @@ readArticle slug = do
       router <- gets $ \(State state) -> state.router
       let Slug slug_ = slug
       setPath router $ "blog/" <> slug_
+
+-- | Infer whether we need to read an article and return its slug.
+inferSlug :: forall m. MonadEffect m => Router -> m (Maybe Slug)
+inferSlug = path >=> pure <<< toSlug
+  where
+     toSlug p
+       | startsWith "/blog/" p = Just <<< Slug <<< takeWhile (_ /= '#') $ drop (length "/blog/") p
+       | otherwise = Nothing

@@ -64,6 +64,7 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
       State state <- get
       setPath state.router url
       put <<< State $ state { component = component }
+      -- FIXME: send event to the child component that it was triggered
 
   initialState router = State { component: AboutMe, router }
 
@@ -135,8 +136,8 @@ footerPart year = footer [ cl [ "footer" ] ] [ H.div [ cl [ "content", "has-text
 inferComponent :: forall m. MonadEffect m => Router -> m (Maybe ActiveComponent)
 inferComponent = path >=> pure <<< pathToComponent
   where
-  pathToComponent path
-    | startsWith "/blog" path = Just Blog
-    | startsWith "/browse" path = Just Browse
-    | startsWith "/" path = Just AboutMe
+  pathToComponent p
+    | startsWith "/blog" p = Just Blog
+    | startsWith "/browse" p = Just Browse
+    | startsWith "/" p = Just AboutMe
     | otherwise = Nothing
