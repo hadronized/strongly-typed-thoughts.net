@@ -2,8 +2,10 @@
 module SPA where
 
 import Prelude
+
 import AboutMe (aboutMeComponent)
 import Blog (blogComponent)
+import Child (refresh)
 import Control.Monad.RWS (get, gets, modify_, put)
 import Data.Array (intersperse)
 import Data.Maybe (Maybe(..), fromMaybe)
@@ -12,7 +14,7 @@ import Effect.Aff (Aff)
 import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Class.Console (log)
 import HTMLHelper (cl)
-import Halogen (Component, defaultEval, mkComponent, mkEval)
+import Halogen (Component, defaultEval, mkComponent, mkEval, query)
 import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, slot_, span, text)
 import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
@@ -30,6 +32,8 @@ data ActiveComponent
   = AboutMe
   | Blog
   | Browse
+
+derive instance eqActiveComponent :: Eq ActiveComponent
 
 instance Show ActiveComponent where
   show = case _ of
@@ -62,9 +66,17 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
       modify_ $ \(State state) -> State $ state { component = fromMaybe AboutMe component }
     SwitchComponent component url -> do
       State state <- get
-      setPath state.router url
-      put <<< State $ state { component = component }
-      -- FIXME: send event to the child component that it was triggered
+
+      if component == state.component
+      then do
+        let q = case component of
+                  AboutMe -> query _aboutme 0 refresh
+                  Blog -> query _blog 0 refresh
+                  Browse -> query _browse 0 refresh
+        unit <$ q
+      else do
+        setPath state.router url
+        put <<< State $ state { component = component }
 
   initialState router = State { component: AboutMe, router }
 

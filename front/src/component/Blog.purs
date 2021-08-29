@@ -6,6 +6,7 @@ import Prelude
 import API (endpoint)
 import Affjax as AX
 import Affjax.ResponseFormat (json, string)
+import Child (Query(..))
 import Control.Monad.RWS (gets, modify_)
 import Control.Monad.State.Class (class MonadState)
 import Data.Argonaut.Core (Json, caseJsonArray, caseJsonObject, toArray, toString)
@@ -41,8 +42,6 @@ data Action
   = Init
   | ReadArticle Slug
 
--- data Query
-
 newtype Slug
   = Slug String
 
@@ -67,10 +66,14 @@ data State
     , router :: Router
     }
 
-blogComponent :: forall query output m. (MonadAff m) => Component query Router output m
+blogComponent :: forall output m. (MonadAff m) => Component Query Router output m
 blogComponent = mkComponent { eval, initialState, render }
   where
-  eval = mkEval defaultEval { initialize = Just Init, handleAction = handleAction }
+  eval = mkEval defaultEval {
+    initialize = Just Init,
+    handleAction = handleAction,
+    handleQuery = handleQuery
+    }
 
   handleAction = case _ of
     Init -> do
@@ -98,6 +101,10 @@ blogComponent = mkComponent { eval, initialState, render }
       inferSlug router >>= maybe resetArticle readArticle
 
     ReadArticle slug -> readArticle slug
+
+  handleQuery :: forall slots a. Query a -> HalogenM State Action slots output m (Maybe a)
+  handleQuery = case _ of
+    Refresh a -> resetArticle *> pure (Just a)
 
   initialState router = State { articles: M.empty, currentArticle: Nothing, router }
 
