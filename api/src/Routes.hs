@@ -12,7 +12,7 @@ module Routes
   )
 where
 
-import API (API, BlogArticleAPI, BlogListingAPI, ComponentAPI, FeedAPI, GPGAPI, MainBlogAPI, runServerAPI)
+import API (API, BlogAPI, BlogArticleAPI, BlogListingAPI, ComponentAPI, FeedAPI, GPGAPI, runServerAPI)
 import Config (Config (..))
 import Control.Monad.IO.Class (MonadIO (..))
 import qualified Data.Text.IO as T
@@ -24,7 +24,7 @@ import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebAp
 import State (APIState, cachedIndexHtml, getBlogArticleContent, listBlogArticleMetadata)
 
 routes :: Config -> APIState -> Server API
-routes config state = mainAPI :<|> component state :<|> static :<|> root config
+routes config state = mainAPI :<|> feed state :<|> component state :<|> static :<|> root config
   where
     mainAPI =
       media config
@@ -56,10 +56,8 @@ static = serveDirectoryWebApp "static"
 gpgKeyFile :: Config -> Server GPGAPI
 gpgKeyFile = liftIO . T.readFile . configGPGKeyFile
 
-blog :: APIState -> Server MainBlogAPI
-blog state = feed state :<|> blogArticle
-  where
-    blogArticle = blogListing state :<|> article state
+blog :: APIState -> Server BlogAPI
+blog state = blogListing state :<|> article state
 
 feed :: APIState -> Server FeedAPI
 feed state = do

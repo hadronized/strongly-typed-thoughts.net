@@ -18,14 +18,6 @@ import Data.Time.Format (defaultTimeLocale, formatTime)
 import GHC.TypeLits (symbolVal)
 import Text.RSS.Syntax (RSS (..), RSSChannel (..), RSSItem (..), nullChannel, nullItem, nullRSS)
 
--- feed :: TVar BlogEntryMapping -> Server FeedApi
--- feed blogEntryMappingTVar = do
---   blogEntryMapping <- liftIO (readTVarIO blogEntryMappingTVar)
---   let lastUpdateTime = blogLastUpdateDate blogEntryMapping
---   pure . rssFeed lastUpdateTime . getItems $ blogEntryMap blogEntryMapping
---   where
---     getItems = map (rssItem . fst) . H.elems
-
 urlHost :: Text
 urlHost = "https://phaazon.net"
 

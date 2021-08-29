@@ -3,7 +3,6 @@ module API
   ( API,
     Version,
     GPGAPI,
-    MainBlogAPI,
     ComponentAPI,
     BlogAPI,
     BlogListingAPI,
@@ -32,6 +31,7 @@ type Version = "v1"
 
 type API =
   "api" :> Version :> MainAPI
+    :<|> FeedAPI
     :<|> ComponentAPI
     :<|> StaticAPI
     :<|> RootAPI
@@ -44,7 +44,7 @@ type MainAPI =
   "media" :> Raw
     :<|> "pub" :> Raw
     :<|> "gpg" :> GPGAPI
-    :<|> "blog" :> MainBlogAPI
+    :<|> "blog" :> BlogAPI
 
 -- This API is used to forward to /, but lists all the possible paths that can happen here and trigger components on the
 -- front-end side.
@@ -56,9 +56,7 @@ type ComponentAPI =
 
 type GPGAPI = Get '[PlainText] Text
 
-type MainBlogAPI = "feed" :> FeedAPI :<|> BlogAPI
-
-type FeedAPI = Get '[XML] RSS
+type FeedAPI = "blog" :> "feed" :> Get '[XML] RSS
 
 type BlogAPI =
   BlogListingAPI

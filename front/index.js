@@ -15203,7 +15203,7 @@ var PS = {};
           if (Data_Boolean.otherwise) {
               return Data_Maybe.Nothing.value;
           };
-          throw new Error("Failed pattern match at SPA (line 152, column 3 - line 156, column 26): " + [ p.constructor.name ]);
+          throw new Error("Failed pattern match at SPA (line 151, column 3 - line 155, column 26): " + [ p.constructor.name ]);
       };
       return Control_Bind.composeKleisli((dictMonadEffect.Monad0()).Bind1())(Router.path(dictMonadEffect))((function () {
           var $31 = Control_Applicative.pure((dictMonadEffect.Monad0()).Applicative0());
@@ -15258,7 +15258,7 @@ var PS = {};
           if (v.value0.component instanceof Browse) {
               return Halogen_HTML_Core.text("Slot browse");
           };
-          throw new Error("Failed pattern match at SPA (line 86, column 41 - line 89, column 33): " + [ v.value0.component.constructor.name ]);
+          throw new Error("Failed pattern match at SPA (line 85, column 41 - line 88, column 33): " + [ v.value0.component.constructor.name ]);
       };
       var render = function (state) {
           return Halogen_HTML_Elements.div([  ])([ navPart, renderActiveComponent(state), footerPart(currentYear) ]);
@@ -15292,27 +15292,25 @@ var PS = {};
               return Control_Bind.bind(Halogen_Query_HalogenM.bindHalogenM)(Control_Monad_State_Class.get(Halogen_Query_HalogenM.monadStateHalogenM))(function (v1) {
                   var $26 = Data_Eq.eq(eqActiveComponent)(v.value0)(v1.value0.component);
                   if ($26) {
-                      return Control_Bind.discard(Control_Bind.discardUnit)(Halogen_Query_HalogenM.bindHalogenM)(Effect_Class.liftEffect(Halogen_Query_HalogenM.monadEffectHalogenM(Effect_Aff.monadEffectAff))(Effect_Class_Console.log(Effect_Class.monadEffectEffect)("sending Refresh to " + Data_Show.show(showActiveComponent)(v.value0))))(function () {
-                          var q = (function () {
-                              if (v.value0 instanceof AboutMe) {
-                                  return Halogen_Query_HalogenM.query()(new Data_Symbol.IsSymbol(function () {
-                                      return "aboutme";
-                                  }))(Data_Ord.ordInt)(_aboutme)(0)(Child.refresh);
-                              };
-                              if (v.value0 instanceof Blog) {
-                                  return Halogen_Query_HalogenM.query()(new Data_Symbol.IsSymbol(function () {
-                                      return "blog";
-                                  }))(Data_Ord.ordInt)(_blog)(0)(Child.refresh);
-                              };
-                              if (v.value0 instanceof Browse) {
-                                  return Halogen_Query_HalogenM.query()(new Data_Symbol.IsSymbol(function () {
-                                      return "browse";
-                                  }))(Data_Ord.ordInt)(_browse)(0)(Child.refresh);
-                              };
-                              throw new Error("Failed pattern match at SPA (line 73, column 17 - line 76, column 52): " + [ v.value0.constructor.name ]);
-                          })();
-                          return Data_Functor.voidRight(Halogen_Query_HalogenM.functorHalogenM)(Data_Unit.unit)(q);
-                      });
+                      var q = (function () {
+                          if (v.value0 instanceof AboutMe) {
+                              return Halogen_Query_HalogenM.query()(new Data_Symbol.IsSymbol(function () {
+                                  return "aboutme";
+                              }))(Data_Ord.ordInt)(_aboutme)(0)(Child.refresh);
+                          };
+                          if (v.value0 instanceof Blog) {
+                              return Halogen_Query_HalogenM.query()(new Data_Symbol.IsSymbol(function () {
+                                  return "blog";
+                              }))(Data_Ord.ordInt)(_blog)(0)(Child.refresh);
+                          };
+                          if (v.value0 instanceof Browse) {
+                              return Halogen_Query_HalogenM.query()(new Data_Symbol.IsSymbol(function () {
+                                  return "browse";
+                              }))(Data_Ord.ordInt)(_browse)(0)(Child.refresh);
+                          };
+                          throw new Error("Failed pattern match at SPA (line 72, column 17 - line 75, column 52): " + [ v.value0.constructor.name ]);
+                      })();
+                      return Data_Functor.voidRight(Halogen_Query_HalogenM.functorHalogenM)(Data_Unit.unit)(q);
                   };
                   return Control_Bind.discard(Control_Bind.discardUnit)(Halogen_Query_HalogenM.bindHalogenM)(Router.setPath(Halogen_Query_HalogenM.monadEffectHalogenM(Effect_Aff.monadEffectAff))(v1.value0.router)(v.value1))(function () {
                       return Control_Monad_State_Class.put(Halogen_Query_HalogenM.monadStateHalogenM)(State.create({
@@ -15322,7 +15320,7 @@ var PS = {};
                   });
               });
           };
-          throw new Error("Failed pattern match at SPA (line 59, column 18 - line 80, column 56): " + [ v.constructor.name ]);
+          throw new Error("Failed pattern match at SPA (line 59, column 18 - line 79, column 56): " + [ v.constructor.name ]);
       };
       var $$eval = Halogen_Component.mkEval({
           handleAction: handleAction,

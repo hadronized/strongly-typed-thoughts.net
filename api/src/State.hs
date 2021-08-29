@@ -18,7 +18,6 @@ import Control.Concurrent.STM (atomically, readTVarIO, writeTVar)
 import Control.Concurrent.STM.TVar (TVar, newTVarIO)
 import Control.Monad.Except (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
-import Data.Text (Text)
 import qualified Data.Text.IO as T
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>))
