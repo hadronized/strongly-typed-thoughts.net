@@ -20,7 +20,7 @@ import Data.List as L
 import Data.Map (Map)
 import Data.Map as M
 import Data.Maybe (Maybe(..), maybe)
-import Data.String (drop, length)
+import Data.String (drop, joinWith, length)
 import Data.String.CodeUnits (takeWhile)
 import Data.String.Utils (startsWith)
 import Data.Traversable (traverse)
@@ -31,7 +31,7 @@ import Effect.Class.Console (log)
 import Foreign.Object (Object, lookup)
 import HTMLHelper (cl)
 import Halogen (Component, HalogenM, defaultEval, mkComponent, mkEval)
-import Halogen.HTML (PlainHTML, a, b_, blockquote_, button, em_, fromPlainHTML, h1, h2, hr_, i, p_, section, span, text)
+import Halogen.HTML (HTML, PlainHTML, a, b_, blockquote_, button, em_, fromPlainHTML, h1, h2, hr_, i, p_, section, span, text)
 import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href)
@@ -62,7 +62,7 @@ type Article
 data State
   = State
     { articles :: Map Slug Article
-    , currentArticle :: Maybe PlainHTML
+    , currentArticle :: Maybe { html :: PlainHTML, metadata :: Metadata }
     , router :: Router
     }
 
@@ -93,8 +93,7 @@ blogComponent = mkComponent { eval, initialState, render }
                               }
                     )
                     metadata
-            currentArticle = Nothing
-          modify_ $ \(State state) -> State state { articles = articles, currentArticle = currentArticle }
+          modify_ $ \(State state) -> State state { articles = articles, currentArticle = Nothing }
 
       -- infer whether we need to read an article
       router <- gets $ \(State state) -> state.router
@@ -108,11 +107,33 @@ blogComponent = mkComponent { eval, initialState, render }
 
   initialState router = State { articles: M.empty, currentArticle: Nothing, router }
 
-  render (State state) = section [ cl [ "container", "section", "content" ] ] $ case state.currentArticle of
-    Just html -> [fromPlainHTML html]
+  render (State state) = case state.currentArticle of
+    Just { html, metadata } -> renderArticle metadata html
     Nothing -> renderListing state
 
-  renderListing state =
+  renderArticle metadata html = section [ cl [ "container", "section" ] ]
+    [
+      h1 [ cl ["title"] ] [ text metadata.name ],
+      h2 [ cl ["subtitle"] ] [ em_ [text $  joinWith ", " metadata.tags] ],
+      h2 [ cl ["subtitle"] ]
+        [ text (formatTime metadata.publishDate), text ", by Dimitri Sabadie – ",
+          a [href "/blog/feed"]
+          [
+            span [cl ["icon", "rss-feed"]]
+            [
+              i [ cl ["fa", "fa-rss"] ] []
+            ],
+            text " feed"
+          ]
+        ],
+      hr_,
+      H.div [ cl [ "content", "blog-content" ] ]
+      [
+        fromPlainHTML html
+      ]
+    ]
+
+  renderListing state = section [ cl [ "container", "section", "content" ] ] $
       ([ h1 [ cl [ "title" ] ]
           [ b_ [ text "Dimitri Sabadie" ], text "’s blog"
           ]
@@ -123,12 +144,11 @@ blogComponent = mkComponent { eval, initialState, render }
               "This is my blog. I talk about functional programming, graphics, demoscene, optimization and many other topics!"
           ]
       , blockquote_ [ text "It is intentional that no comment can be written by readers to prevent flooding, scams and spamming." ]
-      , hr_
       , p_
           [ text "Feel free to subscribe to the "
           , a [ href "/blog/feed" ]
               [ span [ cl [ "icon", "rss-feed" ] ] [ i [ cl [ "fa", "fa-rss" ] ] [] ]
-              , text "feed"
+              , text " feed"
               ]
           , text " to be notified when a new article is released!"
           ]
@@ -195,20 +215,24 @@ resetArticle = modify_ $ \(State state) -> State state { currentArticle = Nothin
 readArticle :: forall slots output m. MonadAff m => Slug -> HalogenM State Action slots output m Unit
 readArticle slug = do
     article <- gets (\(State state) -> M.lookup slug state.articles)
-    maybe cacheAndSwitch switchToArticle $ article >>= _.content
+    case article of
+      Just { metadata, content } -> case content of
+        Just html -> switchToArticle metadata html
+        Nothing -> cacheAndSwitch metadata
+      Nothing -> noSuchArticle $ "no such article: " <> show slug
   where
     -- read and cache, then switch
-    cacheAndSwitch = getArticleContent slug >>= either noSuchArticle cache
+    cacheAndSwitch metadata = getArticleContent slug >>= either noSuchArticle (cache metadata)
 
-    cache html = do
+    cache metadata html = do
       modify_ $ \(State state) -> State state
         { articles = M.update (\article -> Just article { content = Just html }) slug state.articles }
-      switchToArticle html
+      switchToArticle metadata html
 
     noSuchArticle _ = pure unit -- FIXME
 
-    switchToArticle html = do
-      modify_ $ \(State state) -> State state { currentArticle = Just html }
+    switchToArticle metadata html = do
+      modify_ $ \(State state) -> State state { currentArticle = Just { html, metadata } }
       router <- gets $ \(State state) -> state.router
       let Slug slug_ = slug
       setPath router $ "blog/" <> slug_
