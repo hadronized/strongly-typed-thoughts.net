@@ -10,6 +10,7 @@ import Child (Query(..))
 import Control.Monad.RWS (gets, modify_)
 import Control.Monad.State.Class (class MonadState)
 import Data.Argonaut.Core (Json, caseJsonArray, caseJsonObject, toArray, toString)
+import Data.Array (sortBy)
 import Data.Array as A
 import Data.Bifunctor (bimap, lmap)
 import Data.DateTime (DateTime)
@@ -31,7 +32,7 @@ import Effect.Class.Console (log)
 import Foreign.Object (Object, lookup)
 import HTMLHelper (cl)
 import Halogen (Component, HalogenM, defaultEval, mkComponent, mkEval)
-import Halogen.HTML (HTML, PlainHTML, a, b_, blockquote_, button, em_, fromPlainHTML, h1, h2, hr_, i, p_, section, span, text)
+import Halogen.HTML (PlainHTML, a, b_, blockquote_, button, em_, fromPlainHTML, h1, h2, hr_, i, p_, section, span, text)
 import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href)
@@ -157,7 +158,9 @@ blogComponent = mkComponent { eval, initialState, render }
 
   renderBlogList state
     | M.isEmpty state.articles = [button [ cl [ "button", "is-loading"]] [text "Loading"]]
-    | otherwise = map inlineBlogArticle (A.fromFoldable state.articles)
+    | otherwise = map inlineBlogArticle (sortArticles $ A.fromFoldable state.articles)
+    where
+      sortArticles = sortBy (flip <<< comparing $ _.metadata.publishDate)
 
   inlineBlogArticle article = H.div [cl ["level"]] [
     span [cl ["level-left"] ] [span [cl ["level-item"]][
