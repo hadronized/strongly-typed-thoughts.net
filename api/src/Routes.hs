@@ -15,13 +15,12 @@ where
 import API (API, BlogAPI, BlogArticleAPI, BlogListingAPI, ComponentAPI, FeedAPI, GPGAPI, runServerAPI)
 import Config (Config (..))
 import Control.Monad.IO.Class (MonadIO (..))
-import qualified Data.Text.IO as T
 import Data.Time.Clock.POSIX (getCurrentTime)
 import Feed (rssFeed, rssItem)
 import Servant (Server)
 import Servant.API (Raw, (:<|>) (..))
 import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebApp)
-import State (APIState, cachedIndexHtml, getBlogArticleContent, listBlogArticleMetadata)
+import State (APIState (cachedGPGKeyFile), cachedIndexHtml, getBlogArticleContent, listBlogArticleMetadata)
 
 routes :: Config -> APIState -> Server API
 routes config state = mainAPI :<|> feed state :<|> component state :<|> static :<|> root config
@@ -29,7 +28,7 @@ routes config state = mainAPI :<|> feed state :<|> component state :<|> static :
     mainAPI =
       media config
         :<|> pub config
-        :<|> gpgKeyFile config
+        :<|> gpgKeyFile state
         :<|> blog state
 
 component :: APIState -> Server ComponentAPI
@@ -53,8 +52,8 @@ pub = serveDirectoryFileServer . configUploadDir
 static :: Server Raw
 static = serveDirectoryWebApp "static"
 
-gpgKeyFile :: Config -> Server GPGAPI
-gpgKeyFile = liftIO . T.readFile . configGPGKeyFile
+gpgKeyFile :: APIState -> Server GPGAPI
+gpgKeyFile = pure . cachedGPGKeyFile
 
 blog :: APIState -> Server BlogAPI
 blog state = blogListing state :<|> article state

@@ -9,6 +9,7 @@ module State
     statefulUnCacheFile,
     listBlogArticleMetadata,
     getBlogArticleContent,
+    cachedGPGKeyFile,
   )
 where
 
@@ -18,6 +19,7 @@ import Control.Concurrent.STM (atomically, readTVarIO, writeTVar)
 import Control.Concurrent.STM.TVar (TVar, newTVarIO)
 import Control.Monad.Except (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
+import Data.Text (Text)
 import qualified Data.Text.IO as T
 import System.Directory (getDirectoryContents)
 import System.FilePath ((</>))
@@ -30,7 +32,9 @@ data APIState = APIState
     -- | Uploaded files, which can be cached in and uncached.
     uploadedFiles :: TVar MimeSortedFiles,
     -- | Cached articles.
-    cachedArticles :: TVar ArticleMetadataStore
+    cachedArticles :: TVar ArticleMetadataStore,
+    -- | Cached GPG file.
+    cachedGPGKeyFile :: Text
   }
 
 newAPIState :: (MonadIO m, MonadError e m, LiftArticleError e) => Config -> m APIState
@@ -53,7 +57,10 @@ newAPIState config = do
   articleStore <- storeFromMetadata blogMetadata
   liftIO $ putStrLn "done."
 
-  liftIO $ APIState <$> pure index <*> newTVarIO sortedFiles <*> newTVarIO articleStore
+  liftIO $ putStrLn "reading GPG key file"
+  gpgKeyFile <- liftIO . T.readFile $ configGPGKeyFile config
+
+  liftIO $ APIState <$> pure index <*> newTVarIO sortedFiles <*> newTVarIO articleStore <*> pure gpgKeyFile
 
 -- | Get the cached index.html.
 cachedIndexHtml :: APIState -> Html
