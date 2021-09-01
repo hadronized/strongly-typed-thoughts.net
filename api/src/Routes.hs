@@ -14,10 +14,12 @@ where
 
 import API (API, BlogAPI, BlogArticleAPI, BlogListingAPI, ComponentAPI, FeedAPI, GPGAPI, runServerAPI)
 import Config (Config (..))
+import Control.Monad.Except (MonadError (throwError))
 import Control.Monad.IO.Class (MonadIO (..))
+import qualified Data.Text as T
 import Data.Time.Clock.POSIX (getCurrentTime)
 import Feed (rssFeed, rssItem)
-import Servant (Server)
+import Servant (Server, err404)
 import Servant.API (Raw, (:<|>) (..))
 import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebApp)
 import State (APIState (cachedGPGKeyFile), cachedIndexHtml, getBlogArticleContent, listBlogArticleMetadata)
@@ -53,7 +55,9 @@ static :: Server Raw
 static = serveDirectoryWebApp "static"
 
 gpgKeyFile :: APIState -> Server GPGAPI
-gpgKeyFile = pure . cachedGPGKeyFile
+gpgKeyFile state = if T.null content then throwError err404 else pure content
+  where
+    content = cachedGPGKeyFile state
 
 blog :: APIState -> Server BlogAPI
 blog state = blogListing state :<|> article state

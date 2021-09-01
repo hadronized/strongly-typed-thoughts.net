@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- Stateful side of the API.
 --
 -- This module stores anything related to state. Effectful operations might tap in the state.
@@ -21,7 +23,7 @@ import Control.Monad.Except (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
 import Data.Text (Text)
 import qualified Data.Text.IO as T
-import System.Directory (getDirectoryContents)
+import System.Directory (doesFileExist, getDirectoryContents)
 import System.FilePath ((</>))
 import Text.Blaze.Html (Html, preEscapedToHtml)
 import Upload (MimeSortedFiles, cacheFile, mimeSort, uncacheFile, uploadDir)
@@ -58,7 +60,15 @@ newAPIState config = do
   liftIO $ putStrLn "done."
 
   liftIO $ putStrLn "reading GPG key file"
-  gpgKeyFile <- liftIO . T.readFile $ configGPGKeyFile config
+  let gpgPath = configGPGKeyFile config
+  gpgKeyFile <-
+    liftIO $
+      doesFileExist gpgPath >>= \exists ->
+        if exists
+          then T.readFile (configGPGKeyFile config)
+          else do
+            putStr "warning: no GPG key file; will not be able to serve it correctly"
+            pure ""
 
   liftIO $ APIState <$> pure index <*> newTVarIO sortedFiles <*> newTVarIO articleStore <*> pure gpgKeyFile
 
