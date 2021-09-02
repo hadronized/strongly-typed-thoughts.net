@@ -62,7 +62,6 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
       router <- gets $ \(State state) -> state.router
       component <- inferComponent router
       p <- path router
-      liftEffect <<< log $ "inferred router is " <> show component <> " for path " <> p
       modify_ $ \(State state) -> State $ state { component = fromMaybe AboutMe component }
     SwitchComponent component url -> do
       State state <- get
