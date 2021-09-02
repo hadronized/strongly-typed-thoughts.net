@@ -12,7 +12,7 @@ module Routes
   )
 where
 
-import API (API, BlogAPI, BlogArticleAPI, BlogListingAPI, ComponentAPI, FeedAPI, GPGAPI, runServerAPI)
+import API (API, BlogAPI, BlogArticleAPI, BlogListingAPI, BrowseAPI, ComponentAPI, FeedAPI, GPGAPI, runServerAPI)
 import Config (Config (..))
 import Control.Monad.Except (MonadError (throwError))
 import Control.Monad.IO.Class (MonadIO (..))
@@ -22,7 +22,7 @@ import Feed (rssFeed, rssItem)
 import Servant (Server, err404)
 import Servant.API (Raw, (:<|>) (..))
 import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebApp)
-import State (APIState (cachedGPGKeyFile), cachedIndexHtml, getBlogArticleContent, listBlogArticleMetadata)
+import State (APIState (cachedGPGKeyFile), cachedIndexHtml, getBlogArticleContent, getUploadedFiles, listBlogArticleMetadata)
 
 routes :: Config -> APIState -> Server API
 routes config state =
@@ -32,7 +32,7 @@ routes config state =
     :<|> gpgKeyFile state
     :<|> component state
     :<|> static
-    :<|> blog state
+    :<|> (blog state :<|> browse state)
     :<|> root config
 
 component :: APIState -> Server ComponentAPI
@@ -63,6 +63,9 @@ gpgKeyFile state = if T.null content then throwError err404 else pure content
 
 blog :: APIState -> Server BlogAPI
 blog state = blogListing state :<|> article state
+
+browse :: APIState -> Server BrowseAPI
+browse = getUploadedFiles
 
 feed :: APIState -> Server FeedAPI
 feed state = do

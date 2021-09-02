@@ -6,6 +6,7 @@ module API
     BlogAPI,
     BlogListingAPI,
     BlogArticleAPI,
+    BrowseAPI,
     FeedAPI,
     RunAPI,
     runAPI,
@@ -24,6 +25,7 @@ import Servant.HTML.Blaze (HTML)
 import Servant.Server (ServerError (..), err400, err404)
 import Text.Blaze.Html (Html)
 import Text.RSS.Syntax (RSS)
+import Upload (MimeSortedFiles)
 import XML (XML)
 
 type API =
@@ -33,7 +35,7 @@ type API =
     :<|> "gpg" :> GPGAPI
     :<|> ComponentAPI
     :<|> "static" :> Raw
-    :<|> "api" :> "blog" :> BlogAPI
+    :<|> "api" :> ("blog" :> BlogAPI :<|> "browse" :> BrowseAPI)
     :<|> Raw
 
 -- This API is used to forward to /, but lists all the possible paths that can happen here and trigger components on the
@@ -55,6 +57,8 @@ type BlogAPI =
 type BlogListingAPI = Get '[JSON] [ArticleMetadata]
 
 type BlogArticleAPI = Capture "slug" Slug :> Get '[HTML] Html
+
+type BrowseAPI = Get '[JSON] MimeSortedFiles
 
 -- | Main API error; i.e. all the possible errors that can occur.
 newtype APIError

@@ -10,10 +10,13 @@ where
 
 import Control.Monad (foldM)
 import Control.Monad.IO.Class (MonadIO (..))
+import Data.Aeson (ToJSON (..), genericToEncoding, genericToJSON)
 import Data.Default (Default (..))
 import Data.HashSet (HashSet)
 import qualified Data.HashSet as HS
 import Data.List (isInfixOf)
+import GHC.Generics (Generic)
+import JSON (jsonOptions)
 import System.Process (readProcess)
 
 -- Uploaded files, sorted by types.
@@ -27,10 +30,14 @@ data MimeSortedFiles = MimeSortedFiles
     pubPapers :: HashSet FilePath,
     pubUnknown :: HashSet FilePath
   }
-  deriving (Eq, Show)
+  deriving (Eq, Generic, Show)
 
 instance Default MimeSortedFiles where
   def = MimeSortedFiles HS.empty HS.empty HS.empty HS.empty HS.empty HS.empty HS.empty HS.empty
+
+instance ToJSON MimeSortedFiles where
+  toEncoding = genericToEncoding jsonOptions
+  toJSON = genericToJSON jsonOptions
 
 -- Directory in which to store uploaded files.
 uploadDir :: FilePath

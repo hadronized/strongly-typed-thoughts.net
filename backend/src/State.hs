@@ -7,6 +7,7 @@ module State
   ( APIState,
     newAPIState,
     cachedIndexHtml,
+    getUploadedFiles,
     statefulCacheFile,
     statefulUnCacheFile,
     listBlogArticleMetadata,
@@ -67,7 +68,7 @@ newAPIState config = do
         if exists
           then T.readFile (configGPGKeyFile config)
           else do
-            putStr "warning: no GPG key file; will not be able to serve it correctly"
+            putStrLn "warning: no GPG key file; will not be able to serve it correctly"
             pure ""
 
   liftIO $ APIState <$> pure index <*> newTVarIO sortedFiles <*> newTVarIO articleStore <*> pure gpgKeyFile
@@ -75,6 +76,10 @@ newAPIState config = do
 -- | Get the cached index.html.
 cachedIndexHtml :: APIState -> Html
 cachedIndexHtml = indexHtml
+
+-- | Mon cul c’est du téflon.
+getUploadedFiles :: (MonadIO m) => APIState -> m MimeSortedFiles
+getUploadedFiles = liftIO . readTVarIO . uploadedFiles
 
 -- | Stateful version of Upload.cacheFile.
 statefulCacheFile :: (MonadIO m) => FilePath -> APIState -> m ()
