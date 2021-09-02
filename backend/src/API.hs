@@ -1,7 +1,6 @@
 -- | API endpoints and handlers.
 module API
   ( API,
-    Version,
     GPGAPI,
     ComponentAPI,
     BlogAPI,
@@ -27,24 +26,15 @@ import Text.Blaze.Html (Html)
 import Text.RSS.Syntax (RSS)
 import XML (XML)
 
-type Version = "v1"
-
 type API =
-  "api" :> Version :> MainAPI
-    :<|> FeedAPI
-    :<|> ComponentAPI
-    :<|> StaticAPI
-    :<|> RootAPI
-
-type StaticAPI = "static" :> Raw
-
-type RootAPI = Raw
-
-type MainAPI =
-  "media" :> Raw
+  "blog" :> "feed" :> FeedAPI
+    :<|> "media" :> Raw
     :<|> "pub" :> Raw
     :<|> "gpg" :> GPGAPI
-    :<|> "blog" :> BlogAPI
+    :<|> ComponentAPI
+    :<|> "static" :> Raw
+    :<|> "api" :> "blog" :> BlogAPI
+    :<|> Raw
 
 -- This API is used to forward to /, but lists all the possible paths that can happen here and trigger components on the
 -- front-end side.
@@ -56,7 +46,7 @@ type ComponentAPI =
 
 type GPGAPI = Get '[PlainText] Text
 
-type FeedAPI = "blog" :> "feed" :> Get '[XML] RSS
+type FeedAPI = Get '[XML] RSS
 
 type BlogAPI =
   BlogListingAPI

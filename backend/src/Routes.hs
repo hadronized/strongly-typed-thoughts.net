@@ -25,13 +25,15 @@ import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebAp
 import State (APIState (cachedGPGKeyFile), cachedIndexHtml, getBlogArticleContent, listBlogArticleMetadata)
 
 routes :: Config -> APIState -> Server API
-routes config state = mainAPI :<|> feed state :<|> component state :<|> static :<|> root config
-  where
-    mainAPI =
-      media config
-        :<|> pub config
-        :<|> gpgKeyFile state
-        :<|> blog state
+routes config state =
+  feed state
+    :<|> media config
+    :<|> pub config
+    :<|> gpgKeyFile state
+    :<|> component state
+    :<|> static
+    :<|> blog state
+    :<|> root config
 
 component :: APIState -> Server ComponentAPI
 component state = serveRoot :<|> serveBlogListing :<|> serveBlogArticle :<|> serveBrowse

@@ -6,7 +6,6 @@ module Feed
   )
 where
 
-import API (Version)
 import Blog (ArticleMetadata (..), Slug (..), articleLastModificationDate)
 import Data.List (intersperse)
 import Data.Proxy (Proxy (..))
@@ -22,7 +21,7 @@ urlHost :: Text
 urlHost = "https://phaazon.net"
 
 urlAPI :: Text
-urlAPI = urlHost <> "/api" <> fromString (symbolVal (Proxy :: Proxy Version))
+urlAPI = urlHost <> "/api"
 
 urlBlog :: Text
 urlBlog = urlAPI <> "/blog"
