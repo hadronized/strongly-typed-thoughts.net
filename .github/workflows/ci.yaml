@@ -10,10 +10,15 @@ jobs:
         with:
           ghc-version: '8.10.3'
           cabal-version: '3.2'
-      - name: Build API
+      - name: Build backend del culo
         run: |
-          cd api
+          cd backend
           cabal build
+      - uses: purescript-contrib/setup-purescript@main
+      - name: Build frontend du cul
+        run: |
+          cd frontend
+          spago build
 
   quality:
     runs-on: ubuntu-latest
