@@ -5,14 +5,14 @@ import Prelude
 
 import AboutMe (aboutMeComponent)
 import Blog (blogComponent)
+import Browse (browseComponent)
 import Child (refresh)
 import Control.Monad.RWS (get, gets, modify_, put)
 import Data.Array (intersperse)
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.String.Utils (startsWith)
 import Effect.Aff (Aff)
-import Effect.Class (class MonadEffect, liftEffect)
-import Effect.Class.Console (log)
+import Effect.Class (class MonadEffect)
 import HTMLHelper (cl)
 import Halogen (Component, defaultEval, mkComponent, mkEval, query)
 import Halogen.HTML (HTML, a, em, footer, h1, h2, i, nav, p, slot_, span, text)
@@ -61,7 +61,6 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
       -- switch the component based on the location
       router <- gets $ \(State state) -> state.router
       component <- inferComponent router
-      p <- path router
       modify_ $ \(State state) -> State $ state { component = fromMaybe AboutMe component }
     SwitchComponent component url -> do
       State state <- get
@@ -84,7 +83,7 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
   renderActiveComponent (State state) = case state.component of
     AboutMe -> slot_ _aboutme 0 aboutMeComponent unit
     Blog -> slot_ _blog 0 blogComponent state.router
-    Browse -> text "Slot browse"
+    Browse -> slot_ _browse 0 browseComponent unit
 
 navPart :: forall w. HTML w Action
 navPart =

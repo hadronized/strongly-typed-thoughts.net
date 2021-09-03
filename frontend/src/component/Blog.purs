@@ -37,6 +37,7 @@ import Halogen.HTML as H
 import Halogen.HTML.Events (onClick)
 import Halogen.HTML.Properties (href)
 import Html.Renderer.Halogen as RH
+import JSON (extractField)
 import Router (Router, path, setPath)
 
 data Action
@@ -187,15 +188,12 @@ metadataFromJson = caseJsonArray (Left "payload is not an array of metadata") (t
 
   treatObject :: Object Json -> Either String Metadata
   treatObject o = do
-    name <- extractField "missing article name" "article_name" toString
-    publishDateRaw <- extractField "missing article publish date" "article_publish_date" toString
+    name <- extractField o "missing article name" "article_name" toString
+    publishDateRaw <- extractField o "missing article publish date" "article_publish_date" toString
     publishDate <- DT.unformatDateTime timeFormat publishDateRaw
-    tags <- extractField "missing article tags" "article_tags" $ toArray >=> traverse toString
-    slug <- extractField "missing article slug" "article_slug" (map Slug <<< toString)
+    tags <- extractField o "missing article tags" "article_tags" $ toArray >=> traverse toString
+    slug <- extractField o "missing article slug" "article_slug" (map Slug <<< toString)
     pure { name, publishDate, tags, slug }
-    where
-    extractField :: forall a. String -> String -> (Json -> Maybe a) -> Either String a
-    extractField errMsg field adapt = maybe (Left errMsg) pure (lookup field o >>= adapt)
 
   timeFormat = "YYYY-MM-DDTHH:mm:ssZ"
 

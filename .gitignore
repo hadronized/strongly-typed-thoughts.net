@@ -6,3 +6,5 @@ dist-newstyle/
 /api/media/uploads
 static/
 requests.restclient
+media/uploads
+output
