@@ -193,3 +193,9 @@ code {
 .rss-feed {
   color: orange;
 }
+
+.browse-input {
+  width: 20%;
+  position: absolute;
+  right: 50px;
+}
