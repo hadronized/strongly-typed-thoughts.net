@@ -20,7 +20,6 @@ api :: Config -> RunAPI ()
 api config = do
   let mediaDir = configMediaDir config
   let uploadDir = configUploadDir config
-  -- let gpgKeyPath = configGPGKeyFile config
 
   -- create the directory to contain uploads if it doesn’t exist yet
   liftIO (createDirectoryIfMissing True uploadDir)
@@ -50,7 +49,7 @@ api config = do
 
 main :: IO ()
 main = do
-  eitherConfig <- fmap eitherDecode (BS.readFile "api.json")
+  eitherConfig <- fmap eitherDecode (BS.readFile "backend.json")
   case eitherConfig of
     Left err -> do
       putStrLn "cannot read configuration"

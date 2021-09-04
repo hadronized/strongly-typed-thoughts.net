@@ -6,7 +6,6 @@ module Feed
   )
 where
 
-import API (Version)
 import Blog (ArticleMetadata (..), Slug (..), articleLastModificationDate)
 import Data.List (intersperse)
 import Data.Proxy (Proxy (..))
@@ -18,19 +17,11 @@ import Data.Time.Format (defaultTimeLocale, formatTime)
 import GHC.TypeLits (symbolVal)
 import Text.RSS.Syntax (RSS (..), RSSChannel (..), RSSItem (..), nullChannel, nullItem, nullRSS)
 
--- feed :: TVar BlogEntryMapping -> Server FeedApi
--- feed blogEntryMappingTVar = do
---   blogEntryMapping <- liftIO (readTVarIO blogEntryMappingTVar)
---   let lastUpdateTime = blogLastUpdateDate blogEntryMapping
---   pure . rssFeed lastUpdateTime . getItems $ blogEntryMap blogEntryMapping
---   where
---     getItems = map (rssItem . fst) . H.elems
-
 urlHost :: Text
 urlHost = "https://phaazon.net"
 
 urlAPI :: Text
-urlAPI = urlHost <> "/api" <> fromString (symbolVal (Proxy :: Proxy Version))
+urlAPI = urlHost <> "/api"
 
 urlBlog :: Text
 urlBlog = urlAPI <> "/blog"

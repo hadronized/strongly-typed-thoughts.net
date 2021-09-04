@@ -12,25 +12,37 @@ module Routes
   )
 where
 
-import API (API, BlogArticleAPI, BlogListingAPI, FeedAPI, GPGAPI, MainBlogAPI, runServerAPI)
+import API (API, BlogAPI, BlogArticleAPI, BlogListingAPI, BrowseAPI, ComponentAPI, FeedAPI, GPGAPI, runServerAPI)
 import Config (Config (..))
+import Control.Monad.Except (MonadError (throwError))
 import Control.Monad.IO.Class (MonadIO (..))
-import qualified Data.Text.IO as T
+import qualified Data.Text as T
 import Data.Time.Clock.POSIX (getCurrentTime)
 import Feed (rssFeed, rssItem)
-import Servant (Server)
+import Servant (Server, err404)
 import Servant.API (Raw, (:<|>) (..))
 import Servant.Server.StaticFiles (serveDirectoryFileServer, serveDirectoryWebApp)
-import State (APIState, getBlogArticleContent, listBlogArticleMetadata)
+import State (APIState (cachedGPGKeyFile), cachedIndexHtml, getBlogArticleContent, getUploadedFiles, listBlogArticleMetadata)
 
 routes :: Config -> APIState -> Server API
 routes config state =
-  media config
+  feed state
+    :<|> media config
     :<|> pub config
+    :<|> gpgKeyFile state
+    :<|> component state
     :<|> static
-    :<|> gpgKeyFile config
-    :<|> blog state
+    :<|> (blog state :<|> browse state)
     :<|> root config
+
+component :: APIState -> Server ComponentAPI
+component state = serveRoot :<|> serveBlogListing :<|> serveBlogArticle :<|> serveBrowse
+  where
+    serveIndex = pure (cachedIndexHtml state)
+    serveRoot = serveIndex
+    serveBlogListing = serveIndex
+    serveBlogArticle _ = serveIndex
+    serveBrowse = serveIndex
 
 root :: Config -> Server Raw
 root = serveDirectoryWebApp . configFrontDir
@@ -42,15 +54,18 @@ pub :: Config -> Server Raw
 pub = serveDirectoryFileServer . configUploadDir
 
 static :: Server Raw
-static = serveDirectoryFileServer "static"
+static = serveDirectoryWebApp "static"
 
-gpgKeyFile :: Config -> Server GPGAPI
-gpgKeyFile = liftIO . T.readFile . configGPGKeyFile
-
-blog :: APIState -> Server MainBlogAPI
-blog state = feed state :<|> blogArticle
+gpgKeyFile :: APIState -> Server GPGAPI
+gpgKeyFile state = if T.null content then throwError err404 else pure content
   where
-    blogArticle = blogListing state :<|> article state
+    content = cachedGPGKeyFile state
+
+blog :: APIState -> Server BlogAPI
+blog state = blogListing state :<|> article state
+
+browse :: APIState -> Server BrowseAPI
+browse = getUploadedFiles
 
 feed :: APIState -> Server FeedAPI
 feed state = do

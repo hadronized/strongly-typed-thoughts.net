@@ -1,12 +1,12 @@
 -- | API endpoints and handlers.
 module API
   ( API,
-    Version,
     GPGAPI,
-    MainBlogAPI,
+    ComponentAPI,
     BlogAPI,
     BlogListingAPI,
     BlogArticleAPI,
+    BrowseAPI,
     FeedAPI,
     RunAPI,
     runAPI,
@@ -25,23 +25,28 @@ import Servant.HTML.Blaze (HTML)
 import Servant.Server (ServerError (..), err400, err404)
 import Text.Blaze.Html (Html)
 import Text.RSS.Syntax (RSS)
+import Upload (MimeSortedFiles)
 import XML (XML)
 
-type Version = "v1"
-
-type API = "api" :> Version :> MainAPI
-
-type MainAPI =
-  "media" :> Raw
+type API =
+  "blog" :> "feed" :> FeedAPI
+    :<|> "media" :> Raw
     :<|> "pub" :> Raw
-    :<|> "static" :> Raw
     :<|> "gpg" :> GPGAPI
-    :<|> "blog" :> MainBlogAPI
+    :<|> ComponentAPI
+    :<|> "static" :> Raw
+    :<|> "api" :> ("blog" :> BlogAPI :<|> "browse" :> BrowseAPI)
     :<|> Raw
 
-type GPGAPI = Get '[PlainText] Text
+-- This API is used to forward to /, but lists all the possible paths that can happen here and trigger components on the
+-- front-end side.
+type ComponentAPI =
+  Get '[HTML] Html
+    :<|> "blog" :> Get '[HTML] Html
+    :<|> "blog" :> Capture "slug" Text :> Get '[HTML] Html
+    :<|> "browse" :> Get '[HTML] Html
 
-type MainBlogAPI = "feed" :> FeedAPI :<|> BlogAPI
+type GPGAPI = Get '[PlainText] Text
 
 type FeedAPI = Get '[XML] RSS
 
@@ -52,6 +57,8 @@ type BlogAPI =
 type BlogListingAPI = Get '[JSON] [ArticleMetadata]
 
 type BlogArticleAPI = Capture "slug" Slug :> Get '[HTML] Html
+
+type BrowseAPI = Get '[JSON] MimeSortedFiles
 
 -- | Main API error; i.e. all the possible errors that can occur.
 newtype APIError

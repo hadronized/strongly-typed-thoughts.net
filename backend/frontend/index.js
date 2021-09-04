@@ -1,0 +1,1 @@
+../../frontend/index.js

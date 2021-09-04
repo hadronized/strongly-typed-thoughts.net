@@ -1,13 +1,18 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- Stateful side of the API.
 --
 -- This module stores anything related to state. Effectful operations might tap in the state.
 module State
   ( APIState,
     newAPIState,
+    cachedIndexHtml,
+    getUploadedFiles,
     statefulCacheFile,
     statefulUnCacheFile,
     listBlogArticleMetadata,
     getBlogArticleContent,
+    cachedGPGKeyFile,
   )
 where
 
@@ -17,19 +22,30 @@ import Control.Concurrent.STM (atomically, readTVarIO, writeTVar)
 import Control.Concurrent.STM.TVar (TVar, newTVarIO)
 import Control.Monad.Except (MonadError (..))
 import Control.Monad.IO.Class (MonadIO (..))
-import System.Directory (getDirectoryContents)
+import Data.Text (Text)
+import qualified Data.Text.IO as T
+import System.Directory (doesFileExist, getDirectoryContents)
 import System.FilePath ((</>))
-import Text.Blaze.Html (Html)
+import Text.Blaze.Html (Html, preEscapedToHtml)
 import Upload (MimeSortedFiles, cacheFile, mimeSort, uncacheFile, uploadDir)
 
 data APIState = APIState
-  { -- | Uploaded files, which can be cached in and uncached.
+  { -- | index.html; used a lot by the front-end so better cache it
+    indexHtml :: Html,
+    -- | Uploaded files, which can be cached in and uncached.
     uploadedFiles :: TVar MimeSortedFiles,
-    cachedArticles :: TVar ArticleMetadataStore
+    -- | Cached articles.
+    cachedArticles :: TVar ArticleMetadataStore,
+    -- | Cached GPG file.
+    cachedGPGKeyFile :: Text
   }
 
 newAPIState :: (MonadIO m, MonadError e m, LiftArticleError e) => Config -> m APIState
 newAPIState config = do
+  index <- liftIO $ do
+    putStrLn "caching index.html"
+    fmap preEscapedToHtml . T.readFile $ configFrontDir config </> "index.html"
+
   sortedFiles <- liftIO $ do
     putStrLn "populating uploaded files cache…"
     sortedFiles <- getDirectoryContents uploadDir >>= mimeSort . map (uploadDir </>) . filter (not . flip elem [".", ".."])
@@ -44,7 +60,26 @@ newAPIState config = do
   articleStore <- storeFromMetadata blogMetadata
   liftIO $ putStrLn "done."
 
-  liftIO $ APIState <$> newTVarIO sortedFiles <*> newTVarIO articleStore
+  liftIO $ putStrLn "reading GPG key file"
+  let gpgPath = configGPGKeyFile config
+  gpgKeyFile <-
+    liftIO $
+      doesFileExist gpgPath >>= \exists ->
+        if exists
+          then T.readFile (configGPGKeyFile config)
+          else do
+            putStrLn "warning: no GPG key file; will not be able to serve it correctly"
+            pure ""
+
+  liftIO $ APIState <$> pure index <*> newTVarIO sortedFiles <*> newTVarIO articleStore <*> pure gpgKeyFile
+
+-- | Get the cached index.html.
+cachedIndexHtml :: APIState -> Html
+cachedIndexHtml = indexHtml
+
+-- | Mon cul c’est du téflon.
+getUploadedFiles :: (MonadIO m) => APIState -> m MimeSortedFiles
+getUploadedFiles = liftIO . readTVarIO . uploadedFiles
 
 -- | Stateful version of Upload.cacheFile.
 statefulCacheFile :: (MonadIO m) => FilePath -> APIState -> m ()
