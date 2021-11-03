@@ -558,5 +558,12 @@
     "article_publish_date": "2021-03-22 21:00 Z",
     "article_tags": ["editors", "productivity-platforms"],
     "article_slug": "editors-in-2021"
+  },
+  {
+    "article_name": "Neovim plugins stability",
+    "article_path": "media/blog/neovim-plugin-stability.md",
+    "article_publish_date": "2021-11-03 00:24 Z",
+    "article_tags": ["neovim", "plugin", "semver"],
+    "article_slug": "neovim-plugins-stability"
   }
 ]
