@@ -70,7 +70,7 @@ I’m just going to focus on this first kind of packet because it’s already in
 From this description, if you have ever done bit parsing, you should already know that there is going to be a problem.
 You can parse a literal packet using this kind of pseudo code (ignoring errors for simplicity, it’s AoC!):
 
-```rust
+```
 fn parse_packet(&mut self) -> Packet {
   let version = self.next_bits(3);
   let type_id = self.next_bits(3);
