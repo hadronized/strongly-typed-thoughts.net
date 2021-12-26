@@ -4,7 +4,6 @@ cabal.project.local
 dist-newstyle/
 /api/media/gpg
 /api/media/uploads
-static/
 requests.restclient
 media/uploads
 output
