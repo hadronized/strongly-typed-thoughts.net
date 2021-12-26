@@ -8,13 +8,10 @@ where
 
 import Blog (ArticleMetadata (..), Slug (..), articleLastModificationDate)
 import Data.List (intersperse)
-import Data.Proxy (Proxy (..))
-import Data.String (IsString (..))
 import Data.Text (Text, pack)
 import qualified Data.Text as T
 import Data.Time (UTCTime)
 import Data.Time.Format (defaultTimeLocale, formatTime)
-import GHC.TypeLits (symbolVal)
 import Text.RSS.Syntax (RSS (..), RSSChannel (..), RSSItem (..), nullChannel, nullItem, nullRSS)
 
 urlHost :: Text

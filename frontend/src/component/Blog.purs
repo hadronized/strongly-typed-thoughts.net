@@ -201,7 +201,7 @@ formatTime :: DateTime -> String
 formatTime = DT.format fmt
   where fmt = L.fromFoldable [
      DayOfWeekNameShort, Placeholder " ", DayOfMonthTwoDigits, Placeholder " ", MonthShort, Placeholder " ",
-    YearFull, Placeholder ", ", Hours24, Placeholder ":", MinutesTwoDigits, Placeholder " UTC"]
+     YearFull, Placeholder ", ", Hours24, Placeholder ":", MinutesTwoDigits, Placeholder " UTC"]
 
 -- | Retrieve the content of a blog article.
 getArticleContent :: forall m. MonadAff m => Slug -> m (Either String PlainHTML)
