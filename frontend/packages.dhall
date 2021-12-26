@@ -108,5 +108,5 @@ in  upstream
         , "prelude"
         ]
     , repo = "https://github.com/rnons/purescript-html-parser-halogen"
-    , version = "v1.0.0"
+    , version = "v1.1.0"
     }
