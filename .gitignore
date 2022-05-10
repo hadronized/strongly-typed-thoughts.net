@@ -7,3 +7,4 @@ dist-newstyle/
 requests.restclient
 media/uploads
 output
+v2/target/
