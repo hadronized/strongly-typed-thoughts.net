@@ -19,7 +19,21 @@ impl FileManager {
     Some(Self { cookie, index })
   }
 
-  pub fn mime_dispatch(
+  pub fn add_or_update(&mut self, path: impl AsRef<Path>) -> Option<()> {
+    let path = path.as_ref();
+    self.mime_dispatch(path, |files| {
+      files.insert(path.to_owned());
+    })
+  }
+
+  pub fn remove(&mut self, path: impl AsRef<Path>) -> Option<()> {
+    let path = path.as_ref();
+    self.mime_dispatch(path, |files| {
+      files.remove(path);
+    })
+  }
+
+  fn mime_dispatch(
     &mut self,
     path: impl AsRef<Path>,
     f: impl FnOnce(&mut HashSet<PathBuf>),
@@ -69,7 +83,6 @@ impl FileIndex {
       images: HashSet::new(),
       applications: HashSet::new(),
       videos: HashSet::new(),
-      archives: HashSet::new(),
       audios: HashSet::new(),
       texts: HashSet::new(),
       papers: HashSet::new(),
