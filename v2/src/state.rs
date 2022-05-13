@@ -1,4 +1,7 @@
 use crate::file_store::FileManager;
+use std::sync::{Arc, Mutex};
+
+pub type SharedState = Arc<Mutex<State>>;
 
 pub struct State {
   file_mgr: FileManager,
