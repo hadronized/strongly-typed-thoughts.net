@@ -10,7 +10,7 @@ use notify::{DebouncedEvent, Watcher};
 use rocket::{get, launch, log::LogLevel, routes};
 use std::{
   fs,
-  path::{Path, PathBuf},
+  path::Path,
   sync::{
     mpsc::{self, Receiver},
     Arc, Mutex,
@@ -25,6 +25,9 @@ const NOTIFY_DEBOUNCE_DUR: Duration = Duration::from_millis(200);
 fn index() -> &'static str {
   "Hello, world!"
 }
+
+#[get("/media/uploads")]
+fn list_uploads(state: SharedState) ->
 
 #[launch]
 fn rocket() -> _ {
@@ -77,7 +80,7 @@ fn spawn_and_watch_files(config: &Config, state: SharedState) {
     watch_dir("media files", &canon_upload_dir, &mut watcher);
     watch_dir("blog directory", &canon_blog_dir, &mut watcher);
 
-    watch_loop(notify_rx, &canon_upload_dir, &canon_blog_dir);
+    watch_loop(notify_rx, &canon_upload_dir, &canon_blog_dir, state);
   });
 }
 
@@ -91,12 +94,18 @@ fn watch_dir(kind: &'static str, dir: &Path, watcher: &mut impl Watcher) {
 }
 
 /// Main watch logic.
-fn watch_loop(notify_rx: Receiver<DebouncedEvent>, upload_dir: &Path, blog_dir: &Path) {
+fn watch_loop(
+  notify_rx: Receiver<DebouncedEvent>,
+  upload_dir: &Path,
+  blog_dir: &Path,
+  state: SharedState,
+) {
   while let Ok(event) = notify_rx.recv() {
     match event {
       DebouncedEvent::Create(ref event_path) | DebouncedEvent::Write(ref event_path) => {
         if event_path.parent() == Some(upload_dir) {
           log::info!("uploaded file changed: {path}", path = event_path.display());
+          add_or_update_file(&state, &event_path);
         }
 
         if event_path.parent() == Some(blog_dir) {
@@ -107,4 +116,11 @@ fn watch_loop(notify_rx: Receiver<DebouncedEvent>, upload_dir: &Path, blog_dir: 
       _ => (),
     }
   }
+}
+
+/// Add a new file to be tracked in the file index.
+fn add_or_update_file(state: &SharedState, path: &Path) {
+  let mut state = state.lock().expect("track_file lock");
+
+  let _ = state.file_mgr().add_or_update(path);
 }
