@@ -1,20 +1,18 @@
-use crate::file_store::FileManager;
+use crate::file_store::FileIndex;
 use std::sync::{Arc, Mutex};
 
-pub type SharedState = Arc<Mutex<State>>;
-
 pub struct State {
-  file_mgr: FileManager,
+  file_index: Arc<Mutex<FileIndex>>,
 }
 
 impl State {
   pub fn new() -> Option<Self> {
     Some(Self {
-      file_mgr: FileManager::new()?,
+      file_index: Arc::new(Mutex::new(FileIndex::new())),
     })
   }
 
-  pub fn file_mgr(&mut self) -> &mut FileManager {
-    &mut self.file_mgr
+  pub fn file_index(&self) -> &Arc<Mutex<FileIndex>> {
+    &self.file_index
   }
 }

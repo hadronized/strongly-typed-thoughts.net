@@ -1,32 +1,66 @@
-use magic::{Cookie, CookieFlags};
+use magic::{flags::MIME_TYPE, Cookie, MagicError};
 use mime::Mime;
 use serde::{Deserialize, Serialize};
 use std::{
   collections::HashSet,
+  fmt,
   path::{Path, PathBuf},
+  sync::{Arc, Mutex},
 };
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum FileError {
+  MagicError(MagicError),
+  MimeError(String),
+}
+
+impl fmt::Display for FileError {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    match self {
+      FileError::MagicError(err) => write!(f, "magic error: {}", err),
+      FileError::MimeError(err) => write!(f, "mime error: {}", err),
+    }
+  }
+}
+
+impl From<MagicError> for FileError {
+  fn from(e: MagicError) -> Self {
+    FileError::MagicError(e)
+  }
+}
 
 pub struct FileManager {
   cookie: Cookie,
-  index: FileIndex,
+  index: Arc<Mutex<FileIndex>>,
 }
 
 impl FileManager {
-  pub fn new() -> Option<Self> {
-    let cookie = Cookie::open(CookieFlags::default()).ok()?;
-    let index = FileIndex::new();
+  pub fn new(index: Arc<Mutex<FileIndex>>) -> Result<Self, FileError> {
+    let cookie = Cookie::open(MIME_TYPE)?;
+    cookie.load::<&str>(&[])?;
 
-    Some(Self { cookie, index })
+    Ok(Self { cookie, index })
   }
 
-  pub fn add_or_update(&mut self, path: impl AsRef<Path>) -> Option<()> {
+  pub fn populate_from_dir(&mut self, dir: impl AsRef<Path>) -> Result<(), FileError> {
+    let dir = dir.as_ref();
+    for entry in dir.read_dir().expect("read dir") {
+      if let Ok(entry) = entry {
+        self.add_or_update(entry.path())?;
+      }
+    }
+
+    Ok(())
+  }
+
+  pub fn add_or_update(&mut self, path: impl AsRef<Path>) -> Result<(), FileError> {
     let path = path.as_ref();
     self.mime_dispatch(path, |files| {
       files.insert(path.to_owned());
     })
   }
 
-  pub fn remove(&mut self, path: impl AsRef<Path>) -> Option<()> {
+  pub fn remove(&mut self, path: impl AsRef<Path>) -> Result<(), FileError> {
     let path = path.as_ref();
     self.mime_dispatch(path, |files| {
       files.remove(path);
@@ -37,32 +71,33 @@ impl FileManager {
     &mut self,
     path: impl AsRef<Path>,
     f: impl FnOnce(&mut HashSet<PathBuf>),
-  ) -> Option<()> {
+  ) -> Result<(), FileError> {
     let path = path.as_ref();
 
     let mime: Mime = self
       .cookie
-      .file(path)
-      .ok()
-      .and_then(|mime| mime.parse().ok())?;
+      .file(path)?
+      .parse()
+      .map_err(|parse_err: mime::FromStrError| FileError::MimeError(parse_err.to_string()))?;
+    let mut index = self.index.lock().expect("file index lock");
     match mime.type_() {
-      mime::IMAGE => f(&mut self.index.images),
-      mime::APPLICATION => f(&mut self.index.applications),
-      mime::VIDEO => f(&mut self.index.videos),
-      mime::AUDIO => f(&mut self.index.audios),
-      mime::PDF => f(&mut self.index.papers),
-      mime::TEXT => f(&mut self.index.texts),
+      mime::IMAGE => f(&mut index.images),
+      mime::APPLICATION => f(&mut index.applications),
+      mime::VIDEO => f(&mut index.videos),
+      mime::AUDIO => f(&mut index.audios),
+      mime::PDF => f(&mut index.papers),
+      mime::TEXT => f(&mut index.texts),
       _ => {
         log::warn!(
           "file {path} has an unsupported mime: {mime}",
           path = path.display()
         );
 
-        f(&mut self.index.unknowns);
+        f(&mut index.unknowns);
       }
     }
 
-    Some(())
+    Ok(())
   }
 }
 
@@ -78,7 +113,7 @@ pub struct FileIndex {
 }
 
 impl FileIndex {
-  fn new() -> Self {
+  pub fn new() -> Self {
     Self {
       images: HashSet::new(),
       applications: HashSet::new(),
@@ -88,5 +123,18 @@ impl FileIndex {
       papers: HashSet::new(),
       unknowns: HashSet::new(),
     }
+  }
+
+  pub fn iter<'a>(&'a self) -> impl Iterator<Item = &'a Path> {
+    self
+      .images
+      .iter()
+      .chain(&self.applications)
+      .chain(&self.videos)
+      .chain(&self.audios)
+      .chain(&self.texts)
+      .chain(&self.papers)
+      .chain(&self.unknowns)
+      .map(|p| p.as_path())
   }
 }
