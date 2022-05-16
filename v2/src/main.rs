@@ -136,6 +136,17 @@ fn watch_loop(
         }
       }
 
+      DebouncedEvent::Remove(ref event_path) => {
+        if event_path.parent() == Some(upload_dir) {
+          log::info!(
+            "removing uploaded file: {path}",
+            path = event_path.display()
+          );
+
+          file_mgr.remove(&event_path);
+        }
+      }
+
       _ => (),
     }
   }

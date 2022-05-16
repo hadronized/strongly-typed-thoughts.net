@@ -60,11 +60,22 @@ impl FileManager {
     })
   }
 
-  pub fn remove(&mut self, path: impl AsRef<Path>) -> Result<(), FileError> {
+  pub fn remove(&mut self, path: impl AsRef<Path>) {
     let path = path.as_ref();
-    self.mime_dispatch(path, |files| {
+    self.dispatch_all(|files| {
       files.remove(path);
     })
+  }
+
+  fn dispatch_all(&mut self, f: impl Fn(&mut HashSet<PathBuf>)) {
+    let mut index = self.index.lock().expect("file index lock");
+    f(&mut index.images);
+    f(&mut index.applications);
+    f(&mut index.videos);
+    f(&mut index.audios);
+    f(&mut index.texts);
+    f(&mut index.papers);
+    f(&mut index.unknowns);
   }
 
   fn mime_dispatch(
