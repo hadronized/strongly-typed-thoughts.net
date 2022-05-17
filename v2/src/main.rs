@@ -1,14 +1,22 @@
 mod config;
 mod file_store;
+mod html;
 mod state;
 
 use crate::{
   config::Config,
   file_store::{FileIndex, FileManager},
+  html::{page_wrap, Html},
   state::State,
 };
 use notify::{DebouncedEvent, Watcher};
-use rocket::{get, launch, log::LogLevel, routes, serde::json::Json};
+use rocket::{
+  fs::{FileServer, Options},
+  get, launch,
+  log::LogLevel,
+  routes,
+  serde::json::Json,
+};
 use std::{
   fs,
   path::Path,
@@ -22,12 +30,7 @@ use std::{
 
 const NOTIFY_DEBOUNCE_DUR: Duration = Duration::from_millis(200);
 
-#[get("/")]
-fn index() -> &'static str {
-  "Hello, world!"
-}
-
-#[get("/media/uploads")]
+#[get("/uploads")]
 fn list_uploads(state: &rocket::State<State>) -> Json<Vec<String>> {
   let uploads = state
     .file_index()
@@ -56,8 +59,13 @@ fn rocket() -> _ {
 
   spawn_and_watch_files(&user_config, &mut state);
 
+  let index = FileServer::new("static", Options::default());
+  let static_files = FileServer::new("static", Options::default()).rank(0);
+
   rocket::custom(rocket_config)
-    .mount("/", routes![index, list_uploads])
+    .mount("/", index)
+    .mount("/static", static_files)
+    .mount("/media", routes![list_uploads])
     .manage(state)
 }
 
