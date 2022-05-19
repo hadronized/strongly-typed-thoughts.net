@@ -13766,7 +13766,6 @@ var PS = {};
   var Data_Maybe = $PS["Data.Maybe"];
   var Data_Ord = $PS["Data.Ord"];
   var Data_Set = $PS["Data.Set"];
-  var Data_String_CodePoints = $PS["Data.String.CodePoints"];
   var Data_String_Common = $PS["Data.String.Common"];
   var Data_String_Utils = $PS["Data.String.Utils"];
   var Data_Traversable = $PS["Data.Traversable"];
@@ -13800,24 +13799,21 @@ var PS = {};
   })();
   var parseUploadedFiles = (function () {
       var treatObject = function (o) {
-          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing images")("pub_images")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubImages) {
-              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing executables")("pub_executables")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubExecutables) {
-                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing videos")("pub_videos")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubVideos) {
-                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing archives")("pub_archives")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubArchives) {
-                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing audios")("pub_audios")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubAudios) {
-                              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing texts")("pub_texts")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubTexts) {
-                                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing papers")("pub_papers")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubPapers) {
-                                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing unknowns")("pub_unknown")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubUnknown) {
-                                          return Control_Applicative.pure(Data_Either.applicativeEither)({
-                                              pubImages: pubImages,
-                                              pubExecutables: pubExecutables,
-                                              pubVideos: pubVideos,
-                                              pubArchives: pubArchives,
-                                              pubAudios: pubAudios,
-                                              pubTexts: pubTexts,
-                                              pubPapers: pubPapers,
-                                              pubUnknown: pubUnknown
-                                          });
+          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing images")("images")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (images) {
+              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing applications")("applications")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (applications) {
+                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing videos")("videos")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (videos) {
+                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing audios")("audios")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (audios) {
+                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing texts")("texts")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (texts) {
+                              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing papers")("papers")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (papers) {
+                                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing unknowns")("unknowns")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (unknown) {
+                                      return Control_Applicative.pure(Data_Either.applicativeEither)({
+                                          images: images,
+                                          applications: applications,
+                                          videos: videos,
+                                          audios: audios,
+                                          texts: texts,
+                                          papers: papers,
+                                          unknown: unknown
                                       });
                                   });
                               });
@@ -13829,19 +13825,17 @@ var PS = {};
       };
       return Data_Argonaut_Core.caseJsonObject(new Data_Either.Left("not an object"))(treatObject);
   })();
-  var dropper = Data_String_CodePoints.drop(Data_String_CodePoints.length("media/uploads/"));
   var filePathToLi = function (isOdd) {
       return function (path) {
-          var name = dropper(path);
           var html = Halogen_HTML_Elements.li([ HTMLHelper.cl([ "browse-content-item-" + (function () {
               if (isOdd) {
                   return "odd";
               };
               return "even";
-          })() ]) ])([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href(path) ])([ Halogen_HTML_Core.text(name) ]) ]);
+          })() ]) ])([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href("media/uploads/" + path) ])([ Halogen_HTML_Core.text(path) ]) ]);
           return {
               html: html,
-              name: name
+              name: path
           };
       };
   };
@@ -13891,19 +13885,18 @@ var PS = {};
               };
           };
           var searchInput = Halogen_HTML_Elements.div([ HTMLHelper.cl([ "control", "browse-input", "has-icons-left" ]) ])([ Halogen_HTML_Elements.input([ HTMLHelper.cl([ "input" ]), Halogen_HTML_Properties.placeholder("Search uploaded files\u2026"), Halogen_HTML_Events.onValueInput(FilterFiles.create) ]), Halogen_HTML_Elements.span([ HTMLHelper.cl([ "icon", "is-left", "is-small" ]) ])([ Halogen_HTML_Elements.i([ HTMLHelper.cl([ "fa", "fa-search" ]) ])([  ]) ]) ]);
-          return Halogen_HTML_Elements.section([ HTMLHelper.cl([ "container", "section", "content" ]) ])(Data_Array.catMaybes([ new Data_Maybe.Just(searchInput), subSection(state.fileFilter)("images")("Images")(state.files.pubImages), subSection(state.fileFilter)("executables")("Executables")(state.files.pubExecutables), subSection(state.fileFilter)("videos")("Videos")(state.files.pubVideos), subSection(state.fileFilter)("archives")("Archives")(state.files.pubArchives), subSection(state.fileFilter)("audios")("Audios")(state.files.pubAudios), subSection(state.fileFilter)("texts")("Texts")(state.files.pubTexts), subSection(state.fileFilter)("papers")("Papers")(state.files.pubPapers), subSection(state.fileFilter)("unknown")("Unknown")(state.files.pubUnknown) ]));
+          return Halogen_HTML_Elements.section([ HTMLHelper.cl([ "container", "section", "content" ]) ])(Data_Array.catMaybes([ new Data_Maybe.Just(searchInput), subSection(state.fileFilter)("images")("Images")(state.files.images), subSection(state.fileFilter)("applications")("Applications")(state.files.applications), subSection(state.fileFilter)("videos")("Videos")(state.files.videos), subSection(state.fileFilter)("audios")("Audios")(state.files.audios), subSection(state.fileFilter)("texts")("Texts")(state.files.texts), subSection(state.fileFilter)("papers")("Papers")(state.files.papers), subSection(state.fileFilter)("unknown")("Unknown")(state.files.unknown) ]));
       };
       var initialState = function (v) {
           return {
               files: {
-                  pubImages: Data_Set.empty,
-                  pubExecutables: Data_Set.empty,
-                  pubVideos: Data_Set.empty,
-                  pubArchives: Data_Set.empty,
-                  pubAudios: Data_Set.empty,
-                  pubTexts: Data_Set.empty,
-                  pubPapers: Data_Set.empty,
-                  pubUnknown: Data_Set.empty
+                  images: Data_Set.empty,
+                  applications: Data_Set.empty,
+                  videos: Data_Set.empty,
+                  audios: Data_Set.empty,
+                  texts: Data_Set.empty,
+                  papers: Data_Set.empty,
+                  unknown: Data_Set.empty
               },
               fileFilter: ""
           };
@@ -13922,7 +13915,7 @@ var PS = {};
                           fileFilter: ""
                       });
                   };
-                  throw new Error("Failed pattern match at Browse (line 89, column 7 - line 91, column 53): " + [ resp.constructor.name ]);
+                  throw new Error("Failed pattern match at Browse (line 86, column 7 - line 88, column 53): " + [ resp.constructor.name ]);
               });
           };
           if (v instanceof FilterFiles) {
@@ -13937,7 +13930,7 @@ var PS = {};
                   return $18;
               });
           };
-          throw new Error("Failed pattern match at Browse (line 86, column 18 - line 92, column 52): " + [ v.constructor.name ]);
+          throw new Error("Failed pattern match at Browse (line 83, column 18 - line 89, column 52): " + [ v.constructor.name ]);
       };
       var $$eval = Halogen_Component.mkEval({
           handleAction: handleAction,

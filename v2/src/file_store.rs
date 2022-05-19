@@ -55,15 +55,27 @@ impl FileManager {
 
   pub fn add_or_update(&mut self, path: impl AsRef<Path>) -> Result<(), FileError> {
     let path = path.as_ref();
-    self.mime_dispatch(path, |files| {
-      files.insert(path.to_owned());
+    let file_name = PathBuf::from(
+      path
+        .file_name()
+        .and_then(|p| p.to_str())
+        .unwrap_or("<incorrect filename>"),
+    );
+    self.mime_dispatch(&path, |files| {
+      files.insert(file_name.to_owned());
     })
   }
 
   pub fn remove(&mut self, path: impl AsRef<Path>) {
-    let path = path.as_ref();
+    let file_name = PathBuf::from(
+      path
+        .as_ref()
+        .file_name()
+        .and_then(|p| p.to_str())
+        .unwrap_or("<incorrect filename>"),
+    );
     self.dispatch_all(|files| {
-      files.remove(path);
+      files.remove(&file_name);
     })
   }
 

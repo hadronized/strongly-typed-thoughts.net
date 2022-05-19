@@ -1,12 +1,10 @@
 mod config;
 mod file_store;
-mod html;
 mod state;
 
 use crate::{
   config::Config,
   file_store::{FileIndex, FileManager},
-  html::{page_wrap, Html},
   state::State,
 };
 use notify::{DebouncedEvent, Watcher};
@@ -30,16 +28,10 @@ use std::{
 
 const NOTIFY_DEBOUNCE_DUR: Duration = Duration::from_millis(200);
 
-#[get("/uploads")]
-fn list_uploads(state: &rocket::State<State>) -> Json<Vec<String>> {
-  let uploads = state
-    .file_index()
-    .lock()
-    .expect("file index")
-    .iter()
-    .map(|path| path.to_str().unwrap_or("").to_owned())
-    .collect();
-  Json(uploads)
+#[get("/browse")]
+fn api_browse(state: &rocket::State<State>) -> Json<FileIndex> {
+  let index = state.file_index().lock().expect("file index");
+  Json(index.clone())
 }
 
 #[launch]
@@ -59,13 +51,15 @@ fn rocket() -> _ {
 
   spawn_and_watch_files(&user_config, &mut state);
 
-  let index = FileServer::new("static", Options::default());
-  let static_files = FileServer::new("static", Options::default()).rank(0);
+  let index = FileServer::new("static", Options::default()).rank(0);
+  let static_files = FileServer::new("static", Options::default()).rank(1);
+  let media_uploads = FileServer::new("media/uploads", Options::default());
 
   rocket::custom(rocket_config)
     .mount("/", index)
     .mount("/static", static_files)
-    .mount("/media", routes![list_uploads])
+    .mount("/media/uploads", media_uploads)
+    .mount("/api", routes![api_browse])
     .manage(state)
 }
 
