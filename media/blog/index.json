@@ -1,576 +1,576 @@
 [
   {
-    "article_name": "Abstracting shader – Haskell ash library",
-    "article_path": "media/blog/abstracting_over_shader.md",
-    "article_publish_date": "2014-11-14 00:00:00 Z",
-    "article_tags": ["abstract", "DirectX, GLSL", "graphics", "Haskell", "HLSL", "OpenGL", "shader", "shading"],
-    "article_slug": "abstracting_over_shader"
+    "name": "Abstracting shader – Haskell ash library",
+    "path": "media/blog/abstracting_over_shader.md",
+    "publish_date": "2014-11-14 00:00:00 Z",
+    "tags": ["abstract", "DirectX, GLSL", "graphics", "Haskell", "HLSL", "OpenGL", "shader", "shading"],
+    "slug": "abstracting_over_shader"
   },
   {
-    "article_name": "Abstracting shader – Environment",
-    "article_path": "media/blog/abstracting_over_shader_environment.md",
-    "article_publish_date": "2014-11-17 00:00:00 Z",
-    "article_tags": ["abstract", "DirectX", "environment", "GLSL", "graphics", "Haskell", "HLSL", "OpenGL", "shader", "shading"],
-    "article_slug": "abstracting_over_shader_environment"
+    "name": "Abstracting shader – Environment",
+    "path": "media/blog/abstracting_over_shader_environment.md",
+    "publish_date": "2014-11-17 00:00:00 Z",
+    "tags": ["abstract", "DirectX", "environment", "GLSL", "graphics", "Haskell", "HLSL", "OpenGL", "shader", "shading"],
+    "slug": "abstracting_over_shader_environment"
   },
   {
-    "article_name": "Why has type aliasing almost killed me",
-    "article_path": "media/blog/type_aliasing.md",
-    "article_publish_date": "2015-01-07 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "type_aliasing"
+    "name": "Why has type aliasing almost killed me",
+    "path": "media/blog/type_aliasing.md",
+    "publish_date": "2015-01-07 00:00:00 Z",
+    "tags": [],
+    "slug": "type_aliasing"
   },
   {
-     "article_name": "Smoothie, a Haskell library for creating smooth curves",
-     "article_path": "media/blog/smoothie.md",
-     "article_publish_date": "2015-02-26 00:00:00 Z",
-     "article_tags": [],
-     "article_slug": "smoothie"
+    "name": "Smoothie, a Haskell library for creating smooth curves",
+    "path": "media/blog/smoothie.md",
+    "publish_date": "2015-02-26 00:00:00 Z",
+    "tags": [],
+    "slug": "smoothie"
   },
   {
-     "article_name": "al 0.1 released!",
-     "article_path": "media/blog/al_0.1.md",
-     "article_publish_date": "2015-02-28 00:00:00 Z",
-     "article_tags": [],
-     "article_slug": "al_0.1_released"
+    "name": "al 0.1 released!",
+    "path": "media/blog/al_0.1.md",
+    "publish_date": "2015-02-28 00:00:00 Z",
+    "tags": [],
+    "slug": "al_0.1_released"
   },
   {
-    "article_name": "al 0.1.0.2 – documentation and default paths",
-    "article_path": "media/blog/al_0.1.0.2.md",
-    "article_publish_date": "2015-03-01 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "al_0.1.0.2"
+    "name": "al 0.1.0.2 – documentation and default paths",
+    "path": "media/blog/al_0.1.0.2.md",
+    "publish_date": "2015-03-01 00:00:00 Z",
+    "tags": [],
+    "slug": "al_0.1.0.2"
   },
   {
-    "article_name": "al 0.1.1.2 was shipped",
-    "article_path": "media/blog/al_0.1.1.2.md",
-    "article_publish_date": "2015-03-03 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "al_0.1.1.2"
+    "name": "al 0.1.1.2 was shipped",
+    "path": "media/blog/al_0.1.1.2.md",
+    "publish_date": "2015-03-03 00:00:00 Z",
+    "tags": [],
+    "slug": "al_0.1.1.2"
   },
   {
-    "article_name": "Getting into netwire",
-    "article_path": "media/blog/getting_into_netwire.md",
-    "article_publish_date": "2015-03-15 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "getting_into_netwire"
+    "name": "Getting into netwire",
+    "path": "media/blog/getting_into_netwire.md",
+    "publish_date": "2015-03-15 00:00:00 Z",
+    "tags": [],
+    "slug": "getting_into_netwire"
   },
   {
-    "article_name": "Volumetric light shafts",
-    "article_path": "media/blog/volumetric_light_shafts.md",
-    "article_publish_date": "2015-04-08 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "volumetric_light_shafts"
+    "name": "Volumetric light shafts",
+    "path": "media/blog/volumetric_light_shafts.md",
+    "publish_date": "2015-04-08 00:00:00 Z",
+    "tags": [],
+    "slug": "volumetric_light_shafts"
   },
   {
-    "article_name": "Generalized swap",
-    "article_path": "media/blog/generalized_swap.md",
-    "article_publish_date": "2015-04-14 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "generalized_swap"
+    "name": "Generalized swap",
+    "path": "media/blog/generalized_swap.md",
+    "publish_date": "2015-04-14 00:00:00 Z",
+    "tags": [],
+    "slug": "generalized_swap"
   },
   {
-    "article_name": "Losing our privacy",
-    "article_path": "media/blog/you_are_being_spied_on.md",
-    "article_publish_date": "2015-04-21 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "you_are_being_spied_on"
+    "name": "Losing our privacy",
+    "path": "media/blog/you_are_being_spied_on.md",
+    "publish_date": "2015-04-21 00:00:00 Z",
+    "tags": [],
+    "slug": "you_are_being_spied_on"
   },
   {
-    "article_name": "Asset management in a real time 3D engine in Haskell",
-    "article_path": "media/blog/resource_management.md",
-    "article_publish_date": "2015-06-16 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "resource_management"
+    "name": "Asset management in a real time 3D engine in Haskell",
+    "path": "media/blog/resource_management.md",
+    "publish_date": "2015-06-16 00:00:00 Z",
+    "tags": [],
+    "slug": "resource_management"
   },
   {
-    "article_name": "HID and MSI keyboards",
-    "article_path": "media/blog/hid_msi_keyboards.md",
-    "article_publish_date": "2015-06-20 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "hid_and_msi_keyboards"
+    "name": "HID and MSI keyboards",
+    "path": "media/blog/hid_msi_keyboards.md",
+    "publish_date": "2015-06-20 00:00:00 Z",
+    "tags": [],
+    "slug": "hid_and_msi_keyboards"
   },
   {
-    "article_name": "Mac OS X support in al-0.1.4",
-    "article_path": "media/blog/osx_al.md",
-    "article_publish_date": "2015-06-29 00:00:00 Z",
-    "article_tags": ["haskell", "OpenAL", "pkg-config"],
-    "article_slug": "osx_al"
+    "name": "Mac OS X support in al-0.1.4",
+    "path": "media/blog/osx_al.md",
+    "publish_date": "2015-06-29 00:00:00 Z",
+    "tags": ["haskell", "OpenAL", "pkg-config"],
+    "slug": "osx_al"
   },
   {
-    "article_name": "smoothie-0.3, Bézier curves and new user interface",
-    "article_path": "media/blog/smoothie_bezier.md",
-    "article_publish_date": "2015-06-30 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "smoothie_bezier"
+    "name": "smoothie-0.3, Bézier curves and new user interface",
+    "path": "media/blog/smoothie_bezier.md",
+    "publish_date": "2015-06-30 00:00:00 Z",
+    "tags": [],
+    "slug": "smoothie_bezier"
   },
   {
-    "article_name": "Don’t use Default",
-    "article_path": "media/blog/default.md",
-    "article_publish_date": "2015-07-16 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "dont_use_default"
+    "name": "Don’t use Default",
+    "path": "media/blog/default.md",
+    "publish_date": "2015-07-16 00:00:00 Z",
+    "tags": [],
+    "slug": "dont_use_default"
   },
   {
-    "article_name": "Introducing Luminance, a safer OpenGL API",
-    "article_path": "media/blog/introducing_luminance.md",
-    "article_publish_date": "2015-07-24 00:00:00 Z",
-    "article_tags": ["graphics", "Haskell OpenGL"],
-    "article_slug": "introducing_luminance"
+    "name": "Introducing Luminance, a safer OpenGL API",
+    "path": "media/blog/introducing_luminance.md",
+    "publish_date": "2015-07-24 00:00:00 Z",
+    "tags": ["graphics", "Haskell OpenGL"],
+    "slug": "introducing_luminance"
   },
   {
-    "article_name": "Luminance – framebuffers and textures",
-    "article_path": "media/blog/luminance_framebuffer_texture.md",
-    "article_publish_date": "2015-08-01 00:00:00 Z",
-    "article_tags": ["framebuffer", "graphics", "Haskell", "OpenGL", "texture"],
-    "article_slug": "luminance_framebuffer_texture"
+    "name": "Luminance – framebuffers and textures",
+    "path": "media/blog/luminance_framebuffer_texture.md",
+    "publish_date": "2015-08-01 00:00:00 Z",
+    "tags": ["framebuffer", "graphics", "Haskell", "OpenGL", "texture"],
+    "slug": "luminance_framebuffer_texture"
   },
   {
-    "article_name": "Luminance – Vertex Arrays",
-    "article_path": "media/blog/luminance_vertex_arrays.md",
-    "article_publish_date": "2015-08-10 00:00:00 Z",
-    "article_tags": ["alignment", "buffers", "graphics", "Haskell", "index", "luminance", "OpenGL", "vertex"],
-    "article_slug": "luminance_vertex_arrays"
+    "name": "Luminance – Vertex Arrays",
+    "path": "media/blog/luminance_vertex_arrays.md",
+    "publish_date": "2015-08-10 00:00:00 Z",
+    "tags": ["alignment", "buffers", "graphics", "Haskell", "index", "luminance", "OpenGL", "vertex"],
+    "slug": "luminance_vertex_arrays"
   },
   {
-    "article_name": "Luminance – what was that alignment stuff already?",
-    "article_path": "media/blog/luminance_32bit.md",
-    "article_publish_date": "2015-08-11 00:00:00 Z",
-    "article_tags": ["32-bit", "alignment", "Haskell", "luminance", "OpenGL"],
-    "article_slug": "luminance_32bit"
+    "name": "Luminance – what was that alignment stuff already?",
+    "path": "media/blog/luminance_32bit.md",
+    "publish_date": "2015-08-11 00:00:00 Z",
+    "tags": ["32-bit", "alignment", "Haskell", "luminance", "OpenGL"],
+    "slug": "luminance_32bit"
   },
   {
-    "article_name": "Never forget your git stashes again!",
-    "article_path": "media/blog/reverse_prompt_git_stash.md",
-    "article_publish_date": "2015-08-16 00:00:00 Z",
-    "article_tags": ["git", "prompt", "shell", "stash", "terminal", "zsh"],
-    "article_slug": "reverse_prompt_git_stash"
+    "name": "Never forget your git stashes again!",
+    "path": "media/blog/reverse_prompt_git_stash.md",
+    "publish_date": "2015-08-16 00:00:00 Z",
+    "tags": ["git", "prompt", "shell", "stash", "terminal", "zsh"],
+    "slug": "reverse_prompt_git_stash"
   },
   {
-    "article_name": "Contravariance and luminance to add safety to uniforms",
-    "article_path": "media/blog/luminance_uniform_contravariance.md",
-    "article_publish_date": "2015-08-23 00:00:00 Z",
-    "article_tags": ["contravariant", "divisible", "functor", "graphics", "luminance", "OpenGL", "uniform"],
-    "article_slug": "luminance_uniform_contravariance"
+    "name": "Contravariance and luminance to add safety to uniforms",
+    "path": "media/blog/luminance_uniform_contravariance.md",
+    "publish_date": "2015-08-23 00:00:00 Z",
+    "tags": ["contravariant", "divisible", "functor", "graphics", "luminance", "OpenGL", "uniform"],
+    "slug": "luminance_uniform_contravariance"
   },
   {
-    "article_name": "Thoughts about software meta-design",
-    "article_path": "media/blog/software_meta_design.md",
-    "article_publish_date": "2015-09-13 00:00:00 Z",
-    "article_tags": ["design", "elegancy", "free", "KISS", "meta", "principle", "software"],
-    "article_slug": "software_meta_design"
+    "name": "Thoughts about software meta-design",
+    "path": "media/blog/software_meta_design.md",
+    "publish_date": "2015-09-13 00:00:00 Z",
+    "tags": ["design", "elegancy", "free", "KISS", "meta", "principle", "software"],
+    "slug": "software_meta_design"
   },
   {
-    "article_name": "luminance 0.1 released!",
-    "article_path": "media/blog/luminance_0.1.md",
-    "article_publish_date": "2015-09-22 00:00:00 Z",
-    "article_tags": ["framework", "graphics", "Haskell", "luminance"],
-    "article_slug": "luminance_0.1"
+    "name": "luminance 0.1 released!",
+    "path": "media/blog/luminance_0.1.md",
+    "publish_date": "2015-09-22 00:00:00 Z",
+    "tags": ["framework", "graphics", "Haskell", "luminance"],
+    "slug": "luminance_0.1"
   },
   {
-    "article_name": "luminance first tutorial",
-    "article_path": "media/blog/luminance_first_tutorial.md",
-    "article_publish_date": "2015-09-24 00:00:00 Z",
-    "article_tags": ["framework", "graphics", "Haskell", "luminance", "tutorial"],
-    "article_slug": "luminance_first_tutorial"
+    "name": "luminance first tutorial",
+    "path": "media/blog/luminance_first_tutorial.md",
+    "publish_date": "2015-09-24 00:00:00 Z",
+    "tags": ["framework", "graphics", "Haskell", "luminance", "tutorial"],
+    "slug": "luminance_first_tutorial"
   },
   {
-    "article_name": "luminance-0.3 – Adding more texture kinds to the equation…",
-    "article_path": "media/blog/luminance-0.3.md",
-    "article_publish_date": "2015-10-06 00:00:00 Z",
-    "article_tags": ["cubemap", "framework", "graphics", "Haskell", "luminance", "OpenGL", "texture"],
-    "article_slug": "luminance-0.3"
+    "name": "luminance-0.3 – Adding more texture kinds to the equation…",
+    "path": "media/blog/luminance-0.3.md",
+    "publish_date": "2015-10-06 00:00:00 Z",
+    "tags": ["cubemap", "framework", "graphics", "Haskell", "luminance", "OpenGL", "texture"],
+    "slug": "luminance-0.3"
   },
   {
-    "article_name": "Load geometries with wavefront-0.1!",
-    "article_path": "media/blog/wavefront-0.1.md",
-    "article_publish_date": "2015-10-11 00:00:00 Z",
-    "article_tags": ["graphics", "Haskell", "luminance", "OBJ", "wavefront"],
-    "article_slug": "wavefront-0.1"
+    "name": "Load geometries with wavefront-0.1!",
+    "path": "media/blog/wavefront-0.1.md",
+    "publish_date": "2015-10-11 00:00:00 Z",
+    "tags": ["graphics", "Haskell", "luminance", "OBJ", "wavefront"],
+    "slug": "wavefront-0.1"
   },
   {
-    "article_name": "luminance-0.5.1 and wavefront-0.4.0.1",
-    "article_path": "media/blog/luminance-0.5.1.md",
-    "article_publish_date": "2015-10-18 00:00:00 Z",
-    "article_tags": ["3D", "graphics", "Haskell", "luminance", "OBJ", "OpenGL", "parser", "wavefront"],
-    "article_slug": "luminance-0.5.1_and_wavefront-0.4.0.1"
+    "name": "luminance-0.5.1 and wavefront-0.4.0.1",
+    "path": "media/blog/luminance-0.5.1.md",
+    "publish_date": "2015-10-18 00:00:00 Z",
+    "tags": ["3D", "graphics", "Haskell", "luminance", "OBJ", "OpenGL", "parser", "wavefront"],
+    "slug": "luminance-0.5.1_and_wavefront-0.4.0.1"
   },
   {
-    "article_name": "luminance, episode 0.6: UBO, SSBO, Stackage",
-    "article_path": "media/blog/luminance-0.6.md",
-    "article_publish_date": "2015-10-25 00:00:00 Z",
-    "article_tags": ["Haskell", "luminance", "OpenGL", "SSBO", "Stackage", "UBO", "uniform"],
-    "article_slug": "luminance-0.6"
+    "name": "luminance, episode 0.6: UBO, SSBO, Stackage",
+    "path": "media/blog/luminance-0.6.md",
+    "publish_date": "2015-10-25 00:00:00 Z",
+    "tags": ["Haskell", "luminance", "OpenGL", "SSBO", "Stackage", "UBO", "uniform"],
+    "slug": "luminance-0.6"
   },
   {
-    "article_name": "OpenGL 3.2 support for luminance!",
-    "article_path": "media/blog/luminance-0.7.md",
-    "article_publish_date": "2015-11-13 00:00:00 Z",
-    "article_tags": ["bug", "Haskell", "Intel", "luminance", "OpenGL", "UBO"],
-    "article_slug": "luminance-0.7"
+    "name": "OpenGL 3.2 support for luminance!",
+    "path": "media/blog/luminance-0.7.md",
+    "publish_date": "2015-11-13 00:00:00 Z",
+    "tags": ["bug", "Haskell", "Intel", "luminance", "OpenGL", "UBO"],
+    "slug": "luminance-0.7"
   },
   {
-    "article_name": "Existential quantification and GADT in luminance-0.8",
-    "article_path": "media/blog/luminance-0.8.md",
-    "article_publish_date": "2015-12-09 00:00:00 Z",
-    "article_tags": ["existential quantification", "GADT", "Haskel", "luminance", "OpenGL"],
-    "article_slug": "luminance-0.8"
+    "name": "Existential quantification and GADT in luminance-0.8",
+    "path": "media/blog/luminance-0.8.md",
+    "publish_date": "2015-12-09 00:00:00 Z",
+    "tags": ["existential quantification", "GADT", "Haskel", "luminance", "OpenGL"],
+    "slug": "luminance-0.8"
   },
   {
-    "article_name": "Pure API vs. IO-bound API for graphics frameworks",
-    "article_path": "media/blog/pure_vs_io.md",
-    "article_publish_date": "2016-02-18 00:00:00 Z",
-    "article_tags": ["frameworks", "GPipe", "graphics", "impure", "IO", "LambdaCube", "luminance", "pure", "side-effects"],
-    "article_slug": "pure_vs_io"
+    "name": "Pure API vs. IO-bound API for graphics frameworks",
+    "path": "media/blog/pure_vs_io.md",
+    "publish_date": "2016-02-18 00:00:00 Z",
+    "tags": ["frameworks", "GPipe", "graphics", "impure", "IO", "LambdaCube", "luminance", "pure", "side-effects"],
+    "slug": "pure_vs_io"
   },
   {
-    "article_name": "Porting a Haskell graphics framework to Rust (luminance)",
-    "article_path": "media/blog/luminance_rust.md",
-    "article_publish_date": "2016-04-29 00:00:00 Z",
-    "article_tags": ["framework", "graphics", "Haskell", "luminance", "OpenGL", "Rust"],
-    "article_slug": "luminance_rust"
+    "name": "Porting a Haskell graphics framework to Rust (luminance)",
+    "path": "media/blog/luminance_rust.md",
+    "publish_date": "2016-04-29 00:00:00 Z",
+    "tags": ["framework", "graphics", "Haskell", "luminance", "OpenGL", "Rust"],
+    "slug": "luminance_rust"
   },
   {
-    "article_name": "luminance-0.6.0 sample",
-    "article_path": "media/blog/luminance_sample.md",
-    "article_publish_date": "2016-07-25 00:00:00 Z",
-    "article_tags": ["graphics", "luminance", "OpenGL"],
-    "article_slug": "luminance_sample"
+    "name": "luminance-0.6.0 sample",
+    "path": "media/blog/luminance_sample.md",
+    "publish_date": "2016-07-25 00:00:00 Z",
+    "tags": ["graphics", "luminance", "OpenGL"],
+    "slug": "luminance_sample"
   },
   {
-    "article_name": "luminance designs",
-    "article_path": "media/blog/luminance_design.md",
-    "article_publish_date": "2016-08-28 00:00:00 Z",
-    "article_tags": ["graphics", "luminance", "OpenGL"],
-    "article_slug": "luminance_design"
+    "name": "luminance designs",
+    "path": "media/blog/luminance_design.md",
+    "publish_date": "2016-08-28 00:00:00 Z",
+    "tags": ["graphics", "luminance", "OpenGL"],
+    "slug": "luminance_design"
   },
   {
-    "article_name": "Lifetimes limits – self borrowing and dropchecker",
-    "article_path": "media/blog/lifetimes_and_self_borrowing.md",
-    "article_publish_date": "2017-02-07 00:00:00 Z",
-    "article_tags": ["borrowing", "dropchecker", "lifetimes", "Rust"],
-    "article_slug": "lifetimes_and_self_borrowing"
+    "name": "Lifetimes limits – self borrowing and dropchecker",
+    "path": "media/blog/lifetimes_and_self_borrowing.md",
+    "publish_date": "2017-02-07 00:00:00 Z",
+    "tags": ["borrowing", "dropchecker", "lifetimes", "Rust"],
+    "slug": "lifetimes_and_self_borrowing"
   },
   {
-    "article_name": "Postmortem #1 – Revision 2017",
-    "article_path": "media/blog/what_went_revision_2017.md",
-    "article_publish_date": "2017-04-20 00:00:00 Z",
-    "article_tags": ["demoscene", "Outline", "phaazon", "postmortem", "Revision"],
-    "article_slug": "what_went_revision_2017"
+    "name": "Postmortem #1 – Revision 2017",
+    "path": "media/blog/what_went_revision_2017.md",
+    "publish_date": "2017-04-20 00:00:00 Z",
+    "tags": ["demoscene", "Outline", "phaazon", "postmortem", "Revision"],
+    "slug": "what_went_revision_2017"
   },
   {
-    "article_name": "On programming workflows",
-    "article_path": "media/blog/workflow.md",
-    "article_publish_date": "2017-07-23 00:00:00 Z",
-    "article_tags": [],
-    "article_slug": "workflow"
+    "name": "On programming workflows",
+    "path": "media/blog/workflow.md",
+    "publish_date": "2017-07-23 00:00:00 Z",
+    "tags": [],
+    "slug": "workflow"
   },
   {
-    "article_name": "Rust GLSL crate",
-    "article_path": "media/blog/glsl_crate.md",
-    "article_publish_date": "2017-07-30 00:00:00 Z",
-    "article_tags": ["AST", "compiler", "GLSL", "OpenGL", "Rust", "shader", "shading", "SPIR-V"],
-    "article_slug": "glsl_crate"
+    "name": "Rust GLSL crate",
+    "path": "media/blog/glsl_crate.md",
+    "publish_date": "2017-07-30 00:00:00 Z",
+    "tags": ["AST", "compiler", "GLSL", "OpenGL", "Rust", "shader", "shading", "SPIR-V"],
+    "slug": "glsl_crate"
   },
   {
-    "article_name": "State of luminance",
-    "article_path": "media/blog/state_of_luminance.md",
-    "article_publish_date": "2017-09-14 00:00:00 Z",
-    "article_tags": ["luminance"],
-    "article_slug": "state_of_luminance"
+    "name": "State of luminance",
+    "path": "media/blog/state_of_luminance.md",
+    "publish_date": "2017-09-14 00:00:00 Z",
+    "tags": ["luminance"],
+    "slug": "state_of_luminance"
   },
   {
-    "article_name": "Spectra gets Rust scripting!",
-    "article_path": "media/blog/spectra_plugins.md",
-    "article_publish_date": "2018-02-19 02:57:00 Z",
-    "article_tags": ["spectra", "Rust", "plugins", "dynamic library"],
-    "article_slug": "spectra_plugins"
+    "name": "Spectra gets Rust scripting!",
+    "path": "media/blog/spectra_plugins.md",
+    "publish_date": "2018-02-19 02:57:00 Z",
+    "tags": ["spectra", "Rust", "plugins", "dynamic library"],
+    "slug": "spectra_plugins"
   },
   {
-    "article_name": "warmy-0.6.0; bug fixes and rewrite",
-    "article_path": "media/blog/warmy_rewrite.md",
-    "article_publish_date": "2018-02-24 19:46:00 Z",
-    "article_tags": ["warmy", "fix", "bug"],
-    "article_slug": "warmy-0.6.0"
+    "name": "warmy-0.6.0; bug fixes and rewrite",
+    "path": "media/blog/warmy_rewrite.md",
+    "publish_date": "2018-02-24 19:46:00 Z",
+    "tags": ["warmy", "fix", "bug"],
+    "slug": "warmy-0.6.0"
   },
   {
-    "article_name": "Auto-derive uniform interfaces in luminance-0.25.5",
-    "article_path": "media/blog/luminance_uniform_interface_macro.md",
-    "article_publish_date": "2018-03-01 02:18:00 Z",
-    "article_tags": ["luminance", "uniform", "interface", "derive", "macro"],
-    "article_slug": "auto_derive_luminance-0.25.5"
+    "name": "Auto-derive uniform interfaces in luminance-0.25.5",
+    "path": "media/blog/luminance_uniform_interface_macro.md",
+    "publish_date": "2018-03-01 02:18:00 Z",
+    "tags": ["luminance", "uniform", "interface", "derive", "macro"],
+    "slug": "auto_derive_luminance-0.25.5"
   },
   {
-    "article_name": "Main differences between luminance and other famous Rust crates",
-    "article_path": "media/blog/luminance_comparing.md",
-    "article_publish_date": "2018-03-28 18:40:00 Z",
-    "article_tags": ["luminance", "glium", "gfx-rs", "vulkano", "amethyst", "spectra"],
-    "article_slug": "luminance_comparing"
+    "name": "Main differences between luminance and other famous Rust crates",
+    "path": "media/blog/luminance_comparing.md",
+    "publish_date": "2018-03-28 18:40:00 Z",
+    "tags": ["luminance", "glium", "gfx-rs", "vulkano", "amethyst", "spectra"],
+    "slug": "luminance_comparing"
   },
   {
-    "article_name": "Asynchronous warmy: a prequel",
-    "article_path": "media/blog/async_warmy_prequel.md",
-    "article_publish_date": "2018-05-08 19:30:00 Z",
-    "article_tags": ["asynchronous", "futures", "warmy"],
-    "article_slug": "asynchronous_warmy_prequel"
+    "name": "Asynchronous warmy: a prequel",
+    "path": "media/blog/async_warmy_prequel.md",
+    "publish_date": "2018-05-08 19:30:00 Z",
+    "tags": ["asynchronous", "futures", "warmy"],
+    "slug": "asynchronous_warmy_prequel"
   },
   {
-    "article_name": "Rank-n functions in Rust?",
-    "article_path": "media/blog/rank_n_rust.md",
-    "article_publish_date": "2018-05-19 12:48:00 Z",
-    "article_tags": ["Haskell", "Rust", "existential", "functions", "rank-n"],
-    "article_slug": "rank-n-rust"
+    "name": "Rank-n functions in Rust?",
+    "path": "media/blog/rank_n_rust.md",
+    "publish_date": "2018-05-19 12:48:00 Z",
+    "tags": ["Haskell", "Rust", "existential", "functions", "rank-n"],
+    "slug": "rank-n-rust"
   },
   {
-    "article_name": "Moving out of a Drop struct in Rust?",
-    "article_path": "media/blog/rust-no-drop.md",
-    "article_publish_date": "2018-05-22 22:22:00 Z",
-    "article_tags": ["Rust", "Drop", "forget", "unsafe"],
-    "article_slug": "rust-no-drop"
+    "name": "Moving out of a Drop struct in Rust?",
+    "path": "media/blog/rust-no-drop.md",
+    "publish_date": "2018-05-22 22:22:00 Z",
+    "tags": ["Rust", "Drop", "forget", "unsafe"],
+    "slug": "rust-no-drop"
   },
   {
-    "article_name": "luminance-0.27: cleanup, easier to use and examples!",
-    "article_path": "media/blog/luminance-0.27.md",
-    "article_publish_date": "2018-06-28 14:00:00 Z",
-    "article_tags": ["examples", "luminance"],
-    "article_slug": "luminance-0.27"
+    "name": "luminance-0.27: cleanup, easier to use and examples!",
+    "path": "media/blog/luminance-0.27.md",
+    "publish_date": "2018-06-28 14:00:00 Z",
+    "tags": ["examples", "luminance"],
+    "slug": "luminance-0.27"
   },
   {
-    "article_name": "The Cheddar shading language",
-    "article_path": "media/blog/cheddar-0.1.md",
-    "article_publish_date": "2018-07-09 01:00:00 Z",
-    "article_tags": ["edsl", "glsl", "shading"],
-    "article_slug": "cheddar-0.1"
+    "name": "The Cheddar shading language",
+    "path": "media/blog/cheddar-0.1.md",
+    "publish_date": "2018-07-09 01:00:00 Z",
+    "tags": ["edsl", "glsl", "shading"],
+    "slug": "cheddar-0.1"
   },
   {
-    "article_name": "On impl blocks, injection and surjection in Rust",
-    "article_path": "media/blog/on-rust-impl-block.md",
-    "article_publish_date": "2018-07-22 22:05:00 Z",
-    "article_tags": ["typesystem"],
-    "article_slug": "on-rust-impl-block"
+    "name": "On impl blocks, injection and surjection in Rust",
+    "path": "media/blog/on-rust-impl-block.md",
+    "publish_date": "2018-07-22 22:05:00 Z",
+    "tags": ["typesystem"],
+    "slug": "on-rust-impl-block"
   },
   {
-    "article_name": "Easy interpolation across splines",
-    "article_path": "media/blog/interpolation-rs.md",
-    "article_publish_date": "2018-08-05 19:00:00 Z",
-    "article_tags": ["interpolation", "spline"],
-    "article_slug": "splines-introduction"
+    "name": "Easy interpolation across splines",
+    "path": "media/blog/interpolation-rs.md",
+    "publish_date": "2018-08-05 19:00:00 Z",
+    "tags": ["interpolation", "spline"],
+    "slug": "splines-introduction"
   },
   {
-    "article_name": "Trying to tackle the orphans problem",
-    "article_path": "media/blog/orphans_problem.md",
-    "article_publish_date": "2018-09-20 12:30:00 Z",
-    "article_tags": ["conditonal-compilation", "orphans"],
-    "article_slug": "orphans-problem"
+    "name": "Trying to tackle the orphans problem",
+    "path": "media/blog/orphans_problem.md",
+    "publish_date": "2018-09-20 12:30:00 Z",
+    "tags": ["conditonal-compilation", "orphans"],
+    "slug": "orphans-problem"
   },
   {
-    "article_name": "GLSL quasiquoting in Rust!",
-    "article_path": "media/blog/glsl-quasiquote.md",
-    "article_publish_date": "2018-10-05 19:00:00 Z",
-    "article_tags": ["quasiquoting", "glsl"],
-    "article_slug": "glsl-quasiquoting"
+    "name": "GLSL quasiquoting in Rust!",
+    "path": "media/blog/glsl-quasiquote.md",
+    "publish_date": "2018-10-05 19:00:00 Z",
+    "tags": ["quasiquoting", "glsl"],
+    "slug": "glsl-quasiquoting"
   },
   {
-    "article_name": "Rust and features discoverability",
-    "article_path": "media/blog/rust-doc-feature-problem.md",
-    "article_publish_date": "2018-10-13 23:37:00 Z",
-    "article_tags": ["rust", "documentation", "features"],
-    "article_slug": "rust-features-documentation"
+    "name": "Rust and features discoverability",
+    "path": "media/blog/rust-doc-feature-problem.md",
+    "publish_date": "2018-10-13 23:37:00 Z",
+    "tags": ["rust", "documentation", "features"],
+    "slug": "rust-features-documentation"
   },
   {
-    "article_name": "Release of glsl-quasiquote-0.2",
-    "article_path": "media/blog/glsl-quasiquote-0.2.md",
-    "article_publish_date": "2018-10-22 02:00:00 Z",
-    "article_tags": ["quasiquoting", "glsl"],
-    "article_slug": "glsl-quasiquote-0.2"
+    "name": "Release of glsl-quasiquote-0.2",
+    "path": "media/blog/glsl-quasiquote-0.2.md",
+    "publish_date": "2018-10-22 02:00:00 Z",
+    "tags": ["quasiquoting", "glsl"],
+    "slug": "glsl-quasiquote-0.2"
   },
   {
-    "article_name": "On dealing with owning and borrowing in public interfaces",
-    "article_path": "media/blog/on-owning-and-borrowing-pub-interface.md",
-    "article_publish_date": "2018-11-04 01:30:00 Z",
-    "article_tags": ["ownership", "borrowing", "API"],
-    "article_slug": "on-owning-borrowing-pub-interface"
+    "name": "On dealing with owning and borrowing in public interfaces",
+    "path": "media/blog/on-owning-and-borrowing-pub-interface.md",
+    "publish_date": "2018-11-04 01:30:00 Z",
+    "tags": ["ownership", "borrowing", "API"],
+    "slug": "on-owning-borrowing-pub-interface"
   },
   {
-    "article_name": "Introducing pest into glsl and hindsight about nom vs. pest (part 1)",
-    "article_path": "media/blog/glsl-pest-part-1.md",
-    "article_publish_date": "2018-11-17 05:00:00 Z",
-    "article_tags": ["nom", "past", "parsing", "glsl"],
-    "article_slug": "glsl-pest-part-1"
+    "name": "Introducing pest into glsl and hindsight about nom vs. pest (part 1)",
+    "path": "media/blog/glsl-pest-part-1.md",
+    "publish_date": "2018-11-17 05:00:00 Z",
+    "tags": ["nom", "past", "parsing", "glsl"],
+    "slug": "glsl-pest-part-1"
   },
   {
-    "article_name": "Introducing pest into glsl and hindsight about nom vs. pest (part 2)",
-    "article_path": "media/blog/glsl-pest-part-2.md",
-    "article_publish_date": "2018-11-17 20:40:00 Z",
-    "article_tags": ["nom", "past", "parsing", "glsl"],
-    "article_slug": "glsl-pest-part-2"
+    "name": "Introducing pest into glsl and hindsight about nom vs. pest (part 2)",
+    "path": "media/blog/glsl-pest-part-2.md",
+    "publish_date": "2018-11-17 20:40:00 Z",
+    "tags": ["nom", "past", "parsing", "glsl"],
+    "slug": "glsl-pest-part-2"
   },
   {
-    "article_name": "glsl-0.13 and its visitor pattern",
-    "article_path": "media/blog/glsl-visitor.md",
-    "article_publish_date": "2018-11-22 04:20:00 Z",
-    "article_tags": ["glsl", "visitor", "ast"],
-    "article_slug": "glsl-0.13-visitor"
+    "name": "glsl-0.13 and its visitor pattern",
+    "path": "media/blog/glsl-visitor.md",
+    "publish_date": "2018-11-22 04:20:00 Z",
+    "tags": ["glsl", "visitor", "ast"],
+    "slug": "glsl-0.13-visitor"
   },
   {
-    "article_name": "Rust traits and their (lack of) privacy",
-    "article_path": "media/blog/rfc-private-traits-items.md",
-    "article_publish_date": "2018-11-27 04:00:00 Z",
-    "article_tags": ["rust", "trait", "privacy", "haskell"],
-    "article_slug": "rust-traits-privacy"
+    "name": "Rust traits and their (lack of) privacy",
+    "path": "media/blog/rfc-private-traits-items.md",
+    "publish_date": "2018-11-27 04:00:00 Z",
+    "tags": ["rust", "trait", "privacy", "haskell"],
+    "slug": "rust-traits-privacy"
   },
   {
-    "article_name": "A more faithful Display for proc-macro token types",
-    "article_path": "media/blog/proc-macro-faithful-display.md",
-    "article_publish_date": "2018-12-01 19:51:00 Z",
-    "article_tags": ["rust", "proc-macro"],
-    "article_slug": "proc-macro-faithful-display"
+    "name": "A more faithful Display for proc-macro token types",
+    "path": "media/blog/proc-macro-faithful-display.md",
+    "publish_date": "2018-12-01 19:51:00 Z",
+    "tags": ["rust", "proc-macro"],
+    "slug": "proc-macro-faithful-display"
   },
   {
-    "article_name": "Hindsight on Advent of Code 2018",
-    "article_path": "media/blog/aoc-18.md",
-    "article_publish_date": "2019-01-12 00:20:00 Z",
-    "article_tags": ["aoc", "programming", "puzzles", "challenges"],
-    "article_slug": "aoc-18-hindsight"
+    "name": "Hindsight on Advent of Code 2018",
+    "path": "media/blog/aoc-18.md",
+    "publish_date": "2019-01-12 00:20:00 Z",
+    "tags": ["aoc", "programming", "puzzles", "challenges"],
+    "slug": "aoc-18-hindsight"
   },
   {
-    "article_name": "Universal JSON support in warmy-0.11.1",
-    "article_path": "media/blog/warmy-universal-json.md",
-    "article_publish_date": "2019-01-25 00:50:00 Z",
-    "article_tags": ["warmy", "universal", "json"],
-    "article_slug": "warmy-universal-json"
+    "name": "Universal JSON support in warmy-0.11.1",
+    "path": "media/blog/warmy-universal-json.md",
+    "publish_date": "2019-01-25 00:50:00 Z",
+    "tags": ["warmy", "universal", "json"],
+    "slug": "warmy-universal-json"
   },
   {
-    "article_name": "New cargo subcommand: sync-readme",
-    "article_path": "media/blog/cargo_sync_readme.md",
-    "article_publish_date": "2019-02-25 18:50:00 Z",
-    "article_tags": ["cargo", "subcommand", "readme"],
-    "article_slug": "cargo-sync-readme"
+    "name": "New cargo subcommand: sync-readme",
+    "path": "media/blog/cargo_sync_readme.md",
+    "publish_date": "2019-02-25 18:50:00 Z",
+    "tags": ["cargo", "subcommand", "readme"],
+    "slug": "cargo-sync-readme"
   },
   {
-    "article_name": "splines-1.0.0 and first release candidate",
-    "article_path": "media/blog/splines-1.0.0.md",
-    "article_publish_date": "2019-04-22 01:10:00 Z",
-    "article_tags": ["splines", "release-candidate"],
-    "article_slug": "splines-1.0.0-rc.1"
+    "name": "splines-1.0.0 and first release candidate",
+    "path": "media/blog/splines-1.0.0.md",
+    "publish_date": "2019-04-22 01:10:00 Z",
+    "tags": ["splines", "release-candidate"],
+    "slug": "splines-1.0.0-rc.1"
   },
   {
-    "article_name": "Pre luminance-1.0.0 and random thoughts",
-    "article_path": "media/blog/pre-luminance-1.0.0.md",
-    "article_publish_date": "2019-04-26 22:30:00 Z",
-    "article_tags": ["luminance", "imposter-syndrom"],
-    "article_slug": "pre-luminance-n-random-thoughts"
+    "name": "Pre luminance-1.0.0 and random thoughts",
+    "path": "media/blog/pre-luminance-1.0.0.md",
+    "publish_date": "2019-04-26 22:30:00 Z",
+    "tags": ["luminance", "imposter-syndrom"],
+    "slug": "pre-luminance-n-random-thoughts"
   },
   {
-    "article_name": "On public API and private implementation",
-    "article_path": "media/blog/traits-and-apis.md",
-    "article_publish_date": "2019-06-13 17:05:00 Z",
-    "article_tags": ["public", "api", "private", "implementation"],
-    "article_slug": "public-api-private-implementation"
+    "name": "On public API and private implementation",
+    "path": "media/blog/traits-and-apis.md",
+    "publish_date": "2019-06-13 17:05:00 Z",
+    "tags": ["public", "api", "private", "implementation"],
+    "slug": "public-api-private-implementation"
   },
   {
-    "article_name": "Animate code with awoo!",
-    "article_path": "media/blog/introducing-awoo.md",
-    "article_publish_date": "2019-07-28 11:00:00 Z",
-    "article_tags": ["animation", "demoscene", "synchronization"],
-    "article_slug": "introducing-awoo"
+    "name": "Animate code with awoo!",
+    "path": "media/blog/introducing-awoo.md",
+    "publish_date": "2019-07-28 11:00:00 Z",
+    "tags": ["animation", "demoscene", "synchronization"],
+    "slug": "introducing-awoo"
   },
   {
-    "article_name": "cargo and how crates.io doesn’t like cyclic dev-dependencies",
-    "article_path": "media/blog/cargo-cyclic-deps.md",
-    "article_publish_date": "2019-08-23 12:00:00 Z",
-    "article_tags": ["cargo", "crates.io", "hack", "cyclic dependencies"],
-    "article_slug": "cargo-cyclic-dev-deps"
+    "name": "cargo and how crates.io doesn’t like cyclic dev-dependencies",
+    "path": "media/blog/cargo-cyclic-deps.md",
+    "publish_date": "2019-08-23 12:00:00 Z",
+    "tags": ["cargo", "crates.io", "hack", "cyclic dependencies"],
+    "slug": "cargo-cyclic-dev-deps"
   },
   {
-    "article_name": "Announcement: luminance-0.31, luminance-derive and luminance-glutin",
-    "article_path": "media/blog/luminance-0.31.md",
-    "article_publish_date": "2019-08-29 13:12:00 Z",
-    "article_tags": ["luminance"],
-    "article_slug": "luminance-0.31"
+    "name": "Announcement: luminance-0.31, luminance-derive and luminance-glutin",
+    "path": "media/blog/luminance-0.31.md",
+    "publish_date": "2019-08-29 13:12:00 Z",
+    "tags": ["luminance"],
+    "slug": "luminance-0.31"
   },
   {
-    "article_name": "My Rust 2020 ideas",
-    "article_path": "media/blog/rust-2020.md",
-    "article_publish_date": "2019-10-31 15:15:00 Z",
-    "article_tags": ["rust", "roadmap"],
-    "article_slug": "rust-2020-ideas"
+    "name": "My Rust 2020 ideas",
+    "path": "media/blog/rust-2020.md",
+    "publish_date": "2019-10-31 15:15:00 Z",
+    "tags": ["rust", "roadmap"],
+    "slug": "rust-2020-ideas"
   },
   {
-    "article_name": "Emulating RFC 1598, less or… more?!",
-    "article_path": "media/blog/hkt-1598.md",
-    "article_publish_date": "2019-11-25 15:50:00 Z",
-    "article_tags": ["type-systems", "rust", "haskell", "hkt", "gat", "rfc-1598"],
-    "article_slug": "hkt-1598"
+    "name": "Emulating RFC 1598, less or… more?!",
+    "path": "media/blog/hkt-1598.md",
+    "publish_date": "2019-11-25 15:50:00 Z",
+    "tags": ["type-systems", "rust", "haskell", "hkt", "gat", "rfc-1598"],
+    "slug": "hkt-1598"
   },
   {
-    "article_name": "Let’s talk about C++ constructors",
-    "article_path": "media/blog/cpp-constructors.md",
-    "article_publish_date": "2020-02-24 00:35:00 Z",
-    "article_tags": ["c++", "constructors", "rust"],
-    "article_slug": "c++-constructors"
+    "name": "Let’s talk about C++ constructors",
+    "path": "media/blog/cpp-constructors.md",
+    "publish_date": "2020-02-24 00:35:00 Z",
+    "tags": ["c++", "constructors", "rust"],
+    "slug": "c++-constructors"
   },
   {
-    "article_name": "Let’s talk about C++ exceptions",
-    "article_path": "media/blog/on-cpp-exceptions.md",
-    "article_publish_date": "2020-02-29 20:20:00 Z",
-    "article_tags": ["c++", "exceptions"],
-    "article_slug": "c++-exceptions"
+    "name": "Let’s talk about C++ exceptions",
+    "path": "media/blog/on-cpp-exceptions.md",
+    "publish_date": "2020-02-29 20:20:00 Z",
+    "tags": ["c++", "exceptions"],
+    "slug": "c++-exceptions"
   },
   {
-    "article_name": "An interesting subtle property of where clauses with super traits",
-    "article_path": "media/blog/undecidable-instances-rust.md",
-    "article_publish_date": "2020-05-02 23:50:00 Z",
-    "article_tags": ["undecidable instances", "traits", "super-traits", "where-clause"],
-    "article_slug": "where-clause-super-trait"
+    "name": "An interesting subtle property of where clauses with super traits",
+    "path": "media/blog/undecidable-instances-rust.md",
+    "publish_date": "2020-05-02 23:50:00 Z",
+    "tags": ["undecidable instances", "traits", "super-traits", "where-clause"],
+    "slug": "where-clause-super-trait"
   },
   {
-    "article_name": "The new luminance is there",
-    "article_path": "media/blog/luminance-0.40.md",
-    "article_publish_date": "2020-07-16 18:49:00 Z",
-    "article_tags": ["luminance", "opengl", "webgl", "sdl2", "backend"],
-    "article_slug": "luminance-0.40"
+    "name": "The new luminance is there",
+    "path": "media/blog/luminance-0.40.md",
+    "publish_date": "2020-07-16 18:49:00 Z",
+    "tags": ["luminance", "opengl", "webgl", "sdl2", "backend"],
+    "slug": "luminance-0.40"
   },
   {
-    "article_name": "The compile-time deinterleaving interface of luminance-0.40",
-    "article_path": "media/blog/typesafe-deinterleaving.md",
-    "article_publish_date": "2020-07-19 19:39 Z",
-    "article_tags": ["luminance", "type-safe", "deinterleaving"],
-    "article_slug": "typesafe-deinterleaving"
+    "name": "The compile-time deinterleaving interface of luminance-0.40",
+    "path": "media/blog/typesafe-deinterleaving.md",
+    "publish_date": "2020-07-19 19:39:00 Z",
+    "tags": ["luminance", "type-safe", "deinterleaving"],
+    "slug": "typesafe-deinterleaving"
   },
   {
-    "article_name": "My thoughts about editors in 2020",
-    "article_path": "media/blog/on_editors.md",
-    "article_publish_date": "2020-09-07 00:03 Z",
-    "article_tags": ["editor", "vim", "neovim", "atom", "vs-code", "emacs", "intellij-idea"],
-    "article_slug": "editors-in-2020"
+    "name": "My thoughts about editors in 2020",
+    "path": "media/blog/on_editors.md",
+    "publish_date": "2020-09-07 00:03:00 Z",
+    "tags": ["editor", "vim", "neovim", "atom", "vs-code", "emacs", "intellij-idea"],
+    "slug": "editors-in-2020"
   },
   {
-    "article_name": "Optimizing the permutation algorithm of hop.nvim",
-    "article_path": "media/blog/hop-trie-backtrack-filling.md",
-    "article_publish_date": "2021-03-15 00:00 Z",
-    "article_tags": ["neovim", "hop.nvim", "trie", "backtrack-filling", "optimization", "permutation"],
-    "article_slug": "hop-trie-backtrack-filling"
+    "name": "Optimizing the permutation algorithm of hop.nvim",
+    "path": "media/blog/hop-trie-backtrack-filling.md",
+    "publish_date": "2021-03-15 00:00:00 Z",
+    "tags": ["neovim", "hop.nvim", "trie", "backtrack-filling", "optimization", "permutation"],
+    "slug": "hop-trie-backtrack-filling"
   },
   {
-    "article_name": "My thoughts about editors in (early) 2021",
-    "article_path": "media/blog/neovim-2021.md",
-    "article_publish_date": "2021-03-22 21:00 Z",
-    "article_tags": ["editors", "productivity-platforms"],
-    "article_slug": "editors-in-2021"
+    "name": "My thoughts about editors in (early) 2021",
+    "path": "media/blog/neovim-2021.md",
+    "publish_date": "2021-03-22 21:00:00 Z",
+    "tags": ["editors", "productivity-platforms"],
+    "slug": "editors-in-2021"
   },
   {
-    "article_name": "Neovim plugins stability",
-    "article_path": "media/blog/neovim-plugin-stability.md",
-    "article_publish_date": "2021-11-03 00:24 Z",
-    "article_tags": ["neovim", "plugin", "semver"],
-    "article_slug": "neovim-plugins-stability"
+    "name": "Neovim plugins stability",
+    "path": "media/blog/neovim-plugin-stability.md",
+    "publish_date": "2021-11-03 00:24:00 Z",
+    "tags": ["neovim", "plugin", "semver"],
+    "slug": "neovim-plugins-stability"
   },
   {
-    "article_name": "Optimizing Advent of Code 2021 Day 16 part 1 & 2",
-    "article_path": "media/blog/aoc-21.md",
-    "article_publish_date": "2021-12-24 14:54 Z",
-    "article_tags": ["advent-of-code"],
-    "article_slug": "aoc-21-day-16"
+    "name": "Optimizing Advent of Code 2021 Day 16 part 1 & 2",
+    "path": "media/blog/aoc-21.md",
+    "publish_date": "2021-12-24 14:54:00 Z",
+    "tags": ["advent-of-code"],
+    "slug": "aoc-21-day-16"
   }
 ]

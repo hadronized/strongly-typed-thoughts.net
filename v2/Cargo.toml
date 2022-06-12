@@ -12,10 +12,12 @@ edition = "2021"
 rust-version = "1.56.0"
 
 [dependencies]
+chrono = { version = "0.4.19", features = ["serde"] }
 log = "0.4.17"
 magic = "0.12.2"
 mime = "0.3.16"
 notify = "4.0.17"
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
 serde = "1.0.137"
+serde_json = "1.0.81"
 toml = "0.5.9"

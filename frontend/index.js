@@ -13471,11 +13471,11 @@ var PS = {};
   };
   var metadataFromJson = (function () {
       var treatObject = function (o) {
-          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article name")("article_name")(Data_Argonaut_Core.toString))(function (name) {
-              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article publish date")("article_publish_date")(Data_Argonaut_Core.toString))(function (publishDateRaw) {
+          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article name")("name")(Data_Argonaut_Core.toString))(function (name) {
+              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article publish date")("publish_date")(Data_Argonaut_Core.toString))(function (publishDateRaw) {
                   return Control_Bind.bind(Data_Either.bindEither)(Data_Formatter_DateTime.unformatDateTime("YYYY-MM-DDTHH:mm:ssZ")(publishDateRaw))(function (publishDate) {
-                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article tags")("article_tags")(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString))))(function (tags) {
-                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article slug")("article_slug")((function () {
+                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article tags")("tags")(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString))))(function (tags) {
+                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article slug")("slug")((function () {
                               var $76 = Data_Functor.map(Data_Maybe.functorMaybe)(Slug);
                               return function ($77) {
                                   return $76(Data_Argonaut_Core.toString($77));

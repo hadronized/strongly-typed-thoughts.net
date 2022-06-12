@@ -1,8 +1,10 @@
+mod blog;
 mod config;
 mod file_store;
 mod state;
 
 use crate::{
+  blog::{ArticleIndex, ArticleMetadata},
   config::Config,
   file_store::{FileIndex, FileManager},
   state::State,
@@ -34,6 +36,17 @@ fn api_browse(state: &rocket::State<State>) -> Json<FileIndex> {
   Json(index.clone())
 }
 
+#[get("/blog")]
+fn api_blog(state: &rocket::State<State>) -> Json<Vec<ArticleMetadata>> {
+  let index = state.blog_index().lock().expect("blog index");
+  let articles = index
+    .articles()
+    .iter()
+    .map(|(_, article)| article.clone())
+    .collect();
+  Json(articles)
+}
+
 #[launch]
 fn rocket() -> _ {
   let user_config = load_config();
@@ -59,7 +72,7 @@ fn rocket() -> _ {
     .mount("/", index)
     .mount("/static", static_files)
     .mount("/media/uploads", media_uploads)
-    .mount("/api", routes![api_browse])
+    .mount("/api", routes![api_browse, api_blog])
     .manage(state)
 }
 
@@ -85,7 +98,9 @@ fn spawn_and_watch_files(config: &Config, state: &mut State) {
     .expect("blog dir")
     .canonicalize()
     .expect("canonicalized blog dir");
+  let blog_index_path = config.blog_index.to_owned();
   let file_index = state.file_index().clone();
+  let blog_index = state.blog_index().clone();
 
   let _ = thread::spawn(move || {
     // file watchers; we watch for uploaded files and blog articles
@@ -94,7 +109,14 @@ fn spawn_and_watch_files(config: &Config, state: &mut State) {
 
     watch_dir("media files", &canon_upload_dir, &mut watcher);
     watch_dir("blog directory", &canon_blog_dir, &mut watcher);
-    watch_loop(notify_rx, &canon_upload_dir, &canon_blog_dir, file_index);
+    watch_loop(
+      notify_rx,
+      &canon_upload_dir,
+      &canon_blog_dir,
+      &blog_index_path,
+      file_index,
+      blog_index,
+    );
   });
 }
 
@@ -112,12 +134,20 @@ fn watch_loop(
   notify_rx: Receiver<DebouncedEvent>,
   upload_dir: &Path,
   blog_dir: &Path,
+  blog_index_path: &Path,
   file_index: Arc<Mutex<FileIndex>>,
+  blog_index: Arc<Mutex<ArticleIndex>>,
 ) {
   let mut file_mgr = FileManager::new(file_index).expect("file manager");
   file_mgr
     .populate_from_dir(upload_dir)
     .expect("populate uploads");
+
+  blog_index
+    .lock()
+    .expect("blog index")
+    .populate_from_index(blog_index_path)
+    .expect("populate blog index");
 
   while let Ok(event) = notify_rx.recv() {
     match event {

@@ -20,7 +20,7 @@ impl Default for Config {
       front_dir: "front".into(),
       media_dir: "media".into(),
       upload_dir: "media/uploads".into(),
-      blog_index: "media/blog/index.toml".into(),
+      blog_index: "media/blog/index.json".into(),
       gpg_key_file: "media/gpg/phaazon.gpg".into(),
     }
   }

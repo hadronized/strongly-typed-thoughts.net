@@ -147,17 +147,4 @@ impl FileIndex {
       unknowns: HashSet::new(),
     }
   }
-
-  pub fn iter<'a>(&'a self) -> impl Iterator<Item = &'a Path> {
-    self
-      .images
-      .iter()
-      .chain(&self.applications)
-      .chain(&self.videos)
-      .chain(&self.audios)
-      .chain(&self.texts)
-      .chain(&self.papers)
-      .chain(&self.unknowns)
-      .map(|p| p.as_path())
-  }
 }
