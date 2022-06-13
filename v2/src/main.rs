@@ -14,6 +14,10 @@ use rocket::{
   fs::{FileServer, Options},
   get, launch,
   log::LogLevel,
+  response::{
+    content::RawHtml,
+    status::{self, NotFound},
+  },
   routes,
   serde::json::Json,
 };
@@ -42,9 +46,34 @@ fn api_blog(state: &rocket::State<State>) -> Json<Vec<ArticleMetadata>> {
   let articles = index
     .articles()
     .iter()
-    .map(|(_, article)| article.clone())
+    .map(|(_, article)| article.metadata().clone())
     .collect();
   Json(articles)
+}
+
+#[get("/blog/<slug>")]
+fn api_blog_article(
+  state: &rocket::State<State>,
+  slug: &str,
+) -> Result<RawHtml<String>, NotFound<String>> {
+  let mut index = state.blog_index().lock().expect("blog index");
+
+  match index.articles_mut().get_mut(slug) {
+    Some(article) => {
+      let html = if let Some(html) = article.html() {
+        RawHtml(html.clone())
+      } else {
+        log::info!("article {slug} not cached yet; caching…");
+
+        let html = article.cache().map_err(|e| NotFound(e.to_string()))?;
+        RawHtml(html)
+      };
+
+      Ok(html)
+    }
+
+    None => Err(status::NotFound(format!("article {slug} doesn’t exist"))),
+  }
 }
 
 #[launch]
@@ -72,7 +101,7 @@ fn rocket() -> _ {
     .mount("/", index)
     .mount("/static", static_files)
     .mount("/media/uploads", media_uploads)
-    .mount("/api", routes![api_browse, api_blog])
+    .mount("/api", routes![api_browse, api_blog, api_blog_article])
     .manage(state)
 }
 
