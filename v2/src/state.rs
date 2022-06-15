@@ -105,10 +105,15 @@ impl State {
                 file = event_path.display()
               );
             }
-          }
-
-          if event_path.parent() == Some(blog_dir) {
+          } else if event_path.parent() == Some(blog_dir) {
             log::info!("blog content changed");
+            if let Err(err) = blog_index
+              .lock()
+              .expect("blog index")
+              .populate_from_index(blog_index_path)
+            {
+              log::error!("error while updating blog content: {}", err);
+            }
           }
         }
 

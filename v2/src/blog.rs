@@ -106,8 +106,8 @@ impl ArticleIndex {
       .map(|a| (a.slug.clone(), Article::new(a)))
       .collect();
 
-    for (_, article) in &articles {
-      log::info!("found blog article: {article:#?}");
+    for (article, _) in &articles {
+      log::info!("found blog article: {article}");
     }
 
     self.articles = articles;
