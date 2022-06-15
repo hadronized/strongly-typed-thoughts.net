@@ -1,84 +1,28 @@
+mod api;
 mod blog;
 mod config;
 mod file_store;
 mod state;
 
 use crate::{
-  blog::{ArticleIndex, ArticleMetadata},
+  api::{
+    blog::{api_blog, api_blog_article},
+    browse::api_browse,
+  },
   config::Config,
-  file_store::{FileIndex, FileManager},
   state::State,
 };
-use notify::{DebouncedEvent, Watcher};
 use rocket::{
   fs::{FileServer, Options},
-  get, launch,
+  launch,
   log::LogLevel,
-  response::{
-    content::RawHtml,
-    status::{self, NotFound},
-  },
   routes,
-  serde::json::Json,
 };
-use std::{
-  fs,
-  path::Path,
-  sync::{
-    mpsc::{self, Receiver},
-    Arc, Mutex,
-  },
-  thread,
-  time::Duration,
-};
-
-const NOTIFY_DEBOUNCE_DUR: Duration = Duration::from_millis(200);
-
-#[get("/browse")]
-fn api_browse(state: &rocket::State<State>) -> Json<FileIndex> {
-  let index = state.file_index().lock().expect("file index");
-  Json(index.clone())
-}
-
-#[get("/blog")]
-fn api_blog(state: &rocket::State<State>) -> Json<Vec<ArticleMetadata>> {
-  let index = state.blog_index().lock().expect("blog index");
-  let articles = index
-    .articles()
-    .iter()
-    .map(|(_, article)| article.metadata().clone())
-    .collect();
-  Json(articles)
-}
-
-#[get("/blog/<slug>")]
-fn api_blog_article(
-  state: &rocket::State<State>,
-  slug: &str,
-) -> Result<RawHtml<String>, NotFound<String>> {
-  let mut index = state.blog_index().lock().expect("blog index");
-
-  match index.articles_mut().get_mut(slug) {
-    Some(article) => {
-      let html = if let Some(html) = article.html() {
-        RawHtml(html.clone())
-      } else {
-        log::info!("article {slug} not cached yet; caching…");
-
-        let html = article.cache().map_err(|e| NotFound(e.to_string()))?;
-        RawHtml(html)
-      };
-
-      Ok(html)
-    }
-
-    None => Err(status::NotFound(format!("article {slug} doesn’t exist"))),
-  }
-}
+use std::fs;
 
 #[launch]
 fn rocket() -> _ {
-  let user_config = load_config();
+  let user_config = Config::load();
   println!("{user_config:#?}");
 
   let mut rocket_config = rocket::Config::default();
@@ -91,7 +35,7 @@ fn rocket() -> _ {
   // create the upload directory if missing
   fs::create_dir_all(&user_config.upload_dir).unwrap();
 
-  spawn_and_watch_files(&user_config, &mut state);
+  state.spawn_and_watch_files(&user_config);
 
   let index = FileServer::new("static", Options::default()).rank(0);
   let static_files = FileServer::new("static", Options::default()).rank(1);
@@ -103,112 +47,4 @@ fn rocket() -> _ {
     .mount("/media/uploads", media_uploads)
     .mount("/api", routes![api_browse, api_blog, api_blog_article])
     .manage(state)
-}
-
-fn load_config() -> Config {
-  fs::read_to_string("server.toml")
-    .ok()
-    .and_then(|contents| toml::from_str(&contents).ok())
-    .unwrap_or_else(|| {
-      log::error!("fail to read configuration; using default");
-      Config::default()
-    })
-}
-
-/// Spawn a new thread to start watching files in (via `notify`).
-fn spawn_and_watch_files(config: &Config, state: &mut State) {
-  let canon_upload_dir = config
-    .upload_dir
-    .canonicalize()
-    .expect("canonicalized upload dir");
-  let canon_blog_dir = config
-    .blog_index
-    .parent()
-    .expect("blog dir")
-    .canonicalize()
-    .expect("canonicalized blog dir");
-  let blog_index_path = config.blog_index.to_owned();
-  let file_index = state.file_index().clone();
-  let blog_index = state.blog_index().clone();
-
-  let _ = thread::spawn(move || {
-    // file watchers; we watch for uploaded files and blog articles
-    let (notify_sx, notify_rx) = mpsc::channel();
-    let mut watcher = notify::watcher(notify_sx, NOTIFY_DEBOUNCE_DUR).expect("notify watcher");
-
-    watch_dir("media files", &canon_upload_dir, &mut watcher);
-    watch_dir("blog directory", &canon_blog_dir, &mut watcher);
-    watch_loop(
-      notify_rx,
-      &canon_upload_dir,
-      &canon_blog_dir,
-      &blog_index_path,
-      file_index,
-      blog_index,
-    );
-  });
-}
-
-/// Watch a specific directory.
-fn watch_dir(kind: &'static str, dir: &Path, watcher: &mut impl Watcher) {
-  if let Err(err) = watcher.watch(dir, notify::RecursiveMode::NonRecursive) {
-    log::error!("cannot watch {dir}: {err}", dir = dir.display());
-  }
-
-  log::info!("watching {kind} at {dir}", dir = dir.display());
-}
-
-/// Main watch logic.
-fn watch_loop(
-  notify_rx: Receiver<DebouncedEvent>,
-  upload_dir: &Path,
-  blog_dir: &Path,
-  blog_index_path: &Path,
-  file_index: Arc<Mutex<FileIndex>>,
-  blog_index: Arc<Mutex<ArticleIndex>>,
-) {
-  let mut file_mgr = FileManager::new(file_index).expect("file manager");
-  file_mgr
-    .populate_from_dir(upload_dir)
-    .expect("populate uploads");
-
-  blog_index
-    .lock()
-    .expect("blog index")
-    .populate_from_index(blog_index_path)
-    .expect("populate blog index");
-
-  while let Ok(event) = notify_rx.recv() {
-    match event {
-      DebouncedEvent::Create(ref event_path) | DebouncedEvent::Write(ref event_path) => {
-        if event_path.parent() == Some(upload_dir) {
-          log::info!("uploaded file changed: {path}", path = event_path.display());
-
-          if let Err(err) = file_mgr.add_or_update(&event_path) {
-            log::error!(
-              "cannot add or update file {file}: {err}",
-              file = event_path.display()
-            );
-          }
-        }
-
-        if event_path.parent() == Some(blog_dir) {
-          log::info!("blog content changed");
-        }
-      }
-
-      DebouncedEvent::Remove(ref event_path) => {
-        if event_path.parent() == Some(upload_dir) {
-          log::info!(
-            "removing uploaded file: {path}",
-            path = event_path.display()
-          );
-
-          file_mgr.remove(&event_path);
-        }
-      }
-
-      _ => (),
-    }
-  }
 }

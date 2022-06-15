@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{fs, path::PathBuf};
 
 use serde::{Deserialize, Serialize};
 
@@ -11,6 +11,18 @@ pub struct Config {
   pub upload_dir: PathBuf,
   pub blog_index: PathBuf,
   pub gpg_key_file: PathBuf,
+}
+
+impl Config {
+  pub fn load() -> Self {
+    fs::read_to_string("server.toml")
+      .ok()
+      .and_then(|contents| toml::from_str(&contents).ok())
+      .unwrap_or_else(|| {
+        log::error!("fail to read configuration; using default");
+        Config::default()
+      })
+  }
 }
 
 impl Default for Config {
