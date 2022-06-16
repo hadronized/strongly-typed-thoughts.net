@@ -62,6 +62,7 @@ spaComponent currentYear = mkComponent { eval, initialState, render }
       router <- gets $ \(State state) -> state.router
       component <- inferComponent router
       modify_ $ \(State state) -> State $ state { component = fromMaybe AboutMe component }
+
     SwitchComponent component url -> do
       State state <- get
 
@@ -96,7 +97,6 @@ navPart =
                 ]
             ]
         , navItem "phaazon.net" "fa-home" (SwitchComponent AboutMe "/")
-        , navItemExternal "git.phaazon.net" "fa-code-fork" "https://git.phaazon.net"
         , navItem "/blog" "fa-pencil" (SwitchComponent Blog "/blog")
         , navItem "all the memes!" "fa-cloud-download" (SwitchComponent Browse "/browse")
         ]
@@ -104,13 +104,6 @@ navPart =
   where
   navItem t icon action =
     a [ title t, cl [ "level-item" ], onClick (const action) ]
-      [ span [ cl [ "icon", "is-large" ] ]
-          [ i [ cl [ "fa", icon ] ] []
-          ]
-      ]
-
-  navItemExternal t icon url =
-    a [ href url, title t, cl [ "level-item" ] ]
       [ span [ cl [ "icon", "is-large" ] ]
           [ i [ cl [ "fa", icon ] ] []
           ]
@@ -129,8 +122,8 @@ footerPart year = footer [ cl [ "footer" ] ] [ H.div [ cl [ "content", "has-text
           , iconItem "/media/uploads/cv.pdf" "fa-graduation-cap"
           ]
     , p [] <<< intersperse (text " · ")
-        $ [ badgeLink "https://haskell.org" "Haskell"
-          , badgeLink "http://haskell-servant.readthedocs.io" "servant"
+        $ [ badgeLink "https://www.rust-lang.org/" "Rust"
+          , badgeLink "https://rocket.rs" "rocket"
           , badgeLink "https://github.com/purescript-halogen/purescript-halogen" "Halogen"
           , badgeLink "https://www.purescript.org" "PureScript"
           , badgeLink "http://bulma.io" "bulma"
