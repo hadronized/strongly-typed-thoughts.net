@@ -13,6 +13,7 @@ use crate::{
   state::State,
 };
 use rocket::{
+  config::TlsConfig,
   fs::{FileServer, Options},
   get, launch,
   log::LogLevel,
@@ -36,6 +37,11 @@ fn rocket() -> _ {
   let mut rocket_config = rocket::Config::default();
   rocket_config.port = user_config.port;
   rocket_config.log_level = LogLevel::Debug;
+
+  if let (Some(tls_cert), Some(tls_cert_key)) = (&user_config.tls_cert, &user_config.tls_cert_key) {
+    log::info!("enabling TLS");
+    TlsConfig::from_paths(tls_cert, tls_cert_key);
+  }
 
   // state
   let mut state = State::new().expect("state");

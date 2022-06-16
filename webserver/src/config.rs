@@ -11,6 +11,8 @@ pub struct Config {
   pub upload_dir: PathBuf,
   pub blog_index: PathBuf,
   pub gpg_key_file: PathBuf,
+  pub tls_cert: Option<PathBuf>,
+  pub tls_cert_key: Option<PathBuf>,
 }
 
 impl Config {
@@ -34,6 +36,8 @@ impl Default for Config {
       upload_dir: "media/uploads".into(),
       blog_index: "media/blog/index.json".into(),
       gpg_key_file: "media/gpg/phaazon.gpg".into(),
+      tls_cert: None,
+      tls_cert_key: None,
     }
   }
 }

@@ -18,7 +18,7 @@ magic = "0.12.2"
 mime = "0.3.16"
 notify = "4.0.17"
 pulldown-cmark = "0.9.1"
-rocket = { version = "0.5.0-rc.2", features = ["json"] }
+rocket = { version = "0.5.0-rc.2", features = ["json", "tls"] }
 rss = "2"
 serde = "1.0.137"
 serde_json = "1.0.81"
