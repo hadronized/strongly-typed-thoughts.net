@@ -6,14 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-haskell@v1
-        with:
-          ghc-version: '8.10.3'
-          cabal-version: '3.2'
       - name: Build backend del culo
         run: |
-          cd backend
-          cabal build
+          cd webserver
+          cargo build --release
       - uses: purescript-contrib/setup-purescript@main
       - name: Build frontend du cul
         run: |
@@ -24,5 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Code format
-        uses: mrkkrp/ormolu-action@v1
+      - name: Webserver format
+        uses: |
+          cd webserver
+          cargo fmt --check
