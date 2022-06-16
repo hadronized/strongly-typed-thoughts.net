@@ -76,6 +76,30 @@ impl Article {
 
     Ok(html)
   }
+
+  pub fn to_rss(&self) -> rss::Item {
+    let date = self
+      .metadata
+      .modification_date
+      .as_ref()
+      .unwrap_or_else(|| &self.metadata.publish_date);
+
+    rss::ItemBuilder::default()
+      .author(Some(
+        "Dimitri 'phaazon' Sabadie <dimitri.sabadie@gmail.com>".to_owned(),
+      ))
+      .pub_date(Some(format!(
+        "{}",
+        date.format("%a, %d %b %Y %H:%M:%S GMT")
+      )))
+      .link(Some(format!(
+        "https://phaazon.net/blog/{}",
+        self.metadata.slug
+      )))
+      .title(Some(self.metadata.name.clone()))
+      .description(Some(self.metadata.tags.join(", ")))
+      .build()
+  }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -113,5 +137,27 @@ impl ArticleIndex {
     self.articles = articles;
 
     Ok(())
+  }
+
+  pub fn to_rss(&self) -> rss::Channel {
+    let items: Vec<rss::Item> = self.articles.values().map(Article::to_rss).collect();
+    let last_build_date = self
+      .articles
+      .values()
+      .map(|art| {
+        let m = &art.metadata;
+        m.modification_date
+          .as_ref()
+          .unwrap_or_else(|| &m.publish_date)
+      })
+      .min()
+      .map(|date| date.format("%a, %d %b %Y %H:%M:%S GMT").to_string());
+
+    rss::ChannelBuilder::default()
+      .title("phaazon.net blog".to_owned())
+      .link("https://phaazon.net/blog".to_owned())
+      .items(items)
+      .last_build_date(last_build_date)
+      .build()
   }
 }

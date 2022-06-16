@@ -14,11 +14,19 @@ use crate::{
 };
 use rocket::{
   fs::{FileServer, Options},
-  launch,
+  get, launch,
   log::LogLevel,
+  response::content::RawXml,
   routes,
 };
 use std::fs;
+
+#[get("/feed")]
+pub fn blog_feed(state: &rocket::State<State>) -> RawXml<String> {
+  let index = state.blog_index().lock().expect("blog index");
+  let channel = index.to_rss();
+  RawXml(channel.to_string())
+}
 
 #[launch]
 fn rocket() -> _ {
@@ -45,6 +53,7 @@ fn rocket() -> _ {
     .mount("/", index)
     .mount("/static", static_files)
     .mount("/media/uploads", media_uploads)
+    .mount("/blog", routes![blog_feed])
     .mount("/api", routes![api_browse, api_blog, api_blog_article])
     .manage(state)
 }
