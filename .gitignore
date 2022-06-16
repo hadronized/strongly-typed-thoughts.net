@@ -2,4 +2,4 @@
 /api/media/uploads
 media/uploads
 webserver/target/
-webserver/media
+webserver/media/uploads
