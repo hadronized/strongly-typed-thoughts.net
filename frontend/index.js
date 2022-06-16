@@ -13471,11 +13471,11 @@ var PS = {};
   };
   var metadataFromJson = (function () {
       var treatObject = function (o) {
-          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article name")("article_name")(Data_Argonaut_Core.toString))(function (name) {
-              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article publish date")("article_publish_date")(Data_Argonaut_Core.toString))(function (publishDateRaw) {
+          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article name")("name")(Data_Argonaut_Core.toString))(function (name) {
+              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article publish date")("publish_date")(Data_Argonaut_Core.toString))(function (publishDateRaw) {
                   return Control_Bind.bind(Data_Either.bindEither)(Data_Formatter_DateTime.unformatDateTime("YYYY-MM-DDTHH:mm:ssZ")(publishDateRaw))(function (publishDate) {
-                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article tags")("article_tags")(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString))))(function (tags) {
-                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article slug")("article_slug")((function () {
+                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article tags")("tags")(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString))))(function (tags) {
+                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing article slug")("slug")((function () {
                               var $76 = Data_Functor.map(Data_Maybe.functorMaybe)(Slug);
                               return function ($77) {
                                   return $76(Data_Argonaut_Core.toString($77));
@@ -13766,7 +13766,6 @@ var PS = {};
   var Data_Maybe = $PS["Data.Maybe"];
   var Data_Ord = $PS["Data.Ord"];
   var Data_Set = $PS["Data.Set"];
-  var Data_String_CodePoints = $PS["Data.String.CodePoints"];
   var Data_String_Common = $PS["Data.String.Common"];
   var Data_String_Utils = $PS["Data.String.Utils"];
   var Data_Traversable = $PS["Data.Traversable"];
@@ -13800,24 +13799,21 @@ var PS = {};
   })();
   var parseUploadedFiles = (function () {
       var treatObject = function (o) {
-          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing images")("pub_images")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubImages) {
-              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing executables")("pub_executables")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubExecutables) {
-                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing videos")("pub_videos")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubVideos) {
-                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing archives")("pub_archives")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubArchives) {
-                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing audios")("pub_audios")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubAudios) {
-                              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing texts")("pub_texts")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubTexts) {
-                                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing papers")("pub_papers")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubPapers) {
-                                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing unknowns")("pub_unknown")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (pubUnknown) {
-                                          return Control_Applicative.pure(Data_Either.applicativeEither)({
-                                              pubImages: pubImages,
-                                              pubExecutables: pubExecutables,
-                                              pubVideos: pubVideos,
-                                              pubArchives: pubArchives,
-                                              pubAudios: pubAudios,
-                                              pubTexts: pubTexts,
-                                              pubPapers: pubPapers,
-                                              pubUnknown: pubUnknown
-                                          });
+          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing images")("images")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (images) {
+              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing applications")("applications")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (applications) {
+                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing videos")("videos")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (videos) {
+                      return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing audios")("audios")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (audios) {
+                          return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing texts")("texts")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (texts) {
+                              return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing papers")("papers")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (papers) {
+                                  return Control_Bind.bind(Data_Either.bindEither)($$JSON.extractField(o)("missing unknowns")("unknowns")(Data_Functor.map(Data_Functor.functorFn)(Data_Functor.map(Data_Maybe.functorMaybe)(Data_Set.fromFoldable(Data_Foldable.foldableArray)(Data_Ord.ordString)))(Control_Bind.composeKleisli(Data_Maybe.bindMaybe)(Data_Argonaut_Core.toArray)(Data_Traversable.traverse(Data_Traversable.traversableArray)(Data_Maybe.applicativeMaybe)(Data_Argonaut_Core.toString)))))(function (unknown) {
+                                      return Control_Applicative.pure(Data_Either.applicativeEither)({
+                                          images: images,
+                                          applications: applications,
+                                          videos: videos,
+                                          audios: audios,
+                                          texts: texts,
+                                          papers: papers,
+                                          unknown: unknown
                                       });
                                   });
                               });
@@ -13829,19 +13825,17 @@ var PS = {};
       };
       return Data_Argonaut_Core.caseJsonObject(new Data_Either.Left("not an object"))(treatObject);
   })();
-  var dropper = Data_String_CodePoints.drop(Data_String_CodePoints.length("media/uploads/"));
   var filePathToLi = function (isOdd) {
       return function (path) {
-          var name = dropper(path);
           var html = Halogen_HTML_Elements.li([ HTMLHelper.cl([ "browse-content-item-" + (function () {
               if (isOdd) {
                   return "odd";
               };
               return "even";
-          })() ]) ])([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href(path) ])([ Halogen_HTML_Core.text(name) ]) ]);
+          })() ]) ])([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href("media/uploads/" + path) ])([ Halogen_HTML_Core.text(path) ]) ]);
           return {
               html: html,
-              name: name
+              name: path
           };
       };
   };
@@ -13891,19 +13885,18 @@ var PS = {};
               };
           };
           var searchInput = Halogen_HTML_Elements.div([ HTMLHelper.cl([ "control", "browse-input", "has-icons-left" ]) ])([ Halogen_HTML_Elements.input([ HTMLHelper.cl([ "input" ]), Halogen_HTML_Properties.placeholder("Search uploaded files\u2026"), Halogen_HTML_Events.onValueInput(FilterFiles.create) ]), Halogen_HTML_Elements.span([ HTMLHelper.cl([ "icon", "is-left", "is-small" ]) ])([ Halogen_HTML_Elements.i([ HTMLHelper.cl([ "fa", "fa-search" ]) ])([  ]) ]) ]);
-          return Halogen_HTML_Elements.section([ HTMLHelper.cl([ "container", "section", "content" ]) ])(Data_Array.catMaybes([ new Data_Maybe.Just(searchInput), subSection(state.fileFilter)("images")("Images")(state.files.pubImages), subSection(state.fileFilter)("executables")("Executables")(state.files.pubExecutables), subSection(state.fileFilter)("videos")("Videos")(state.files.pubVideos), subSection(state.fileFilter)("archives")("Archives")(state.files.pubArchives), subSection(state.fileFilter)("audios")("Audios")(state.files.pubAudios), subSection(state.fileFilter)("texts")("Texts")(state.files.pubTexts), subSection(state.fileFilter)("papers")("Papers")(state.files.pubPapers), subSection(state.fileFilter)("unknown")("Unknown")(state.files.pubUnknown) ]));
+          return Halogen_HTML_Elements.section([ HTMLHelper.cl([ "container", "section", "content" ]) ])(Data_Array.catMaybes([ new Data_Maybe.Just(searchInput), subSection(state.fileFilter)("images")("Images")(state.files.images), subSection(state.fileFilter)("applications")("Applications")(state.files.applications), subSection(state.fileFilter)("videos")("Videos")(state.files.videos), subSection(state.fileFilter)("audios")("Audios")(state.files.audios), subSection(state.fileFilter)("texts")("Texts")(state.files.texts), subSection(state.fileFilter)("papers")("Papers")(state.files.papers), subSection(state.fileFilter)("unknown")("Unknown")(state.files.unknown) ]));
       };
       var initialState = function (v) {
           return {
               files: {
-                  pubImages: Data_Set.empty,
-                  pubExecutables: Data_Set.empty,
-                  pubVideos: Data_Set.empty,
-                  pubArchives: Data_Set.empty,
-                  pubAudios: Data_Set.empty,
-                  pubTexts: Data_Set.empty,
-                  pubPapers: Data_Set.empty,
-                  pubUnknown: Data_Set.empty
+                  images: Data_Set.empty,
+                  applications: Data_Set.empty,
+                  videos: Data_Set.empty,
+                  audios: Data_Set.empty,
+                  texts: Data_Set.empty,
+                  papers: Data_Set.empty,
+                  unknown: Data_Set.empty
               },
               fileFilter: ""
           };
@@ -13922,7 +13915,7 @@ var PS = {};
                           fileFilter: ""
                       });
                   };
-                  throw new Error("Failed pattern match at Browse (line 89, column 7 - line 91, column 53): " + [ resp.constructor.name ]);
+                  throw new Error("Failed pattern match at Browse (line 86, column 7 - line 88, column 53): " + [ resp.constructor.name ]);
               });
           };
           if (v instanceof FilterFiles) {
@@ -13937,7 +13930,7 @@ var PS = {};
                   return $18;
               });
           };
-          throw new Error("Failed pattern match at Browse (line 86, column 18 - line 92, column 52): " + [ v.constructor.name ]);
+          throw new Error("Failed pattern match at Browse (line 83, column 18 - line 89, column 52): " + [ v.constructor.name ]);
       };
       var $$eval = Halogen_Component.mkEval({
           handleAction: handleAction,
@@ -15788,7 +15781,8 @@ var PS = {};
   exports["runUI"] = runUI;
 })(PS);
 (function($PS) {
-  // Generated by purs version 0.14.3
+  
+  // | Top-level component of the web application.
   "use strict";
   $PS["SPA"] = $PS["SPA"] || {};
   var exports = $PS["SPA"];
@@ -15872,13 +15866,6 @@ var PS = {};
       return SwitchComponent;
   })();
   var navPart = (function () {
-      var navItemExternal = function (t) {
-          return function (icon) {
-              return function (url) {
-                  return Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href(url), Halogen_HTML_Properties.title(t), HTMLHelper.cl([ "level-item" ]) ])([ Halogen_HTML_Elements.span([ HTMLHelper.cl([ "icon", "is-large" ]) ])([ Halogen_HTML_Elements.i([ HTMLHelper.cl([ "fa", icon ]) ])([  ]) ]) ]);
-              };
-          };
-      };
       var navItem = function (t) {
           return function (icon) {
               return function (action) {
@@ -15886,8 +15873,10 @@ var PS = {};
               };
           };
       };
-      return Halogen_HTML_Elements.nav([ Halogen_HTML_Properties.id("top-header"), HTMLHelper.cl([ "hero", "is-medium" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "hero-body", "container", "level", "has-shadow" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "level-item", "has-text-centered" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "content" ]) ])([ Halogen_HTML_Elements.p([  ])([ Halogen_HTML_Elements.h1([ HTMLHelper.cl([ "title", "is-1" ]) ])([ Halogen_HTML_Core.text("Dimitri Sabadie") ]) ]), Halogen_HTML_Elements.p([  ])([ Halogen_HTML_Elements.h2([ HTMLHelper.cl([ "subtitle", "is-4" ]) ])([ Halogen_HTML_Elements.em([  ])([ Halogen_HTML_Core.text("Do not make more tools than existing problems") ]) ]) ]) ]) ]), navItem("phaazon.net")("fa-home")(new SwitchComponent(AboutMe.value, "/")), navItemExternal("git.phaazon.net")("fa-code-fork")("https://git.phaazon.net"), navItem("/blog")("fa-pencil")(new SwitchComponent(Blog.value, "/blog")), navItem("all the memes!")("fa-cloud-download")(new SwitchComponent(Browse.value, "/browse")) ]) ]);
+      return Halogen_HTML_Elements.nav([ Halogen_HTML_Properties.id("top-header"), HTMLHelper.cl([ "hero", "is-medium" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "hero-body", "container", "level", "has-shadow" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "level-item", "has-text-centered" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "content" ]) ])([ Halogen_HTML_Elements.p([  ])([ Halogen_HTML_Elements.h1([ HTMLHelper.cl([ "title", "is-1" ]) ])([ Halogen_HTML_Core.text("Dimitri Sabadie") ]) ]), Halogen_HTML_Elements.p([  ])([ Halogen_HTML_Elements.h2([ HTMLHelper.cl([ "subtitle", "is-4" ]) ])([ Halogen_HTML_Elements.em([  ])([ Halogen_HTML_Core.text("Do not make more tools than existing problems") ]) ]) ]) ]) ]), navItem("phaazon.net")("fa-home")(new SwitchComponent(AboutMe.value, "/")), navItem("/blog")("fa-pencil")(new SwitchComponent(Blog.value, "/blog")), navItem("all the memes!")("fa-cloud-download")(new SwitchComponent(Browse.value, "/browse")) ]) ]);
   })();
+
+  // | Infer the component to use based on the current router path.
   var inferComponent = function (dictMonadEffect) {
       var pathToComponent = function (p) {
           if (Data_String_Utils.startsWith("/blog")(p)) {
@@ -15902,7 +15891,7 @@ var PS = {};
           if (Data_Boolean.otherwise) {
               return Data_Maybe.Nothing.value;
           };
-          throw new Error("Failed pattern match at SPA (line 149, column 3 - line 153, column 26): " + [ p.constructor.name ]);
+          throw new Error("Failed pattern match at SPA (line 142, column 3 - line 146, column 26): " + [ p.constructor.name ]);
       };
       return Control_Bind.composeKleisli((dictMonadEffect.Monad0()).Bind1())(Router.path(dictMonadEffect))((function () {
           var $31 = Control_Applicative.pure((dictMonadEffect.Monad0()).Applicative0());
@@ -15922,7 +15911,7 @@ var PS = {};
               return Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href(url) ])([ Halogen_HTML_Core.text(name) ]);
           };
       };
-      var content = [ Halogen_HTML_Elements.p([  ])(Data_Array.intersperse(Halogen_HTML_Core.text(" "))([ iconItem("https://github.com/phaazon")("fa-github"), iconItem("https://twitter.com/phaazon_")("fa-twitter"), iconItem("https://www.linkedin.com/in/dimitri-sabadie-97a9009b/")("fa-linkedin-square"), iconItem("https://soundcloud.com/phaazon")("fa-soundcloud"), iconItem("https://stackoverflow.com/users/1784267/phaazon")("fa-stack-overflow"), iconItem("/media/uploads/cv.pdf")("fa-graduation-cap") ])), Halogen_HTML_Elements.p([  ])(Data_Array.intersperse(Halogen_HTML_Core.text(" \xb7 "))([ badgeLink("https://haskell.org")("Haskell"), badgeLink("http://haskell-servant.readthedocs.io")("servant"), badgeLink("https://github.com/purescript-halogen/purescript-halogen")("Halogen"), badgeLink("https://www.purescript.org")("PureScript"), badgeLink("http://bulma.io")("bulma") ])), Halogen_HTML_Elements.p([  ])(Data_Functor.map(Data_Functor.functorArray)(Halogen_HTML_Core.text)([ "Copyright \xa9 2014\u2014", Data_Show.show(Data_Show.showInt)(year), ", Dimitri Sabadie" ])) ];
+      var content = [ Halogen_HTML_Elements.p([  ])(Data_Array.intersperse(Halogen_HTML_Core.text(" "))([ iconItem("https://github.com/phaazon")("fa-github"), iconItem("https://twitter.com/phaazon_")("fa-twitter"), iconItem("https://www.linkedin.com/in/dimitri-sabadie-97a9009b/")("fa-linkedin-square"), iconItem("https://soundcloud.com/phaazon")("fa-soundcloud"), iconItem("https://stackoverflow.com/users/1784267/phaazon")("fa-stack-overflow"), iconItem("/media/uploads/cv.pdf")("fa-graduation-cap") ])), Halogen_HTML_Elements.p([  ])(Data_Array.intersperse(Halogen_HTML_Core.text(" \xb7 "))([ badgeLink("https://www.rust-lang.org/")("Rust"), badgeLink("https://rocket.rs")("rocket"), badgeLink("https://github.com/purescript-halogen/purescript-halogen")("Halogen"), badgeLink("https://www.purescript.org")("PureScript"), badgeLink("http://bulma.io")("bulma") ])), Halogen_HTML_Elements.p([  ])(Data_Functor.map(Data_Functor.functorArray)(Halogen_HTML_Core.text)([ "Copyright \xa9 2014\u2014", Data_Show.show(Data_Show.showInt)(year), ", Dimitri Sabadie" ])) ];
       return Halogen_HTML_Elements.footer([ HTMLHelper.cl([ "footer" ]) ])([ Halogen_HTML_Elements.div([ HTMLHelper.cl([ "content", "has-text-centered" ]) ])(content) ]);
   };
   var eqActiveComponent = new Data_Eq.Eq(function (x) {
@@ -15959,7 +15948,7 @@ var PS = {};
                   return "browse";
               }))(Data_Ord.ordInt)(_browse)(0)(Browse_1.browseComponent(Effect_Aff_Class.monadAffAff))(Data_Unit.unit);
           };
-          throw new Error("Failed pattern match at SPA (line 83, column 41 - line 86, column 51): " + [ v.value0.component.constructor.name ]);
+          throw new Error("Failed pattern match at SPA (line 84, column 41 - line 87, column 51): " + [ v.value0.component.constructor.name ]);
       };
       var render = function (state) {
           return Halogen_HTML_Elements.div([  ])([ navPart, renderActiveComponent(state), footerPart(currentYear) ]);
@@ -16005,7 +15994,7 @@ var PS = {};
                                   return "browse";
                               }))(Data_Ord.ordInt)(_browse)(0)(Child.refresh);
                           };
-                          throw new Error("Failed pattern match at SPA (line 70, column 17 - line 73, column 52): " + [ v.value0.constructor.name ]);
+                          throw new Error("Failed pattern match at SPA (line 71, column 17 - line 74, column 52): " + [ v.value0.constructor.name ]);
                       })();
                       return Data_Functor.voidRight(Halogen_Query_HalogenM.functorHalogenM)(Data_Unit.unit)(q);
                   };
@@ -16017,7 +16006,7 @@ var PS = {};
                   });
               });
           };
-          throw new Error("Failed pattern match at SPA (line 59, column 18 - line 77, column 56): " + [ v.constructor.name ]);
+          throw new Error("Failed pattern match at SPA (line 59, column 18 - line 78, column 56): " + [ v.constructor.name ]);
       };
       var $$eval = Halogen_Component.mkEval({
           handleAction: handleAction,

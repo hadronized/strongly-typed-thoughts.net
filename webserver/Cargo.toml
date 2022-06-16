@@ -1,0 +1,25 @@
+[package]
+name = "webserver"
+version = "0.1.0"
+license = "BSD-3-Clause"
+authors = ["Dimitri Sabadie <dimitri.sabadie@gmail.com>"]
+description = "phaazon.net web server"
+homepage = "https://github.com/phaazon/phaazon.net"
+repository = "https://github.com/phaazon/phaazon.net"
+readme = "README.md"
+
+edition = "2021"
+rust-version = "1.56.0"
+
+[dependencies]
+chrono = { version = "0.4.19", features = ["serde"] }
+log = "0.4.17"
+magic = "0.12.2"
+mime = "0.3.16"
+notify = "4.0.17"
+pulldown-cmark = "0.9.1"
+rocket = { version = "0.5.0-rc.2", features = ["json"] }
+rss = "2"
+serde = "1.0.137"
+serde_json = "1.0.81"
+toml = "0.5.9"

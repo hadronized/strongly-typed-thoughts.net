@@ -15,7 +15,7 @@ import Data.List (List(..))
 import Data.Maybe (Maybe(..))
 import Data.Set (Set)
 import Data.Set as S
-import Data.String (drop, length, toLower)
+import Data.String (toLower)
 import Data.String.Utils (includes)
 import Data.Traversable (traverse)
 import Effect.Aff.Class (class MonadAff, liftAff)
@@ -31,14 +31,13 @@ import Halogen.HTML.Properties (href, id, placeholder)
 import JSON (extractField)
 
 type UploadedFiles
-  = { pubImages :: Set String
-    , pubExecutables :: Set String
-    , pubVideos :: Set String
-    , pubArchives :: Set String
-    , pubAudios :: Set String
-    , pubTexts :: Set String
-    , pubPapers :: Set String
-    , pubUnknown :: Set String
+  = { images :: Set String
+    , applications :: Set String
+    , videos :: Set String
+    , audios :: Set String
+    , texts :: Set String
+    , papers :: Set String
+    , unknown :: Set String
     }
 
 type State
@@ -50,15 +49,14 @@ parseUploadedFiles :: Json -> Either String UploadedFiles
 parseUploadedFiles = caseJsonObject (Left "not an object") treatObject
   where
   treatObject o = do
-    pubImages <- extractField o "missing images" "pub_images" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pubExecutables <- extractField o "missing executables" "pub_executables" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pubVideos <- extractField o "missing videos" "pub_videos" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pubArchives <- extractField o "missing archives" "pub_archives" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pubAudios <- extractField o "missing audios" "pub_audios" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pubTexts <- extractField o "missing texts" "pub_texts" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pubPapers <- extractField o "missing papers" "pub_papers" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pubUnknown <- extractField o "missing unknowns" "pub_unknown" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
-    pure $ { pubImages, pubExecutables, pubVideos, pubArchives, pubAudios, pubTexts, pubPapers, pubUnknown }
+    images <- extractField o "missing images" "images" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
+    applications <- extractField o "missing applications" "applications" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
+    videos <- extractField o "missing videos" "videos" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
+    audios <- extractField o "missing audios" "audios" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
+    texts <- extractField o "missing texts" "texts" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
+    papers <- extractField o "missing papers" "papers" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
+    unknown <- extractField o "missing unknowns" "unknowns" <<< map (map S.fromFoldable) $ toArray >=> traverse toString
+    pure $ { images, applications, videos, audios, texts, papers, unknown }
 
 data Action
   = Init
@@ -69,14 +67,13 @@ browseComponent = mkComponent { initialState, eval, render }
   where
   initialState _ =
     { files:
-        { pubImages: S.empty
-        , pubExecutables: S.empty
-        , pubVideos: S.empty
-        , pubArchives: S.empty
-        , pubAudios: S.empty
-        , pubTexts: S.empty
-        , pubPapers: S.empty
-        , pubUnknown: S.empty
+        { images: S.empty
+        , applications: S.empty
+        , videos: S.empty
+        , audios: S.empty
+        , texts: S.empty
+        , papers: S.empty
+        , unknown: S.empty
         }
     , fileFilter: ""
     }
@@ -94,14 +91,13 @@ browseComponent = mkComponent { initialState, eval, render }
   render state =
     section [ cl [ "container", "section", "content" ] ] <<< catMaybes
       $ [ Just searchInput
-        , subSection state.fileFilter "images" "Images" state.files.pubImages
-        , subSection state.fileFilter "executables" "Executables" state.files.pubExecutables
-        , subSection state.fileFilter "videos" "Videos" state.files.pubVideos
-        , subSection state.fileFilter "archives" "Archives" state.files.pubArchives
-        , subSection state.fileFilter "audios" "Audios" state.files.pubAudios
-        , subSection state.fileFilter "texts" "Texts" state.files.pubTexts
-        , subSection state.fileFilter "papers" "Papers" state.files.pubPapers
-        , subSection state.fileFilter "unknown" "Unknown" state.files.pubUnknown
+        , subSection state.fileFilter "images" "Images" state.files.images
+        , subSection state.fileFilter "applications" "Applications" state.files.applications
+        , subSection state.fileFilter "videos" "Videos" state.files.videos
+        , subSection state.fileFilter "audios" "Audios" state.files.audios
+        , subSection state.fileFilter "texts" "Texts" state.files.texts
+        , subSection state.fileFilter "papers" "Papers" state.files.papers
+        , subSection state.fileFilter "unknown" "Unknown" state.files.unknown
         ]
     where
     searchInput =
@@ -131,15 +127,10 @@ filePathToLi isOdd path =
   let
     html =
       li [ cl [ "browse-content-item-" <> if isOdd then "odd" else "even" ] ]
-        [ a [ href path ] [ text name ]
+        [ a [ href $ "media/uploads/" <> path ] [ text path ]
         ]
   in
-    { html, name }
-  where
-  name = dropper path
-
-dropper :: String -> String
-dropper = drop (length "media/uploads/")
+    { html, name: path }
 
 renderedFiles :: forall w i. String -> Set String -> Array (HTML w i)
 renderedFiles fileFilter =

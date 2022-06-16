@@ -188,11 +188,11 @@ metadataFromJson = caseJsonArray (Left "payload is not an array of metadata") (t
 
   treatObject :: Object Json -> Either String Metadata
   treatObject o = do
-    name <- extractField o "missing article name" "article_name" toString
-    publishDateRaw <- extractField o "missing article publish date" "article_publish_date" toString
+    name <- extractField o "missing article name" "name" toString
+    publishDateRaw <- extractField o "missing article publish date" "publish_date" toString
     publishDate <- DT.unformatDateTime timeFormat publishDateRaw
-    tags <- extractField o "missing article tags" "article_tags" $ toArray >=> traverse toString
-    slug <- extractField o "missing article slug" "article_slug" (map Slug <<< toString)
+    tags <- extractField o "missing article tags" "tags" $ toArray >=> traverse toString
+    slug <- extractField o "missing article slug" "slug" (map Slug <<< toString)
     pure { name, publishDate, tags, slug }
 
   timeFormat = "YYYY-MM-DDTHH:mm:ssZ"
