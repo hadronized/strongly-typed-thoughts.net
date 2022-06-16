@@ -1,10 +1,5 @@
-dist*
-.ghc*
-cabal.project.local
-dist-newstyle/
 /api/media/gpg
 /api/media/uploads
-requests.restclient
 media/uploads
-output
-v2/target/
+webserver/target/
+webserver/media
