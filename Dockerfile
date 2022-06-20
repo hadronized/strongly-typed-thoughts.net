@@ -12,4 +12,4 @@ ADD ./static /usr/share/phaazon.net
 # Data (uploads and blog articles).
 # RUN mkdir -p /var/lib/phaazon.net/uploads/
 
-ENTRYPOINT /usr/bin/webserver
+ENTRYPOINT /usr/local/bin/phaazon.net/webserver
