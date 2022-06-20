@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  phaazon.net-webserver:
+    image: phaazon.net-webserver:latest
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/lib/phaazon.net/uploads:/var/lib/phaazon.net/uploads
+      - /var/lib/phaazon.net/blog:/var/lib/phaazon.net/blog
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
+      - /var/lib/letsencrypt/:/var/lib/letsencrypt/
+      - /etc/letsencrypt/:/etc/letsencrypt/
