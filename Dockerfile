@@ -15,7 +15,8 @@ ADD ./static /usr/share/phaazon.net/static
 ADD ./server.toml /usr/share/phaazon.net
 
 # Data (uploads and blog articles).
-# RUN mkdir -p /var/lib/phaazon.net/uploads/
+RUN mkdir -p /var/lib/phaazon.net/blog
+RUN mkdir -p /var/lib/phaazon.net/uploads
 
 ENV PHAAZON_NET_CONFIG=/usr/share/phaazon.net/server.toml
 ENTRYPOINT /usr/local/bin/phaazon.net/webserver
