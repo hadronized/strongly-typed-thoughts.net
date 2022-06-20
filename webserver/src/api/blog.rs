@@ -26,6 +26,7 @@ pub fn api_blog_article(
   slug: &str,
 ) -> Result<RawHtml<String>, NotFound<String>> {
   let mut index = state.blog_index().lock().expect("blog index");
+  let blog_dir = index.blog_dir().to_owned();
 
   match index.articles_mut().get_mut(slug) {
     Some(article) => {
@@ -34,7 +35,9 @@ pub fn api_blog_article(
       } else {
         log::info!("article {slug} not cached yet; caching…");
 
-        let html = article.cache().map_err(|e| NotFound(e.to_string()))?;
+        let html = article
+          .cache(&blog_dir)
+          .map_err(|e| NotFound(e.to_string()))?;
         RawHtml(html)
       };
 

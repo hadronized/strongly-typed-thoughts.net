@@ -9,7 +9,7 @@ pub struct Config {
   pub static_dir: PathBuf,
   pub front_dir: PathBuf,
   pub upload_dir: PathBuf,
-  pub blog_index: PathBuf,
+  pub blog_dir: PathBuf,
   pub tls_cert: Option<PathBuf>,
   pub tls_cert_key: Option<PathBuf>,
 }
@@ -38,7 +38,7 @@ impl Default for Config {
       static_dir: "static".into(),
       front_dir: "frontend".into(),
       upload_dir: "uploads".into(),
-      blog_index: "blog/index.json".into(),
+      blog_dir: "blog/index.json".into(),
       tls_cert: None,
       tls_cert_key: None,
     }
