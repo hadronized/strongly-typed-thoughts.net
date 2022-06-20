@@ -51,9 +51,9 @@ fn rocket() -> _ {
 
   state.spawn_and_watch_files(&user_config);
 
-  let index = FileServer::new("static", Options::default()).rank(0);
-  let static_files = FileServer::new("static", Options::default()).rank(1);
-  let media_uploads = FileServer::new("media/uploads", Options::default());
+  let index = FileServer::new(&user_config.static_dir, Options::default()).rank(0);
+  let static_files = FileServer::new(&user_config.static_dir, Options::default()).rank(1);
+  let media_uploads = FileServer::new(&user_config.upload_dir, Options::default());
 
   rocket::custom(rocket_config)
     .mount("/", index)
