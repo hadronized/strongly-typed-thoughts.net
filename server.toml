@@ -1,0 +1,5 @@
+port = 9000
+static_dir = "/usr/local/phaazon.net/static"
+front_dir = "/usr/local/phaazon.net/frontend"
+upload_dir = "/var/lib/phaazon.net/uploads"
+blog_dir = "/var/lib/phaazon.net/blog"
