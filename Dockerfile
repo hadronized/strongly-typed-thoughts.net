@@ -1,8 +1,8 @@
 FROM archlinux:latest
 
 # Dependencies.
-RUN pacman -Syu
-RUN pacman -S file
+RUN pacman -Syu --noconfirm
+RUN pacman -S file --noconfirm
 
 # Binary.
 RUN mkdir /usr/local/bin/phaazon.net
