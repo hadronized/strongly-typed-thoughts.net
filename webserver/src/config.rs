@@ -6,11 +6,10 @@ use serde::{Deserialize, Serialize};
 #[serde(default)]
 pub struct Config {
   pub port: u16,
+  pub static_dir: PathBuf,
   pub front_dir: PathBuf,
-  pub media_dir: PathBuf,
   pub upload_dir: PathBuf,
   pub blog_index: PathBuf,
-  pub gpg_key_file: PathBuf,
   pub tls_cert: Option<PathBuf>,
   pub tls_cert_key: Option<PathBuf>,
 }
@@ -31,11 +30,10 @@ impl Default for Config {
   fn default() -> Self {
     Self {
       port: 8000,
-      front_dir: "front".into(),
-      media_dir: "media".into(),
+      static_dir: "static".into(),
+      front_dir: "frontend".into(),
       upload_dir: "media/uploads".into(),
       blog_index: "media/blog/index.json".into(),
-      gpg_key_file: "media/gpg/phaazon.gpg".into(),
       tls_cert: None,
       tls_cert_key: None,
     }
