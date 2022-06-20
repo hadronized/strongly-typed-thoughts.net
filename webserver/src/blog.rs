@@ -65,8 +65,8 @@ impl Article {
     self.html.as_ref()
   }
 
-  pub fn cache(&mut self) -> Result<String, ArticleError> {
-    let path = &self.metadata.path;
+  pub fn cache(&mut self, blog_dir: &Path) -> Result<String, ArticleError> {
+    let path = blog_dir.join(&self.metadata.path);
     let contents = read_to_string(path)?;
     let parser = pulldown_cmark::Parser::new(&contents);
     let mut html = String::new();
@@ -104,14 +104,22 @@ impl Article {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ArticleIndex {
+  blog_dir: PathBuf,
   articles: HashMap<String, Article>,
 }
 
 impl ArticleIndex {
-  pub fn new() -> Self {
+  pub fn new(blog_dir: impl Into<PathBuf>) -> Self {
+    let blog_dir = blog_dir.into();
+
     Self {
+      blog_dir,
       articles: HashMap::new(),
     }
+  }
+
+  pub fn blog_dir(&self) -> &Path {
+    &self.blog_dir
   }
 
   pub fn articles(&self) -> &HashMap<String, Article> {

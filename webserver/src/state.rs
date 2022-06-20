@@ -23,10 +23,10 @@ pub struct State {
 }
 
 impl State {
-  pub fn new() -> Option<Self> {
+  pub fn new(config: &Config) -> Option<Self> {
     Some(Self {
       file_index: Arc::new(Mutex::new(FileIndex::new())),
-      blog_index: Arc::new(Mutex::new(ArticleIndex::new())),
+      blog_index: Arc::new(Mutex::new(ArticleIndex::new(&config.blog_dir))),
     })
   }
 
@@ -37,12 +37,10 @@ impl State {
       .canonicalize()
       .expect("canonicalized upload dir");
     let canon_blog_dir = config
-      .blog_index
-      .parent()
-      .expect("blog dir")
+      .blog_dir
       .canonicalize()
       .expect("canonicalized blog dir");
-    let blog_index_path = config.blog_index.to_owned();
+    let blog_index_path = canon_blog_dir.join("index.json");
     let file_index = self.file_index().clone();
     let blog_index = self.blog_index().clone();
 

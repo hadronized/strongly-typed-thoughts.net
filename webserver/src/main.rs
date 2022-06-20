@@ -51,7 +51,7 @@ fn rocket() -> _ {
   }
 
   // state
-  let mut state = State::new().expect("state");
+  let mut state = State::new(&user_config).expect("state");
 
   // create the upload directory if missing
   fs::create_dir_all(&user_config.upload_dir).unwrap();

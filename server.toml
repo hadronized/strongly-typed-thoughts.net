@@ -2,4 +2,4 @@ port = 9000
 static_dir = "/usr/share/phaazon.net/static"
 front_dir = "/usr/share/phaazon.net/frontend"
 upload_dir = "/var/lib/phaazon.net/uploads"
-blog_index = "/var/lib/phaazon.net/blog/index.json"
+blog_dir = "/var/lib/phaazon.net/blog"
