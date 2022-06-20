@@ -6,14 +6,16 @@ RUN pacman -S file --noconfirm
 
 # Binary.
 RUN mkdir /usr/local/bin/phaazon.net
-ADD webserver/target/release/webserver /usr/local/bin/phaazon.net
+ADD ./webserver/target/release/webserver /usr/local/bin/phaazon.net
 
 # Read-only frontend and static files.
 RUN mkdir -p /usr/share/phaazon.net/
 ADD ./frontend /usr/share/phaazon.net
 ADD ./static /usr/share/phaazon.net
+ADD ./server.toml /usr/share/phaazon.net
 
 # Data (uploads and blog articles).
 # RUN mkdir -p /var/lib/phaazon.net/uploads/
 
-ENTRYPOINT /usr/local/bin/phaazon.net/webserver
+ENV PHAAZON_NET_CONFIG=/usr/share/phaazon.net/server.toml
+ENTRYPOINT /usr/local/bin/phaazon.net/webserver --config /usr/share/phaazon.net/server.toml

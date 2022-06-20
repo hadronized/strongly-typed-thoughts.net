@@ -16,7 +16,12 @@ pub struct Config {
 
 impl Config {
   pub fn load() -> Self {
-    fs::read_to_string("server.toml")
+    let path = match std::env::var("PHAAZON_NET_CONFIG") {
+      Ok(path) => path.into(),
+      Err(_) => PathBuf::from("server.toml"),
+    };
+
+    fs::read_to_string(path)
       .ok()
       .and_then(|contents| toml::from_str(&contents).ok())
       .unwrap_or_else(|| {
@@ -32,8 +37,8 @@ impl Default for Config {
       port: 8000,
       static_dir: "static".into(),
       front_dir: "frontend".into(),
-      upload_dir: "media/uploads".into(),
-      blog_index: "media/blog/index.json".into(),
+      upload_dir: "uploads".into(),
+      blog_index: "blog/index.json".into(),
       tls_cert: None,
       tls_cert_key: None,
     }
