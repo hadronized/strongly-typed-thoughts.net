@@ -1,4 +1,8 @@
-FROM ubuntu:latest
+FROM archlinux:latest
+
+# Dependencies.
+RUN pacman -Syu
+RUN pacman -S file
 
 # Binary.
 RUN mkdir /usr/local/bin/phaazon.net
