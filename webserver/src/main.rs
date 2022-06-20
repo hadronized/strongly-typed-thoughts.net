@@ -20,7 +20,10 @@ use rocket::{
   response::content::RawXml,
   routes,
 };
-use std::fs;
+use std::{
+  fs,
+  net::{IpAddr, Ipv4Addr},
+};
 
 #[get("/feed")]
 pub fn blog_feed(state: &rocket::State<State>) -> RawXml<String> {
@@ -37,6 +40,10 @@ fn rocket() -> _ {
   let mut rocket_config = rocket::Config::default();
   rocket_config.port = user_config.port;
   rocket_config.log_level = LogLevel::Debug;
+
+  if !cfg!(debug_assertions) {
+    rocket_config.address = IpAddr::V4(Ipv4Addr::UNSPECIFIED);
+  }
 
   if let (Some(tls_cert), Some(tls_cert_key)) = (&user_config.tls_cert, &user_config.tls_cert_key) {
     log::info!("enabling TLS");
