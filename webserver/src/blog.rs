@@ -158,7 +158,7 @@ impl ArticleIndex {
           .as_ref()
           .unwrap_or_else(|| &m.publish_date)
       })
-      .min()
+      .max()
       .map(|date| date.format("%a, %d %b %Y %H:%M:%S GMT").to_string());
 
     rss::ChannelBuilder::default()
