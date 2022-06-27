@@ -17,7 +17,7 @@ use rocket::{
   fs::{FileServer, Options},
   get, launch,
   log::LogLevel,
-  response::content::RawXml,
+  response::content::{RawHtml, RawXml},
   routes,
 };
 use std::{
@@ -30,6 +30,13 @@ pub fn blog_feed(state: &rocket::State<State>) -> RawXml<String> {
   let index = state.blog_index().lock().expect("blog index");
   let channel = index.to_rss();
   RawXml(channel.to_string())
+}
+
+#[get("/<article_slug>")]
+pub fn blog_article<'a>(article_slug: &str, state: &'a rocket::State<State>) -> RawHtml<&'a str> {
+  let _ = article_slug;
+  let index_html = state.index_html();
+  RawHtml(index_html)
 }
 
 #[launch]
@@ -66,7 +73,7 @@ fn rocket() -> _ {
     .mount("/", index)
     .mount("/static", static_files)
     .mount("/media/uploads", media_uploads)
-    .mount("/blog", routes![blog_feed])
+    .mount("/blog", routes![blog_feed, blog_article])
     .mount("/api", routes![api_browse, api_blog, api_blog_article])
     .manage(state)
 }
