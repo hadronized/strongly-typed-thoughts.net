@@ -6,6 +6,7 @@ use crate::{
   file_store::{FileIndex, FileManager},
 };
 use std::{
+  fs,
   path::Path,
   sync::{
     mpsc::{self, Receiver},
@@ -18,6 +19,7 @@ use std::{
 const NOTIFY_DEBOUNCE_DUR: Duration = Duration::from_millis(200);
 
 pub struct State {
+  index_html: String,
   file_index: Arc<Mutex<FileIndex>>,
   blog_index: Arc<Mutex<ArticleIndex>>,
 }
@@ -25,9 +27,18 @@ pub struct State {
 impl State {
   pub fn new(config: &Config) -> Option<Self> {
     Some(Self {
+      index_html: Self::read_index_html(config),
       file_index: Arc::new(Mutex::new(FileIndex::new())),
       blog_index: Arc::new(Mutex::new(ArticleIndex::new(&config.blog_dir))),
     })
+  }
+
+  fn read_index_html(config: &Config) -> String {
+    fs::read_to_string(config.static_dir.join("index.html")).unwrap_or_else(|_| String::new())
+  }
+
+  pub fn index_html(&self) -> &str {
+    &self.index_html
   }
 
   /// Spawn a new thread to start watching files in (via `notify`).
