@@ -92,15 +92,18 @@ impl State {
     blog_index: Arc<Mutex<ArticleIndex>>,
   ) {
     let mut file_mgr = FileManager::new(file_index).expect("file manager");
-    file_mgr
-      .populate_from_dir(upload_dir)
-      .expect("populate uploads");
 
-    blog_index
+    if let Err(err) = file_mgr.populate_from_dir(upload_dir) {
+      log::error!("cannot populate uploads while startup: {err}",);
+    }
+
+    if let Err(err) = blog_index
       .lock()
       .expect("blog index")
       .populate_from_index(blog_index_path)
-      .expect("populate blog index");
+    {
+      log::error!("cannot populate blog index while startup: {err}");
+    }
 
     while let Ok(event) = notify_rx.recv() {
       match event {

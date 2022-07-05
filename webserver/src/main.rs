@@ -25,6 +25,16 @@ use std::{
   net::{IpAddr, Ipv4Addr},
 };
 
+fn forward_index_html<'a>(state: &'a rocket::State<State>) -> RawHtml<&'a str> {
+  let index_html: &'a str = state.index_html();
+  RawHtml(index_html)
+}
+
+#[get("/")]
+pub fn blog_listing<'a>(state: &'a rocket::State<State>) -> RawHtml<&'a str> {
+  forward_index_html(state)
+}
+
 #[get("/feed")]
 pub fn blog_feed(state: &rocket::State<State>) -> RawXml<String> {
   let index = state.blog_index().lock().expect("blog index");
@@ -73,7 +83,7 @@ fn rocket() -> _ {
     .mount("/", index)
     .mount("/static", static_files)
     .mount("/media/uploads", media_uploads)
-    .mount("/blog", routes![blog_feed, blog_article])
+    .mount("/blog", routes![blog_listing, blog_feed, blog_article])
     .mount("/api", routes![api_browse, api_blog, api_blog_article])
     .manage(state)
 }
