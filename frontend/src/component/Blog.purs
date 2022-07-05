@@ -105,7 +105,10 @@ blogComponent = mkComponent { eval, initialState, render }
 
   handleQuery :: forall slots a. Query a -> HalogenM State Action slots output m (Maybe a)
   handleQuery = case _ of
-    Refresh a -> resetArticle *> pure (Just a)
+    Refresh a -> do
+      router <- gets $ \(State state) -> state.router
+      setPath router "/blog"
+      resetArticle *> pure (Just a)
 
   initialState router = State { articles: M.empty, currentArticle: Nothing, router }
 
@@ -236,7 +239,7 @@ readArticle slug = do
       modify_ $ \(State state) -> State state { currentArticle = Just { html, metadata } }
       router <- gets $ \(State state) -> state.router
       let Slug slug_ = slug
-      setPath router $ "blog/" <> slug_
+      setPath router $ "/blog/" <> slug_
 
 -- | Infer whether we need to read an article and return its slug.
 inferSlug :: forall m. MonadEffect m => Router -> m (Maybe Slug)
