@@ -1,0 +1,5 @@
+port = 9000
+static_dir = "../static"
+front_dir = "../frontend"
+upload_dir = "/tmp/uploads"
+blog_dir = "../../blog"
