@@ -1,58 +1,28 @@
-mod api;
 mod blog;
+mod cache;
 mod config;
 mod file_store;
+mod html_wrapper;
+mod routes;
 mod state;
 
-use crate::{
-  api::{
-    blog::{api_blog, api_blog_article},
-    browse::api_browse,
-  },
-  config::Config,
-  state::State,
-};
+use crate::{config::Config, state::State};
 use rocket::{
   config::TlsConfig,
+  fairing::AdHoc,
   fs::{FileServer, Options},
-  get, launch,
+  launch,
   log::LogLevel,
-  response::content::{RawHtml, RawXml},
-  routes,
 };
 use std::{
   fs,
   net::{IpAddr, Ipv4Addr},
+  sync::mpsc,
 };
-
-fn forward_index_html<'a>(state: &'a rocket::State<State>) -> RawHtml<&'a str> {
-  let index_html: &'a str = state.index_html();
-  RawHtml(index_html)
-}
-
-#[get("/")]
-pub fn blog_listing<'a>(state: &'a rocket::State<State>) -> RawHtml<&'a str> {
-  forward_index_html(state)
-}
-
-#[get("/feed")]
-pub fn blog_feed(state: &rocket::State<State>) -> RawXml<String> {
-  let index = state.blog_index().lock().expect("blog index");
-  let channel = index.to_rss();
-  RawXml(channel.to_string())
-}
-
-#[get("/<article_slug>")]
-pub fn blog_article<'a>(article_slug: &str, state: &'a rocket::State<State>) -> RawHtml<&'a str> {
-  let _ = article_slug;
-  let index_html = state.index_html();
-  RawHtml(index_html)
-}
 
 #[launch]
 fn rocket() -> _ {
   let user_config = Config::load();
-  println!("{user_config:#?}");
 
   let mut rocket_config = rocket::Config::default();
   rocket_config.port = user_config.port;
@@ -73,17 +43,22 @@ fn rocket() -> _ {
   // create the upload directory if missing
   fs::create_dir_all(&user_config.upload_dir).unwrap();
 
-  state.spawn_and_watch_files(&user_config);
+  // synchronization between the state runner and rocket
+  let (has_launched_sx, has_launched_rx) = mpsc::sync_channel(0);
 
-  let index = FileServer::new(&user_config.static_dir, Options::default()).rank(0);
-  let static_files = FileServer::new(&user_config.static_dir, Options::default()).rank(1);
+  let static_files = FileServer::new(&user_config.static_dir, Options::default());
   let media_uploads = FileServer::new(&user_config.upload_dir, Options::default());
 
+  state.spawn_and_watch_files(state.cache().clone(), has_launched_rx, user_config);
+
   rocket::custom(rocket_config)
-    .mount("/", index)
+    .mount("/", routes::routes())
     .mount("/static", static_files)
     .mount("/media/uploads", media_uploads)
-    .mount("/blog", routes![blog_listing, blog_feed, blog_article])
-    .mount("/api", routes![api_browse, api_blog, api_blog_article])
+    .attach(AdHoc::on_liftoff("state sync", |_| {
+      Box::pin(async move {
+        has_launched_sx.send(()).expect("rocket has launched");
+      })
+    }))
     .manage(state)
 }

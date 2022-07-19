@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>phaazon.net</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css">
+    <link rel="icon" href="/static/imgs/tus.png"/>
+  </head>
+
+  <body>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <div>
+      <nav id="top-header" class="hero is-medium">
+        <div class="hero-body container level has-shadow">
+          <div class="level-item has-text-centered">
+            <div class="content">
+              <h1 class="title is-1">Dimitri Sabadie</h1>
+              <h2 class="subtitle is-4">Do not make more tools than existing problems.</h2>
+            </div>
+          </div>
+
+          <a title="phaazon.net" class="level-item" href="/">
+            <span class="icon is-large">
+              <i class="fa fa-home"></i>
+            </span>
+          </a>
+
+          <a title="blog" class="level-item" href="/blog">
+            <span class="icon is-large">
+              <i class="fa fa-pencil"></i>
+            </span>
+          </a>
+
+          <a title="all the memes!" class="level-item" href="/browse">
+            <span class="icon is-large">
+              <i class="fa fa-cloud-download"></i>
+            </span>
+          </a>
+        </div>
+      </nav>
+
+      {contents}
+
+      <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <a class="icon-text" href="https://github.com/phaazon">
+              <span class="icon">
+                <i class="fa-brands fa-github"></i>
+              </span>
+              <span>@phaazon</span>
+            </a>
+
+            <a class="icon-text" href="https://twitter.com/phaazon_">
+              <span class="icon has-text-info">
+                <i class="fa-brands fa-twitter"></i>
+              </span>
+              <span>@phaazon_</span>
+            </a>
+
+            <a class="icon-text" href="https://www.linkedin.com/in/dimitri-sabadie-97a9009b">
+              <span class="icon has-text-link">
+                <i class="fa-brands fa-linkedin"></i>
+              </span>
+              <span>LinkedIn</span>
+            </a>
+
+            <a class="icon-text" href="https://stackoverflow.com/users/1784267/phaazon">
+              <span class="icon has-text-danger">
+                <i class="fa-brands fa-stack-overflow"></i>
+              </span>
+              <span>Stack Overflow</span>
+            </a>
+          </p>
+
+          <p>
+            <a class="icon-text" href="https://www.rust-lang.org">
+              <span class="icon">
+                <i class="fa-brands fa-rust"></i>
+              </span>
+              <span>Rust</span>
+            </a>
+
+            ·
+
+            <a class="icon-text" href="https://rocket.rs">
+              <span class="icon has-text-danger">
+                <i class="fa-solid fa-shuttle-space"></i>
+              </span>
+              <span>rocket.rs</span>
+            </a>
+
+            ·
+
+            <a class="icon-text" href="http://bulma.io">
+              <span class="icon has-text-primary">
+                <i class="fa-solid fa-draw-polygon"></i>
+              </span>
+              <span>Bulma</span>
+            </a>
+          </p>
+
+          <p>Copyright © 2014 — {year}, Dimitri Sabadie</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

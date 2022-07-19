@@ -1,12 +1,11 @@
-use notify::{DebouncedEvent, Watcher};
-
 use crate::{
   blog::ArticleIndex,
+  cache::Cache,
   config::Config,
   file_store::{FileIndex, FileManager},
 };
+use notify::{DebouncedEvent, Watcher};
 use std::{
-  fs,
   path::Path,
   sync::{
     mpsc::{self, Receiver},
@@ -19,30 +18,34 @@ use std::{
 const NOTIFY_DEBOUNCE_DUR: Duration = Duration::from_millis(200);
 
 pub struct State {
-  index_html: String,
+  cache: Cache,
   file_index: Arc<Mutex<FileIndex>>,
   blog_index: Arc<Mutex<ArticleIndex>>,
 }
 
 impl State {
   pub fn new(config: &Config) -> Option<Self> {
+    let cache = Cache::default();
+    cache.schedule_eviction();
+
     Some(Self {
-      index_html: Self::read_index_html(config),
+      cache,
       file_index: Arc::new(Mutex::new(FileIndex::new())),
       blog_index: Arc::new(Mutex::new(ArticleIndex::new(&config.blog_dir))),
     })
   }
 
-  fn read_index_html(config: &Config) -> String {
-    fs::read_to_string(config.static_dir.join("index.html")).unwrap_or_else(|_| String::new())
-  }
-
-  pub fn index_html(&self) -> &str {
-    &self.index_html
+  pub fn cache(&self) -> &Cache {
+    &self.cache
   }
 
   /// Spawn a new thread to start watching files in (via `notify`).
-  pub fn spawn_and_watch_files(&mut self, config: &Config) {
+  pub fn spawn_and_watch_files(
+    &mut self,
+    cache: Cache,
+    has_launched_rx: Receiver<()>,
+    config: Config,
+  ) {
     let canon_upload_dir = config
       .upload_dir
       .canonicalize()
@@ -56,6 +59,12 @@ impl State {
     let blog_index = self.blog_index().clone();
 
     let _ = thread::spawn(move || {
+      has_launched_rx
+        .recv_timeout(Duration::from_secs(5))
+        .expect("rocket has launched");
+
+      log::debug!("{config:#?}");
+
       // file watchers; we watch for uploaded files and blog articles
       let (notify_sx, notify_rx) = mpsc::channel();
       let mut watcher = notify::watcher(notify_sx, NOTIFY_DEBOUNCE_DUR).expect("notify watcher");
@@ -69,6 +78,7 @@ impl State {
         &blog_index_path,
         file_index,
         blog_index,
+        cache,
       );
     });
   }
@@ -90,6 +100,7 @@ impl State {
     blog_index_path: &Path,
     file_index: Arc<Mutex<FileIndex>>,
     blog_index: Arc<Mutex<ArticleIndex>>,
+    cache: Cache,
   ) {
     let mut file_mgr = FileManager::new(file_index).expect("file manager");
 
@@ -111,6 +122,8 @@ impl State {
           if event_path.parent() == Some(upload_dir) {
             log::info!("uploaded file changed: {path}", path = event_path.display());
 
+            cache.invalidate_all();
+
             if let Err(err) = file_mgr.add_or_update(&event_path) {
               log::error!(
                 "cannot add or update file {file}: {err}",
@@ -118,7 +131,10 @@ impl State {
               );
             }
           } else if event_path.parent() == Some(blog_dir) {
-            log::info!("blog content changed");
+            log::info!("blog content changed; {:?}", event_path.file_name());
+
+            cache.invalidate_all();
+
             if let Err(err) = blog_index
               .lock()
               .expect("blog index")

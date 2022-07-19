@@ -37,42 +37,40 @@ impl From<serde_json::Error> for ArticleError {
 
 #[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize)]
 pub struct ArticleMetadata {
-  name: String,
-  path: PathBuf,
-  publish_date: DateTime<Utc>,
-  modification_date: Option<DateTime<Utc>>,
-  tags: Vec<String>,
-  slug: String,
+  pub name: String,
+  pub path: PathBuf,
+  pub publish_date: DateTime<Utc>,
+  pub modification_date: Option<DateTime<Utc>>,
+  pub tags: Vec<String>,
+  pub slug: String,
 }
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct Article {
   metadata: ArticleMetadata,
-  html: Option<String>,
+  html: String,
 }
 
 impl Article {
-  fn new(metadata: ArticleMetadata) -> Self {
-    let html = None;
-    Self { metadata, html }
+  fn new(blog_dir: &Path, metadata: ArticleMetadata) -> Result<Self, ArticleError> {
+    let html = Self::load(blog_dir, &metadata.path)?;
+    Ok(Self { metadata, html })
   }
 
   pub fn metadata(&self) -> &ArticleMetadata {
     &self.metadata
   }
 
-  pub fn html(&self) -> Option<&String> {
-    self.html.as_ref()
+  pub fn html(&self) -> &str {
+    &self.html
   }
 
-  pub fn cache(&mut self, blog_dir: &Path) -> Result<String, ArticleError> {
-    let path = blog_dir.join(&self.metadata.path);
+  pub fn load(blog_dir: &Path, article_path: &Path) -> Result<String, ArticleError> {
+    let path = blog_dir.join(article_path);
     let contents = read_to_string(path)?;
     let parser = pulldown_cmark::Parser::new(&contents);
     let mut html = String::new();
     pulldown_cmark::html::push_html(&mut html, parser);
-
-    self.html = Some(html.clone());
 
     Ok(html)
   }
@@ -97,7 +95,7 @@ impl Article {
         self.metadata.slug
       )))
       .title(Some(self.metadata.name.clone()))
-      .description(Some(self.metadata.tags.join(", ")))
+      .description(Some(self.html.clone()))
       .build()
   }
 }
@@ -118,10 +116,6 @@ impl ArticleIndex {
     }
   }
 
-  pub fn blog_dir(&self) -> &Path {
-    &self.blog_dir
-  }
-
   pub fn articles(&self) -> &HashMap<String, Article> {
     &self.articles
   }
@@ -135,12 +129,17 @@ impl ArticleIndex {
     let articles: Vec<ArticleMetadata> = serde_json::from_str(&content)?;
     let articles = articles
       .into_iter()
-      .map(|a| (a.slug.clone(), Article::new(a)))
+      .flat_map(|a| {
+        let slug = a.slug.clone();
+        match Article::new(&self.blog_dir, a) {
+          Ok(article) => Some((slug, article)),
+          Err(err) => {
+            log::error!("cannot load article {}: {}", slug, err);
+            None
+          }
+        }
+      })
       .collect();
-
-    for (article, _) in &articles {
-      log::info!("found blog article: {article}");
-    }
 
     self.articles = articles;
 
