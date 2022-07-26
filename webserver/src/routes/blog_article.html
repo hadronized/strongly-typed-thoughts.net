@@ -1,0 +1,42 @@
+<section class="section container">
+  <a href="/blog/{slug}">
+    <h1 class="title is-1 has-text-info">
+      <span class="icon-text">
+        <span class="icon has-text-light">
+          <i class="fa-solid fa-paragraph"></i>
+        </span>
+        <span>{name}</span>
+      </span>
+    </h1>
+  </a>
+
+  <h2 class="subtitle has-text-weight-light">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <em>{tags}</em>
+        </div>
+      </div>
+
+      <div class="level-right">
+        <div class="level-item has-text-grey">
+          {publication_date}, by Dimitri Sabadie —
+          <a href="/blog/feed">
+            <span class="icon-text">
+              <span class="icon rss-feed">
+                <i class="fa fa-rss"></i>
+              </span>
+              <span>feed</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </h2>
+
+  <hr/>
+
+  <div class="content blog-content">
+    {contents}
+  </div>
+</section>

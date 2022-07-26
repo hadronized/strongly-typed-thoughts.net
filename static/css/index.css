@@ -1,8 +1,12 @@
+.content pre {
+  margin: 0;
+  padding: 0;
+}
+
 #top-header {
   background-image: url("/static/imgs/banner_bg.jpg");
   background-position-x: center;
   background-position-y: 60%;
-  border-bottom: 5px solid #9E358F;
 }
 
 #top-header h1 {
@@ -20,11 +24,12 @@ a {
 }
 
 hr {
-  background-color: #9E358F;
+  background-color: #CCC;
 }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
   color: #9E358F;
+  font-weight: normal;
 }
 
 code {

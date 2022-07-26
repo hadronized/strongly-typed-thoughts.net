@@ -126,13 +126,13 @@ impl FileManager {
 
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
 pub struct FileIndex {
-  images: HashSet<PathBuf>,
-  applications: HashSet<PathBuf>,
-  videos: HashSet<PathBuf>,
-  audios: HashSet<PathBuf>,
-  texts: HashSet<PathBuf>,
-  papers: HashSet<PathBuf>,
-  unknowns: HashSet<PathBuf>,
+  pub images: HashSet<PathBuf>,
+  pub applications: HashSet<PathBuf>,
+  pub videos: HashSet<PathBuf>,
+  pub audios: HashSet<PathBuf>,
+  pub texts: HashSet<PathBuf>,
+  pub papers: HashSet<PathBuf>,
+  pub unknowns: HashSet<PathBuf>,
 }
 
 impl FileIndex {
