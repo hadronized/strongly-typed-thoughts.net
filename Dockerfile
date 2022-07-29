@@ -8,9 +8,8 @@ RUN pacman -S file --noconfirm
 RUN mkdir /usr/local/bin/phaazon.net
 ADD ./webserver/target/release/webserver /usr/local/bin/phaazon.net
 
-# Read-only frontend and static files.
+# Read-only files.
 RUN mkdir -p /usr/share/phaazon.net/
-ADD ./frontend /usr/share/phaazon.net/frontend
 ADD ./static /usr/share/phaazon.net/static
 ADD ./server.toml /usr/share/phaazon.net
 
