@@ -3,22 +3,6 @@
   padding: 0;
 }
 
-#top-header {
-  background-image: url("/static/imgs/banner_bg.jpg");
-  background-position-x: center;
-  background-position-y: 60%;
-}
-
-#top-header h1 {
-  color: white;
-  font-weight: bold;
-}
-
-#top-header h2 {
-  color: #FFA500;
-  font-weight: bold;
-}
-
 a {
   color: #1E90FF;
 }
