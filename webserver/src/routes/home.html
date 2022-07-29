@@ -94,52 +94,48 @@
 
     <ul>
       <li>
-        The <b>luminance</b> ecosystem. Probably my most ambitious and biggest project. It’s a rendering Rust ecosystem
-        gathering several crates to write safe and fast rendering code.
-        <a href="https://github.com/phaazon/luminance-rs">[GitHub]</a>
-        <a href="https://crates.io/crates/luminance">[crates.io]</a>
-      </li>
-
-      <li>The <b>shades</b> project, which is a Rust EDSL to write shading language code. Instead of writing shading
-        code in plain old GLSL, it’s possible to write regular Rust code and get it transpiled to any kind of shading
-        language (GLSL, SPIR-V, etc.) by using a Rust procedural proc-macro and the contents of the <b>shades</b> crate
-        to generate the rest. It’s a very ambitious project.
-        <a href="https://github.com/phaazon/shades">[GitHub]</a>
-        <a href="https://crates.io/crates/shades">[crates.io]</a>
-      </li>
-
-      <li><b>hop.nvim</b>, a hinting and jump Neovim plugin. I created it a while ago against Neovim-0.5 to solve some
-        problems of EasyMotion (Vim plugin) which wasn’t aware of Neovim capabilities (float, virtual text, etc.). The
-        complete rewrite was at first a plugin I made for me but it got so much traction that it is now a well
-        established default for Neovim motion in the editor community.
-        <a href="https://github.com/phaazon/hop.nvim">[GitHub]</a>
+        The <a href="https://github.com/phaazon/luminance-rs">luminance</a> ecosystem. Probably my most ambitious and
+        biggest project. It’s a rendering Rust ecosystem gathering several crates to write safe and fast rendering code.
       </li>
 
       <li>
-        <a href="https://this-week-in-neovim.org">https://this-week-in-neovim</a>. As the name implies, this website is
-        a “this week in…” format that delivers readers weekly news about what happened in the Neovim ecosystem (both
-        core and plugins). That project is pretty important to me as I wrote all the Rust code for the website and news
-        conversion (Markdown to HTML), and coordinating efforts to get weekly news and deliver them to readers, via the
-        website or RSS feed.
-        <a href="https://github.com/phaazon/this-week-in-neovim.org">[GitHub (TWiN)]</a>
-        <a href="https://github.com/phaazon/this-week-in-neovim-contents">[GitHub (contents)]</a>
+        The <a href="https://github.com/phaazon/shades">shades</a> project, which is a Rust EDSL to write shading
+        language code. Instead of writing shading code in plain old GLSL, it’s possible to write regular Rust code and
+        get it transpiled to any kind of shading language (GLSL, SPIR-V, etc.) by using a Rust procedural proc-macro
+        and the contents of the <a href="https://github.com/phaazon/shades">shades</a> crate to generate the rest. It’s
+        a very ambitious project.
       </li>
 
       <li>
-        <b>splines</b>, a Rust crate I created initially for my demoscene needs (where I need to smoothly interpolate
-        points in time for colors, animation, etc.). It took off and is now my most downloaded crates of all time on
-        crates.io, summing up to almost ~270k downloads at the time of writing (Fri Jul 2022). The funny story about
-        <b>splines</b> is that it’s used in <a href="https://fuchsia.dev/">Google’s Fuchsia operating system</a>!
-        <a href="https://github.com/phaazon/splines">[GitHub]</a>
-        <a href="https://crates.io/crates/splines">[crates.io]</a>
+        <a href="https://github.com/phaazon/hop.nvim">hop.nvim</a>, a hinting and jump Neovim plugin. I created it a
+        while ago against Neovim-0.5 to solve some problems of EasyMotion (Vim plugin) which wasn’t aware of Neovim
+        capabilities (float, virtual text, etc.). The complete rewrite was at first a plugin I made for me but it got
+        so much traction that it is now a well established default for Neovim motion in the editor community.
       </li>
 
       <li>
-        <b>glsl</b>, a complete GLS 450 / 460 Rust parser. Again, I wrote it for my demoscene needs where I wanted to
-        build a superset language over GLSL. It has also taken off, being used by Mozilla for its Rust projects (CSS
-        rendering).
-        <a href="https://github.com/phaazon/glsl">[GitHub]</a>
-        <a href="https://crates.io/crates/glsl">[crates.io]</a>
+        <a href="https://this-week-in-neovim.org">https://this-week-in-neovim</a>. As the name implies,
+        <a href="https://github.com/phaazon/this-week-in-neovim.org">TWiN</a> is a “this week in…” format that delivers
+        readers weekly news about what happened in the Neovim ecosystem (both core and plugins). That project is pretty
+        important to me as I wrote all the Rust code for the website and news conversion (Markdown to HTML), and
+        coordinating efforts to get weekly news and deliver them to readers, via the website or RSS feed.
+
+        The <a href="https://github.com/phaazon/this-week-in-neovim-contents">TWiN-contents</a>repository holds the
+        actual contents of the weekly updates.
+      </li>
+
+      <li>
+        <a href="https://github.com/phaazon/splines">splines</a>, a Rust crate I created initially for my demoscene
+        needs (where I need to smoothly interpolate points in time for colors, animation, etc.). It took off and is
+        now my most downloaded crates of all time on crates.io, summing up to almost ~270k downloads at the time of
+        writing (Fri Jul 2022). The funny story about <a href="https://github.com/phaazon/splines">splines</a> is that
+        it’s used in <a href="https://fuchsia.dev/">Google’s Fuchsia operating system</a>!
+      </li>
+
+      <li>
+        <a href="https://github.com/phaazon/glsl">glsl</a>, a complete GLS 450 / 460 Rust parser. Again, I wrote it
+        for my demoscene needs where I wanted to build a superset language over GLSL. It has also taken off, being
+        used by Mozilla for its Rust projects (CSS rendering).
       </li>
     </ul>
   </p>
