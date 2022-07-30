@@ -20,6 +20,10 @@ code {
   color: #BA55D3;
 }
 
+#header {
+  background-color: #FAFAFA;
+}
+
 .browse-content ul {
   margin: 0 0 40px 0;
   padding: 0;
@@ -169,14 +173,6 @@ code {
 
 .browse-content ul li:hover a {
   color: #EEEEEE;
-}
-
-#home {
-  text-align: justify;
-}
-
-.blog-content {
-  text-align: justify;
 }
 
 .rss-feed {
