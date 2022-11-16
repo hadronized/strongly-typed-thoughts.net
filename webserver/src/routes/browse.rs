@@ -1,4 +1,7 @@
-use std::path::Path;
+use std::{
+  collections::HashSet,
+  path::{Path, PathBuf},
+};
 
 use crate::{file_store::FileIndex, html_wrapper::html_wrap, state::State};
 use rocket::{get, response::content::RawHtml};
@@ -13,49 +16,25 @@ pub fn browse_listing(state: &rocket::State<State>) -> RawHtml<String> {
   RawHtml(html)
 }
 
+fn list_index_items(items: &HashSet<PathBuf>) -> Vec<String> {
+  let mut ordered: Vec<_> = items.iter().collect();
+  ordered.sort();
+
+  ordered
+    .into_iter()
+    .enumerate()
+    .map(|(i, path)| path_to_html(i, path))
+    .collect()
+}
+
 fn render_browse_listing(file_index: &FileIndex) -> String {
-  let images: Vec<_> = file_index
-    .images
-    .iter()
-    .enumerate()
-    .map(|(i, path)| path_to_html(i, path))
-    .collect();
-  let applications: Vec<_> = file_index
-    .applications
-    .iter()
-    .enumerate()
-    .map(|(i, path)| path_to_html(i, path))
-    .collect();
-  let videos: Vec<_> = file_index
-    .videos
-    .iter()
-    .enumerate()
-    .map(|(i, path)| path_to_html(i, path))
-    .collect();
-  let audios: Vec<_> = file_index
-    .audios
-    .iter()
-    .enumerate()
-    .map(|(i, path)| path_to_html(i, path))
-    .collect();
-  let texts: Vec<_> = file_index
-    .texts
-    .iter()
-    .enumerate()
-    .map(|(i, path)| path_to_html(i, path))
-    .collect();
-  let papers: Vec<_> = file_index
-    .papers
-    .iter()
-    .enumerate()
-    .map(|(i, path)| path_to_html(i, path))
-    .collect();
-  let unknowns: Vec<_> = file_index
-    .unknowns
-    .iter()
-    .enumerate()
-    .map(|(i, path)| path_to_html(i, path))
-    .collect();
+  let images = list_index_items(&file_index.images);
+  let applications = list_index_items(&file_index.applications);
+  let videos = list_index_items(&file_index.videos);
+  let audios = list_index_items(&file_index.audios);
+  let texts = list_index_items(&file_index.texts);
+  let papers = list_index_items(&file_index.papers);
+  let unknowns = list_index_items(&file_index.unknowns);
 
   format!(
     include_str!("./browse.html"),
