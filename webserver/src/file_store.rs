@@ -1,4 +1,4 @@
-use magic::{flags::MIME_TYPE, Cookie, MagicError};
+use magic::{Cookie, CookieFlags, MagicError};
 use mime::Mime;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -8,7 +8,7 @@ use std::{
   sync::{Arc, Mutex},
 };
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Debug)]
 pub enum FileError {
   MagicError(MagicError),
   MimeError(String),
@@ -36,7 +36,7 @@ pub struct FileManager {
 
 impl FileManager {
   pub fn new(index: Arc<Mutex<FileIndex>>) -> Result<Self, FileError> {
-    let cookie = Cookie::open(MIME_TYPE)?;
+    let cookie = Cookie::open(CookieFlags::MIME_TYPE)?;
     cookie.load::<&str>(&[])?;
 
     Ok(Self { cookie, index })

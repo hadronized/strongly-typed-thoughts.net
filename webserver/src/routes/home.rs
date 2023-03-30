@@ -6,7 +6,7 @@ use crate::{html_wrapper::html_wrap, state::State};
 #[get("/")]
 pub fn home(state: &rocket::State<State>) -> RawHtml<String> {
   let html = state.cache().cache("/", || {
-    let today = Utc::today();
+    let today = Utc::now();
     let age = today.year() - 1992;
 
     let html = format!(include_str!("./home.html"), age = age);
