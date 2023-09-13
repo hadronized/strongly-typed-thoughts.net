@@ -80,7 +80,7 @@ impl Article {
       .metadata
       .modification_date
       .as_ref()
-      .unwrap_or_else(|| &self.metadata.publish_date);
+      .unwrap_or(&self.metadata.publish_date);
 
     rss::ItemBuilder::default()
       .author(Some(
@@ -153,9 +153,7 @@ impl ArticleIndex {
       .values()
       .map(|art| {
         let m = &art.metadata;
-        m.modification_date
-          .as_ref()
-          .unwrap_or_else(|| &m.publish_date)
+        m.modification_date.as_ref().unwrap_or(&m.publish_date)
       })
       .max()
       .map(|date| date.format("%a, %d %b %Y %H:%M:%S GMT").to_string());

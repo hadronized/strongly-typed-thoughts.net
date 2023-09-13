@@ -44,10 +44,8 @@ impl FileManager {
 
   pub fn populate_from_dir(&mut self, dir: impl AsRef<Path>) -> Result<(), FileError> {
     let dir = dir.as_ref();
-    for entry in dir.read_dir().expect("read dir") {
-      if let Ok(entry) = entry {
-        self.add_or_update(entry.path())?;
-      }
+    for entry in dir.read_dir().expect("read dir").flatten() {
+      self.add_or_update(entry.path())?;
     }
 
     Ok(())
@@ -55,13 +53,15 @@ impl FileManager {
 
   pub fn add_or_update(&mut self, path: impl AsRef<Path>) -> Result<(), FileError> {
     let path = path.as_ref();
+
     let file_name = PathBuf::from(
       path
         .file_name()
         .and_then(|p| p.to_str())
         .unwrap_or("<incorrect filename>"),
     );
-    self.mime_dispatch(&path, |files| {
+
+    self.mime_dispatch(path, |files| {
       files.insert(file_name.to_owned());
     })
   }
