@@ -24,9 +24,11 @@ use std::{
 fn rocket() -> _ {
   let user_config = Config::load();
 
-  let mut rocket_config = rocket::Config::default();
-  rocket_config.port = user_config.port;
-  rocket_config.log_level = LogLevel::Debug;
+  let mut rocket_config = rocket::Config {
+    port: user_config.port,
+    log_level: LogLevel::Debug,
+    ..rocket::Config::default()
+  };
 
   if !cfg!(debug_assertions) {
     rocket_config.address = IpAddr::V4(Ipv4Addr::UNSPECIFIED);

@@ -124,7 +124,7 @@ impl State {
 
             cache.invalidate_all();
 
-            if let Err(err) = file_mgr.add_or_update(&event_path) {
+            if let Err(err) = file_mgr.add_or_update(event_path) {
               log::error!(
                 "cannot add or update file {file}: {err}",
                 file = event_path.display()
@@ -152,7 +152,7 @@ impl State {
               path = event_path.display()
             );
 
-            file_mgr.remove(&event_path);
+            file_mgr.remove(event_path);
           }
         }
 
