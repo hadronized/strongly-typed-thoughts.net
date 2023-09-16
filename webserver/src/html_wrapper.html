@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="UTF-8">
     <title>phaazon.net</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="/static/css/index.css"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css">
     <link rel="icon" href="/static/imgs/tus.png"/>
@@ -16,46 +17,38 @@
     <script>hljs.highlightAll();</script>
 
     <div>
-      <nav id="header" class="hero is-small">
-        <div class="hero-body has-shadow">
-          <section class="section level container">
-            <div class="level-left">
-              <a title="phaazon.net" href="/">
-                <h1 class="title is-1 has-text-medium">Dimitri Sabadie</h1>
-                <h2 class="subtitle is-4 has-text-medium"><em>Do not make more tools than existing problems.</em></h2>
-              </a>
-            </div>
+      <nav id="header" class="navbar">
+        <div class="container level">
+          <a title="phaazon.net" href="/" class="level-item">
+            phaazon.net
+          </a>
 
-            <div class="level-right">
-              <a title="blog" href="/" class="mr-6">
-                <span class="icon-text">
-                  <span class="icon is-medium fas fa-lg">
-                    <i class="fa fa-arrow-up"></i>
-                  </span>
-                  <span>Home</span>
-                </span>
-              </a>
+          <a title="blog" href="/blog" class="level-item">
+            <span class="icon-text">
+              <span class="icon fas fa-lg">
+                <i class="fa-regular fa-newspaper"></i>
+              </span>
+              <span>Blog</span>
+            </span>
+          </a>
 
-              <a title="blog" href="/blog" class="mr-6">
-                <span class="icon-text">
-                  <span class="icon is-medium fas fa-lg">
-                    <i class="fa fa-pencil"></i>
-                  </span>
-                  <span>Blog</span>
-                </span>
-              </a>
+          <a title="all the memes!" href="/browse" class="level-item">
+            <span class="icon-text">
+              <span class="icon fas fa-lg">
+                <i class="fa fa-folder-open"></i>
+              </span>
+              <span>Files</span>
+            </span>
+          </a>
 
-              <a title="all the memes!" href="/browse">
-                <span class="icon-text">
-                  <span class="icon is-medium fas fa-lg">
-                    <i class="fa fa-folder-open"></i>
-                  </span>
-                  <span>Files</span>
-                </span>
-              </a>
-            </div>
-
-          </section>
+          <a title="RSS feed" href="/blog/feed" class="level-item">
+            <span class="icon-text">
+              <span class="icon rss-feed">
+                <i class="fa fa-rss"></i>
+              </span>
+              <span>feed</span>
+            </span>
+          </a>
         </div>
       </nav>
 
