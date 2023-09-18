@@ -4,118 +4,93 @@
   <head>
     <meta charset="UTF-8">
     <title>phaazon.net</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css" href="/static/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/output.css"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css">
     <link rel="icon" href="/static/imgs/tus.png"/>
   </head>
 
-  <body>
+  <body class="bg-base">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 
-    <div>
-      <nav id="header" class="navbar">
-        <div class="container level">
-          <a title="phaazon.net" href="/" class="level-item">
-            phaazon.net
+    <nav class="flex flex-row min-w-full h-12 justify-evenly items-center bg-mantle text-lg text-red">
+      <a title="phaazon.net" href="/" class="hover:text-peach hover:underline">
+        phaazon.net
+      </a>
+
+      <a title="blog" href="/blog" class="hover:text-peach hover:underline">
+        <i class="fa-regular fa-newspaper"></i>
+        <span>Blog</span>
+      </a>
+
+      <a title="all the memes!" href="/browse" class="hover:text-peach hover:underline">
+        <span class="icon-text">
+          <span class="icon fas fa-lg">
+            <i class="fa fa-folder-open"></i>
+          </span>
+          <span>Files</span>
+        </span>
+      </a>
+
+      <a title="RSS feed" href="/blog/feed" class="hover:text-peach hover:underline">
+        <span class="icon-text">
+          <span class="icon rss-feed">
+            <i class="fa fa-rss"></i>
+          </span>
+          <span>feed</span>
+        </span>
+      </a>
+    </nav>
+
+    {contents}
+
+    <footer class="flex flex-col items-center p-16 gap-y-2 bg-mantle">
+        <div class="flex flex-row inline-block gap-x-8">
+          <a href="https://github.com/phaazon" class="text-red hover:text-peach hover:underline">
+            <i class="fa-brands fa-github"></i>
+            <span>@phaazon</span>
           </a>
 
-          <a title="blog" href="/blog" class="level-item">
-            <span class="icon-text">
-              <span class="icon fas fa-lg">
-                <i class="fa-regular fa-newspaper"></i>
-              </span>
-              <span>Blog</span>
-            </span>
+          <a href="https://functional.cafe/@phaazon" class="text-red hover:text-peach hover:underline">
+            <i class="fa-brands fa-mastodon text-lavender"></i>
+            <span>@phaazon</span>
           </a>
 
-          <a title="all the memes!" href="/browse" class="level-item">
-            <span class="icon-text">
-              <span class="icon fas fa-lg">
-                <i class="fa fa-folder-open"></i>
-              </span>
-              <span>Files</span>
-            </span>
+          <a href="https://www.linkedin.com/in/dimitri-sabadie-97a9009b" class="text-red hover:text-peach hover:underline">
+            <i class="fa-brands fa-linkedin text-blue"></i>
+            <span>LinkedIn</span>
           </a>
 
-          <a title="RSS feed" href="/blog/feed" class="level-item">
-            <span class="icon-text">
-              <span class="icon rss-feed">
-                <i class="fa fa-rss"></i>
-              </span>
-              <span>feed</span>
-            </span>
+          <a href="https://stackoverflow.com/users/1784267/phaazon" class="text-red hover:text-peach hover:underline">
+            <i class="fa-brands fa-stack-overflow text-peach"></i>
+            <span>Stack Overflow</span>
           </a>
         </div>
-      </nav>
 
-      {contents}
+        <div class="flex flex-row inline-block gap-x-8">
+          <a href="https://www.rust-lang.org" class="text-red hover:text-peach hover:underline">
+            <i class="fa-brands fa-rust text-peach"></i>
+            <span>Rust</span>
+          </a>
 
-      <footer class="footer">
-        <div class="content has-text-centered">
-          <p>
-            <a class="icon-text" href="https://github.com/phaazon">
-              <span class="icon">
-                <i class="fa-brands fa-github"></i>
-              </span>
-              <span>@phaazon</span>
-            </a>
+          ·
 
-            <a class="icon-text" href="https://twitter.com/phaazon_">
-              <span class="icon has-text-info">
-                <i class="fa-brands fa-twitter"></i>
-              </span>
-              <span>@phaazon_</span>
-            </a>
+          <a href="https://rocket.rs" class="text-red hover:text-peach hover:underline">
+            <i class="fa-solid fa-shuttle-space text-red"></i>
+            <span>rocket.rs</span>
+          </a>
 
-            <a class="icon-text" href="https://www.linkedin.com/in/dimitri-sabadie-97a9009b">
-              <span class="icon has-text-link">
-                <i class="fa-brands fa-linkedin"></i>
-              </span>
-              <span>LinkedIn</span>
-            </a>
+          ·
 
-            <a class="icon-text" href="https://stackoverflow.com/users/1784267/phaazon">
-              <span class="icon has-text-danger">
-                <i class="fa-brands fa-stack-overflow"></i>
-              </span>
-              <span>Stack Overflow</span>
-            </a>
-          </p>
-
-          <p>
-            <a class="icon-text" href="https://www.rust-lang.org">
-              <span class="icon">
-                <i class="fa-brands fa-rust"></i>
-              </span>
-              <span>Rust</span>
-            </a>
-
-            ·
-
-            <a class="icon-text" href="https://rocket.rs">
-              <span class="icon has-text-danger">
-                <i class="fa-solid fa-shuttle-space"></i>
-              </span>
-              <span>rocket.rs</span>
-            </a>
-
-            ·
-
-            <a class="icon-text" href="http://bulma.io">
-              <span class="icon has-text-primary">
-                <i class="fa-solid fa-draw-polygon"></i>
-              </span>
-              <span>Bulma</span>
-            </a>
-          </p>
-
-          <p>Copyright © 2014 — {year}, Dimitri Sabadie</p>
+          <a href="https://tailwindcss.com" class="text-red hover:text-peach hover:underline">
+            <i class="fa-brands fa-css3 text-sky"></i>
+            <span>TailwindCSS</span>
+          </a>
         </div>
-      </footer>
-    </div>
+
+        <span class="text-text">Copyright © 2014 — {year}, Dimitri Sabadie</span>
+    </footer>
   </body>
 </html>

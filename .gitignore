@@ -1,5 +1,2 @@
-/api/media/gpg
-/api/media/uploads
-media/uploads
+node_modules/
 webserver/target/
-webserver/media/uploads
