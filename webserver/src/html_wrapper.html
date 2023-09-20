@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>phaazon.net</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="/static/css/index.css"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css">
@@ -17,103 +16,68 @@
     <script>hljs.highlightAll();</script>
 
     <div>
-      <nav id="header" class="navbar">
-        <div class="container level">
-          <a title="phaazon.net" href="/" class="level-item">
-            phaazon.net
-          </a>
+      <nav>
+        <a title="phaazon.net" href="/">
+          <span>phaazon.net</span>
+        </a>
 
-          <a title="blog" href="/blog" class="level-item">
-            <span class="icon-text">
-              <span class="icon fas fa-lg">
-                <i class="fa-regular fa-newspaper"></i>
-              </span>
-              <span>Blog</span>
-            </span>
-          </a>
+        <a title="blog" href="/blog">
+          <i class="fa-regular fa-newspaper"></i>
+          <span>Blog</span>
+        </a>
 
-          <a title="all the memes!" href="/browse" class="level-item">
-            <span class="icon-text">
-              <span class="icon fas fa-lg">
-                <i class="fa fa-folder-open"></i>
-              </span>
-              <span>Files</span>
-            </span>
-          </a>
+        <a title="all the memes!" href="/browse">
+          <i class="fa fa-folder-open"></i>
+          <span>Files</span>
+        </a>
 
-          <a title="RSS feed" href="/blog/feed" class="level-item">
-            <span class="icon-text">
-              <span class="icon rss-feed">
-                <i class="fa fa-rss"></i>
-              </span>
-              <span>feed</span>
-            </span>
-          </a>
-        </div>
+        <a title="RSS feed" href="/blog/feed">
+          <i class="fa fa-rss peach"></i>
+          <span>feed</span>
+        </a>
       </nav>
 
       {contents}
 
-      <footer class="footer">
-        <div class="content has-text-centered">
-          <p>
-            <a class="icon-text" href="https://github.com/phaazon">
-              <span class="icon">
-                <i class="fa-brands fa-github"></i>
-              </span>
+      <footer>
+        <div id="footer-content">
+          <div>
+            <a href="https://github.com/phaazon">
+              <i class="fa-brands fa-github text"></i>
               <span>@phaazon</span>
             </a>
 
-            <a class="icon-text" href="https://twitter.com/phaazon_">
-              <span class="icon has-text-info">
-                <i class="fa-brands fa-twitter"></i>
-              </span>
+            <a href="https://functional.cafe/@phaazon">
+              <i class="fa-brands fa-mastodon sapphire"></i>
               <span>@phaazon_</span>
             </a>
 
-            <a class="icon-text" href="https://www.linkedin.com/in/dimitri-sabadie-97a9009b">
-              <span class="icon has-text-link">
-                <i class="fa-brands fa-linkedin"></i>
-              </span>
+            <a href="https://www.linkedin.com/in/dimitri-sabadie-97a9009b">
+              <i class="fa-brands fa-linkedin blue"></i>
               <span>LinkedIn</span>
             </a>
 
-            <a class="icon-text" href="https://stackoverflow.com/users/1784267/phaazon">
-              <span class="icon has-text-danger">
-                <i class="fa-brands fa-stack-overflow"></i>
-              </span>
+            <a href="https://stackoverflow.com/users/1784267/phaazon">
+                <i class="fa-brands fa-stack-overflow peach"></i>
               <span>Stack Overflow</span>
             </a>
-          </p>
+          </div>
 
-          <p>
-            <a class="icon-text" href="https://www.rust-lang.org">
-              <span class="icon">
-                <i class="fa-brands fa-rust"></i>
-              </span>
+          <div>
+            <a href="https://www.rust-lang.org">
+              <i class="fa-brands fa-rust peach"></i>
               <span>Rust</span>
             </a>
 
-            ·
-
-            <a class="icon-text" href="https://rocket.rs">
-              <span class="icon has-text-danger">
-                <i class="fa-solid fa-shuttle-space"></i>
-              </span>
+            <a href="https://rocket.rs">
+              <i class="fa-solid fa-shuttle-space red"></i>
               <span>rocket.rs</span>
             </a>
+          </div>
 
-            ·
-
-            <a class="icon-text" href="http://bulma.io">
-              <span class="icon has-text-primary">
-                <i class="fa-solid fa-draw-polygon"></i>
-              </span>
-              <span>Bulma</span>
-            </a>
-          </p>
-
-          <p>Copyright © 2014 — {year}, Dimitri Sabadie</p>
+          <div>
+            <p class="surface1">Copyright © 2014 — {year}, Dimitri Sabadie</p>
+          </div>
         </div>
       </footer>
     </div>
