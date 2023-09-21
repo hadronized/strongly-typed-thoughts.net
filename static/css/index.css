@@ -170,7 +170,7 @@
 /* Main CSS. */
 
 body {
-  background-color: var(--ctp-base);
+  background-color: var(--ctp-mantle);
   color: var(--ctp-text);
   width: 100%;
   margin: 0;
@@ -180,9 +180,13 @@ body {
   line-height: 1.5em;
 }
 
+body > div {
+  background-color: var(--ctp-base);
+}
+
 nav {
   display: table;
-  height: 3em;
+  height: 3.5em;
   width: 100%;
   background-color: var(--ctp-mantle);
 }
@@ -322,6 +326,8 @@ blockquote {
 code {
   color: var(--ctp-green);
   background-color: var(--ctp-surface0);
+  font-family: "JetBrains Mono", sans-serif;
+  font-weight: lighter;
 }
 
 .article-preview:first-child {
