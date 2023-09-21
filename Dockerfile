@@ -1,4 +1,4 @@
-FROM archlinux:latest
+FROM archlinux:base
 
 # Dependencies.
 RUN pacman -Syu --noconfirm
