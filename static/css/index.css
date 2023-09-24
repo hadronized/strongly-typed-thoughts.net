@@ -255,14 +255,6 @@ h5 {
   color: var(--ctp-rosewater);
 }
 
-b {
-  color: var(--ctp-peach);
-}
-
-em {
-  color: var(--ctp-subtext0);
-}
-
 .article-bottom {
   margin-top: 2em;
   display: flex;
