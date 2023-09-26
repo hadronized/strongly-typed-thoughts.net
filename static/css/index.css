@@ -290,7 +290,6 @@ footer a {
 .content {
   position: relative;
   width: 60%;
-  text-align: justify;
   left: 20%;
   margin-top: 2em;
   margin-bottom: 2em;
@@ -321,6 +320,11 @@ code {
   background-color: var(--ctp-surface0);
   font-family: "JetBrains Mono", sans-serif;
   font-weight: 300;
+}
+
+img {
+  display: block;
+  margin: auto;
 }
 
 .article-preview:first-child {
