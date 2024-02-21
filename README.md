@@ -1,8 +1,8 @@
-# phaazon.net website
+# strongly-typed-thoughts.net website
 
-This repository holds the code source of https://phaazon.net.
+This repository holds the code source of https://strongly-typed-thoughts.net.
 
-![](https://phaazon.net/media/uploads/bonjourbonjour.gif)
+![](https://strongly-typed-thoughts.net/media/uploads/bonjourbonjour.gif)
 
 It is written in Rust with [rocket-rs](https://rocket.rs/). It also holds my blog.
 

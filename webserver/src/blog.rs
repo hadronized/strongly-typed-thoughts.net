@@ -84,14 +84,14 @@ impl Article {
 
     rss::ItemBuilder::default()
       .author(Some(
-        "Dimitri 'phaazon' Sabadie <dimitri.sabadie@gmail.com>".to_owned(),
+        "Dimitri Sabadie <dimitri.sabadie@gmail.com>".to_owned(),
       ))
       .pub_date(Some(format!(
         "{}",
         date.format("%a, %d %b %Y %H:%M:%S GMT")
       )))
       .link(Some(format!(
-        "https://phaazon.net/blog/{}",
+        "https://strongly-typed-thoughts.net/blog/{}",
         self.metadata.slug
       )))
       .title(Some(self.metadata.name.clone()))
@@ -159,8 +159,8 @@ impl ArticleIndex {
       .map(|date| date.format("%a, %d %b %Y %H:%M:%S GMT").to_string());
 
     rss::ChannelBuilder::default()
-      .title("phaazon.net blog".to_owned())
-      .link("https://phaazon.net/blog".to_owned())
+      .title("strongly-typed-thoughts.net blog".to_owned())
+      .link("https://strongly-typed-thoughts.net/blog".to_owned())
       .items(items)
       .last_build_date(last_build_date)
       .build()

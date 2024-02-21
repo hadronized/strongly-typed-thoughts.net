@@ -16,7 +16,7 @@ pub struct Config {
 
 impl Config {
   pub fn load() -> Self {
-    let path = match std::env::var("PHAAZON_NET_CONFIG") {
+    let path = match std::env::var("WEBSERVER_CONFIG") {
       Ok(path) => path.into(),
       Err(_) => PathBuf::from("server.toml"),
     };

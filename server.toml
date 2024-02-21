@@ -1,5 +1,5 @@
 port = 9000
-static_dir = "/usr/share/phaazon.net/static"
-front_dir = "/usr/share/phaazon.net/frontend"
-upload_dir = "/var/lib/phaazon.net/uploads"
-blog_dir = "/var/lib/phaazon.net/blog"
+static_dir = "/usr/share/strongly-typed-thoughts.net/static"
+front_dir = "/usr/share/strongly-typed-thoughts.net/frontend"
+upload_dir = "/opt/strongly-typed-thoughts.net/uploads"
+blog_dir = "/opt/strongly-typed-thoughts.net/blog"
